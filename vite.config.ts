@@ -18,12 +18,7 @@ export default defineConfig({
         }) as unknown as Plugin,
         nodePolyfills() as unknown as Plugin,
         inject({
-          assert: 'assert',
-          process: 'process',
           Buffer: ['buffer', 'Buffer'],
-          global: 'global',
-          stream: 'stream',
-          _stream_duplex: 'duplex',
         }),
         removeConsole(),
       ],
@@ -37,12 +32,7 @@ export default defineConfig({
       define: {
         global: 'globalThis',
       },
-      plugins: [
-        GlobalsPolyfills({
-          process: true,
-          buffer: true,
-        }),
-      ],
+      plugins: [GlobalsPolyfills({ buffer: true })],
     },
   },
 })
