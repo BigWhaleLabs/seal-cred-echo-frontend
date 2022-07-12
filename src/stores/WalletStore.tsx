@@ -1,10 +1,5 @@
 import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
-import BaseProof from 'helpers/BaseProof'
-import ERC721BadgeBuilder from 'helpers/ERC721BadgeBuilder'
-import ERC721Proof from 'helpers/ERC721Proof'
-import EmailBadgeBuilder from 'helpers/EmailBadgeBuilder'
-import EmailProof from 'helpers/EmailProof'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import env from 'helpers/env'
 import handleError, { ErrorList } from 'helpers/handleError'
@@ -58,27 +53,6 @@ class WalletStore extends PersistableStore {
     const signer = provider.getSigner()
     const signature = await signer.signMessage(message)
     return signature
-  }
-
-  mintDerivative(proof: BaseProof) {
-    if (!provider) {
-      throw new Error('No provider found')
-    }
-    if (!this.account) {
-      throw new Error('No account found')
-    }
-
-    if (proof instanceof ERC721Proof) {
-      const builder = new ERC721BadgeBuilder(provider)
-      return builder.create(proof)
-    }
-
-    if (proof instanceof EmailProof) {
-      const builder = new EmailBadgeBuilder(provider)
-      return builder.create(proof)
-    }
-
-    throw new Error('Unknown proof type')
   }
 
   private async handleAccountChanged() {
