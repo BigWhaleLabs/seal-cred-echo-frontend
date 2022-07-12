@@ -9,9 +9,8 @@ interface EnsStoreInterface {
 const EnsStore = proxy<EnsStoreInterface>({
   ensNames: {},
   fetchEnsName(address: string) {
-    if (EnsStore.ensNames[address]) {
-      return
-    }
+    if (EnsStore.ensNames[address]) return
+
     EnsStore.ensNames[address] = defaultProvider.lookupAddress(address)
   },
 })
