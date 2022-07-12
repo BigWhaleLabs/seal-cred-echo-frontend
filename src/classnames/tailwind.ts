@@ -4104,6 +4104,7 @@ export type TBoxShadow =
   | 'shadow-2xl'
   | 'shadow-inner'
   | 'shadow-none'
+  | 'shadow-button'
 
 export type TBoxShadowColor =
   | 'shadow-inherit'
@@ -4477,6 +4478,11 @@ export type TDropShadow =
   | 'drop-shadow-xl'
   | 'drop-shadow-2xl'
   | 'drop-shadow-none'
+  | 'drop-shadow-accent'
+  | 'drop-shadow-secondary'
+  | 'drop-shadow-tertiary'
+  | 'drop-shadow-primary'
+  | 'drop-shadow-formal-accent'
 
 export type TGrayscale = 'grayscale-0' | 'grayscale'
 

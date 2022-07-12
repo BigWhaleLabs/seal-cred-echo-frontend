@@ -58,6 +58,19 @@ module.exports = {
       padding: {
         25: '6.25rem',
       },
+      boxShadow: {
+        '2xl': '0rem 0.25rem 2.75rem 0rem rgb(0 0 0 / 0.25)',
+        lg: '0rem 0rem 1rem 0rem rgb(0 0 0 / 0.25)',
+        md: '0rem 0rem 0.375rem 0rem rgb(0 0 0 / 0.25)',
+        button: '0rem 0rem 1.625rem rgb(0 0 0 / 1)',
+      },
+      dropShadow: {
+        accent: '0rem 0rem 0.625rem #fed823',
+        secondary: '0rem 0rem 0.625rem #ff7bed',
+        tertiary: '0rem 0rem 0.625rem #01fed6',
+        primary: '0rem 0rem 1.313rem #0A84FF',
+        'formal-accent': '0rem 0rem 0.625rem #efecd6',
+      },
     },
     container: {
       center: true,
