@@ -4445,16 +4445,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.27.2":
-  version: 0.27.2
-  resolution: "axios@npm:0.27.2"
-  dependencies:
-    follow-redirects: ^1.14.9
-    form-data: ^4.0.0
-  checksum: 38cb7540465fe8c4102850c4368053c21683af85c5fdf0ea619f9628abbcb59415d1e22ebc8a6390d2bbc9b58a9806c874f139767389c862ec9b772235f06854
-  languageName: node
-  linkType: hard
-
 "axobject-query@npm:^2.2.0":
   version: 2.2.0
   resolution: "axobject-query@npm:2.2.0"
@@ -4745,13 +4735,6 @@ __metadata:
     hoopy: ^0.1.4
     tryer: ^1.0.1
   checksum: 0ca673234170eb3dcf00fb1d867ba274729ab05779dd19b35628c49da7adc32472b5f0bca0554ffdca15b094f9b36f16f2a8992ba8884ebd1d351d7f27abee7b
-  languageName: node
-  linkType: hard
-
-"big-integer@npm:^1.6.42, big-integer@npm:^1.6.48":
-  version: 1.6.51
-  resolution: "big-integer@npm:1.6.51"
-  checksum: 3d444173d1b2e20747e2c175568bedeebd8315b0637ea95d75fd27830d3b8e8ba36c6af40374f36bdaea7b5de376dcada1b07587cb2a79a928fccdb6e6e3c518
   languageName: node
   linkType: hard
 
@@ -7909,18 +7892,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ffjavascript@npm:^0.2.55":
-  version: 0.2.55
-  resolution: "ffjavascript@npm:0.2.55"
-  dependencies:
-    big-integer: ^1.6.48
-    wasmbuilder: ^0.0.12
-    wasmcurves: 0.1.0
-    web-worker: ^1.2.0
-  checksum: 660ba556140fc56d7d7b258c026f18ed7f462034585b2ada49baa345901d759c583a2b57f7d93376d2dbdf71e0cddb59d8fa17a3c704bf563b298cef4607fd5c
-  languageName: node
-  linkType: hard
-
 "figures@npm:^3.0.0":
   version: 3.2.0
   resolution: "figures@npm:3.2.0"
@@ -8057,7 +8028,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.9":
+"follow-redirects@npm:^1.0.0":
   version: 1.15.1
   resolution: "follow-redirects@npm:1.15.1"
   peerDependenciesMeta:
@@ -8122,17 +8093,6 @@ __metadata:
     combined-stream: ^1.0.8
     mime-types: ^2.1.12
   checksum: b019e8d35c8afc14a2bd8a7a92fa4f525a4726b6d5a9740e8d2623c30e308fbb58dc8469f90415a856698933c8479b01646a9dff33c87cc4e76d72aedbbf860d
-  languageName: node
-  linkType: hard
-
-"form-data@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "form-data@npm:4.0.0"
-  dependencies:
-    asynckit: ^0.4.0
-    combined-stream: ^1.0.8
-    mime-types: ^2.1.12
-  checksum: 01135bf8675f9d5c61ff18e2e2932f719ca4de964e3be90ef4c36aacfc7b9cb2fceb5eca0b7e0190e3383fe51c5b37f4cb80b62ca06a99aaabfcfd6ac7c9328c
   languageName: node
   linkType: hard
 
@@ -13821,7 +13781,6 @@ __metadata:
     "@walletconnect/web3-provider": ^1.7.8
     assert-browserify: ^2.0.0
     autoprefixer: ^10.4.7
-    axios: ^0.27.2
     cross-env: ^7.0.3
     envalid: ^7.3.1
     eslint: ^8.19.0
@@ -13835,7 +13794,6 @@ __metadata:
     eslint-plugin-valtio: ^0.4.4
     eth-rpc-errors: ^4.0.3
     ethers: ^5.6.9
-    ffjavascript: ^0.2.55
     postcss: ^8.4.14
     preact: ^10.9.0
     prettier: ^2.7.1
@@ -15467,25 +15425,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wasmbuilder@npm:^0.0.12":
-  version: 0.0.12
-  resolution: "wasmbuilder@npm:0.0.12"
-  dependencies:
-    big-integer: ^1.6.48
-  checksum: 327b3c50b0e1e5e3aac9e218e0f96fdc638b7952ab86acc2ad53960371996826dbb0a8095edce482cf1d9c245d96884449701909bc962920aa7ec8241db01214
-  languageName: node
-  linkType: hard
-
-"wasmcurves@npm:0.1.0":
-  version: 0.1.0
-  resolution: "wasmcurves@npm:0.1.0"
-  dependencies:
-    big-integer: ^1.6.42
-    blakejs: ^1.1.0
-  checksum: 6bf6719e659a88904af0b98d152316e3b22435ca6a2cfc8bbf4530576806f17b2776b2c7d91d1a678fe0d51485a0d1748efcd080808c181c7977bee50b26efa9
-  languageName: node
-  linkType: hard
-
 "watchpack@npm:^2.3.1":
   version: 2.4.0
   resolution: "watchpack@npm:2.4.0"
@@ -15511,13 +15450,6 @@ __metadata:
   dependencies:
     defaults: ^1.0.3
   checksum: 814e9d1ddcc9798f7377ffa448a5a3892232b9275ebb30a41b529607691c0491de47cba426e917a4d08ded3ee7e9ba2f3fe32e62ee3cd9c7d3bafb7754bd553c
-  languageName: node
-  linkType: hard
-
-"web-worker@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "web-worker@npm:1.2.0"
-  checksum: 1bb28348ddcf9b2e7c62c5fd02e49a84098795856cd905456de957271bba288e9618941cf69d8960f0a7ae81f5dfb74b427c0634be47ec69e3e955c4ec5213be
   languageName: node
   linkType: hard
 
