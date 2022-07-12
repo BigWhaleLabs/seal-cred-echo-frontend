@@ -20,28 +20,17 @@ import classnames, {
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
 import useBreakpoints from 'hooks/useBreakpoints'
 
-const walletContainer = classnames(
-  display('inline-flex'),
-  alignItems('items-center'),
-  space('space-x-4'),
-  cursor('cursor-pointer')
-)
-const accountLinkContainer = classnames(
-  display('inline-flex'),
-  alignItems('items-center'),
-  space('space-x-4'),
-  cursor('cursor-pointer')
-)
 const walletAccount = classnames(
   textAlign('text-right'),
   lineHeight('leading-5'),
   display('sm:flex', 'hidden')
 )
-const socialContainer = classnames(
+const container = classnames(
   display('inline-flex'),
   alignItems('items-center'),
   space('space-x-4')
 )
+const logoAndWalletContainer = classnames(container, cursor('cursor-pointer'))
 const delimeterContainer = classnames(
   borderWidth('border-0'),
   backgroundColor('bg-primary-dimmed'),
@@ -54,11 +43,10 @@ export default function () {
   const { md } = useBreakpoints()
 
   return (
-    // <div></div>
-    <div className={walletContainer}>
+    <div className={logoAndWalletContainer}>
       {md && (
         <>
-          <div className={socialContainer}>
+          <div className={container}>
             <SocialLink tertiary url="https://discord.gg/NHk96pPZUV">
               <Discord />
             </SocialLink>
@@ -70,7 +58,7 @@ export default function () {
         </>
       )}
       <div
-        className={accountLinkContainer}
+        className={logoAndWalletContainer}
         onClick={async () => {
           if (account) {
             window.open(getEtherscanAddressUrl(account), '_blank')?.focus()
