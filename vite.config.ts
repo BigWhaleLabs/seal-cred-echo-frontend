@@ -28,6 +28,9 @@ export default defineConfig({
         removeConsole(),
       ],
     },
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
   },
   optimizeDeps: {
     esbuildOptions: {
@@ -40,6 +43,13 @@ export default defineConfig({
           buffer: true,
         }),
       ],
+    },
+  },
+  resolve: {
+    alias: {
+      stream: 'stream-browserify',
+      https: 'agent-base',
+      assert: 'assert-browserify',
     },
   },
 })
