@@ -17,5 +17,4 @@ export default cleanEnv(import.meta.env, {
   VITE_SC_EMAIL_LEDGER_CONTRACT_ADDRESS: str({
     default: SC_EMAIL_LEDGER_CONTRACT_ADDRESS,
   }),
-  VITE_VERIFY_URL: str(),
 })
