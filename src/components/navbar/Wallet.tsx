@@ -28,9 +28,9 @@ const walletAccount = classnames(
 const container = classnames(
   display('inline-flex'),
   alignItems('items-center'),
-  space('space-x-4')
+  space('space-x-4'),
+  cursor('cursor-pointer')
 )
-const logoAndWalletContainer = classnames(container, cursor('cursor-pointer'))
 const delimeterContainer = classnames(
   borderWidth('border-0'),
   backgroundColor('bg-primary-dimmed'),
@@ -43,7 +43,7 @@ export default function () {
   const { md } = useBreakpoints()
 
   return (
-    <div className={logoAndWalletContainer}>
+    <div className={container}>
       {md && (
         <>
           <div className={container}>
@@ -58,7 +58,7 @@ export default function () {
         </>
       )}
       <div
-        className={logoAndWalletContainer}
+        className={container}
         onClick={async () => {
           if (account) {
             window.open(getEtherscanAddressUrl(account), '_blank')?.focus()
