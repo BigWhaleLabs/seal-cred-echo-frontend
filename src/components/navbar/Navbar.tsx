@@ -18,6 +18,7 @@ import classnames, {
   transitionProperty,
   zIndex,
 } from 'classnames/tailwind'
+import useBreakpoints from 'hooks/useBreakpoints'
 import useThrottle from 'hooks/useThrottle'
 
 const navbar = (visible?: boolean, withoutWallet?: boolean) =>
@@ -28,7 +29,7 @@ const navbar = (visible?: boolean, withoutWallet?: boolean) =>
     alignItems('items-center'),
     justifyContent(withoutWallet ? 'sm:justify-center' : 'justify-between'),
     padding('py-4', 'px-4', 'lg:px-25'),
-    space('space-x-9', 'lg:space-x-0'),
+    space('space-x-2', 'lg:space-x-0'),
     zIndex('z-50'),
     backgroundColor(visible ? 'bg-primary-dark' : 'bg-transparent'),
     transitionProperty('transition-all')
@@ -41,7 +42,7 @@ const logoContainer = classnames(
   margin('mt-2')
 )
 
-const logoWithVersion = classnames(display('flex'), flexDirection('flex-col'))
+const logoWithVersion = classnames(display('inline'), flexDirection('flex-col'))
 
 export default function () {
   const { pathname } = useLocation()
@@ -57,6 +58,8 @@ export default function () {
     return () => window.removeEventListener('scroll', throttledScroll)
   }, [throttledScroll])
 
+  const { md } = useBreakpoints()
+
   return (
     <nav className={navbar(backgroundVisible, withoutWallet)}>
       <Link to="/">
@@ -64,7 +67,11 @@ export default function () {
           <Logo />
           <div className={logoWithVersion}>
             <LogoText>SealCred</LogoText>
-            <LogoSubText>(ALPHA)</LogoSubText>
+            {md && <LogoText color="text-secondary"> | </LogoText>}
+            {!md && <br />}
+            <LogoText color="text-secondary">work</LogoText>
+            {md && <br />}
+            <LogoSubText> (ALPHA)</LogoSubText>
           </div>
         </div>
       </Link>
