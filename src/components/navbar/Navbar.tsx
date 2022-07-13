@@ -67,9 +67,9 @@ export default function () {
           <Logo />
           <div className={logoWithVersion}>
             <LogoText>SealCred</LogoText>
-            {md && <LogoText color="text-secondary"> | </LogoText>}
+            {md && <LogoText textSecondary> | </LogoText>}
             {!md && <br />}
-            <LogoText color="text-secondary">work</LogoText>
+            <LogoText textSecondary>work</LogoText>
             {md && <br />}
             <LogoSubText> (ALPHA)</LogoSubText>
           </div>
