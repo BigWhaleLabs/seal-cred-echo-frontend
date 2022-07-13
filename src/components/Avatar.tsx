@@ -1,17 +1,21 @@
 import classnames, {
-  backgroundColor,
   borderRadius,
+  display,
   height,
   width,
 } from 'classnames/tailwind'
 
 const tweetCardAvatar = classnames(
-  borderRadius('rounded-full'),
+  display('flex'),
   width('w-12'),
   height('h-12'),
-  backgroundColor('bg-accent')
+  borderRadius('rounded-full')
 )
 
 export default function () {
-  return <div className={tweetCardAvatar} />
+  return (
+    <div className={tweetCardAvatar}>
+      <img src="img/defaultAvatar.webp" alt="Anonymouse Avatar" />
+    </div>
+  )
 }

@@ -2,9 +2,13 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import ExplainBlock from 'components/ExplainBlock'
 import Navbar from 'components/navbar/Navbar'
-import classnames, { margin, width } from 'classnames/tailwind'
+import classnames, { margin, maxWidth, width } from 'classnames/tailwind'
 
-const body = classnames(width('md:w-body', 'w-screen'), margin('mx-auto'))
+const body = classnames(
+  width('md:w-full', 'w-screen'),
+  maxWidth('md:max-w-body'),
+  margin('mx-auto')
+)
 
 export default function () {
   return (

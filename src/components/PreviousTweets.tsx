@@ -1,6 +1,7 @@
 import { BodyText, EmphasizeText, LinkText } from 'components/Text'
-import Tweet from 'components/Tweet'
+import TweetCard from 'components/Tweet/TweetCard'
 import classnames, {
+  alignItems,
   display,
   flexDirection,
   justifyContent,
@@ -9,15 +10,16 @@ import classnames, {
   width,
 } from 'classnames/tailwind'
 
-const prevTweets = classnames(width('w-full'))
+const prevTweets = classnames(width('w-full'), space('space-y-4'))
 const prevTweetsHeader = classnames(
   display('flex'),
-  flexDirection('flex-col', 'tiny:flex-row'),
-  space('space-y-2', 'tiny:space-y-0'),
-  justifyContent('justify-start', 'tiny:justify-between'),
-  padding('px-4', 'tiny:px-0')
+  flexDirection('flex-col', 'sm:flex-row'),
+  space('space-y-2', 'sm:space-y-0'),
+  alignItems('items-start', 'sm:items-center'),
+  justifyContent('justify-start', 'sm:justify-between'),
+  padding('px-4', 'body:px-0')
 )
-const prevTweetsBody = classnames()
+const prevTweetsBody = classnames(display('flex'), flexDirection('flex-col'))
 
 export default function () {
   return (
@@ -33,9 +35,10 @@ export default function () {
           View all on blockchain
         </LinkText>
       </div>
-
       <div className={prevTweetsBody}>
-        <Tweet />
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+          <TweetCard key={i} />
+        ))}
       </div>
     </div>
   )

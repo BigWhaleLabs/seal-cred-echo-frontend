@@ -1,14 +1,25 @@
-import classnames, { display, space } from 'classnames/tailwind'
+import { TweetText } from 'components/Text'
+import classnames, { alignItems, display, space } from 'classnames/tailwind'
 
-const tweetDetail = classnames(display('flex'), space('space-x-1'))
+const tweetDetail = classnames(
+  display('flex'),
+  space('space-x-1'),
+  alignItems('items-center')
+)
 
 export default function () {
   return (
     <div className={tweetDetail}>
-      <div>☻</div>
-      <div>@SealCredWork</div>
-      <div>·</div>
-      <div>1d</div>
+      <TweetText bold>☻</TweetText>
+      <TweetText small color="text-light-grey">
+        @SealCredWork
+      </TweetText>
+      <TweetText small color="text-light-grey">
+        ·
+      </TweetText>
+      <TweetText small color="text-light-grey">
+        1d
+      </TweetText>
     </div>
   )
 }

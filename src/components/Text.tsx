@@ -108,12 +108,12 @@ export function SocialLink({
   )
 }
 
-const linkText = (color?: TTextColor) =>
+const linkText = (color?: TTextColor, small?: boolean) =>
   classnames(
     textDecoration('no-underline'),
     fontFamily('font-primary'),
     textColor(color || 'text-accent'),
-    fontSize('text-sm'),
+    fontSize(small ? 'text-xs' : 'text-sm'),
     lineHeight('leading-4')
   )
 
@@ -121,6 +121,7 @@ export function LinkText({
   url,
   title,
   color,
+  small,
   children,
   targetBlank,
 }: ChildrenProp & {
@@ -128,10 +129,11 @@ export function LinkText({
   targetBlank?: boolean
   title?: string
   color?: TTextColor
+  small?: boolean
 }) {
   return (
     <a
-      className={linkText(color)}
+      className={linkText(color, small)}
       href={url}
       title={title}
       target={targetBlank ? '_blank' : '_self'}
@@ -189,4 +191,21 @@ export function BodyText({
   color?: TTextColor
 }) {
   return <p className={bodyText(bold, small, center, color)}>{children}</p>
+}
+
+const tweetText = (color?: TTextColor, bold?: boolean, small?: boolean) =>
+  classnames(
+    fontFamily('font-primary'),
+    fontSize(small ? 'text-xs' : 'text-base'),
+    fontWeight(bold ? 'font-bold' : 'font-normal'),
+    textColor(color || 'text-formal-accent'),
+    lineHeight(small ? undefined : 'leading-4')
+  )
+export function TweetText({
+  color,
+  bold,
+  small,
+  children,
+}: ChildrenProp & { color?: TTextColor; small?: boolean; bold?: boolean }) {
+  return <p className={tweetText(color, bold, small)}>{children}</p>
 }

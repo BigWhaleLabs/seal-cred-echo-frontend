@@ -1,23 +1,24 @@
 import { useState } from 'preact/hooks'
+import PreviousTweets from 'components/PreviousTweets'
 import TabBar from 'components/TabBar'
 import classnames, {
   display,
   flexDirection,
   justifyContent,
-  textAlign,
+  space,
 } from 'classnames/tailwind'
 
+const container = classnames(space('space-y-8'))
 const sectionWrapper = (visible: boolean) =>
   classnames(
     display('flex'),
     flexDirection('flex-col'),
     justifyContent('justify-center'),
-    textAlign('text-center'),
     display(visible ? 'block' : 'hidden')
   )
 
 export default function () {
-  const [currentTab, setCurrentTab] = useState(1)
+  const [currentTab, setCurrentTab] = useState(2)
 
   const tabs = [
     {
@@ -38,12 +39,14 @@ export default function () {
   ]
 
   return (
-    <>
+    <div className={container}>
       <TabBar tabs={tabs} />
 
       <div className={sectionWrapper(tabs[0].active)}>1</div>
-      <div className={sectionWrapper(tabs[1].active)}>2</div>
+      <div className={sectionWrapper(tabs[1].active)}>
+        <PreviousTweets />
+      </div>
       <div className={sectionWrapper(tabs[2].active)}>3</div>
-    </>
+    </div>
   )
 }
