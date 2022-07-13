@@ -36,7 +36,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-family: 'JetBrains Mono', monospace;
   color: #efecd6;
-  background: url('/img/bg-shadows.png') top no-repeat;
+  background: url('/img/bg-shadows.svg') top no-repeat;
   background-size: cover;
 }
 
