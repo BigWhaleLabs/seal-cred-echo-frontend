@@ -4,7 +4,7 @@ import ExplainBlock from 'components/ExplainBlock'
 import Navbar from 'components/navbar/Navbar'
 import classnames, { margin, width } from 'classnames/tailwind'
 
-const body = classnames(width('md:w-body', 'w-full'), margin('mx-auto'))
+const body = classnames(width('md:w-body', 'w-screen'), margin('mx-auto'))
 
 export default function () {
   return (

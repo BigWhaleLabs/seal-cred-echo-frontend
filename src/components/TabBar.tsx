@@ -4,24 +4,32 @@ import classnames, {
   alignItems,
   display,
   justifyContent,
+  margin,
+  overflow,
   space,
+  width,
 } from 'classnames/tailwind'
 
+const scrollableBox = classnames(width('w-full'), overflow('overflow-auto'))
 const wrapper = classnames(
-  display('flex'),
+  width('w-max'),
   alignItems('items-center'),
   justifyContent('justify-start'),
-  space('space-x-8')
+  overflow('overflow-x-auto'),
+  space('space-x-8'),
+  margin('first:ml-8', 'last:mr-8')
 )
 
 export default function ({ tabs }: { tabs: Tab[] }) {
   return (
-    <ul className={wrapper}>
-      {tabs.map((tab) => (
-        <li onClick={() => tab.onClick()}>
-          <TabBarText active={tab.active}>{tab.label}</TabBarText>
-        </li>
-      ))}
-    </ul>
+    <div className={scrollableBox}>
+      <div className={wrapper}>
+        {tabs.map((tab) => (
+          <div onClick={() => tab.onClick()} className={display('inline-flex')}>
+            <TabBarText active={tab.active}>{tab.label}</TabBarText>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
