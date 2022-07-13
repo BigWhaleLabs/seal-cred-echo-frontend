@@ -17,8 +17,8 @@ const wrapper = classnames(
   alignItems('items-center'),
   justifyContent('justify-start'),
   overflow('overflow-x-auto'),
-  space('space-x-8'),
-  margin('first:ml-8', 'last:mr-8')
+  space('tiny:space-x-8', 'space-x-6'),
+  margin('first:ml-6', 'last:mr-6')
 )
 
 export default function ({ tabs }: { tabs: Tab[] }) {
