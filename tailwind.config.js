@@ -44,6 +44,29 @@ module.exports = {
       borderRadius: {
         avatar: '6rem',
       },
+      animation: {
+        'pulse-horizontal': 'pulse-horizontal 2s ease-in-out infinite',
+        'rotate-180': 'rotate-180 0.5s ease-in-out forwards',
+        rotate: 'rotate linear 3.5s infinite',
+      },
+      keyframes: {
+        'pulse-horizontal': {
+          '0%, 100%': { transform: 'translateX(0.5rem)' },
+          '50%': { transform: 'translateX(0rem)' },
+        },
+        'rotate-180': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(180deg)' },
+        },
+        rotate: {
+          '0%': { transform: 'rotate(0deg)' },
+          '50%': { transform: 'rotate(180deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+      },
+      dropShadow: {
+        secondary: '0rem 0rem 0.625rem #ff7bed',
+      },
       width: {
         body: '38rem',
       },
@@ -58,6 +81,7 @@ module.exports = {
       },
       boxShadow: {
         lg: '0rem 0rem 1rem 0rem rgb(0 0 0 / 0.25)',
+        button: '0rem 0rem 1.625rem rgb(0 0 0 / 1)',
       },
     },
     container: {
