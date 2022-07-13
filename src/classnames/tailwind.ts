@@ -7271,9 +7271,7 @@ export type TWidth =
   | 'w-min'
   | 'w-max'
   | 'w-fit'
-  | 'w-chart'
-  | 'w-time'
-  | 'w-glass'
+  | 'w-body'
 
 export type TMinWidth =
   | 'min-w-0'

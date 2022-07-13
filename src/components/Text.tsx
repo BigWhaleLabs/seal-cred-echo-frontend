@@ -2,6 +2,7 @@ import {
   TDropShadow,
   TTextColor,
   classnames,
+  cursor,
   dropShadow,
   fontFamily,
   fontSize,
@@ -9,8 +10,26 @@ import {
   lineHeight,
   textColor,
   textDecoration,
+  transitionProperty,
 } from 'classnames/tailwind'
 import ChildrenProp from 'models/ChildrenProp'
+
+const tabBarText = (active: boolean) =>
+  classnames(
+    fontFamily('font-primary'),
+    textColor(active ? 'text-accent' : 'text-formal-accent'),
+    fontSize('tiny:text-lg', 'text-base'),
+    fontWeight('font-bold'),
+    textDecoration(active ? 'underline' : 'no-underline'),
+    transitionProperty('transition-colors'),
+    cursor('cursor-pointer')
+  )
+export function TabBarText({
+  children,
+  active,
+}: ChildrenProp & { active: boolean }) {
+  return <span className={tabBarText(active)}>{children}</span>
+}
 
 const logoSubText = classnames(
   textColor('text-primary-semi-dimmed'),
