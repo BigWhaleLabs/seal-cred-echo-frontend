@@ -7,10 +7,44 @@ import {
   fontSize,
   fontWeight,
   lineHeight,
+  textAlign,
   textColor,
   textDecoration,
 } from 'classnames/tailwind'
 import ChildrenProp from 'models/ChildrenProp'
+
+const bodyText = (
+  bold?: boolean,
+  small?: boolean,
+  center?: boolean,
+  color?: TTextColor
+) =>
+  classnames(
+    color ? textColor(color) : textColor('text-formal-accent'),
+    textAlign(center ? 'text-center' : undefined),
+    fontWeight(bold ? 'font-bold' : 'font-normal'),
+    fontSize(small ? 'text-xs' : 'text-sm', 'sm:text-base'),
+    lineHeight('leading-6')
+  )
+export function BodyText({
+  bold,
+  small,
+  center,
+  children,
+  color,
+}: ChildrenProp & {
+  bold?: boolean
+  small?: boolean
+  center?: boolean
+  color?: TTextColor
+}) {
+  return <p className={bodyText(bold, small, center, color)}>{children}</p>
+}
+
+const tabBarText = classnames(bodyText(), textDecoration('active:underline'))
+export function TabBarText({ children }: ChildrenProp) {
+  return <span className={tabBarText}>{children}</span>
+}
 
 const logoSubText = classnames(
   textColor('text-primary-semi-dimmed'),
