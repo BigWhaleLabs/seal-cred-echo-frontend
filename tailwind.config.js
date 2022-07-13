@@ -47,6 +47,7 @@ module.exports = {
       animation: {
         'pulse-horizontal': 'pulse-horizontal 2s ease-in-out infinite',
         'rotate-180': 'rotate-180 0.5s ease-in-out forwards',
+        'rotate-0': 'rotate-180 0.5s ease-in-out reverse forwards',
         rotate: 'rotate linear 3.5s infinite',
       },
       keyframes: {
