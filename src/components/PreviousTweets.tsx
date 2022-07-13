@@ -36,9 +36,7 @@ export default function () {
         </LinkText>
       </div>
       <div className={prevTweetsBody}>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
-          <TweetCard key={i} />
-        ))}
+        <TweetCard />
       </div>
     </div>
   )
