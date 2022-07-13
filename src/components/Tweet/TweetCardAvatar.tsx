@@ -15,7 +15,7 @@ const tweetCardAvatar = classnames(
 export default function () {
   return (
     <div className={tweetCardAvatar}>
-      <img src="img/defaultAvatar.webp" alt="Anonymouse Avatar" />
+      <img src="img/defaultAvatar.webp" alt="Anonymous Avatar" />
     </div>
   )
 }

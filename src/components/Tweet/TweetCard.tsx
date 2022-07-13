@@ -1,4 +1,4 @@
-import Avatar from 'components/Avatar'
+import Avatar from 'components/Tweet/TweetCardAvatar'
 import TweetBody from 'components/Tweet/TweetBody'
 import classnames, {
   backgroundColor,
