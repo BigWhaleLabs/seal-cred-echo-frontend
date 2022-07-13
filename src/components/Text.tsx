@@ -18,7 +18,7 @@ const tabBarText = (active: boolean) =>
   classnames(
     fontFamily('font-primary'),
     textColor(active ? 'text-accent' : 'text-formal-accent'),
-    fontSize('text-lg'),
+    fontSize('tiny:text-lg', 'text-base'),
     fontWeight('font-bold'),
     textDecoration(active ? 'underline' : 'no-underline'),
     transitionProperty('transition-colors'),
