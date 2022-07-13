@@ -28,7 +28,7 @@ const navbar = (visible?: boolean, withoutWallet?: boolean) =>
     alignItems('items-center'),
     justifyContent(withoutWallet ? 'sm:justify-center' : 'justify-between'),
     padding('py-4', 'px-4', 'lg:px-25'),
-    space('space-x-9', 'lg:space-x-0'),
+    space('space-x-2', 'lg:space-x-0'),
     zIndex('z-50'),
     backgroundColor(visible ? 'bg-primary-dark' : 'bg-transparent'),
     transitionProperty('transition-all')
@@ -41,7 +41,20 @@ const logoContainer = classnames(
   margin('mt-2')
 )
 
-const logoWithVersion = classnames(display('flex'), flexDirection('flex-col'))
+const logoWithVersion = classnames(
+  display('flex'),
+  flexDirection('flex-col'),
+  space('space-y-1')
+)
+const logoBlock = classnames(
+  display('flex'),
+  flexDirection('flex-row'),
+  alignItems('items-center')
+)
+const upperBlock = classnames(logoBlock, space('space-x-2'))
+const bottomBlock = classnames(logoBlock, space('md:space-x-0', 'space-x-2'))
+const displayOnBig = display('md:block', 'hidden')
+const displayOnSmall = display('block', 'md:hidden')
 
 export default function () {
   const { pathname } = useLocation()
@@ -63,8 +76,21 @@ export default function () {
         <div className={logoContainer}>
           <Logo />
           <div className={logoWithVersion}>
-            <LogoText>SealCred</LogoText>
-            <LogoSubText>(ALPHA)</LogoSubText>
+            <div className={upperBlock}>
+              <LogoText>SealCred</LogoText>
+              <div className={displayOnBig}>
+                <LogoText textSecondary>|</LogoText>
+              </div>
+              <div className={displayOnBig}>
+                <LogoText textSecondary>work</LogoText>
+              </div>
+            </div>
+            <div className={bottomBlock}>
+              <div className={displayOnSmall}>
+                <LogoText textSecondary>work</LogoText>
+              </div>
+              <LogoSubText>(ALPHA)</LogoSubText>
+            </div>
           </div>
         </div>
       </Link>

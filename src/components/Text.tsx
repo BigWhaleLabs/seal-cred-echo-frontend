@@ -21,14 +21,17 @@ export function LogoSubText({ children }: ChildrenProp) {
   return <span className={logoSubText}>{children}</span>
 }
 
-const logoText = classnames(
-  textColor('text-accent'),
-  fontWeight('font-bold'),
-  fontSize('text-lg'),
-  lineHeight('leading-none')
-)
-export function LogoText({ children }: ChildrenProp) {
-  return <span className={logoText}>{children}</span>
+const logoText = (textSecondary?: boolean) =>
+  classnames(
+    textColor(textSecondary ? 'text-secondary' : 'text-accent'),
+    fontSize('text-lg'),
+    lineHeight('leading-none')
+  )
+export function LogoText({
+  textSecondary,
+  children,
+}: ChildrenProp & { textSecondary?: boolean }) {
+  return <span className={logoText(textSecondary)}>{children}</span>
 }
 
 const accentText = (
