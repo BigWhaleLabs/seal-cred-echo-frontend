@@ -45,7 +45,7 @@ module.exports = {
         avatar: '6rem',
       },
       width: {
-        body: '45vw',
+        body: '41rem',
       },
       screens: {
         fold: '17.5rem',
