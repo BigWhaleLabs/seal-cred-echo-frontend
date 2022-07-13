@@ -3,7 +3,7 @@ import classnames, { fill } from 'classnames/tailwind'
 const fillColor = (isLiked?: boolean) =>
   classnames(fill(isLiked ? 'fill-error' : 'fill-light-grey'))
 
-export default function ({ liked }: { liked: boolean }) {
+export default function ({ liked }: { liked?: boolean }) {
   return (
     <svg
       width="16"

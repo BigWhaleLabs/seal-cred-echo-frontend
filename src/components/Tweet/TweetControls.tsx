@@ -40,7 +40,7 @@ export default function () {
         </TweetText>
       </div>
       <div className={controlButton()}>
-        <Like liked />
+        <Like />
       </div>
       <div className={controlButton()}>
         <Share />
