@@ -7,43 +7,26 @@ import {
   fontSize,
   fontWeight,
   lineHeight,
-  textAlign,
   textColor,
   textDecoration,
+  transitionProperty,
 } from 'classnames/tailwind'
 import ChildrenProp from 'models/ChildrenProp'
 
-const bodyText = (
-  bold?: boolean,
-  small?: boolean,
-  center?: boolean,
-  color?: TTextColor
-) =>
+const tabBarText = (active: boolean) =>
   classnames(
-    color ? textColor(color) : textColor('text-formal-accent'),
-    textAlign(center ? 'text-center' : undefined),
-    fontWeight(bold ? 'font-bold' : 'font-normal'),
-    fontSize(small ? 'text-xs' : 'text-sm', 'sm:text-base'),
-    lineHeight('leading-6')
+    fontFamily('font-primary'),
+    textColor(active ? 'text-accent' : 'text-formal-accent'),
+    fontSize('text-lg'),
+    fontWeight('font-bold'),
+    textDecoration(active ? 'underline' : 'no-underline'),
+    transitionProperty('transition-colors')
   )
-export function BodyText({
-  bold,
-  small,
-  center,
+export function TabBarText({
   children,
-  color,
-}: ChildrenProp & {
-  bold?: boolean
-  small?: boolean
-  center?: boolean
-  color?: TTextColor
-}) {
-  return <p className={bodyText(bold, small, center, color)}>{children}</p>
-}
-
-const tabBarText = classnames(bodyText(), textDecoration('active:underline'))
-export function TabBarText({ children }: ChildrenProp) {
-  return <span className={tabBarText}>{children}</span>
+  active,
+}: ChildrenProp & { active: boolean }) {
+  return <span className={tabBarText(active)}>{children}</span>
 }
 
 const logoSubText = classnames(

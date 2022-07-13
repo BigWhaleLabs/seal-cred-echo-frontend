@@ -21,18 +21,30 @@ export default function () {
   const [currentTab, setCurrentTab] = useState(1)
 
   const tabs = [
-    { label: 'How this works', onClick: () => setCurrentTab(1) },
-    { label: 'Previous Tweets', onClick: () => setCurrentTab(2) },
-    { label: 'Deep Dive', onClick: () => setCurrentTab(3) },
+    {
+      label: 'How this works',
+      active: currentTab === 1,
+      onClick: () => setCurrentTab(1),
+    },
+    {
+      label: 'Previous Tweets',
+      active: currentTab === 2,
+      onClick: () => setCurrentTab(2),
+    },
+    {
+      label: 'Deep Dive',
+      active: currentTab === 3,
+      onClick: () => setCurrentTab(3),
+    },
   ]
 
   return (
     <>
       <TabBar tabs={tabs} />
 
-      <div className={sectionWrapper(currentTab === 1)}>1</div>
-      <div className={sectionWrapper(currentTab === 2)}>2</div>
-      <div className={sectionWrapper(currentTab === 3)}>3</div>
+      <div className={sectionWrapper(tabs[0].active)}>1</div>
+      <div className={sectionWrapper(tabs[1].active)}>2</div>
+      <div className={sectionWrapper(tabs[2].active)}>3</div>
     </>
   )
 }
