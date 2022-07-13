@@ -18,7 +18,6 @@ import classnames, {
   transitionProperty,
   zIndex,
 } from 'classnames/tailwind'
-import useBreakpoints from 'hooks/useBreakpoints'
 import useThrottle from 'hooks/useThrottle'
 
 const navbar = (visible?: boolean, withoutWallet?: boolean) =>
@@ -42,7 +41,20 @@ const logoContainer = classnames(
   margin('mt-2')
 )
 
-const logoWithVersion = classnames(display('inline'), flexDirection('flex-col'))
+const logoWithVersion = classnames(
+  display('flex'),
+  flexDirection('flex-col'),
+  space('space-y-1')
+)
+const logoBlock = classnames(
+  display('flex'),
+  flexDirection('flex-row'),
+  alignItems('items-center')
+)
+const upperBlock = classnames(logoBlock, space('space-x-2'))
+const bottomBlock = classnames(logoBlock, space('md:space-x-0', 'space-x-2'))
+const displayOnBig = display('md:block', 'hidden')
+const displayOnSmall = display('block', 'md:hidden')
 
 export default function () {
   const { pathname } = useLocation()
@@ -58,20 +70,27 @@ export default function () {
     return () => window.removeEventListener('scroll', throttledScroll)
   }, [throttledScroll])
 
-  const { md } = useBreakpoints()
-
   return (
     <nav className={navbar(backgroundVisible, withoutWallet)}>
       <Link to="/">
         <div className={logoContainer}>
           <Logo />
           <div className={logoWithVersion}>
-            <LogoText>SealCred</LogoText>
-            {md && <LogoText textSecondary> | </LogoText>}
-            {!md && <br />}
-            <LogoText textSecondary>work</LogoText>
-            {md && <br />}
-            <LogoSubText> (ALPHA)</LogoSubText>
+            <div className={upperBlock}>
+              <LogoText>SealCred</LogoText>
+              <div className={displayOnBig}>
+                <LogoText textSecondary>|</LogoText>
+              </div>
+              <div className={displayOnBig}>
+                <LogoText textSecondary>work</LogoText>
+              </div>
+            </div>
+            <div className={bottomBlock}>
+              <div className={displayOnSmall}>
+                <LogoText textSecondary>work</LogoText>
+              </div>
+              <LogoSubText>(ALPHA)</LogoSubText>
+            </div>
           </div>
         </div>
       </Link>
