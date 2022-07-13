@@ -7,15 +7,14 @@ import classnames, {
   textAlign,
 } from 'classnames/tailwind'
 
-const flexCol = classnames(
-  display('flex'),
-  flexDirection('flex-col'),
-  justifyContent('justify-center'),
-  textAlign('text-center')
-)
-
 const sectionWrapper = (visible: boolean) =>
-  classnames(flexCol, display(visible ? 'block' : 'hidden'))
+  classnames(
+    display('flex'),
+    flexDirection('flex-col'),
+    justifyContent('justify-center'),
+    textAlign('text-center'),
+    display(visible ? 'block' : 'hidden')
+  )
 
 export default function () {
   const [currentTab, setCurrentTab] = useState(1)
