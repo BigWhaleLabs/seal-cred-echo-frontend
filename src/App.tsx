@@ -1,6 +1,7 @@
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import Navbar from 'components/navbar/Navbar'
+import PreviousTweets from 'components/PreviousTweets'
 import Root from 'components/Root'
 
 export default function () {
@@ -9,6 +10,7 @@ export default function () {
       <Router>
         <Navbar />
         <ToastContainer position="bottom-right" theme="dark" />
+        <PreviousTweets />
       </Router>
     </Root>
   )

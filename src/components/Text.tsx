@@ -7,6 +7,7 @@ import {
   fontSize,
   fontWeight,
   lineHeight,
+  textAlign,
   textColor,
   textDecoration,
 } from 'classnames/tailwind'
@@ -86,4 +87,87 @@ export function SocialLink({
       {children}
     </a>
   )
+}
+
+const linkText = (color?: TTextColor) =>
+  classnames(
+    textDecoration('no-underline'),
+    fontFamily('font-primary'),
+    textColor(color || 'text-accent'),
+    fontSize('text-sm'),
+    lineHeight('leading-4')
+  )
+
+export function LinkText({
+  url,
+  title,
+  color,
+  children,
+  targetBlank,
+}: ChildrenProp & {
+  url: string
+  targetBlank?: boolean
+  title?: string
+  color?: TTextColor
+}) {
+  return (
+    <a
+      className={linkText(color)}
+      href={url}
+      title={title}
+      target={targetBlank ? '_blank' : '_self'}
+    >
+      {children}
+    </a>
+  )
+}
+
+const emphasizeText = ({
+  color,
+  bold,
+}: {
+  color?: TTextColor
+  bold?: boolean
+}) =>
+  classnames(
+    textColor(color || 'text-formal-accent'),
+    fontWeight(bold ? 'font-bold' : 'font-normal')
+  )
+export function EmphasizeText({
+  color,
+  bold,
+  children,
+}: ChildrenProp & {
+  bold?: boolean
+  color?: TTextColor
+}) {
+  return <span className={emphasizeText({ color, bold })}>{children}</span>
+}
+
+const bodyText = (
+  bold?: boolean,
+  small?: boolean,
+  center?: boolean,
+  color?: TTextColor
+) =>
+  classnames(
+    color ? textColor(color) : textColor('text-formal-accent'),
+    textAlign(center ? 'text-center' : undefined),
+    fontWeight(bold ? 'font-bold' : 'font-normal'),
+    lineHeight('!leading-5'),
+    fontSize(small ? 'text-xs' : 'text-sm')
+  )
+export function BodyText({
+  bold,
+  small,
+  center,
+  children,
+  color,
+}: ChildrenProp & {
+  bold?: boolean
+  small?: boolean
+  center?: boolean
+  color?: TTextColor
+}) {
+  return <p className={bodyText(bold, small, center, color)}>{children}</p>
 }
