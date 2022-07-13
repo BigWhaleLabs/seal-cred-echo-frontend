@@ -1,10 +1,12 @@
 import { useState } from 'preact/hooks'
+import ChildrenProp from 'models/ChildrenProp'
+import HowItWork from 'components/HowItWork'
 import TabBar from 'components/TabBar'
 import classnames, {
   display,
   flexDirection,
   justifyContent,
-  textAlign,
+  space,
 } from 'classnames/tailwind'
 
 const sectionWrapper = (visible: boolean) =>
@@ -12,38 +14,63 @@ const sectionWrapper = (visible: boolean) =>
     display('flex'),
     flexDirection('flex-col'),
     justifyContent('justify-center'),
-    textAlign('text-center'),
+    space('space-y-4'),
     display(visible ? 'block' : 'hidden')
   )
+
+function Tab({
+  active,
+  children,
+}: {
+  active: boolean
+} & ChildrenProp) {
+  return <div className={sectionWrapper(active)}>{children}</div>
+}
 
 export default function () {
   const [currentTab, setCurrentTab] = useState(1)
 
   const tabs = [
     {
+      tabIndex: 1,
       label: 'How this works',
-      active: currentTab === 1,
-      onClick: () => setCurrentTab(1),
+      get active() {
+        return this.tabIndex === currentTab
+      },
+      onClick() {
+        setCurrentTab(this.tabIndex)
+      },
     },
     {
+      tabIndex: 2,
       label: 'Previous Tweets',
-      active: currentTab === 2,
-      onClick: () => setCurrentTab(2),
+      get active() {
+        return this.tabIndex === currentTab
+      },
+      onClick() {
+        setCurrentTab(this.tabIndex)
+      },
     },
     {
+      tabIndex: 3,
       label: 'Deep Dive',
-      active: currentTab === 3,
-      onClick: () => setCurrentTab(3),
+      get active() {
+        return this.tabIndex === currentTab
+      },
+      onClick() {
+        setCurrentTab(this.tabIndex)
+      },
     },
   ]
 
   return (
     <>
       <TabBar tabs={tabs} />
-
-      <div className={sectionWrapper(tabs[0].active)}>1</div>
-      <div className={sectionWrapper(tabs[1].active)}>2</div>
-      <div className={sectionWrapper(tabs[2].active)}>3</div>
+      <Tab active={tabs[0].active}>
+        <HowItWork />
+      </Tab>
+      <Tab active={tabs[1].active}>Previous Tweets</Tab>
+      <Tab active={tabs[2].active}>Deep Dive</Tab>
     </>
   )
 }

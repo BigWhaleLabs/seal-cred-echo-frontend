@@ -18,6 +18,7 @@ module.exports = {
         secondary: '#ff7bed',
         tertiary: '#01feb6',
         'formal-accent': '#efecd6',
+        'half-grey': '#505050',
 
         error: '#FF7B83',
         'error-dark': '#3E1B1E',
@@ -44,8 +45,32 @@ module.exports = {
       borderRadius: {
         avatar: '6rem',
       },
+      minHeight: {
+        card: '31.75rem',
+      },
+      maxHeight: {
+        card: '31.75rem',
+        'mobile-card': '41rem',
+      },
+      height: {
+        'noisy-rectangle': '0.688rem',
+        'mobile-card': '22.813rem',
+        card: '31.75rem',
+      },
       width: {
         body: '38rem',
+        'thin-mobile': '10.75rem',
+        'thin-card': '11.688rem',
+        card: '40.25rem',
+        'mobile-card': '92%',
+      },
+      lineHeight: {
+        3: '0.875rem',
+        5: '1.125rem',
+        6: '1.313rem',
+        7: '1.438rem',
+        8: '1.938rem',
+        11: '3.188rem',
       },
       screens: {
         fold: '17.5rem',
@@ -58,6 +83,7 @@ module.exports = {
       },
       boxShadow: {
         lg: '0rem 0rem 1rem 0rem rgb(0 0 0 / 0.25)',
+        button: '0rem 0rem 1.625rem rgb(0 0 0 / 1)',
       },
     },
     container: {

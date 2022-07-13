@@ -18,7 +18,7 @@ const wrapper = classnames(
   justifyContent('justify-start'),
   overflow('overflow-x-auto'),
   space('tiny:space-x-8', 'space-x-6'),
-  margin('first:ml-6', 'last:mr-6')
+  margin('mx-5', 'lg:mx-0')
 )
 
 export default function ({ tabs }: { tabs: Tab[] }) {
