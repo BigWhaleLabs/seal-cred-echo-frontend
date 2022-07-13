@@ -19,6 +19,7 @@ html {
   scrollbar-color: #fed823 transparent;
   scrollbar-width: thin;
 
+  /* Grid */
   background: conic-gradient(
       from 90deg at 0.06rem 0.06rem,
       #0d0030 90deg,
@@ -35,13 +36,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-family: 'JetBrains Mono', monospace;
   color: #efecd6;
-  /* Grid */
   background: url('/img/bg-shadows.png') top no-repeat;
   background-size: cover;
 }
 
-/* Grid for mobiles */
 @media screen and (max-width: 600px) {
+  /* Grid for mobiles */
   html {
     background: conic-gradient(
         from 90deg at 0.06rem 0.06rem,
