@@ -17,7 +17,10 @@ import ChildrenProp from 'models/ChildrenProp'
 const tabBarText = (active: boolean) =>
   classnames(
     fontFamily('font-primary'),
-    textColor(active ? 'text-accent' : 'text-formal-accent'),
+    textColor(
+      active ? 'text-accent' : 'text-formal-accent',
+      'hover:text-secondary-light-active-transparent'
+    ),
     fontSize('text-lg'),
     fontWeight('font-bold'),
     textDecoration(active ? 'underline' : 'no-underline'),
