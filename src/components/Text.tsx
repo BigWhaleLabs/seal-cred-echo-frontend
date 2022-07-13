@@ -2,6 +2,7 @@ import {
   TDropShadow,
   TTextColor,
   classnames,
+  cursor,
   dropShadow,
   fontFamily,
   fontSize,
@@ -20,7 +21,8 @@ const tabBarText = (active: boolean) =>
     fontSize('text-lg'),
     fontWeight('font-bold'),
     textDecoration(active ? 'underline' : 'no-underline'),
-    transitionProperty('transition-colors')
+    transitionProperty('transition-colors'),
+    cursor('cursor-pointer')
   )
 export function TabBarText({
   children,
