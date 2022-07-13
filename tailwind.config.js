@@ -47,7 +47,7 @@ module.exports = {
         avatar: '6rem',
       },
       width: {
-        body: '41rem',
+        body: '38rem',
       },
       maxWidth: {
         body: '41rem',
