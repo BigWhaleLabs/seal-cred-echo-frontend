@@ -9,7 +9,7 @@ import classnames, {
 const wrapper = classnames(
   display('flex'),
   alignItems('items-center'),
-  justifyContent('justify-center')
+  justifyContent('justify-start')
 )
 
 interface Tab {
@@ -19,16 +19,14 @@ interface Tab {
 
 export default function ({ tabs }: { tabs: Tab[] }) {
   return (
-    <div>
-      <ul className={wrapper}>
-        {tabs.map((tab) => (
-          <li className={margin('mx-1')}>
-            <button onClick={() => tab.onClick()}>
-              <TabBarText>{tab.label}</TabBarText>
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul className={wrapper}>
+      {tabs.map((tab) => (
+        <li className={margin('mx-1')}>
+          <button onClick={() => tab.onClick()}>
+            <TabBarText>{tab.label}</TabBarText>
+          </button>
+        </li>
+      ))}
+    </ul>
   )
 }
