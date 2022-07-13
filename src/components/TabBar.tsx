@@ -1,5 +1,6 @@
 import { TabBarText } from 'components/Text'
 import Tab from 'models/Tab'
+import classNamesToString from 'helpers/classNamesToString'
 import classnames, {
   alignItems,
   display,
@@ -22,7 +23,7 @@ const wrapper = classnames(
 
 export default function ({ tabs }: { tabs: Tab[] }) {
   return (
-    <div className={scrollableBox}>
+    <div className={classNamesToString(scrollableBox, 'no-scrollbar')}>
       <div className={wrapper}>
         {tabs.map((tab) => (
           <div onClick={() => tab.onClick()} className={display('inline-flex')}>
