@@ -24,7 +24,6 @@ export function LogoSubText({ children }: ChildrenProp) {
 const logoText = (textSecondary?: boolean) =>
   classnames(
     textColor(textSecondary ? 'text-secondary' : 'text-accent'),
-    fontWeight('font-bold'),
     fontSize('text-lg'),
     lineHeight('leading-none')
   )
