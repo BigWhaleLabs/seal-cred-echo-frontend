@@ -119,7 +119,6 @@ const linkText = (bold?: boolean, color?: TTextColor) =>
   classnames(
     textDecoration('no-underline'),
     textColor(color || 'text-accent'),
-    fontSize('text-sm', 'tiny:text-base'),
     fontWeight(bold ? 'font-bold' : 'font-normal')
   )
 export function LinkText({

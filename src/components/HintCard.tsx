@@ -7,7 +7,6 @@ import classnames, {
   display,
   flexDirection,
   fontSize,
-  lineHeight,
   padding,
   space,
 } from 'classnames/tailwind'
@@ -20,8 +19,7 @@ const container = (small?: boolean) =>
     backgroundColor('bg-primary-background'),
     padding('px-4', small ? 'py-2' : 'py-4'),
     space('space-y-4'),
-    fontSize('text-sm'),
-    lineHeight('leading-6')
+    fontSize('text-sm')
   )
 export default function ({
   children,

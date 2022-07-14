@@ -6,8 +6,10 @@ import HintCard from 'components/HintCard'
 import classnames, {
   display,
   flexDirection,
+  fontFamily,
   fontWeight,
   justifyContent,
+  lineHeight,
   space,
 } from 'classnames/tailwind'
 
@@ -18,6 +20,11 @@ const blockContainer = classnames(
   justifyContent('justify-center'),
   flexDirection('flex-col'),
   space('space-y-4')
+)
+
+const textContainer = classnames(
+  fontFamily('font-primary'),
+  lineHeight('leading-6')
 )
 
 function Record({ index, children }: { index: number } & ChildrenProp) {
@@ -32,18 +39,22 @@ function Record({ index, children }: { index: number } & ChildrenProp) {
 export default function () {
   return (
     <div className={blockContainer}>
-      <Card color="primary">
+      <Card>
         <HeaderText>What is this?</HeaderText>
-        <p>
+        <p className={textContainer}>
           With SealCred’s ZK Badges for email, you can prove you work somewhere
           without revealing your identity.
         </p>
-        <p>
+        <p className={textContainer}>
           This means you can spill the tea about your place of employment on
           Twitter without anyone (even us!) from knowing it’s you. All tweets
-          are posted to @SealCredWork.
+          are posted to{' '}
+          <LinkText color="text-primary" url="https://twitter.com/SealCredWork">
+            @SealCredWork
+          </LinkText>
+          .
         </p>
-        <p>
+        <p className={textContainer}>
           <LinkText color="text-primary" url="https://sealcred.xyz/email">
             <Button small gradientFont withArrow type="tertiary">
               Create a zkBadge using your work email
@@ -51,7 +62,7 @@ export default function () {
           </LinkText>
         </p>
       </Card>
-      <Card color="primary">
+      <Card>
         <HeaderText>How this works</HeaderText>
         <HintCard>
           <Record index={1}>
