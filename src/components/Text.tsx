@@ -17,8 +17,8 @@ import useBreakpoints from 'hooks/useBreakpoints'
 
 const tabBarText = classnames(
   fontFamily('font-primary'),
-  lineHeight('!leading-11'),
   fontSize('tiny:text-lg', 'text-base'),
+  lineHeight('!leading-11'),
   fontWeight('font-bold'),
   transitionProperty('transition-colors'),
   cursor('cursor-pointer')
