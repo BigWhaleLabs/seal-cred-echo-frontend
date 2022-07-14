@@ -45,24 +45,11 @@ module.exports = {
       borderRadius: {
         avatar: '6rem',
       },
-      minHeight: {
-        card: '31.75rem',
-      },
-      maxHeight: {
-        card: '31.75rem',
-        'mobile-card': '41rem',
-      },
       height: {
         'noisy-rectangle': '0.688rem',
-        'mobile-card': '22.813rem',
-        card: '31.75rem',
       },
       width: {
         body: '38rem',
-        'thin-mobile': '10.75rem',
-        'thin-card': '11.688rem',
-        card: '40.25rem',
-        'mobile-card': '92%',
       },
       lineHeight: {
         3: '0.875rem',

@@ -1,5 +1,4 @@
 import {
-  alignItems,
   backgroundColor,
   borderColor,
   borderRadius,
@@ -7,12 +6,8 @@ import {
   boxShadow,
   boxShadowColor,
   classnames,
-  display,
-  flexDirection,
   margin,
-  maxHeight,
   maxWidth,
-  minHeight,
   padding,
   position,
   space,
@@ -26,13 +21,7 @@ import Color from 'models/Color'
 interface CardProps {
   shadow?: boolean
   color: Color
-  onlyWrap?: boolean
-  spinner?: string
-  thin?: boolean
   small?: boolean
-  nospace?: boolean
-  useAppStyles?: boolean
-  mobileSpinnerOnRight?: boolean
 }
 
 const cardColor = (color?: Color) => {
@@ -68,21 +57,7 @@ const cardColor = (color?: Color) => {
   )
 }
 
-const appStyles = classnames(
-  display('flex'),
-  flexDirection('flex-col'),
-  alignItems('items-stretch'),
-  minHeight('sm:min-h-card', 'min-h-fit')
-)
-
-const cardContainer = (
-  shadow?: boolean,
-  color?: Color,
-  onlyWrap = false,
-  small?: boolean,
-  nospace?: boolean,
-  useAppStyles?: boolean
-) => {
+const cardContainer = (shadow?: boolean, color?: Color, small?: boolean) => {
   return classnames(
     position('relative'),
     borderWidth('border'),
@@ -94,38 +69,17 @@ const cardContainer = (
     width('w-auto'),
     maxWidth('max-w-lg'),
     margin('mx-5', 'lg:mx-0'),
-    maxHeight(
-      onlyWrap ? undefined : 'sm:max-h-card',
-      onlyWrap ? undefined : 'max-h-mobile-card'
-    ),
-    space(nospace ? undefined : 'space-y-4'),
+    space('space-y-4'),
     wordBreak('break-words'),
-    zIndex('z-30'),
-    useAppStyles ? appStyles : undefined
+    zIndex('z-30')
   )
 }
 
 export default function ({
   color,
   shadow,
-  onlyWrap,
   children,
   small,
-  nospace,
-  useAppStyles,
 }: ChildrenProp & CardProps) {
-  return (
-    <div
-      className={cardContainer(
-        shadow,
-        color,
-        onlyWrap,
-        small,
-        nospace,
-        useAppStyles
-      )}
-    >
-      {children}
-    </div>
-  )
+  return <div className={cardContainer(shadow, color, small)}>{children}</div>
 }
