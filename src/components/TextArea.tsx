@@ -1,4 +1,5 @@
-import { FC, ReactNode, useEffect, useState } from 'react'
+import { ChangeEvent } from 'preact/compat'
+import { JSX } from 'preact/jsx-runtime'
 import { TextareaText } from 'components/Text'
 import {
   alignItems,
@@ -18,6 +19,7 @@ import {
   transitionProperty,
   width,
 } from 'classnames/tailwind'
+import { useEffect, useState } from 'preact/hooks'
 import Counter from 'components/Counter'
 import TextareaAutosize, {
   TextareaAutosizeProps,
@@ -60,11 +62,11 @@ interface TextAreaProps {
   maxLength?: number
   dontCount?: string
 
-  footer?: ReactNode
-  right?: ReactNode
+  footer?: JSX.Element
+  right?: JSX.Element
 }
 
-const TextArea: FC<TextAreaProps & TextareaAutosizeProps> = ({
+export default function ({
   text,
   onTextChange,
   maxLength,
@@ -73,7 +75,7 @@ const TextArea: FC<TextAreaProps & TextareaAutosizeProps> = ({
   footer,
   rows,
   ...restProps
-}) => {
+}: TextAreaProps & TextareaAutosizeProps) {
   const [isValid, setIsValid] = useState(false)
 
   useEffect(() => {
@@ -87,7 +89,9 @@ const TextArea: FC<TextAreaProps & TextareaAutosizeProps> = ({
           <TextareaAutosize
             className={classNamesToString('no-scrollbar', textBox(rows === 1))}
             value={text}
-            onChange={(event: Event) => onTextChange(event.currentTarget.value)}
+            onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
+              onTextChange(event.currentTarget.value)
+            }
             maxLength={
               dontCount && maxLength ? maxLength + dontCount.length : maxLength
             }
@@ -105,5 +109,3 @@ const TextArea: FC<TextAreaProps & TextareaAutosizeProps> = ({
     </div>
   )
 }
-
-export default TextArea
