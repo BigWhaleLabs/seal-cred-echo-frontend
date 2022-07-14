@@ -11,15 +11,14 @@ import classnames, {
   height,
   justifyContent,
   margin,
-  padding,
   space,
   width,
 } from 'classnames/tailwind'
+import formatDate from 'helpers/formatDate'
 
 const tweetCard = classnames(
   display('flex'),
   backgroundColor('bg-primary-dark'),
-  padding('px-4'),
   width('w-full'),
   height('h-full'),
   flexDirection('flex-col'),
@@ -59,6 +58,26 @@ const prevTweetsHeader = classnames(
   justifyContent('justify-start', 'sm:justify-between')
 )
 
+const prepareFrame = (frame: HTMLObjectElement) => {
+  if (!frame.contentDocument) return
+
+  const cssLink = document.createElement('link')
+  cssLink.href = 'styles/frame.css'
+  cssLink.rel = 'stylesheet'
+  cssLink.type = 'text/css'
+  frame.contentDocument.head.appendChild(cssLink)
+  const timeTags: HTMLCollection =
+    frame.contentDocument.getElementsByTagName('time')
+  const authors = frame.contentDocument.getElementsByClassName('TweetAuthor')
+  for (let index = 0; index < authors.length; index++) {
+    const child = document.createElement('span')
+    child.className = 'TweetAuthor__time'
+    const time = timeTags[index].innerHTML
+    child.innerHTML = formatDate(time)
+    authors[index].appendChild(child)
+  }
+}
+
 export default function () {
   const [loading, setLoading] = useState(true)
 
@@ -77,6 +96,7 @@ export default function () {
           <TwitterTimelineEmbed
             noHeader
             noFooter
+            noBorders
             autoHeight
             noScrollbar
             transparent
@@ -92,7 +112,10 @@ export default function () {
               hide_media: true,
               hide_thread: true,
             }}
-            onLoad={() => setLoading(false)}
+            onLoad={(element) => {
+              prepareFrame(element)
+              setLoading(false)
+            }}
           />
         </div>
       </div>

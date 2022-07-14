@@ -1,0 +1,72 @@
+/* Common */
+.timeline-Tweet-brand,
+.TweetAuthor-decoratedName,
+.timeline-Tweet-media,
+.timeline-Tweet-metadata {
+  display: none !important;
+}
+/* Body text */
+.timeline-Tweet-text {
+  color: #ffffff;
+  /* font-family: 'Helvetica Neue'; */
+  font-weight: 400 !important;
+  font-size: 12px !important;
+  line-height: 14px !important;
+}
+/* Links */
+.timeline-Tweet-text > a {
+  color: #15a1fc !important;
+}
+/* Author */
+.TweetAuthor {
+  display: flex;
+  align-items: center;
+}
+.TweetAuthor-screenName {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-family: 'Helvetica Neue';
+  font-weight: 400 !important;
+  font-size: 12px !important;
+  line-height: 14px !important;
+  color: #8899a6 !important;
+}
+.TweetAuthor-screenName:before {
+  content: '☻';
+  font-family: 'Helvetica Neue';
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 18px;
+  padding-right: 5px;
+  color: #ffffff;
+}
+.TweetAuthor__time {
+  font-family: 'Helvetica Neue';
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #8899a6;
+}
+.TweetAuthor__time:before {
+  content: '·';
+  padding: 0 5px;
+}
+/* Tweet block */
+.timeline-TweetList-tweet + .timeline-TweetList-tweet {
+  border-top: 1px solid #2f3336 !important;
+}
+.timeline-Tweet {
+  padding: 10px 15px !important;
+  cursor: default;
+}
+.timeline-Tweet:hover {
+  background: transparent;
+}
+/* Bottom buttons */
+.timeline-Tweet-actions > li {
+  height: 16px;
+}
+.timeline-ShareMenu .Icon {
+  transform: rotate(-90deg);
+}

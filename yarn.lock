@@ -6015,6 +6015,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dayjs@npm:^1.11.3":
+  version: 1.11.3
+  resolution: "dayjs@npm:1.11.3"
+  checksum: c87e06b562a51ae6568cc5b840c7579d82a0f8af7163128c858fe512d3d71d07bd8e8e464b8cc41b8698a9e26b80ab2c082d14a1cd4c33df5692d77ccdfc5a43
+  languageName: node
+  linkType: hard
+
 "debug@npm:2.6.9, debug@npm:^2.6.0, debug@npm:^2.6.9":
   version: 2.6.9
   resolution: "debug@npm:2.6.9"
@@ -13761,6 +13768,7 @@ __metadata:
     "@walletconnect/web3-provider": ^1.7.8
     autoprefixer: ^10.4.7
     cross-env: ^7.0.3
+    dayjs: ^1.11.3
     envalid: ^7.3.1
     eslint: ^8.19.0
     eslint-config-prettier: ^8.5.0
