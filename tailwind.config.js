@@ -44,6 +44,18 @@ module.exports = {
       borderRadius: {
         avatar: '6rem',
       },
+      animation: {
+        rotate: 'rotate linear 3.5s infinite',
+      },
+      keyframes: {
+        rotate: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+      },
+      dropShadow: {
+        secondary: '0rem 0rem 0.625rem #ff7bed',
+      },
       width: {
         body: '38rem',
       },
@@ -58,6 +70,7 @@ module.exports = {
       },
       boxShadow: {
         lg: '0rem 0rem 1rem 0rem rgb(0 0 0 / 0.25)',
+        button: '0rem 0rem 1.625rem rgb(0 0 0 / 1)',
       },
     },
     container: {
