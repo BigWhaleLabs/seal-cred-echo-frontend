@@ -13,6 +13,7 @@ import classnames, {
   fontFamily,
   inset,
   justifyContent,
+  opacity,
   padding,
   position,
   space,
@@ -50,7 +51,8 @@ const menuWrapper = (open: boolean) =>
     position('absolute'),
     inset('top-14'),
     width('tiny:w-full', 'w-fit'),
-    display(open ? 'block' : 'hidden'),
+    opacity(open ? 'opacity-100' : 'opacity-0'),
+    transitionProperty('transition-opacity'),
     sharedStyles
   )
 const postingAs = display('tiny:inline', 'hidden')
