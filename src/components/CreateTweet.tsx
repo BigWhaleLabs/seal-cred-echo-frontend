@@ -26,7 +26,7 @@ export default function () {
   const { md } = useBreakpoints()
 
   return (
-    <div>
+    <div className={margin('mb-16')}>
       <HeaderText>Create your anonymous tweet</HeaderText>
       <div className={margin('my-5')}>
         <TextArea
