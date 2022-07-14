@@ -34,7 +34,7 @@ const loadingClass = classnames(
 const tweetWidget = (loading?: boolean) =>
   classnames(display(loading ? 'hidden' : 'block'), height('h-full'))
 
-const TwitterLoading = () => {
+function TwitterLoading() {
   return (
     <div className={loadingClass}>
       <LoadingText>Fetching tweets...</LoadingText>

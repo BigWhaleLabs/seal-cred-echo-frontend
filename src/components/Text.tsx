@@ -146,26 +146,18 @@ export function LinkText({
   )
 }
 
-const emphasizeText = ({
-  color,
-  bold,
-}: {
-  color?: TTextColor
-  bold?: boolean
-}) =>
+const emphasizeText = ({ bold }: { bold?: boolean }) =>
   classnames(
-    textColor(color || 'text-formal-accent'),
+    textColor('text-formal-accent'),
     fontWeight(bold ? 'font-bold' : 'font-normal')
   )
 export function EmphasizeText({
-  color,
   bold,
   children,
 }: ChildrenProp & {
   bold?: boolean
-  color?: TTextColor
 }) {
-  return <span className={emphasizeText({ color, bold })}>{children}</span>
+  return <span className={emphasizeText({ bold })}>{children}</span>
 }
 
 const bodyText = (
@@ -194,23 +186,6 @@ export function BodyText({
   color?: TTextColor
 }) {
   return <p className={bodyText(bold, small, center, color)}>{children}</p>
-}
-
-const tweetText = (color?: TTextColor, bold?: boolean, small?: boolean) =>
-  classnames(
-    fontFamily('font-primary'),
-    fontSize(small ? 'text-xs' : 'text-base'),
-    fontWeight(bold ? 'font-bold' : 'font-normal'),
-    textColor(color || 'text-formal-accent'),
-    lineHeight(small ? undefined : 'leading-4')
-  )
-export function TweetText({
-  color,
-  bold,
-  small,
-  children,
-}: ChildrenProp & { color?: TTextColor; small?: boolean; bold?: boolean }) {
-  return <p className={tweetText(color, bold, small)}>{children}</p>
 }
 
 const headerText = (accent = false, extraLeading = false, xs = false) =>
