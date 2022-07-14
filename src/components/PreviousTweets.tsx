@@ -18,7 +18,6 @@ import classnames, {
 
 const tweetCard = classnames(
   display('flex'),
-  space('space-x-2.5'),
   backgroundColor('bg-primary-dark'),
   padding('px-4'),
   width('w-full'),

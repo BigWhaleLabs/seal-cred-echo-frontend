@@ -1,14 +1,14 @@
-import classnames, { fill } from 'classnames/tailwind'
+import { fill } from 'classnames/tailwind'
 
 const fillColor = (isLiked?: boolean) =>
-  classnames(fill(isLiked ? 'fill-error' : 'fill-light-grey'))
+  fill(isLiked ? 'fill-error' : 'fill-light-grey')
 
 export default function ({ liked }: { liked?: boolean }) {
   return (
     <svg
       width="16"
-      height="15"
-      viewBox="0 0 16 15"
+      height="16"
+      viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >

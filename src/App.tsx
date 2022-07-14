@@ -15,15 +15,13 @@ import TweetHeader from 'components/TweetHeader'
 import classnames, {
   height,
   margin,
-  maxWidth,
   padding,
   space,
   width,
 } from 'classnames/tailwind'
 
 const body = classnames(
-  width('md:w-full', 'w-screen'),
-  maxWidth('md:max-w-body'),
+  width('md:w-body', 'w-screen'),
   height('h-fit'),
   space('space-y-4'),
   padding('pb-5'),

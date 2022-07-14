@@ -1,6 +1,6 @@
-import classnames, { fill } from 'classnames/tailwind'
+import { fill } from 'classnames/tailwind'
 
-const fillColor = classnames(fill('fill-light-grey'))
+const fillColor = fill('fill-light-grey')
 
 export default function () {
   return (

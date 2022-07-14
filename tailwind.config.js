@@ -69,9 +69,6 @@ module.exports = {
       width: {
         body: '38rem',
       },
-      maxWidth: {
-        body: '41rem',
-      },
       lineHeight: {
         3: '0.875rem',
         5: '1.125rem',
