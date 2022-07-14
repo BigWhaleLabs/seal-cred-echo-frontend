@@ -4452,6 +4452,8 @@ export type TAnimation =
   | 'animate-pulse'
   | 'animate-bounce'
   | 'animate-pulse-horizontal'
+  | 'animate-rotate-180'
+  | 'animate-rotate-0'
   | 'animate-rotate'
 
 export type TTransitionsAndAnimations =
@@ -7408,6 +7410,7 @@ export type TMinHeight =
   | 'min-h-min'
   | 'min-h-max'
   | 'min-h-fit'
+  | 'min-h-text-input'
 
 export type TMaxHeight =
   | 'max-h-0'

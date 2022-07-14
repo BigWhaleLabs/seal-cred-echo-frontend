@@ -1,74 +1,84 @@
-export default function () {
-  return (
-    <div class="relative inline-block text-left">
-      <div>
-        <button
-          type="button"
-          class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
-          id="menu-button"
-          aria-expanded="true"
-          aria-haspopup="true"
-        >
-          Options
-          <svg
-            class="-mr-1 ml-2 h-5 w-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </button>
-      </div>
+import { MutableRef, useRef } from 'preact/hooks'
+import { useSnapshot } from 'valtio'
+import Arrow from 'icons/Arrow'
+import TwitterStore from 'stores/TwitterStore'
+import classnames, {
+  alignItems,
+  backgroundColor,
+  borderColor,
+  borderRadius,
+  borderWidth,
+  cursor,
+  display,
+  fontFamily,
+  inset,
+  justifyContent,
+  padding,
+  position,
+  space,
+  transitionProperty,
+  width,
+} from 'classnames/tailwind'
+import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
+import useClickOutside from 'hooks/useClickOutside'
 
-      <div
-        class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-        role="menu"
-        aria-orientation="vertical"
-        aria-labelledby="menu-button"
+const sharedStyles = classnames(
+  borderRadius('rounded-lg'),
+  borderWidth('border'),
+  borderColor('border-formal-accent-dimmed', 'focus:border-formal-accent'),
+  transitionProperty('transition-colors'),
+  padding('px-4', 'py-3'),
+  backgroundColor('bg-primary-dark'),
+  alignItems('items-center')
+)
+
+const wrapper = classnames(position('relative'), fontFamily('font-primary'))
+const opener = classnames(
+  display('inline-flex'),
+  justifyContent('justify-between'),
+  width('w-80'),
+  space('space-x-2'),
+  sharedStyles
+)
+const menuWrapper = (open: boolean) =>
+  classnames(
+    position('absolute'),
+    inset('top-14'),
+    width('w-full'),
+    display(open ? 'block' : 'hidden'),
+    sharedStyles
+  )
+const menuItem = classnames(padding('p-2'), cursor('cursor-pointer'))
+
+export default function () {
+  const { availableEmails, dropDownOpen } = useSnapshot(TwitterStore)
+
+  const ref = useRef() as MutableRef<HTMLDivElement>
+  useClickOutside(ref, () => (TwitterStore.dropDownOpen = false))
+
+  return (
+    <div className={wrapper} ref={ref}>
+      <button
+        onClick={() => (TwitterStore.dropDownOpen = !dropDownOpen)}
+        className={opener}
       >
-        s
-        <div class="py-1" role="none">
-          <a
-            href="#"
-            class="text-gray-700 block px-4 py-2 text-sm"
-            role="menuitem"
-            id="menu-item-0"
-          >
-            Account settings
-          </a>
-          <a
-            href="#"
-            class="text-gray-700 block px-4 py-2 text-sm"
-            role="menuitem"
-            id="menu-item-1"
-          >
-            Support
-          </a>
-          <a
-            href="#"
-            class="text-gray-700 block px-4 py-2 text-sm"
-            role="menuitem"
-            id="menu-item-2"
-          >
-            License
-          </a>
-          <form method="POST" action="#" role="none">
-            <button
-              type="submit"
-              class="text-gray-700 block w-full text-left px-4 py-2 text-sm"
-              role="menuitem"
-              id="menu-item-3"
-            >
-              Sign out
-            </button>
-          </form>
+        <span>Posting as: {availableEmails[0]}</span>
+        <div className={width('w-5')}>
+          <Arrow pulseDisabled open={dropDownOpen} />
         </div>
+      </button>
+
+      <div className={menuWrapper(dropDownOpen)}>
+        {availableEmails.map((email, index) =>
+          index ? (
+            <p
+              className={menuItem}
+              onClick={() => TwitterStore.setCurrentEmail(index)}
+            >
+              {truncateMiddleIfNeeded(email, 14)}
+            </p>
+          ) : undefined
+        )}
       </div>
     </div>
   )

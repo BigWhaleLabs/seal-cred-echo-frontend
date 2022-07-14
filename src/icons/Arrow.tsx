@@ -6,24 +6,49 @@ import classnames, {
   width,
 } from 'classnames/tailwind'
 
-const arrowAnimation = classnames(
-  animation('animate-pulse-horizontal'),
-  transitionProperty('transition-all')
-)
+const arrowAnimation = (
+  pulseDisabled?: boolean,
+  openDisabled?: boolean,
+  open?: boolean
+) =>
+  classnames(
+    animation(
+      pulseDisabled
+        ? openDisabled
+          ? undefined
+          : open
+          ? 'animate-rotate-180'
+          : 'animate-rotate-0'
+        : 'animate-pulse-horizontal'
+    ),
+    transitionProperty('transition-all')
+  )
 const svgInnerWrapper = classnames(
   width('w-full'),
   height('h-auto'),
   dropShadow('drop-shadow-secondary')
 )
 
-export default function () {
+interface ArrowProps {
+  openDisabled?: boolean
+  pulseDisabled?: boolean
+  horizontal?: boolean
+  open?: boolean
+}
+
+export default function ({
+  pulseDisabled,
+  horizontal,
+  openDisabled,
+  open,
+}: ArrowProps) {
   return (
     <div className={svgInnerWrapper}>
       <svg
-        viewBox="0 0 14 14"
+        viewBox={horizontal ? '0 0 14 14' : '0 0 14 7'}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className={arrowAnimation}
+        className={arrowAnimation(pulseDisabled, openDisabled, open)}
       >
         <path
           d="M10.75 1.25L6.25 5.75L1.75 1.25"
@@ -31,7 +56,7 @@ export default function () {
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          transform="rotate(-90 7 7)"
+          transform={horizontal ? 'rotate(-90 7 7)' : undefined}
         />
         <defs>
           <linearGradient

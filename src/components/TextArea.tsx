@@ -11,7 +11,7 @@ import {
   display,
   flexDirection,
   flexGrow,
-  maxHeight,
+  minHeight,
   outlineStyle,
   padding,
   resize,
@@ -20,7 +20,6 @@ import {
   width,
 } from 'classnames/tailwind'
 import { useEffect, useState } from 'preact/hooks'
-import Counter from 'components/Counter'
 import TextareaAutosize, {
   TextareaAutosizeProps,
 } from 'react-textarea-autosize'
@@ -39,20 +38,23 @@ const wrapper = (error?: boolean) =>
     flexGrow('grow'),
     alignItems('items-stretch'),
     borderWidth('border'),
-    borderColor(error ? 'border-error' : 'border-formal-accent'),
-    borderRadius('rounded-3xl'),
-    padding('py-3', 'px-6'),
+    borderColor(
+      error ? 'border-error' : 'border-formal-accent-dimmed',
+      'focus-within:border-formal-accent'
+    ),
+    borderRadius('rounded-lg'),
+    padding('py-3', 'px-4'),
     transitionProperty('transition-colors'),
-    borderColor('focus-within:border-accent')
+    backgroundColor('bg-primary-dark'),
+    minHeight('min-h-text-input')
   )
-const textBox = (noWrap?: boolean) =>
+const textBox = () =>
   classnames(
-    backgroundColor('bg-transparent'),
+    backgroundColor('bg-primary-dark'),
     resize('resize-none'),
     width('w-full'),
     transitionProperty('transition-colors'),
-    outlineStyle('outline-none', 'focus:outline-none'),
-    noWrap ? maxHeight('max-h-6') : undefined
+    outlineStyle('outline-none', 'focus:outline-none')
   )
 
 interface TextAreaProps {
@@ -60,18 +62,14 @@ interface TextAreaProps {
   onTextChange: (text: string) => void
   disabled?: boolean
   maxLength?: number
-  dontCount?: string
 
   footer?: JSX.Element
-  right?: JSX.Element
 }
 
 export default function ({
   text,
   onTextChange,
   maxLength,
-  dontCount,
-  right,
   footer,
   rows,
   ...restProps
@@ -87,25 +85,19 @@ export default function ({
       <div className={wrapper(!isValid)}>
         <TextareaText>
           <TextareaAutosize
-            className={classNamesToString('no-scrollbar', textBox(rows === 1))}
+            className={classNamesToString('no-scrollbar', textBox())}
             value={text}
             onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
               onTextChange(event.currentTarget.value)
             }
-            maxLength={
-              dontCount && maxLength ? maxLength + dontCount.length : maxLength
-            }
+            maxLength={maxLength}
             rows={rows}
             {...restProps}
           />
         </TextareaText>
 
-        {maxLength !== undefined && text.length > maxLength / 10 && (
-          <Counter text={text} maxLength={maxLength} dontCount={dontCount} />
-        )}
         {footer}
       </div>
-      {right}
     </div>
   )
 }

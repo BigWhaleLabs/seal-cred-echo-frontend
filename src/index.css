@@ -73,10 +73,10 @@ body {
 ::-webkit-scrollbar-track {
   background: linear-gradient(
     90deg,
-    rgba(0, 0, 0, 0) 47%,
+    #0d0030 47%,
     #fed823 47%,
     #fed823 51%,
-    rgba(0, 0, 0, 0) 52%
+    #0d0030 52%
   );
 }
 ::-webkit-scrollbar-thumb {

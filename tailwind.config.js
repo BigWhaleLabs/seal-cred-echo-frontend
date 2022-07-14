@@ -15,9 +15,15 @@ module.exports = {
           '0%': { transform: 'rotate(0deg)' },
           '100%': { transform: 'rotate(360deg)' },
         },
+        'rotate-180': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(180deg)' },
+        },
       },
       animation: {
         'pulse-horizontal': 'pulse-horizontal 2s ease-in-out infinite',
+        'rotate-180': 'rotate-180 0.5s ease-in-out forwards',
+        'rotate-0': 'rotate-180 0.5s ease-in-out reverse forwards',
         rotate: 'rotate linear 3.5s infinite',
       },
       colors: {
@@ -62,6 +68,9 @@ module.exports = {
       },
       height: {
         'noisy-rectangle': '0.688rem',
+      },
+      minHeight: {
+        'text-input': '9rem',
       },
       dropShadow: {
         secondary: '0rem 0rem 0.625rem #ff7bed',

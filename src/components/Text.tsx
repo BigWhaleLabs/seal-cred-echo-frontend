@@ -109,8 +109,9 @@ export function SocialLink({
 
 const textareaText = classnames(
   display('flex'),
+  fontFamily('font-primary'),
   alignItems('items-center'),
-  textColor('text-primary'),
+  textColor('text-formal-accent'),
   placeholderColor('placeholder-formal-accent-dimmed')
 )
 export function TextareaText({ children }: ChildrenProp) {

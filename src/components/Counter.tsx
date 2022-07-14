@@ -1,17 +1,16 @@
-import { ErrorText, TextareaText } from 'components/Text'
-import { FC, useEffect, useState } from 'react'
+import { BadgeText, ErrorText } from 'components/Text'
+import { useEffect, useState } from 'preact/hooks'
 
 interface CounterProps {
   text: string
   maxLength: number
-  dontCount?: string
 }
 
-const Counter: FC<CounterProps> = ({ text, maxLength, dontCount }) => {
+export default function ({ text, maxLength }: CounterProps) {
   const [count, setCount] = useState(0)
   useEffect(() => {
-    setCount(dontCount ? text.replaceAll(dontCount, '').length : text.length)
-  }, [dontCount, text])
+    setCount(text.length)
+  }, [text])
 
   return (
     <>
@@ -20,12 +19,10 @@ const Counter: FC<CounterProps> = ({ text, maxLength, dontCount }) => {
           {count} / {maxLength}
         </ErrorText>
       ) : (
-        <TextareaText>
+        <BadgeText>
           {count} / {maxLength}
-        </TextareaText>
+        </BadgeText>
       )}
     </>
   )
 }
-
-export default Counter
