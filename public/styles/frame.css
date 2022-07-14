@@ -3,6 +3,7 @@
   --primary: #15a1fc;
   --grey: #8899a6;
   --border: #2f3336;
+  --accent: #fed823;
 }
 /* Common */
 .timeline-Tweet-brand,
@@ -26,6 +27,9 @@
 /* Links */
 .timeline-Tweet-text > a {
   color: var(--primary) !important;
+}
+.timeline-Tweet-text > a:hover {
+  color: var(--accent) !important;
 }
 /* Author */
 .TweetAuthor {
@@ -79,4 +83,7 @@
 }
 .timeline-ShareMenu .Icon {
   transform: rotate(-90deg);
+}
+.Icon--share {
+  margin-bottom: 3px;
 }

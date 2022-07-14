@@ -11,6 +11,7 @@ import classnames, {
   height,
   justifyContent,
   margin,
+  padding,
   space,
   width,
 } from 'classnames/tailwind'
@@ -29,7 +30,8 @@ const loadingClass = classnames(
   flexDirection('flex-col'),
   alignItems('items-center'),
   space('space-y-8'),
-  height('h-full')
+  height('h-full'),
+  padding('py-6')
 )
 const tweetWidget = (loading?: boolean) =>
   classnames(display(loading ? 'hidden' : 'block'), height('h-full'))
@@ -48,7 +50,8 @@ function TwitterLoading() {
 const prevTweets = classnames(
   width('w-full'),
   height('h-full'),
-  space('space-y-4')
+  space('space-y-4'),
+  margin('mt-8')
 )
 const prevTweetsHeader = classnames(
   display('flex'),
@@ -88,7 +91,9 @@ export default function () {
           <EmphasizeText bold>Tweets</EmphasizeText> by{' '}
           <LinkText url="https://sealcred.xyz">@SealCredWork</LinkText>
         </BodyText>
-        <LinkText url="https://sealcred.xyz">View all on blockchain</LinkText>
+        <LinkText small url="https://sealcred.xyz">
+          View all on blockchain
+        </LinkText>
       </div>
       <div className={tweetCard}>
         {loading && <TwitterLoading />}

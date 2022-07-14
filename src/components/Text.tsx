@@ -116,27 +116,31 @@ export function BadgeText({
   return <span className={badgeText(small)}>{children}</span>
 }
 
-const linkText = (bold?: boolean) =>
+const linkText = (small?: boolean, bold?: boolean) =>
   classnames(
     textDecoration('no-underline'),
     textColor('text-primary'),
-    fontWeight(bold ? 'font-bold' : 'font-normal')
+    fontWeight(bold ? 'font-bold' : 'font-normal'),
+    fontSize(small ? 'text-sm' : 'text-base'),
+    lineHeight(small ? 'leading-5' : 'leading-6')
   )
 export function LinkText({
   url,
   bold,
+  small,
   title,
   children,
   targetBlank,
 }: ChildrenProp & {
   url: string
+  small?: boolean
   targetBlank?: boolean
   bold?: boolean
   title?: string
 }) {
   return (
     <a
-      className={linkText(bold)}
+      className={linkText(small, bold)}
       href={url}
       title={title}
       target={targetBlank ? '_blank' : '_self'}
