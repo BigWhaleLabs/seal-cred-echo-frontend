@@ -166,11 +166,7 @@ export default function ({
           )}
           {withArrow && (
             <div className={width('w-4')}>
-              <Arrow
-                horizontal
-                pulseDisabled={disabled || loading}
-                openDisabled
-              />
+              <Arrow />
             </div>
           )}
         </>
