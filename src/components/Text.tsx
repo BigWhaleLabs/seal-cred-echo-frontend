@@ -237,7 +237,11 @@ export function CardParagraph({ children }: ChildrenProp) {
   return <p className={cardTextContainer}>{children}</p>
 }
 
-const cardSubheaderContainer = fontWeight('font-bold')
-export function CardSubheder({ children }: ChildrenProp) {
+const cardSubheaderContainer = classnames(
+  fontWeight('font-bold'),
+  fontFamily('font-primary'),
+  fontSize('text-lg')
+)
+export function CardSubheader({ children }: ChildrenProp) {
   return <p className={cardSubheaderContainer}>{children}</p>
 }
