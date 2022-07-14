@@ -18,6 +18,7 @@ import classnames, {
   position,
   space,
   transitionProperty,
+  visibility,
   width,
   zIndex,
 } from 'classnames/tailwind'
@@ -52,6 +53,7 @@ const menuWrapper = (open: boolean) =>
     inset('top-14'),
     width('tiny:w-full', 'w-fit'),
     opacity(open ? 'opacity-100' : 'opacity-0'),
+    visibility(open ? 'visible' : 'invisible'),
     transitionProperty('transition-opacity'),
     sharedStyles
   )
