@@ -15,15 +15,9 @@ module.exports = {
           '0%': { transform: 'rotate(0deg)' },
           '100%': { transform: 'rotate(360deg)' },
         },
-        'rotate-180': {
-          '0%': { transform: 'rotate(0deg)' },
-          '100%': { transform: 'rotate(180deg)' },
-        },
       },
       animation: {
         'pulse-horizontal': 'pulse-horizontal 2s ease-in-out infinite',
-        'rotate-180': 'rotate-180 0.5s ease-in-out forwards',
-        'rotate-0': 'rotate-180 0.5s ease-in-out reverse forwards',
         rotate: 'rotate linear 3.5s infinite',
       },
       colors: {
