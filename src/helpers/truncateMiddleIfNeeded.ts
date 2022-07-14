@@ -1,4 +1,4 @@
-export default function (str: string, maxLength: number) {
+export default function (str: string, maxLength = 14) {
   const isOddNum = maxLength % 2 === 1 ? 1 : 2
   const halfLength = maxLength / 2
   return str.length > maxLength && maxLength > 4

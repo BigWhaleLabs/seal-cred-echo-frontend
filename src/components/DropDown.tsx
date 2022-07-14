@@ -60,6 +60,7 @@ const menuItem = classnames(padding('p-2'), cursor('cursor-pointer'))
 
 export default function () {
   const { availableEmails, dropDownOpen } = useSnapshot(TwitterStore)
+  const currentEmail = availableEmails[0]
 
   const ref = useRef() as MutableRef<HTMLDivElement>
   useClickOutside(ref, () => (TwitterStore.dropDownOpen = false))
@@ -72,7 +73,7 @@ export default function () {
       >
         <span>
           <span className={postingAs}>Posting as: </span>
-          {truncateMiddleIfNeeded(availableEmails[0], 14)}
+          {truncateMiddleIfNeeded(currentEmail)}
         </span>
         <div className={width('w-5')}>
           <Arrow pulseDisabled open={dropDownOpen} />
@@ -80,15 +81,16 @@ export default function () {
       </button>
 
       <div className={menuWrapper(dropDownOpen)}>
-        {availableEmails.map((email, index) =>
-          index ? (
-            <p
-              className={menuItem}
-              onClick={() => TwitterStore.setCurrentEmail(index)}
-            >
-              {truncateMiddleIfNeeded(email, 14)}
-            </p>
-          ) : undefined
+        {availableEmails.map(
+          (email, index) =>
+            !!index && (
+              <p
+                className={menuItem}
+                onClick={() => TwitterStore.setCurrentEmail(index)}
+              >
+                {truncateMiddleIfNeeded(email)}
+              </p>
+            )
         )}
       </div>
     </div>
