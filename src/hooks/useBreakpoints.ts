@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 const xsSize = 279
 const smSize = 375
-const mdSize = 600
+const mdSize = 575
 const lgSize = 1023
 
 export default function () {
