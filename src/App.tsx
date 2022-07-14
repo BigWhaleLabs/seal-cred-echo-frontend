@@ -10,13 +10,20 @@ import NavTabLink from 'components/NavTabLink'
 import Navbar from 'components/navbar/Navbar'
 import TabBar from 'components/TabBar'
 import TweetHeader from 'components/TweetHeader'
-import classnames, { height, margin, space, width } from 'classnames/tailwind'
+import classnames, {
+  height,
+  margin,
+  padding,
+  space,
+  width,
+} from 'classnames/tailwind'
 
 const body = classnames(
   width('md:w-body', 'w-screen'),
   height('h-fit'),
   space('space-y-4'),
-  margin('mb-5')
+  padding('pb-5'),
+  margin('mx-auto')
 )
 
 export default function () {
