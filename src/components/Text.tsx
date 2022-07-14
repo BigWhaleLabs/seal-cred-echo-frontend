@@ -1,13 +1,17 @@
 import {
   TDropShadow,
   TTextColor,
+  alignItems,
   classnames,
   cursor,
+  display,
   dropShadow,
   fontFamily,
   fontSize,
   fontWeight,
   lineHeight,
+  placeholderColor,
+  textAlign,
   textColor,
   textDecoration,
   transitionProperty,
@@ -105,4 +109,28 @@ export function SocialLink({
       {children}
     </a>
   )
+}
+
+const textareaText = classnames(
+  display('flex'),
+  alignItems('items-center'),
+  textColor('text-primary'),
+  placeholderColor('placeholder-formal-accent-dimmed')
+)
+export function TextareaText({ children }: ChildrenProp) {
+  return <div className={textareaText}>{children}</div>
+}
+
+const errorText = (centered?: boolean) =>
+  classnames(
+    textColor('text-error'),
+    fontWeight('font-medium'),
+    fontFamily('font-primary'),
+    centered ? textAlign('text-center') : undefined
+  )
+export function ErrorText({
+  children,
+  centered,
+}: ChildrenProp & { centered?: boolean }) {
+  return <p className={errorText(centered)}>{children}</p>
 }

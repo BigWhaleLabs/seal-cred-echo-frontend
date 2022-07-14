@@ -1,5 +1,6 @@
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+import CreateTweet from 'components/createTweet'
 import ExplainBlock from 'components/ExplainBlock'
 import Navbar from 'components/navbar/Navbar'
 import classnames, { height, margin, width } from 'classnames/tailwind'
@@ -15,6 +16,7 @@ export default function () {
     <Router>
       <Navbar />
       <div className={body}>
+        <CreateTweet />
         <ExplainBlock />
       </div>
       <ToastContainer position="bottom-right" theme="dark" />

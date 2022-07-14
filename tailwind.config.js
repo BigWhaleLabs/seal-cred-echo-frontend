@@ -18,6 +18,7 @@ module.exports = {
         secondary: '#ff7bed',
         tertiary: '#01feb6',
         'formal-accent': '#efecd6',
+        'formal-accent-dimmed': '#efecd680',
 
         error: '#FF7B83',
         'error-dark': '#3E1B1E',
