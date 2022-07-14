@@ -21,7 +21,7 @@ export default function () {
         <CardSection>
           <CardSubheder>Who are we?</CardSubheder>
           <CardParagraph>
-            <LinkText url="https://sealc.red">SealCred</LinkText>, a
+            <LinkText url="https://sealcred.xyz">SealCred</LinkText>, a
             privacy-preserving social protocol built with zero-knowlege (ZK)
             soul-bound NFTs, is built by{' '}
             <LinkText url="https://bigwhalelabs.com/">Big Whale Labs</LinkText>.
