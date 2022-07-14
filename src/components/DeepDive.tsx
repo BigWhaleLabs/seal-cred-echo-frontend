@@ -49,7 +49,7 @@ export default function () {
               asset, or piece of your identity. This is all done using a mix of
               ZK proof, EdDSA, and the blockchain. That allows us to create
               pseudonymous accounts on the blockcahin. We also wrote about what
-              we’ve done so far on our blog
+              we’ve done so far on our blog{' '}
               <LinkText url="https://blog.bigwhalelabs.com">here</LinkText>.
             </CardParagraph>
             <CardParagraph>
