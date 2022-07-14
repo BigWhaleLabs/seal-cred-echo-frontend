@@ -14,6 +14,10 @@
   }
 }
 
+.loading-pause:hover {
+  animation-play-state: paused;
+}
+
 html {
   background-color: #0d0030;
   scrollbar-color: #fed823 transparent;

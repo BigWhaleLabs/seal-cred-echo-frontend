@@ -134,3 +134,18 @@ export function ErrorText({
 }: ChildrenProp & { centered?: boolean }) {
   return <p className={errorText(centered)}>{children}</p>
 }
+
+const largeText = classnames(
+  fontFamily('font-primary'),
+  fontWeight('font-bold'),
+  fontSize('text-xl', 'tiny:text-2xl'),
+  textAlign('text-center')
+)
+export function LargeText({ children }: ChildrenProp) {
+  return <h2 className={largeText}>{children}</h2>
+}
+
+const loadingText = fontSize('text-xs', 'tiny:text-sm')
+export function LoadingText({ children }: ChildrenProp) {
+  return <h4 className={loadingText}>{children}</h4>
+}
