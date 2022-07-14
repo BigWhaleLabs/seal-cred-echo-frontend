@@ -5,6 +5,7 @@ import {
   Routes,
 } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+import DeepDive from 'components/DeepDive'
 import HowItWorks from 'components/HowItWorks'
 import NavTabLink from 'components/NavTabLink'
 import Navbar from 'components/navbar/Navbar'
@@ -42,7 +43,7 @@ export default function () {
             <Route index element={<Navigate replace to="/how-it-works" />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/previous-tweets" element={<>Previous Tweets</>} />
-            <Route path="/deep-dive" element={<>Deep Dive</>} />
+            <Route path="/deep-dive" element={<DeepDive />} />
           </Routes>
         </div>
       </div>

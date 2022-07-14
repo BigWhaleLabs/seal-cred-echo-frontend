@@ -182,3 +182,16 @@ const loadingText = fontSize('text-xs', 'tiny:text-sm')
 export function LoadingText({ children }: ChildrenProp) {
   return <h4 className={loadingText}>{children}</h4>
 }
+
+const cardTextContainer = classnames(
+  fontFamily('font-primary'),
+  lineHeight('leading-6')
+)
+export function CardParagraph({ children }: ChildrenProp) {
+  return <p className={cardTextContainer}>{children}</p>
+}
+
+const cardSubheaderContainer = fontWeight('font-bold')
+export function CardSubheder({ children }: ChildrenProp) {
+  return <p className={cardSubheaderContainer}>{children}</p>
+}
