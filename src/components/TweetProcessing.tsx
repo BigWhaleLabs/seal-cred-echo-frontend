@@ -23,7 +23,7 @@ const container = (loading?: boolean) =>
     margin('mx-4', 'mt-6', 'mb-12'),
     space(loading ? 'space-y-6' : 'space-y-2')
   )
-const loadingText = classnames(margin('!mt-4'))
+const loadingText = margin('!mt-4')
 
 export default function ({
   title,

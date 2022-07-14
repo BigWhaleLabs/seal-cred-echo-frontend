@@ -4,21 +4,13 @@ import classnames, {
   borderColor,
   borderRadius,
   borderWidth,
-  display,
   height,
   overflow,
   padding,
   position,
-  width,
 } from 'classnames/tailwind'
 
-const loader = classnames(
-  position('relative'),
-  display('block'),
-  overflow('overflow-hidden'),
-  width('w-14'),
-  height('h-14')
-)
+const loader = classnames(position('relative'), overflow('overflow-hidden'))
 const loaderDiv = classnames(
   height('h-full'),
   borderRadius('rounded-full'),
