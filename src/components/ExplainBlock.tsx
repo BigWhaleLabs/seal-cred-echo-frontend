@@ -5,6 +5,7 @@ import TweetProcessing from 'components/TweetProcessing'
 import classnames, {
   display,
   flexDirection,
+  height,
   justifyContent,
   space,
 } from 'classnames/tailwind'
@@ -15,6 +16,7 @@ const sectionWrapper = (visible: boolean) =>
     display('flex'),
     flexDirection('flex-col'),
     justifyContent('justify-center'),
+    height('h-full'),
     display(visible ? 'block' : 'hidden')
   )
 
