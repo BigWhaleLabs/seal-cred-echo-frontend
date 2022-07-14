@@ -1,6 +1,6 @@
 import {
   CardParagraph,
-  CardSubheder,
+  CardSubheader,
   HeaderText,
   LinkText,
 } from 'components/Text'
@@ -62,7 +62,7 @@ export default function () {
             <ListItem>Create your message.</ListItem>
           </OrderedList>
         </HintCard>
-        <CardSubheder>A few things to consider</CardSubheder>
+        <CardSubheader>A few things to consider</CardSubheader>
         <HintCard>
           <OrderedList>
             <ListItem>
