@@ -16,7 +16,6 @@ import {
   padding,
   position,
   space,
-  textAlign,
   width,
   wordBreak,
   zIndex,

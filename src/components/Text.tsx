@@ -15,22 +15,16 @@ import {
 import ChildrenProp from 'models/ChildrenProp'
 import useBreakpoints from 'hooks/useBreakpoints'
 
-const tabBarText = (active: boolean) =>
-  classnames(
-    fontFamily('font-primary'),
-    textColor(active ? 'text-accent' : 'text-formal-accent'),
-    lineHeight('!leading-11'),
-    fontSize('tiny:text-lg', 'text-base'),
-    fontWeight('font-bold'),
-    textDecoration(active ? 'underline' : 'no-underline'),
-    transitionProperty('transition-colors'),
-    cursor('cursor-pointer')
-  )
-export function TabBarText({
-  children,
-  active,
-}: ChildrenProp & { active: boolean }) {
-  return <span className={tabBarText(active)}>{children}</span>
+const tabBarText = classnames(
+  fontFamily('font-primary'),
+  lineHeight('!leading-11'),
+  fontSize('tiny:text-lg', 'text-base'),
+  fontWeight('font-bold'),
+  transitionProperty('transition-colors'),
+  cursor('cursor-pointer')
+)
+export function TabBarText({ children }: ChildrenProp) {
+  return <span className={tabBarText}>{children}</span>
 }
 
 const logoSubText = classnames(

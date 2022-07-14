@@ -1,9 +1,7 @@
-import { TabBarText } from 'components/Text'
-import Tab from 'models/Tab'
+import ChildrenProp from 'models/ChildrenProp'
 import classNamesToString from 'helpers/classNamesToString'
 import classnames, {
   alignItems,
-  display,
   justifyContent,
   margin,
   overflow,
@@ -21,16 +19,10 @@ const wrapper = classnames(
   margin('mx-5', 'lg:mx-0')
 )
 
-export default function ({ tabs }: { tabs: Tab[] }) {
+export default function ({ children }: ChildrenProp) {
   return (
     <div className={classNamesToString(scrollableBox, 'no-scrollbar')}>
-      <div className={wrapper}>
-        {tabs.map((tab) => (
-          <div onClick={() => tab.onClick()} className={display('inline-flex')}>
-            <TabBarText active={tab.active}>{tab.label}</TabBarText>
-          </div>
-        ))}
-      </div>
+      <div className={wrapper}>{children}</div>
     </div>
   )
 }
