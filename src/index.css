@@ -14,6 +14,10 @@
   }
 }
 
+.loading-pause:hover {
+  animation-play-state: paused;
+}
+
 html {
   background-color: #0d0030;
   scrollbar-color: #fed823 transparent;
@@ -86,4 +90,9 @@ body {
   border-radius: 20px;
   background-clip: content-box;
   border: 7.5px solid transparent;
+}
+
+/* Wallet select menu for dark and light theme */
+.web3modal-modal-lightbox {
+  z-index: 100 !important;
 }
