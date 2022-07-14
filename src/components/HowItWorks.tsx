@@ -49,13 +49,13 @@ export default function () {
           This means you can spill the tea about your place of employment on
           Twitter without anyone (even us!) from knowing it’s you. All tweets
           are posted to{' '}
-          <LinkText color="text-primary" url="https://twitter.com/SealCredWork">
+          <LinkText url="https://twitter.com/SealCredWork">
             @SealCredWork
           </LinkText>
           .
         </p>
         <p className={textContainer}>
-          <LinkText color="text-primary" url="https://sealcred.xyz/email">
+          <LinkText url="https://sealcred.xyz/email">
             <Button small gradientFont withArrow type="tertiary">
               Create a zkBadge using your work email
             </Button>
@@ -67,9 +67,7 @@ export default function () {
         <HintCard>
           <Record index={1}>
             Mint your ZK Badge with your email (
-            <LinkText color="text-primary" url="https://sealcred.xyz/app">
-              here
-            </LinkText>
+            <LinkText url="https://sealcred.xyz/app">here</LinkText>
             ).
           </Record>
           <Record index={2}>Connect your anonymous wallet to this page.</Record>
@@ -87,10 +85,7 @@ export default function () {
           </Record>
           <Record index={3}>
             Your message will be posted here as well as tweeted on{' '}
-            <LinkText
-              color="text-primary"
-              url="https://twitter.com/SealCredWork"
-            >
+            <LinkText url="https://twitter.com/SealCredWork">
               @SealCredWork
             </LinkText>
             .

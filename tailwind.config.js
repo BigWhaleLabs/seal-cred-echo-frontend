@@ -6,6 +6,15 @@ module.exports = {
       primary: ['"Space Grotesk"', 'sans-serif'],
     },
     extend: {
+      keyframes: {
+        'pulse-horizontal': {
+          '0%, 100%': { transform: 'translateX(0.5rem)' },
+          '50%': { transform: 'translateX(0rem)' },
+        },
+      },
+      animation: {
+        'pulse-horizontal': 'pulse-horizontal 2s ease-in-out infinite',
+      },
       colors: {
         black: {
           background: '#040404',
