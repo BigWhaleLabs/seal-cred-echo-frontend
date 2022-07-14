@@ -19,7 +19,12 @@ const TwitterStore = proxy<TwitterStoreInterface>({
   text: '',
   length: 280,
   status: { isValid: true, loading: false },
-  availableEmails: ['@bwl.gg', '@amazon.com', '@google.com'],
+  availableEmails: [
+    '@bwl.gg',
+    '@amazon.com',
+    '@google.com',
+    '@biiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiigwhalelabs.com',
+  ],
   setCurrentEmail: (emailIndex: number) => {
     const prev = TwitterStore.availableEmails[0]
     TwitterStore.availableEmails[0] = TwitterStore.availableEmails[emailIndex]

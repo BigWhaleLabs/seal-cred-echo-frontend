@@ -8,28 +8,25 @@ import TweeterStore from 'stores/TwitterStore'
 import classnames, {
   alignItems,
   display,
+  flexWrap,
   justifyContent,
   margin,
-  space,
-  zIndex,
 } from 'classnames/tailwind'
+import useBreakpoints from 'hooks/useBreakpoints'
 
 const bottomContainer = classnames(
   display('flex'),
   justifyContent('justify-between'),
-  alignItems('items-center')
-)
-const rightBlockWrapper = classnames(
-  display('flex'),
   alignItems('items-center'),
-  space('space-x-4')
+  flexWrap('flex-wrap')
 )
 
 export default function () {
   const { text, length, status } = useSnapshot(TweeterStore)
+  const { md } = useBreakpoints()
 
   return (
-    <div className={zIndex('z-20')}>
+    <div>
       <HeaderText>Create your anonymous tweet</HeaderText>
       <div className={margin('my-5')}>
         <TextArea
@@ -41,27 +38,30 @@ export default function () {
           footer={
             status.error ? <ErrorText>{status.error}</ErrorText> : undefined
           }
-          spellcheck={true}
         />
       </div>
 
       <div className={bottomContainer}>
-        <DropDown />
-        <div className={rightBlockWrapper}>
-          <Counter text={text} maxLength={length} />
-          <Button
-            primary
-            loading={status.loading}
-            disabled={!status.isValid}
-            title="Tweet"
-            onClick={() => {
-              TweeterStore.tweet()
-              TweeterStore.status.success = true
-            }}
-          >
-            Tweet
-          </Button>
+        <div className={margin('md:mb-0', 'mb-4')}>
+          <DropDown />
         </div>
+        <div className={margin('md:ml-20', 'md:mb-0', 'mb-4')}>
+          <Counter text={text} maxLength={length} />
+        </div>
+        <Button
+          primary
+          loading={status.loading}
+          disabled={!status.isValid}
+          title="Tweet"
+          onClick={() => {
+            TweeterStore.tweet()
+            TweeterStore.status.success = true
+          }}
+          fullWidth={!md}
+          center
+        >
+          Tweet
+        </Button>
       </div>
     </div>
   )

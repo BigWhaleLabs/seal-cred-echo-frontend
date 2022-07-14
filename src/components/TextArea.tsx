@@ -48,14 +48,13 @@ const wrapper = (error?: boolean) =>
     backgroundColor('bg-primary-dark'),
     minHeight('min-h-text-input')
   )
-const textBox = () =>
-  classnames(
-    backgroundColor('bg-primary-dark'),
-    resize('resize-none'),
-    width('w-full'),
-    transitionProperty('transition-colors'),
-    outlineStyle('outline-none', 'focus:outline-none')
-  )
+const textBox = classnames(
+  backgroundColor('bg-primary-dark'),
+  resize('resize-none'),
+  width('w-full'),
+  transitionProperty('transition-colors'),
+  outlineStyle('outline-none', 'focus:outline-none')
+)
 
 interface TextAreaProps {
   text: string
@@ -71,7 +70,6 @@ export default function ({
   onTextChange,
   maxLength,
   footer,
-  rows,
   ...restProps
 }: TextAreaProps & TextareaAutosizeProps) {
   const [isValid, setIsValid] = useState(false)
@@ -85,13 +83,13 @@ export default function ({
       <div className={wrapper(!isValid)}>
         <TextareaText>
           <TextareaAutosize
-            className={classNamesToString('no-scrollbar', textBox())}
+            className={classNamesToString('no-scrollbar', textBox)}
             value={text}
             onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
               onTextChange(event.currentTarget.value)
             }
             maxLength={maxLength}
-            rows={rows}
+            spellcheck={true}
             {...restProps}
           />
         </TextareaText>

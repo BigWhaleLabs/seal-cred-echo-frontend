@@ -18,6 +18,7 @@ import classnames, {
   space,
   transitionProperty,
   width,
+  zIndex,
 } from 'classnames/tailwind'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import useClickOutside from 'hooks/useClickOutside'
@@ -27,16 +28,20 @@ const sharedStyles = classnames(
   borderWidth('border'),
   borderColor('border-formal-accent-dimmed', 'focus:border-formal-accent'),
   transitionProperty('transition-colors'),
-  padding('px-4', 'py-3'),
+  padding('tiny:px-4', 'px-3', 'py-3'),
   backgroundColor('bg-primary-dark'),
   alignItems('items-center')
 )
 
-const wrapper = classnames(position('relative'), fontFamily('font-primary'))
+const wrapper = classnames(
+  position('relative'),
+  fontFamily('font-primary'),
+  zIndex('z-40')
+)
 const opener = classnames(
   display('inline-flex'),
   justifyContent('justify-between'),
-  width('w-80'),
+  width('md:w-80', 'w-full'),
   space('space-x-2'),
   sharedStyles
 )
@@ -44,10 +49,11 @@ const menuWrapper = (open: boolean) =>
   classnames(
     position('absolute'),
     inset('top-14'),
-    width('w-full'),
+    width('tiny:w-full', 'w-fit'),
     display(open ? 'block' : 'hidden'),
     sharedStyles
   )
+const postingAs = display('tiny:inline', 'hidden')
 const menuItem = classnames(padding('p-2'), cursor('cursor-pointer'))
 
 export default function () {
@@ -62,7 +68,10 @@ export default function () {
         onClick={() => (TwitterStore.dropDownOpen = !dropDownOpen)}
         className={opener}
       >
-        <span>Posting as: {availableEmails[0]}</span>
+        <span>
+          <span className={postingAs}>Posting as: </span>
+          {truncateMiddleIfNeeded(availableEmails[0], 14)}
+        </span>
         <div className={width('w-5')}>
           <Arrow pulseDisabled open={dropDownOpen} />
         </div>
