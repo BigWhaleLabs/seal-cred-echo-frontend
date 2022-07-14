@@ -45,23 +45,11 @@ module.exports = {
         avatar: '6rem',
       },
       animation: {
-        'pulse-horizontal': 'pulse-horizontal 2s ease-in-out infinite',
-        'rotate-180': 'rotate-180 0.5s ease-in-out forwards',
-        'rotate-0': 'rotate-180 0.5s ease-in-out reverse forwards',
         rotate: 'rotate linear 3.5s infinite',
       },
       keyframes: {
-        'pulse-horizontal': {
-          '0%, 100%': { transform: 'translateX(0.5rem)' },
-          '50%': { transform: 'translateX(0rem)' },
-        },
-        'rotate-180': {
-          '0%': { transform: 'rotate(0deg)' },
-          '100%': { transform: 'rotate(180deg)' },
-        },
         rotate: {
           '0%': { transform: 'rotate(0deg)' },
-          '50%': { transform: 'rotate(180deg)' },
           '100%': { transform: 'rotate(360deg)' },
         },
       },

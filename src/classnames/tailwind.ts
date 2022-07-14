@@ -4425,9 +4425,6 @@ export type TAnimation =
   | 'animate-ping'
   | 'animate-pulse'
   | 'animate-bounce'
-  | 'animate-pulse-horizontal'
-  | 'animate-rotate-180'
-  | 'animate-rotate-0'
   | 'animate-rotate'
 
 export type TTransitionsAndAnimations =

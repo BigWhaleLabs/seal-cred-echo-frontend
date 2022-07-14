@@ -1,3 +1,4 @@
+import classNamesToString from 'helpers/classNamesToString'
 import classnames, {
   animation,
   borderColor,
@@ -30,13 +31,11 @@ const loaderDiv = classnames(
 export default function () {
   return (
     <div className={loader}>
-      <div className={loaderDiv}>
-        <div className={loaderDiv}>
-          <div className={loaderDiv}>
-            <div className={loaderDiv}>
-              <div className={loaderDiv}>
-                <div className={loaderDiv}></div>
-              </div>
+      <div className={classNamesToString(loaderDiv, 'loading-pause')}>
+        <div className={classNamesToString(loaderDiv, 'loading-pause')}>
+          <div className={classNamesToString(loaderDiv, 'loading-pause')}>
+            <div className={classNamesToString(loaderDiv, 'loading-pause')}>
+              <div className={loaderDiv}></div>
             </div>
           </div>
         </div>
