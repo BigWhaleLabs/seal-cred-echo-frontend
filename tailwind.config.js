@@ -6,6 +6,20 @@ module.exports = {
       primary: ['"Space Grotesk"', 'sans-serif'],
     },
     extend: {
+      keyframes: {
+        'pulse-horizontal': {
+          '0%, 100%': { transform: 'translateX(0.5rem)' },
+          '50%': { transform: 'translateX(0rem)' },
+        },
+        rotate: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+      },
+      animation: {
+        'pulse-horizontal': 'pulse-horizontal 2s ease-in-out infinite',
+        rotate: 'rotate linear 3.5s infinite',
+      },
       colors: {
         black: {
           background: '#040404',
@@ -19,6 +33,7 @@ module.exports = {
         tertiary: '#01feb6',
         'formal-accent': '#efecd6',
         'formal-accent-dimmed': '#efecd680',
+        'half-grey': '#505050',
 
         error: '#FF7B83',
         'error-dark': '#3E1B1E',
@@ -45,20 +60,22 @@ module.exports = {
       borderRadius: {
         avatar: '6rem',
       },
-      animation: {
-        rotate: 'rotate linear 3.5s infinite',
-      },
-      keyframes: {
-        rotate: {
-          '0%': { transform: 'rotate(0deg)' },
-          '100%': { transform: 'rotate(360deg)' },
-        },
+      height: {
+        'noisy-rectangle': '0.688rem',
       },
       dropShadow: {
         secondary: '0rem 0rem 0.625rem #ff7bed',
       },
       width: {
         body: '38rem',
+      },
+      lineHeight: {
+        3: '0.875rem',
+        5: '1.125rem',
+        6: '1.313rem',
+        7: '1.438rem',
+        8: '1.938rem',
+        11: '3.188rem',
       },
       screens: {
         fold: '17.5rem',

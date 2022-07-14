@@ -20,7 +20,7 @@ const container = (loading?: boolean) =>
     backgroundColor('bg-primary-background'),
     padding('py-6', 'px-2'),
     borderRadius('rounded-2xl'),
-    margin('mx-4', 'mt-6', 'mb-12'),
+    margin('mt-6', 'mb-12'),
     space(loading ? 'space-y-6' : 'space-y-2')
   )
 const loadingText = margin('!mt-4')
