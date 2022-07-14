@@ -7,17 +7,7 @@ export default function () {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <mask
-        id="mask0_1950_47586"
-        style="mask-type:alpha"
-        maskUnits="userSpaceOnUse"
-        x="20"
-        y="0"
-        width="160"
-        height="160"
-      >
-        <circle cx="100" cy="80" r="80" fill="#1A0259" />
-      </mask>
+      <circle cx="100" cy="80" r="80" fill="#1A0259" />
       <g mask="url(#mask0_1950_47586)">
         <circle cx="100" cy="80" r="80" fill="#1A0259" />
         <circle cx="100" cy="65" r="41" fill="#0D0030" />

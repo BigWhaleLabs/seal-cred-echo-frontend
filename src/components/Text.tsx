@@ -7,6 +7,7 @@ import {
   fontFamily,
   fontSize,
   fontWeight,
+  letterSpacing,
   lineHeight,
   textAlign,
   textColor,
@@ -55,14 +56,13 @@ const accentText = (
   bold?: boolean,
   small?: boolean,
   primary?: boolean,
-  shadow?: TDropShadow,
-  header?: boolean
+  shadow?: TDropShadow
 ) =>
   classnames(
     textColor(color),
     fontFamily(primary ? 'font-primary' : undefined),
     fontWeight(bold ? 'font-bold' : 'font-normal'),
-    fontSize(header ? 'text-3xl' : small ? 'text-sm' : undefined),
+    fontSize(small ? 'text-sm' : undefined),
     dropShadow(shadow)
   )
 export function AccentText({
@@ -72,17 +72,15 @@ export function AccentText({
   primary,
   shadow,
   children,
-  header,
 }: ChildrenProp & {
   color: TTextColor
   bold?: boolean
   small?: boolean
   primary?: boolean
   shadow?: TDropShadow
-  header?: boolean
 }) {
   return (
-    <span className={accentText(color, bold, small, primary, shadow, header)}>
+    <span className={accentText(color, bold, small, primary, shadow)}>
       {children}
     </span>
   )
@@ -201,4 +199,23 @@ const cardSubheaderContainer = classnames(
 )
 export function CardSubheader({ children }: ChildrenProp) {
   return <p className={cardSubheaderContainer}>{children}</p>
+}
+
+const staticHeaderText = (bold = false, subheading = false) =>
+  classnames(
+    fontWeight(bold ? 'font-bold' : 'font-normal'),
+    fontFamily('font-primary'),
+    fontSize(subheading ? 'text-base' : 'text-3xl'),
+    letterSpacing('tracking-wide')
+  )
+
+export function StaticHeaderText({
+  children,
+  bold,
+  subheading,
+}: ChildrenProp & {
+  bold?: boolean
+  subheading?: boolean
+}) {
+  return <h1 className={staticHeaderText(bold, subheading)}>{children}</h1>
 }
