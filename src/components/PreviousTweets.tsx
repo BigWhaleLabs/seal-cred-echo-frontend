@@ -20,7 +20,7 @@ const tweetCard = classnames(
   display('flex'),
   space('space-x-2.5'),
   backgroundColor('bg-primary-dark'),
-  padding('px-4', 'py-2.5'),
+  padding('px-4'),
   width('w-full'),
   height('h-full'),
   flexDirection('flex-col'),
@@ -57,8 +57,7 @@ const prevTweetsHeader = classnames(
   flexDirection('flex-col', 'sm:flex-row'),
   space('space-y-2', 'sm:space-y-0'),
   alignItems('items-start', 'sm:items-center'),
-  justifyContent('justify-start', 'sm:justify-between'),
-  padding('px-4', 'body:px-0')
+  justifyContent('justify-start', 'sm:justify-between')
 )
 
 export default function () {
@@ -69,13 +68,9 @@ export default function () {
       <div className={prevTweetsHeader}>
         <BodyText>
           <EmphasizeText bold>Tweets</EmphasizeText> by{' '}
-          <LinkText url="https://sealcred.xyz" color="text-primary">
-            @SealCredWork
-          </LinkText>
+          <LinkText url="https://sealcred.xyz">@SealCredWork</LinkText>
         </BodyText>
-        <LinkText url="https://sealcred.xyz" color="text-primary">
-          View all on blockchain
-        </LinkText>
+        <LinkText url="https://sealcred.xyz">View all on blockchain</LinkText>
       </div>
       <div className={tweetCard}>
         {loading && <TwitterLoading />}

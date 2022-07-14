@@ -14,22 +14,18 @@ import {
   transitionProperty,
 } from 'classnames/tailwind'
 import ChildrenProp from 'models/ChildrenProp'
+import useBreakpoints from 'hooks/useBreakpoints'
 
-const tabBarText = (active: boolean) =>
-  classnames(
-    fontFamily('font-primary'),
-    textColor(active ? 'text-accent' : 'text-formal-accent'),
-    fontSize('tiny:text-lg', 'text-base'),
-    fontWeight('font-bold'),
-    textDecoration(active ? 'underline' : 'no-underline'),
-    transitionProperty('transition-colors'),
-    cursor('cursor-pointer')
-  )
-export function TabBarText({
-  children,
-  active,
-}: ChildrenProp & { active: boolean }) {
-  return <span className={tabBarText(active)}>{children}</span>
+const tabBarText = classnames(
+  fontFamily('font-primary'),
+  fontSize('tiny:text-lg', 'text-base'),
+  lineHeight('!leading-11'),
+  fontWeight('font-bold'),
+  transitionProperty('transition-colors'),
+  cursor('cursor-pointer')
+)
+export function TabBarText({ children }: ChildrenProp) {
+  return <span className={tabBarText}>{children}</span>
 }
 
 const logoSubText = classnames(
@@ -108,32 +104,39 @@ export function SocialLink({
   )
 }
 
-const linkText = (color?: TTextColor, small?: boolean) =>
+const badgeText = (small?: boolean) =>
+  classnames(
+    textColor('text-formal-accent'),
+    fontSize(small ? 'text-sm' : undefined)
+  )
+export function BadgeText({
+  small,
+  children,
+}: ChildrenProp & { small?: boolean }) {
+  return <span className={badgeText(small)}>{children}</span>
+}
+
+const linkText = (bold?: boolean) =>
   classnames(
     textDecoration('no-underline'),
-    fontFamily('font-primary'),
-    textColor(color || 'text-accent'),
-    fontSize(small ? 'text-xs' : 'text-sm'),
-    lineHeight('leading-4')
+    textColor('text-primary'),
+    fontWeight(bold ? 'font-bold' : 'font-normal')
   )
-
 export function LinkText({
   url,
+  bold,
   title,
-  color,
-  small,
   children,
   targetBlank,
 }: ChildrenProp & {
   url: string
   targetBlank?: boolean
+  bold?: boolean
   title?: string
-  color?: TTextColor
-  small?: boolean
 }) {
   return (
     <a
-      className={linkText(color, small)}
+      className={linkText(bold)}
       href={url}
       title={title}
       target={targetBlank ? '_blank' : '_self'}
@@ -208,6 +211,28 @@ export function TweetText({
   children,
 }: ChildrenProp & { color?: TTextColor; small?: boolean; bold?: boolean }) {
   return <p className={tweetText(color, bold, small)}>{children}</p>
+}
+
+const headerText = (accent = false, extraLeading = false, xs = false) =>
+  classnames(
+    fontFamily('font-primary'),
+    fontWeight('font-bold'),
+    fontSize(xs ? 'text-2xl' : 'text-3xl', 'sm:text-4xl'),
+    textColor(accent ? 'text-accent' : 'text-formal-accent'),
+    extraLeading
+      ? lineHeight('leading-9', 'sm:leading-10', 'md:leading-11')
+      : lineHeight('leading-8')
+  )
+export function HeaderText({
+  accent,
+  extraLeading,
+  children,
+}: ChildrenProp & {
+  accent?: boolean
+  extraLeading?: boolean
+}) {
+  const { xs } = useBreakpoints()
+  return <h1 className={headerText(accent, extraLeading, xs)}>{children}</h1>
 }
 
 const largeText = classnames(
