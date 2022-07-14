@@ -9,14 +9,9 @@ import classnames, {
   fontWeight,
   justifyContent,
   space,
-  textAlign,
 } from 'classnames/tailwind'
 
-const recordContainer = classnames(
-  display('flex'),
-  space('space-x-4'),
-  textAlign('text-left')
-)
+const recordContainer = classnames(display('flex'), space('space-x-4'))
 
 const blockContainer = classnames(
   display('flex'),
