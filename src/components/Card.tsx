@@ -4,8 +4,6 @@ import {
   borderRadius,
   borderWidth,
   classnames,
-  margin,
-  maxWidth,
   padding,
   position,
   space,
@@ -28,8 +26,6 @@ const cardContainer = (small?: boolean) => {
     backgroundColor('bg-primary-dark'),
     padding(small ? 'p-4' : 'p-6'),
     width('w-auto'),
-    maxWidth('max-w-lg'),
-    margin('mx-5', 'lg:mx-0'),
     space('space-y-4'),
     wordBreak('break-words'),
     zIndex('z-30')

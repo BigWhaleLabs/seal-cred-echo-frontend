@@ -3,9 +3,7 @@ import {
   backgroundClip,
   backgroundColor,
   backgroundImage,
-  borderColor,
   borderRadius,
-  borderWidth,
   boxShadow,
   boxShadowColor,
   brightness,
@@ -31,15 +29,14 @@ import {
   width,
 } from 'classnames/tailwind'
 import Arrow from 'icons/Arrow'
-import Loading from 'icons/Loading'
 import React from 'react'
+import Spinner from 'icons/Spinner'
 
 const commonClasses = (
-  type: 'primary' | 'secondary' | 'tertiary',
+  primary?: boolean,
   fullWidth?: boolean,
   center?: boolean,
-  loading?: boolean,
-  disabled?: boolean,
+  unavaliable?: boolean,
   small?: boolean
 ) =>
   classnames(
@@ -52,15 +49,15 @@ const commonClasses = (
     transitionProperty('transition-all'),
     transitionTimingFunction('ease-in-out'),
     transitionDuration('duration-100'),
-    cursor(loading || disabled ? 'cursor-not-allowed' : undefined),
+    cursor({ 'cursor-not-allowed': unavaliable }),
     outlineStyle('focus:outline-none'),
-    opacity(loading || disabled ? 'opacity-50' : undefined),
+    opacity({ 'opacity-50': unavaliable }),
     boxShadow('shadow-2xl', 'hover:shadow-lg', 'active:shadow-md'),
     width(fullWidth ? 'w-full' : 'w-fit'),
     textAlign(center ? 'text-center' : undefined),
     fontSize(small ? 'text-sm' : 'text-lg'),
     lineHeight(small ? 'leading-5' : 'leading-7'),
-    type !== 'tertiary'
+    primary
       ? padding(
           small
             ? { 'py-2': true, 'px-4': true }
@@ -73,20 +70,18 @@ const commonClasses = (
 const button = ({
   fullWidth,
   center,
-  type,
-  loading,
-  disabled,
+  primary,
+  unavaliable,
   small,
-  gradientFont,
-}: ButtonProps) =>
+}: ButtonProps & { unavaliable?: boolean }) =>
   classnames(
-    commonClasses(type, fullWidth, center, loading, disabled, small),
-    colorClasses({ type, loading, disabled, gradientFont })
+    commonClasses(primary, fullWidth, center, unavaliable, small),
+    colorClasses(unavaliable, primary)
   )
 
-const colorClasses = ({ type, loading, disabled }: ButtonProps) =>
+const colorClasses = (unavaliable?: boolean, primary?: boolean) =>
   classnames(
-    type === 'primary'
+    primary
       ? classnames(
           textColor('text-primary-dark'),
           borderRadius('rounded-full'),
@@ -97,38 +92,19 @@ const colorClasses = ({ type, loading, disabled }: ButtonProps) =>
             'active:shadow-tertiary'
           ),
           boxShadow('shadow-button'),
-          brightness(
-            loading || disabled ? undefined : 'hover:brightness-75',
-            loading || disabled ? undefined : 'active:brightness-50'
-          )
-        )
-      : type === 'secondary'
-      ? classnames(
-          borderWidth('border'),
-          borderRadius('rounded-full'),
-          borderColor(
-            'border-secondary',
-            'hover:border-secondary',
-            'active:border-secondary'
-          ),
-          backgroundImage('bg-gradient-to-r'),
-          textColor('text-secondary'),
-          gradientColorStops(
-            'hover:from-accent-light-transparent',
-            'hover:to-secondary-light-transparent',
-            'active:from-accent-light-active-transparent',
-            'active:to-secondary-light-active-transparent'
-          )
+          unavaliable
+            ? brightness('hover:brightness-75', 'active:brightness-50')
+            : undefined
         )
       : backgroundColor('bg-transparent')
   )
 
-const textGradient = ({ loading, disabled }: ButtonProps) =>
+const textGradient = (unavaliable?: boolean) =>
   classnames(
-    textColor(
-      'text-transparent',
-      loading || disabled ? undefined : 'active:text-accent'
-    ),
+    textColor({
+      'text-transparent': true,
+      'active:text-accent': unavaliable,
+    }),
     backgroundClip('bg-clip-text'),
     backgroundImage('bg-gradient-to-r'),
     gradientColorStops('from-secondary', 'to-accent')
@@ -137,7 +113,7 @@ const textGradient = ({ loading, disabled }: ButtonProps) =>
 interface ButtonProps {
   fullWidth?: boolean
   center?: boolean
-  type: 'primary' | 'secondary' | 'tertiary'
+  primary?: boolean
   disabled?: boolean
   loading?: boolean
   small?: boolean
@@ -147,11 +123,11 @@ interface ButtonProps {
 }
 
 export default function ({
+  primary,
   fullWidth,
   center,
   small,
   withArrow,
-  type,
   loading,
   disabled,
   children,
@@ -160,27 +136,25 @@ export default function ({
   ...rest
 }: Omit<React.HTMLAttributes<HTMLButtonElement>, 'loading'> & ButtonProps) {
   const showContent = !loadingOverflow || !loading
+  const unavaliable = loading || disabled
 
   return (
     <button
       className={button({
+        primary,
         fullWidth,
         center,
-        type,
-        loading,
-        disabled,
+        unavaliable,
         small,
       })}
-      disabled={loading || disabled}
+      disabled={unavaliable}
       {...rest}
     >
-      {loading && <Loading small={small} />}
+      {loading && <Spinner small={small} />}
       {showContent && (
         <>
           {typeof children === 'string' && gradientFont ? (
-            <span className={textGradient({ type, loading, disabled })}>
-              {children}
-            </span>
+            <span className={textGradient(unavaliable)}>{children}</span>
           ) : (
             <div>{children}</div>
           )}

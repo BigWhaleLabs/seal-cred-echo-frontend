@@ -3,7 +3,6 @@ import classNamesToString from 'helpers/classNamesToString'
 import classnames, {
   alignItems,
   justifyContent,
-  margin,
   overflow,
   space,
   width,
@@ -15,8 +14,7 @@ const wrapper = classnames(
   alignItems('items-center'),
   justifyContent('justify-start'),
   overflow('overflow-x-auto'),
-  space('tiny:space-x-8', 'space-x-6'),
-  margin('mx-5', 'lg:mx-0')
+  space('tiny:space-x-8', 'space-x-6')
 )
 
 export default function ({ children }: ChildrenProp) {

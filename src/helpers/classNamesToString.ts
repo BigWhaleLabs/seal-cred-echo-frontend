@@ -1,6 +1,6 @@
 import { TTailwindString } from 'classnames/tailwind'
 
-type AllowedExtraClassnames = 'no-scrollbar'
+type AllowedExtraClassnames = 'no-scrollbar' | 'loading-pause'
 
 export default function (
   ...classNames: (AllowedExtraClassnames | TTailwindString | undefined | null)[]
