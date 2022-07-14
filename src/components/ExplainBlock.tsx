@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks'
 import PreviousTweets from 'components/PreviousTweets'
 import TabBar from 'components/TabBar'
+import TweetProcessing from 'components/TweetProcessing'
 import classnames, {
   display,
   flexDirection,
@@ -40,6 +41,7 @@ export default function () {
 
   return (
     <div className={container}>
+      <TweetProcessing title="Tweet successful" />
       <TabBar tabs={tabs} />
 
       <div className={sectionWrapper(tabs[0].active)}>1</div>

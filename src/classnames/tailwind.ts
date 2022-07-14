@@ -4128,6 +4128,7 @@ export type TBoxShadow =
   | 'shadow-2xl'
   | 'shadow-inner'
   | 'shadow-none'
+  | 'shadow-button'
 
 export type TBoxShadowColor =
   | 'shadow-inherit'
@@ -4450,6 +4451,7 @@ export type TAnimation =
   | 'animate-ping'
   | 'animate-pulse'
   | 'animate-bounce'
+  | 'animate-rotate'
 
 export type TTransitionsAndAnimations =
   | TTransitionProperty
@@ -4503,6 +4505,7 @@ export type TDropShadow =
   | 'drop-shadow-xl'
   | 'drop-shadow-2xl'
   | 'drop-shadow-none'
+  | 'drop-shadow-secondary'
 
 export type TGrayscale = 'grayscale-0' | 'grayscale'
 
