@@ -150,7 +150,7 @@ export function ErrorText({
   if (withExclamation)
     return (
       <div className={errorTextBox(visible)}>
-        {!!children && <SymbolInCircle small paddings />}
+        <SymbolInCircle small paddings />
         {error}
       </div>
     )
