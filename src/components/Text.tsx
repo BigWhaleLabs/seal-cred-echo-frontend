@@ -19,7 +19,7 @@ import {
   transitionProperty,
 } from 'classnames/tailwind'
 import ChildrenProp from 'models/ChildrenProp'
-import SymbolInCircle from 'components/SymbolInCircle'
+import ExclamationInCircle from 'icons/ExclamationInCircle'
 import useBreakpoints from 'hooks/useBreakpoints'
 
 const tabBarText = classnames(
@@ -149,7 +149,7 @@ export function ErrorText({
   if (withExclamation)
     return (
       <div className={errorTextBox(visible)}>
-        <SymbolInCircle small paddings />
+        <ExclamationInCircle />
         {error}
       </div>
     )
