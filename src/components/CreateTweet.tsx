@@ -41,10 +41,7 @@ export default function () {
         maxLength={maxLength}
         disabled={status.loading}
         footer={truncateMiddleIfNeeded(currentEmailWithoutAt)}
-        // error={status.error?.message}
-        error={
-          'Profanity detected, please redo your message/ Profanity detected, please redo your message / Profanity detected, please redo your message'
-        }
+        error={status.error?.message}
       />
 
       <div className={bottomContainer}>
