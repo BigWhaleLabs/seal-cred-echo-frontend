@@ -5,12 +5,12 @@ import {
   Routes,
 } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import CreateTweet from 'components/CreateTweet'
+import DeepDive from 'components/DeepDive'
 import HowItWorks from 'components/HowItWorks'
 import NavTabLink from 'components/NavTabLink'
 import Navbar from 'components/navbar/Navbar'
 import TabBar from 'components/TabBar'
-import TweetHeader from 'components/TweetHeader'
+import WalletOrTweet from 'components/WalletOrTweet'
 import classnames, {
   height,
   margin,
@@ -33,8 +33,7 @@ export default function () {
       <Navbar />
       <div className={body}>
         <div className={margin('mx-5', 'md:mx-auto')}>
-          <TweetHeader />
-          <CreateTweet />
+          <WalletOrTweet />
           <TabBar>
             <NavTabLink to="/how-it-works" label="How this works" />
             <NavTabLink to="/previous-tweets" label="Previous Tweets" />
@@ -44,7 +43,7 @@ export default function () {
             <Route index element={<Navigate replace to="/how-it-works" />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/previous-tweets" element={<>Previous Tweets</>} />
-            <Route path="/deep-dive" element={<>Deep Dive</>} />
+            <Route path="/deep-dive" element={<DeepDive />} />
           </Routes>
         </div>
       </div>

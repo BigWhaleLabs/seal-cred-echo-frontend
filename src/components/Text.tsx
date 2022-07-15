@@ -9,6 +9,7 @@ import {
   fontFamily,
   fontSize,
   fontWeight,
+  letterSpacing,
   lineHeight,
   placeholderColor,
   textAlign,
@@ -209,4 +210,40 @@ export function LargeText({ children }: ChildrenProp) {
 const loadingText = fontSize('text-xs', 'tiny:text-sm')
 export function LoadingText({ children }: ChildrenProp) {
   return <h4 className={loadingText}>{children}</h4>
+}
+
+const cardTextContainer = classnames(
+  fontFamily('font-primary'),
+  lineHeight('leading-6')
+)
+export function CardParagraph({ children }: ChildrenProp) {
+  return <p className={cardTextContainer}>{children}</p>
+}
+
+const cardSubheaderContainer = classnames(
+  fontWeight('font-bold'),
+  fontFamily('font-primary'),
+  fontSize('text-lg')
+)
+export function CardSubheader({ children }: ChildrenProp) {
+  return <p className={cardSubheaderContainer}>{children}</p>
+}
+
+const staticHeaderText = (bold = false, subheading = false) =>
+  classnames(
+    fontWeight(bold ? 'font-bold' : 'font-normal'),
+    fontFamily('font-primary'),
+    fontSize(subheading ? 'text-base' : 'text-3xl'),
+    letterSpacing('tracking-wide')
+  )
+
+export function StaticHeaderText({
+  children,
+  bold,
+  subheading,
+}: ChildrenProp & {
+  bold?: boolean
+  subheading?: boolean
+}) {
+  return <h1 className={staticHeaderText(bold, subheading)}>{children}</h1>
 }

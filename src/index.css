@@ -91,3 +91,8 @@ body {
   background-clip: content-box;
   border: 7.5px solid transparent;
 }
+
+/* Wallet select menu for dark and light theme */
+.web3modal-modal-lightbox {
+  z-index: 100 !important;
+}
