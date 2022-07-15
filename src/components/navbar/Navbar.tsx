@@ -58,7 +58,7 @@ const displayOnSmall = display('block', 'md:hidden')
 
 export default function () {
   const { pathname } = useLocation()
-  const withoutWallet = pathname.split('/').length >= 3
+  const withoutWallet = pathname.split('/').length > 3
 
   const [backgroundVisible, setBackgroundVisible] = useState(false)
   const onScroll = useCallback(() => {

@@ -12,6 +12,7 @@ import NavTabLink from 'components/NavTabLink'
 import Navbar from 'components/navbar/Navbar'
 import PreviousTweets from 'components/PreviousTweets'
 import TabBar from 'components/TabBar'
+import ViewOnBlockchain from 'components/ViewOnBlockchain'
 import classnames, {
   height,
   margin,
@@ -44,6 +45,10 @@ export default function () {
             <Route index element={<Navigate replace to="/how-it-works" />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/previous-tweets" element={<PreviousTweets />} />
+            <Route
+              path="/previous-tweets/blockchain"
+              element={<ViewOnBlockchain />}
+            />
             <Route path="/deep-dive" element={<DeepDive />} />
           </Routes>
         </div>

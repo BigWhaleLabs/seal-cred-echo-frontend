@@ -123,7 +123,7 @@ const linkText = (small?: boolean, bold?: boolean) =>
     textColor('text-primary'),
     fontWeight(bold ? 'font-bold' : 'font-normal'),
     fontSize(small ? 'text-sm' : 'text-base'),
-    lineHeight(small ? 'leading-5' : 'leading-6')
+    lineHeight(small ? 'leading-4' : 'leading-5')
   )
 export function LinkText({
   url,
@@ -166,12 +166,14 @@ export function EmphasizeText({
 }
 
 const bodyText = (
+  primary?: boolean,
   bold?: boolean,
   small?: boolean,
   center?: boolean,
   color?: TTextColor
 ) =>
   classnames(
+    primary ? fontFamily('font-primary') : undefined,
     color ? textColor(color) : textColor('text-formal-accent'),
     textAlign(center ? 'text-center' : undefined),
     fontWeight(bold ? 'font-bold' : 'font-normal'),
@@ -179,18 +181,22 @@ const bodyText = (
     fontSize(small ? 'text-xs' : 'text-sm')
   )
 export function BodyText({
+  primary,
   bold,
   small,
   center,
   children,
   color,
 }: ChildrenProp & {
+  primary?: boolean
   bold?: boolean
   small?: boolean
   center?: boolean
   color?: TTextColor
 }) {
-  return <p className={bodyText(bold, small, center, color)}>{children}</p>
+  return (
+    <p className={bodyText(primary, bold, small, center, color)}>{children}</p>
+  )
 }
 
 const headerText = (accent = false, extraLeading = false, xs = false) =>
@@ -264,4 +270,26 @@ export function StaticHeaderText({
   subheading?: boolean
 }) {
   return <h1 className={staticHeaderText(bold, subheading)}>{children}</h1>
+}
+
+const statusText = (dark?: boolean) =>
+  classnames(
+    fontSize('text-xs'),
+    lineHeight('leading-4'),
+    textColor(dark ? 'text-primary-dark' : 'text-formal-accent')
+  )
+export function StatusText({
+  dark,
+  children,
+}: ChildrenProp & { dark?: boolean }) {
+  return <span className={statusText(dark)}>{children}</span>
+}
+
+const tweetText = classnames(
+  fontFamily('font-primary'),
+  fontSize('text-base'),
+  lineHeight('leading-6')
+)
+export function TweetText({ children }: ChildrenProp & { dark?: boolean }) {
+  return <p className={tweetText}>{children}</p>
 }
