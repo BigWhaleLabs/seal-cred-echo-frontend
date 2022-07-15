@@ -5,7 +5,6 @@ import {
   Routes,
 } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import ConnectWalletBlock from 'components/ConnectWalletBlock'
 import DeepDive from 'components/DeepDive'
 import HowItWorks from 'components/HowItWorks'
 import NavTabLink from 'components/NavTabLink'
@@ -13,6 +12,7 @@ import Navbar from 'components/navbar/Navbar'
 import PreviousTweets from 'components/PreviousTweets'
 import TabBar from 'components/TabBar'
 import ViewOnBlockchain from 'components/ViewOnBlockchain'
+import WalletOrTweet from 'components/WalletOrTweet'
 import classnames, {
   height,
   margin,
@@ -35,7 +35,7 @@ export default function () {
       <Navbar />
       <div className={body}>
         <div className={margin('mx-5', 'md:mx-auto')}>
-          <ConnectWalletBlock />
+          <WalletOrTweet />
           <TabBar>
             <NavTabLink to="/how-it-works" label="How this works" />
             <NavTabLink to="/previous-tweets" label="Previous Tweets" />

@@ -2,7 +2,7 @@ import { AccentText, StaticHeaderText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import AnonymousAvatar from 'icons/AnonymousAvatar'
 import Button from 'components/Button'
-import TweetHeader from 'components/TweetHeader'
+import WalletStore from 'stores/WalletStore'
 import classnames, {
   alignItems,
   display,
@@ -29,11 +29,10 @@ const headerTextWrapper = classnames(
   space('space-y-1')
 )
 
-const tweetHeaderWrapper = margin('mb-12')
-
 export default function () {
-  const { account, walletLoading } = useSnapshot(walletStore)
-  return !account ? (
+  const { walletLoading } = useSnapshot(WalletStore)
+
+  return (
     <div className={connectBlockWrapper}>
       <div className={headerTextWrapper}>
         <AnonymousAvatar />
@@ -55,10 +54,6 @@ export default function () {
       >
         Connect wallet
       </Button>
-    </div>
-  ) : (
-    <div className={tweetHeaderWrapper}>
-      <TweetHeader />
     </div>
   )
 }

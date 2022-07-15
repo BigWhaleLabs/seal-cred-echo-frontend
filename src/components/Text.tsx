@@ -1,20 +1,25 @@
 import {
   TDropShadow,
   TTextColor,
+  alignItems,
   classnames,
   cursor,
+  display,
   dropShadow,
   fontFamily,
   fontSize,
   fontWeight,
   letterSpacing,
   lineHeight,
+  placeholderColor,
+  space,
   textAlign,
   textColor,
   textDecoration,
   transitionProperty,
 } from 'classnames/tailwind'
 import ChildrenProp from 'models/ChildrenProp'
+import ExclamationInCircle from 'icons/ExclamationInCircle'
 import useBreakpoints from 'hooks/useBreakpoints'
 
 const tabBarText = classnames(
@@ -103,6 +108,53 @@ export function SocialLink({
       {children}
     </a>
   )
+}
+
+const textareaText = classnames(
+  display('flex'),
+  fontFamily('font-primary'),
+  alignItems('items-center'),
+  textColor('text-formal-accent'),
+  placeholderColor('placeholder-formal-accent-dimmed')
+)
+export function TextareaText({ children }: ChildrenProp) {
+  return <div className={textareaText}>{children}</div>
+}
+
+const errorTextBox = (visible?: boolean) =>
+  classnames(
+    display(visible ? 'flex' : 'hidden'),
+    alignItems('items-center'),
+    space('space-x-2')
+  )
+const errorText = (centered?: boolean) =>
+  classnames(
+    textColor('text-error'),
+    fontWeight('font-medium'),
+    fontFamily('font-primary'),
+    textAlign({ 'text-center': centered })
+  )
+export function ErrorText({
+  children,
+  withExclamation,
+  visible,
+  centered,
+}: ChildrenProp & {
+  centered?: boolean
+  withExclamation?: boolean
+  visible?: boolean
+}) {
+  const error = <p className={errorText(centered)}>{children}</p>
+
+  if (withExclamation)
+    return (
+      <div className={errorTextBox(visible)}>
+        <ExclamationInCircle />
+        {error}
+      </div>
+    )
+
+  return error
 }
 
 const badgeText = (small?: boolean) =>
@@ -292,4 +344,13 @@ const tweetText = classnames(
 )
 export function TweetText({ children }: ChildrenProp & { dark?: boolean }) {
   return <p className={tweetText}>{children}</p>
+}
+
+const hashTagText = classnames(
+  fontSize('text-sm'),
+  lineHeight('leading-5'),
+  textColor('text-formal-accent-semi-transparent')
+)
+export function HashTagText({ children }: ChildrenProp) {
+  return <span className={hashTagText}>#{children}</span>
 }
