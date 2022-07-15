@@ -10,7 +10,7 @@ interface TwitterStoreInterface {
     success?: boolean
   }
   availableEmails: string[]
-  setCurrentEmail: (emailIndex: number) => void
+  currentEmail: string
   tweet: () => void
   dropDownOpen: boolean
 }
@@ -25,11 +25,7 @@ const TwitterStore = proxy<TwitterStoreInterface>({
     '@google.com',
     '@biiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiigwhalelabs.com',
   ],
-  setCurrentEmail: (emailIndex: number) => {
-    const prev = TwitterStore.availableEmails[0]
-    TwitterStore.availableEmails[0] = TwitterStore.availableEmails[emailIndex]
-    TwitterStore.availableEmails[emailIndex] = prev
-  },
+  currentEmail: '',
   tweet: () => {
     console.log(TwitterStore.text)
   },

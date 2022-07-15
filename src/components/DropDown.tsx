@@ -17,6 +17,8 @@ import classnames, {
   padding,
   position,
   space,
+  textColor,
+  textDecoration,
   transitionProperty,
   visibility,
   width,
@@ -35,11 +37,13 @@ const sharedStyles = classnames(
   alignItems('items-center')
 )
 
-const wrapper = classnames(
-  position('relative'),
-  fontFamily('font-primary'),
-  zIndex('z-40')
-)
+const wrapper = (hasBadges: boolean) =>
+  classnames(
+    position('relative'),
+    fontFamily('font-primary'),
+    zIndex('z-40'),
+    opacity({ 'opacity-70': !hasBadges })
+  )
 const opener = classnames(
   display('inline-flex'),
   justifyContent('justify-between'),
@@ -58,42 +62,53 @@ const menuWrapper = (open: boolean) =>
     sharedStyles
   )
 const postingAs = display('tiny:inline', 'hidden')
-const menuItem = classnames(padding('p-2'), cursor('cursor-pointer'))
+const menuItem = (current?: boolean) =>
+  classnames(
+    padding('p-2'),
+    cursor('cursor-pointer'),
+    textDecoration({ underline: current })
+  )
 
 export default function () {
-  const { availableEmails, dropDownOpen } = useSnapshot(TwitterStore)
-  const currentEmail = availableEmails[0]
+  const { availableEmails, dropDownOpen, currentEmail } =
+    useSnapshot(TwitterStore)
+  const hasBadges = !!availableEmails.length
 
   const ref = useRef() as MutableRef<HTMLDivElement>
   useClickOutside(ref, () => (TwitterStore.dropDownOpen = false))
 
   return (
-    <div className={wrapper} ref={ref}>
+    <div className={wrapper(hasBadges)} ref={ref}>
       <button
         onClick={() => (TwitterStore.dropDownOpen = !dropDownOpen)}
+        disabled={!hasBadges}
         className={opener}
       >
-        <span>
-          <span className={postingAs}>Posting as: </span>
-          {truncateMiddleIfNeeded(currentEmail)}
-        </span>
+        {hasBadges ? (
+          <span>
+            <span className={postingAs}>Posting as: </span>
+            {truncateMiddleIfNeeded(currentEmail)}
+          </span>
+        ) : (
+          <span className={textColor('text-formal-accent-semi-transparent')}>
+            No ZK badge in this wallet
+          </span>
+        )}
+
         <div className={width('w-5')}>
           <Arrow pulseDisabled open={dropDownOpen} />
         </div>
       </button>
 
       <div className={menuWrapper(dropDownOpen)}>
-        {availableEmails.map(
-          (email, index) =>
-            !!index && (
-              <p
-                className={menuItem}
-                onClick={() => TwitterStore.setCurrentEmail(index)}
-              >
-                {truncateMiddleIfNeeded(email)}
-              </p>
-            )
-        )}
+        {availableEmails.map((email) => (
+          <p
+            className={menuItem(email === currentEmail)}
+            onClick={() => (TwitterStore.currentEmail = email)}
+          >
+            {truncateMiddleIfNeeded(email)}
+          </p>
+        ))}
       </div>
     </div>
   )
