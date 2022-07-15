@@ -6,17 +6,16 @@ export default function () {
   const { text, maxLength } = useSnapshot(TwitterStore)
   const count = text.length
 
+  if (count > maxLength)
+    return (
+      <ErrorText>
+        {count} / {maxLength}
+      </ErrorText>
+    )
+
   return (
-    <>
-      {count > maxLength ? (
-        <ErrorText>
-          {count} / {maxLength}
-        </ErrorText>
-      ) : (
-        <BadgeText>
-          {count} / {maxLength}
-        </BadgeText>
-      )}
-    </>
+    <BadgeText>
+      {count} / {maxLength}
+    </BadgeText>
   )
 }
