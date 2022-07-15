@@ -48,7 +48,7 @@ export default function () {
         Connect your wallet to start
       </StaticHeaderText>
       <Button
-        primary
+        type="primary"
         loading={walletLoading}
         onClick={async () => {
           await walletStore.connect(true)

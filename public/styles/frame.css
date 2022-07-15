@@ -1,0 +1,121 @@
+:root {
+  --white: #ffffff;
+  --primary: #15a1fc;
+  --grey: #8899a6;
+  --greyHover: rgba(136, 153, 166, 0.75);
+  --border: #2f3336;
+  --accent: #fed823;
+  --fontFamily: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+/* Common */
+.timeline-Tweet-brand,
+.TweetAuthor-decoratedName,
+.timeline-Tweet-media,
+.timeline-Tweet-metadata {
+  display: none !important;
+}
+/* Body text */
+.timeline-Tweet-text {
+  color: var(--white);
+  font-family: var(--fontFamily);
+  font-weight: 400 !important;
+  font-size: 12px !important;
+  line-height: 14px !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.env-bp-min .timeline-Tweet-text,
+.env-bp-min .timeline-Tweet-inReplyTo {
+  margin-left: 40px !important;
+}
+/* Links */
+.timeline-Tweet-text > a {
+  color: var(--primary) !important;
+}
+.timeline-Tweet-text > a:hover {
+  color: var(--accent) !important;
+}
+/* Author */
+.TweetAuthor {
+  display: flex;
+  align-items: center;
+}
+.TweetAuthor-screenName {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-family: var(--fontFamily);
+  font-weight: 400 !important;
+  font-size: 12px;
+  line-height: 14px;
+  color: var(--grey);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.TweetAuthor-screenName:hover {
+  color: var(--greyHover) !important;
+}
+.timeline-Tweet-inReplyTo {
+  width: fit-content;
+}
+.timeline-Tweet-inReplyTo > a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-family: var(--fontFamily);
+  font-weight: 400 !important;
+  font-size: 11px !important;
+  line-height: 14px;
+  color: var(--grey) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.timeline-Tweet-inReplyTo > a:hover {
+  color: var(--greyHover) !important;
+}
+.TweetAuthor-screenName:before {
+  content: '☻';
+  font-family: var(--fontFamily);
+  font-weight: 700 !important;
+  font-size: 15px;
+  line-height: 18px;
+  padding-right: 5px;
+  color: var(--white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.TweetAuthor__time {
+  font-family: var(--fontFamily);
+  font-weight: 400 !important;
+  font-size: 12px;
+  line-height: 14px;
+  color: var(--grey);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.TweetAuthor__time:before {
+  content: '·';
+  padding: 0 5px;
+}
+/* Tweet block */
+.timeline-TweetList-tweet + .timeline-TweetList-tweet {
+  border-top: 1px solid var(--border) !important;
+}
+.timeline-Tweet {
+  padding: 10px 15px !important;
+  cursor: default;
+}
+.timeline-Tweet:hover {
+  background: transparent;
+}
+/* Bottom buttons */
+.timeline-Tweet-actions > li {
+  height: 1rem;
+}
+.timeline-ShareMenu .Icon {
+  transform: rotate(-90deg);
+}
+.Icon--share {
+  margin-bottom: 3px;
+}

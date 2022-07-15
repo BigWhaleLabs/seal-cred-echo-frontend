@@ -33,6 +33,7 @@ module.exports = {
         tertiary: '#01feb6',
         'formal-accent': '#efecd6',
         'formal-accent-dimmed': '#efecd680',
+        'light-grey': '#8899A6',
         'half-grey': '#505050',
 
         error: '#FF7B83',
@@ -72,6 +73,12 @@ module.exports = {
       width: {
         body: '38rem',
       },
+      maxWidth: {
+        alert: '33rem',
+      },
+      maxHeight: {
+        alert: '24rem',
+      },
       lineHeight: {
         3: '0.875rem',
         5: '1.125rem',
@@ -85,6 +92,7 @@ module.exports = {
         tiny: '22.5rem',
         sm: '28.125rem',
         md: '37.5rem',
+        body: '41rem',
       },
       padding: {
         25: '6.25rem',

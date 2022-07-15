@@ -3,7 +3,9 @@ import {
   backgroundClip,
   backgroundColor,
   backgroundImage,
+  borderColor,
   borderRadius,
+  borderWidth,
   boxShadow,
   boxShadowColor,
   brightness,
@@ -33,7 +35,7 @@ import React from 'react'
 import Spinner from 'icons/Spinner'
 
 const commonClasses = (
-  primary?: boolean,
+  type?: ButtonType,
   fullWidth?: boolean,
   center?: boolean,
   unavaliable?: boolean,
@@ -57,7 +59,7 @@ const commonClasses = (
     textAlign(center ? 'text-center' : undefined),
     fontSize(small ? 'text-sm' : 'text-lg'),
     lineHeight(small ? 'leading-5' : 'leading-7'),
-    primary
+    type !== 'default'
       ? padding(
           small
             ? { 'py-2': true, 'px-4': true }
@@ -70,18 +72,18 @@ const commonClasses = (
 const button = ({
   fullWidth,
   center,
-  primary,
+  type,
   unavaliable,
   small,
 }: ButtonProps & { unavaliable?: boolean }) =>
   classnames(
-    commonClasses(primary, fullWidth, center, unavaliable, small),
-    colorClasses(unavaliable, primary)
+    commonClasses(type, fullWidth, center, unavaliable, small),
+    colorClasses(unavaliable, type)
   )
 
-const colorClasses = (unavaliable?: boolean, primary?: boolean) =>
+const colorClasses = (unavaliable?: boolean, type?: ButtonType) =>
   classnames(
-    primary
+    type === 'primary'
       ? classnames(
           textColor('text-primary-dark'),
           borderRadius('rounded-full'),
@@ -95,6 +97,20 @@ const colorClasses = (unavaliable?: boolean, primary?: boolean) =>
           unavaliable
             ? brightness('hover:brightness-75', 'active:brightness-50')
             : undefined
+        )
+      : type === 'secondary'
+      ? classnames(
+          borderWidth('border'),
+          borderRadius('rounded-full'),
+          borderColor('border-secondary', 'hover:border-secondary'),
+          backgroundImage('bg-gradient-to-r'),
+          textColor('text-secondary'),
+          gradientColorStops(
+            'hover:from-accent-light-transparent',
+            'hover:to-secondary-light-transparent',
+            'active:from-accent-light-active-transparent',
+            'active:to-secondary-light-active-transparent'
+          )
         )
       : backgroundColor('bg-transparent')
   )
@@ -112,8 +128,8 @@ const textGradient = (unavaliable?: boolean) =>
 
 interface ButtonProps {
   fullWidth?: boolean
+  type?: ButtonType
   center?: boolean
-  primary?: boolean
   disabled?: boolean
   loading?: boolean
   small?: boolean
@@ -121,9 +137,10 @@ interface ButtonProps {
   gradientFont?: boolean
   loadingOverflow?: boolean
 }
+type ButtonType = 'primary' | 'secondary' | 'default'
 
 export default function ({
-  primary,
+  type = 'default',
   fullWidth,
   center,
   small,
@@ -141,7 +158,7 @@ export default function ({
   return (
     <button
       className={button({
-        primary,
+        type,
         fullWidth,
         center,
         unavaliable,

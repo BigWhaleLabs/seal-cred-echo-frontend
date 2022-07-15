@@ -6,9 +6,11 @@ import GlobalsPolyfills from '@esbuild-plugins/node-globals-polyfill'
 import inject from '@rollup/plugin-inject'
 import nodePolyfills from 'rollup-plugin-node-polyfills'
 import removeConsole from 'vite-plugin-remove-console'
+import mkcert from 'vite-plugin-mkcert'
 
 export default defineConfig({
-  plugins: [preact(), tsconfigPaths()],
+  server: { https: true },
+  plugins: [mkcert, preact(), tsconfigPaths()],
   build: {
     rollupOptions: {
       plugins: [

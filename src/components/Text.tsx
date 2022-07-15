@@ -170,27 +170,31 @@ export function BadgeText({
   return <span className={badgeText(small)}>{children}</span>
 }
 
-const linkText = (bold?: boolean) =>
+const linkText = (small?: boolean, bold?: boolean) =>
   classnames(
     textDecoration('no-underline'),
     textColor('text-primary'),
-    fontWeight(bold ? 'font-bold' : 'font-normal')
+    fontWeight(bold ? 'font-bold' : 'font-normal'),
+    fontSize(small ? 'text-sm' : 'text-base'),
+    lineHeight(small ? 'leading-5' : 'leading-6')
   )
 export function LinkText({
   url,
   bold,
+  small,
   title,
   children,
   targetBlank,
 }: ChildrenProp & {
   url: string
+  small?: boolean
   targetBlank?: boolean
   bold?: boolean
   title?: string
 }) {
   return (
     <a
-      className={linkText(bold)}
+      className={linkText(small, bold)}
       href={url}
       title={title}
       target={targetBlank ? '_blank' : '_self'}
@@ -198,6 +202,48 @@ export function LinkText({
       {children}
     </a>
   )
+}
+
+const emphasizeText = ({ bold }: { bold?: boolean }) =>
+  classnames(
+    textColor('text-formal-accent'),
+    fontWeight(bold ? 'font-bold' : 'font-normal')
+  )
+export function EmphasizeText({
+  bold,
+  children,
+}: ChildrenProp & {
+  bold?: boolean
+}) {
+  return <span className={emphasizeText({ bold })}>{children}</span>
+}
+
+const bodyText = (
+  bold?: boolean,
+  small?: boolean,
+  center?: boolean,
+  color?: TTextColor
+) =>
+  classnames(
+    color ? textColor(color) : textColor('text-formal-accent'),
+    textAlign(center ? 'text-center' : undefined),
+    fontWeight(bold ? 'font-bold' : 'font-normal'),
+    lineHeight('!leading-5'),
+    fontSize(small ? 'text-xs' : 'text-sm')
+  )
+export function BodyText({
+  bold,
+  small,
+  center,
+  children,
+  color,
+}: ChildrenProp & {
+  bold?: boolean
+  small?: boolean
+  center?: boolean
+  color?: TTextColor
+}) {
+  return <p className={bodyText(bold, small, center, color)}>{children}</p>
 }
 
 const headerText = (accent = false, extraLeading = false, xs = false) =>
