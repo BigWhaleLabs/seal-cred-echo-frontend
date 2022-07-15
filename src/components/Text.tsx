@@ -11,13 +11,16 @@ import {
   fontWeight,
   letterSpacing,
   lineHeight,
+  margin,
   placeholderColor,
+  space,
   textAlign,
   textColor,
   textDecoration,
   transitionProperty,
 } from 'classnames/tailwind'
 import ChildrenProp from 'models/ChildrenProp'
+import SymbolInCircle from 'components/SymbolInCircle'
 import useBreakpoints from 'hooks/useBreakpoints'
 
 const tabBarText = classnames(
@@ -119,6 +122,17 @@ export function TextareaText({ children }: ChildrenProp) {
   return <div className={textareaText}>{children}</div>
 }
 
+const errorTextSmall = (centered?: boolean) =>
+  classnames(
+    display('flex'),
+    alignItems('items-center'),
+    space('space-x-2'),
+    margin('mt-4'),
+    textColor('text-error'),
+    fontWeight('font-medium'),
+    fontFamily('font-primary'),
+    centered ? textAlign('text-center') : undefined
+  )
 const errorText = (centered?: boolean) =>
   classnames(
     textColor('text-error'),
@@ -128,8 +142,17 @@ const errorText = (centered?: boolean) =>
   )
 export function ErrorText({
   children,
+  withExclamation,
   centered,
-}: ChildrenProp & { centered?: boolean }) {
+}: ChildrenProp & { centered?: boolean; withExclamation?: boolean }) {
+  if (withExclamation)
+    return (
+      <div className={errorTextSmall(centered)}>
+        <SymbolInCircle small paddings />
+        <p>{children}</p>
+      </div>
+    )
+
   return <p className={errorText(centered)}>{children}</p>
 }
 
@@ -246,4 +269,13 @@ export function StaticHeaderText({
   subheading?: boolean
 }) {
   return <h1 className={staticHeaderText(bold, subheading)}>{children}</h1>
+}
+
+const hashTagText = classnames(
+  fontSize('text-sm'),
+  lineHeight('leading-5'),
+  textColor('text-formal-accent-semi-transparent')
+)
+export function HashTagText({ children }: ChildrenProp) {
+  return <span className={hashTagText}>#{children}</span>
 }

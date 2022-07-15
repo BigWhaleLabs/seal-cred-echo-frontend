@@ -1,4 +1,4 @@
-import { ErrorText, HeaderText } from 'components/Text'
+import { HeaderText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import Button from 'components/Button'
 import Counter from 'components/Counter'
@@ -12,6 +12,7 @@ import classnames, {
   justifyContent,
   margin,
 } from 'classnames/tailwind'
+import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import useBreakpoints from 'hooks/useBreakpoints'
 
 const bottomContainer = classnames(
@@ -22,8 +23,13 @@ const bottomContainer = classnames(
 )
 
 export default function () {
-  const { text, maxLength, status } = useSnapshot(TweeterStore)
+  const { text, maxLength, status, availableEmails } = useSnapshot(TweeterStore)
   const { md } = useBreakpoints()
+
+  const currentEmailWithoutAt = availableEmails[0].substring(
+    1,
+    availableEmails[0].length
+  )
 
   return (
     <div className={margin('mb-16')}>
@@ -35,9 +41,8 @@ export default function () {
           onTextChange={(text) => (TweeterStore.text = text)}
           maxLength={maxLength}
           disabled={status.loading}
-          footer={
-            status.error ? <ErrorText>{status.error}</ErrorText> : undefined
-          }
+          footer={truncateMiddleIfNeeded(currentEmailWithoutAt)}
+          error={status.error?.message}
         />
       </div>
 

@@ -1,6 +1,5 @@
 import { ChangeEvent } from 'preact/compat'
-import { JSX } from 'preact/jsx-runtime'
-import { TextareaText } from 'components/Text'
+import { ErrorText, HashTagText, TextareaText } from 'components/Text'
 import {
   alignItems,
   backgroundColor,
@@ -11,6 +10,8 @@ import {
   display,
   flexDirection,
   flexGrow,
+  flexWrap,
+  justifyContent,
   minHeight,
   outlineStyle,
   padding,
@@ -37,6 +38,7 @@ const wrapper = (error?: boolean) =>
     flexDirection('flex-col'),
     flexGrow('grow'),
     alignItems('items-stretch'),
+    justifyContent('justify-between'),
     borderWidth('border'),
     borderColor(
       error ? 'border-error' : 'border-formal-accent-dimmed',
@@ -55,6 +57,12 @@ const textBox = classnames(
   transitionProperty('transition-colors'),
   outlineStyle('outline-none', 'focus:outline-none')
 )
+const footerBox = classnames(
+  display('flex'),
+  flexDirection('flex-row'),
+  flexWrap('flex-wrap'),
+  space('space-x-2')
+)
 
 interface TextAreaProps {
   text: string
@@ -62,7 +70,8 @@ interface TextAreaProps {
   disabled?: boolean
   maxLength?: number
 
-  footer?: JSX.Element
+  error?: string
+  footer?: string
 }
 
 export default function ({
@@ -70,6 +79,7 @@ export default function ({
   onTextChange,
   maxLength,
   footer,
+  error,
   ...restProps
 }: TextAreaProps & TextareaAutosizeProps) {
   const [isValid, setIsValid] = useState(false)
@@ -79,23 +89,28 @@ export default function ({
   }, [maxLength, text])
 
   return (
-    <div className={container}>
-      <div className={wrapper(!isValid)}>
-        <TextareaText>
-          <TextareaAutosize
-            className={classNamesToString('no-scrollbar', textBox)}
-            value={text}
-            onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
-              onTextChange(event.currentTarget.value)
-            }
-            maxLength={maxLength}
-            spellcheck={true}
-            {...restProps}
-          />
-        </TextareaText>
-
-        {footer}
+    <>
+      <div className={container}>
+        <div className={wrapper(!isValid)}>
+          <TextareaText>
+            <TextareaAutosize
+              className={classNamesToString('no-scrollbar', textBox)}
+              value={text}
+              onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
+                onTextChange(event.currentTarget.value)
+              }
+              maxLength={maxLength}
+              spellcheck={true}
+              {...restProps}
+            />
+          </TextareaText>
+          <div className={footerBox}>
+            <HashTagText>{!!footer && 'VerifiedToWorkAt'}</HashTagText>
+            <HashTagText>{footer}</HashTagText>
+          </div>
+        </div>
       </div>
-    </div>
+      <ErrorText withExclamation>{error}</ErrorText>
+    </>
   )
 }
