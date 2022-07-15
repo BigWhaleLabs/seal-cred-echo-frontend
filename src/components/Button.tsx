@@ -102,11 +102,7 @@ const colorClasses = (unavaliable?: boolean, type?: ButtonType) =>
       ? classnames(
           borderWidth('border'),
           borderRadius('rounded-full'),
-          borderColor(
-            'border-secondary',
-            'hover:border-secondary',
-            'active:border-secondary'
-          ),
+          borderColor('border-secondary', 'hover:border-secondary'),
           backgroundImage('bg-gradient-to-r'),
           textColor('text-secondary'),
           gradientColorStops(

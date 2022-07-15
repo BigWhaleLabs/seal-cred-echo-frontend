@@ -22,13 +22,13 @@ const container = classnames(
   position('absolute'),
   display('flex'),
   justifyContent('justify-center'),
-  inset('left-0', 'right-0', 'top-0', 'bottom-0'),
+  inset('inset-0'),
   padding('pt-16'),
   zIndex('z-40')
 )
 const overlay = classnames(
   position('absolute'),
-  inset('left-0', 'right-0', 'top-0', 'bottom-0'),
+  inset('inset-0'),
   borderRadius('rounded-2xl'),
   backdropBlur('backdrop-blur')
 )

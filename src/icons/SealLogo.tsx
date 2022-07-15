@@ -16,15 +16,11 @@ const svgClasses = classnames(
   width('w-16'),
   height('h-16')
 )
-const circleClasses = classnames(
-  stroke('stroke-secondary'),
-  fill('fill-primary-dark'),
-  strokeWidth('stroke-2')
-)
 const pathClasses = classnames(
   stroke('stroke-secondary'),
   strokeWidth('stroke-2')
 )
+const circleClasses = classnames(pathClasses, fill('fill-primary-dark'))
 
 export default function () {
   return (
