@@ -12,6 +12,7 @@ import {
   flexGrow,
   flexWrap,
   justifyContent,
+  margin,
   minHeight,
   outlineStyle,
   padding,
@@ -26,13 +27,13 @@ import TextareaAutosize, {
 } from 'react-textarea-autosize'
 import classNamesToString from 'helpers/classNamesToString'
 
-const container = classnames(
+const containerWithFooter = classnames(
   display('flex'),
   flexDirection('flex-col', 'md:flex-row'),
   alignItems('items-stretch', 'md:items-start'),
   space('space-y-2', 'md:space-x-2', 'md:space-y-0')
 )
-const wrapper = (error?: boolean) =>
+const innerWrapper = (error?: boolean) =>
   classnames(
     display('flex'),
     flexDirection('flex-col'),
@@ -50,6 +51,8 @@ const wrapper = (error?: boolean) =>
     backgroundColor('bg-primary-dark'),
     minHeight('min-h-text-input')
   )
+const textWithErrorWrapper = classnames(margin('my-5'), space('space-y-2'))
+
 const textBox = classnames(
   backgroundColor('bg-primary-dark'),
   resize('resize-none'),
@@ -61,7 +64,8 @@ const footerBox = classnames(
   display('flex'),
   flexDirection('flex-row'),
   flexWrap('flex-wrap'),
-  space('space-x-2')
+  space('space-x-2'),
+  margin('mt-4')
 )
 
 interface TextAreaProps {
@@ -89,9 +93,9 @@ export default function ({
   }, [maxLength, text])
 
   return (
-    <>
-      <div className={container}>
-        <div className={wrapper(!isValid)}>
+    <div className={textWithErrorWrapper}>
+      <div className={containerWithFooter}>
+        <div className={innerWrapper(!isValid)}>
           <TextareaText>
             <TextareaAutosize
               className={classNamesToString('no-scrollbar', textBox)}
@@ -111,6 +115,6 @@ export default function ({
         </div>
       </div>
       <ErrorText withExclamation>{error}</ErrorText>
-    </>
+    </div>
   )
 }

@@ -11,7 +11,6 @@ import {
   fontWeight,
   letterSpacing,
   lineHeight,
-  margin,
   placeholderColor,
   space,
   textAlign,
@@ -127,7 +126,6 @@ const errorTextSmall = (centered?: boolean) =>
     display('flex'),
     alignItems('items-center'),
     space('space-x-2'),
-    margin('mt-4'),
     textColor('text-error'),
     fontWeight('font-medium'),
     fontFamily('font-primary'),
@@ -148,7 +146,7 @@ export function ErrorText({
   if (withExclamation)
     return (
       <div className={errorTextSmall(centered)}>
-        <SymbolInCircle small paddings />
+        {!!children && <SymbolInCircle small paddings />}
         <p>{children}</p>
       </div>
     )

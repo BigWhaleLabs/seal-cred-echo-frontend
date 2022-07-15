@@ -34,17 +34,15 @@ export default function () {
   return (
     <div className={margin('mb-16')}>
       <HeaderText>Create your anonymous tweet</HeaderText>
-      <div className={margin('my-5')}>
-        <TextArea
-          text={text}
-          placeholder="Write something here..."
-          onTextChange={(text) => (TweeterStore.text = text)}
-          maxLength={maxLength}
-          disabled={status.loading}
-          footer={truncateMiddleIfNeeded(currentEmailWithoutAt)}
-          error={status.error?.message}
-        />
-      </div>
+      <TextArea
+        text={text}
+        placeholder="Write something here..."
+        onTextChange={(text) => (TweeterStore.text = text)}
+        maxLength={maxLength}
+        disabled={status.loading}
+        footer={truncateMiddleIfNeeded(currentEmailWithoutAt)}
+        error={status.error?.message}
+      />
 
       <div className={bottomContainer}>
         <div className={margin('md:mb-0', 'mb-4')}>
