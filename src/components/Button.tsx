@@ -38,7 +38,7 @@ const commonClasses = (
   type?: ButtonType,
   fullWidth?: boolean,
   center?: boolean,
-  unavaliable?: boolean,
+  available?: boolean,
   small?: boolean
 ) =>
   classnames(
@@ -51,10 +51,14 @@ const commonClasses = (
     transitionProperty('transition-all'),
     transitionTimingFunction('ease-in-out'),
     transitionDuration('duration-100'),
-    cursor({ 'cursor-not-allowed': unavaliable }),
+    cursor({ 'cursor-not-allowed': !available }),
     outlineStyle('focus:outline-none'),
-    opacity({ 'opacity-50': unavaliable }),
-    boxShadow('shadow-2xl', 'hover:shadow-lg', 'active:shadow-md'),
+    opacity({ 'opacity-50': !available }),
+    boxShadow({
+      'shadow-2xl': available,
+      'hover:shadow-lg': available,
+      'active:shadow-button-active': available,
+    }),
     width(fullWidth ? 'w-full' : 'w-fit'),
     textAlign(center ? 'text-center' : undefined),
     fontSize(small ? 'text-sm' : 'text-lg'),
@@ -73,15 +77,15 @@ const button = ({
   fullWidth,
   center,
   type,
-  unavaliable,
+  available,
   small,
-}: ButtonProps & { unavaliable?: boolean }) =>
+}: ButtonProps & { available?: boolean }) =>
   classnames(
-    commonClasses(type, fullWidth, center, unavaliable, small),
-    colorClasses(unavaliable, type)
+    commonClasses(type, fullWidth, center, available, small),
+    colorClasses(available, type)
   )
 
-const colorClasses = (unavaliable?: boolean, type?: ButtonType) =>
+const colorClasses = (available?: boolean, type?: ButtonType) =>
   classnames(
     type === 'primary'
       ? classnames(
@@ -93,10 +97,11 @@ const colorClasses = (unavaliable?: boolean, type?: ButtonType) =>
             'hover:shadow-tertiary',
             'active:shadow-tertiary'
           ),
-          boxShadow('shadow-button'),
-          unavaliable
-            ? brightness('hover:brightness-75', 'active:brightness-50')
-            : undefined
+          boxShadow({ 'shadow-button': available }),
+          brightness({
+            'hover:brightness-95': available,
+            'active:brightness-90': available,
+          })
         )
       : type === 'secondary'
       ? classnames(
@@ -105,21 +110,21 @@ const colorClasses = (unavaliable?: boolean, type?: ButtonType) =>
           borderColor('border-secondary', 'hover:border-secondary'),
           backgroundImage('bg-gradient-to-r'),
           textColor('text-secondary'),
-          gradientColorStops(
-            'hover:from-accent-light-transparent',
-            'hover:to-secondary-light-transparent',
-            'active:from-accent-light-active-transparent',
-            'active:to-secondary-light-active-transparent'
-          )
+          gradientColorStops({
+            'hover:from-accent-light-transparent': available,
+            'hover:to-secondary-light-transparent': available,
+            'active:from-accent-light-active-transparent': available,
+            'active:to-secondary-light-active-transparent': available,
+          })
         )
       : backgroundColor('bg-transparent')
   )
 
-const textGradient = (unavaliable?: boolean) =>
+const textGradient = (available?: boolean) =>
   classnames(
     textColor({
       'text-transparent': true,
-      'active:text-accent': unavaliable,
+      'active:text-accent': available,
     }),
     backgroundClip('bg-clip-text'),
     backgroundImage('bg-gradient-to-r'),
@@ -153,7 +158,7 @@ export default function ({
   ...rest
 }: Omit<React.HTMLAttributes<HTMLButtonElement>, 'loading'> & ButtonProps) {
   const showContent = !loadingOverflow || !loading
-  const unavaliable = loading || disabled
+  const available = !loading && !disabled
 
   return (
     <button
@@ -161,17 +166,17 @@ export default function ({
         type,
         fullWidth,
         center,
-        unavaliable,
+        available,
         small,
       })}
-      disabled={unavaliable}
+      disabled={!available}
       {...rest}
     >
       {loading && <Spinner small={small} />}
       {showContent && (
         <>
           {typeof children === 'string' && gradientFont ? (
-            <span className={textGradient(unavaliable)}>{children}</span>
+            <span className={textGradient(available)}>{children}</span>
           ) : (
             <div>{children}</div>
           )}
