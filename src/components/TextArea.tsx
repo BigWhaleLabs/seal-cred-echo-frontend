@@ -94,8 +94,6 @@ export default function ({
     )
   }, [maxLength, text, error])
 
-  console.log(isValid)
-
   return (
     <div className={textWithErrorWrapper}>
       <div className={containerWithFooter}>
