@@ -114,7 +114,9 @@ export default function ({
           </div>
         </div>
       </div>
-      <ErrorText withExclamation>{error}</ErrorText>
+      <ErrorText visible={!!error} withExclamation>
+        {error}
+      </ErrorText>
     </div>
   )
 }

@@ -121,28 +121,35 @@ export function TextareaText({ children }: ChildrenProp) {
   return <div className={textareaText}>{children}</div>
 }
 
-const errorTextBox = classnames(
-  display('flex'),
-  alignItems('items-center'),
-  space('space-x-2')
-)
+const errorTextBox = (visible?: boolean) =>
+  classnames(
+    display(visible ? 'flex' : 'hidden'),
+    alignItems('items-center'),
+    space('space-x-2')
+  )
 const errorText = (centered?: boolean) =>
   classnames(
     textColor('text-error'),
     fontWeight('font-medium'),
     fontFamily('font-primary'),
+
     centered ? textAlign('text-center') : undefined
   )
 export function ErrorText({
   children,
   withExclamation,
+  visible,
   centered,
-}: ChildrenProp & { centered?: boolean; withExclamation?: boolean }) {
+}: ChildrenProp & {
+  centered?: boolean
+  withExclamation?: boolean
+  visible?: boolean
+}) {
   const error = <p className={errorText(centered)}>{children}</p>
 
   if (withExclamation)
     return (
-      <div className={errorTextBox}>
+      <div className={errorTextBox(visible)}>
         {!!children && <SymbolInCircle small paddings />}
         {error}
       </div>
