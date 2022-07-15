@@ -40,7 +40,7 @@ export default function () {
         onTextChange={(text) => (TweeterStore.text = text)}
         maxLength={maxLength}
         disabled={status.loading}
-        footer={truncateMiddleIfNeeded(currentEmailWithoutAt)}
+        footer={truncateMiddleIfNeeded(currentEmailWithoutAt, 12)}
         error={status.error?.message}
       />
 

@@ -87,7 +87,7 @@ export default function () {
         {hasBadges ? (
           <span>
             <span className={postingAs}>Posting as: </span>
-            {truncateMiddleIfNeeded(currentEmail)}
+            {truncateMiddleIfNeeded(currentEmail, 12)}
           </span>
         ) : (
           <span className={textColor('text-formal-accent-semi-transparent')}>
@@ -106,7 +106,7 @@ export default function () {
             className={menuItem(email === currentEmail)}
             onClick={() => (TwitterStore.currentEmail = email)}
           >
-            {truncateMiddleIfNeeded(email)}
+            {truncateMiddleIfNeeded(email, 12)}
           </p>
         ))}
       </div>
