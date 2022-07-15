@@ -132,7 +132,6 @@ const errorText = (centered?: boolean) =>
     textColor('text-error'),
     fontWeight('font-medium'),
     fontFamily('font-primary'),
-
     centered ? textAlign('text-center') : undefined
   )
 export function ErrorText({
