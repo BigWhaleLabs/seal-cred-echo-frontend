@@ -54,7 +54,11 @@ const commonClasses = (
     cursor({ 'cursor-not-allowed': unavaliable }),
     outlineStyle('focus:outline-none'),
     opacity({ 'opacity-50': unavaliable }),
-    boxShadow('shadow-2xl', 'hover:shadow-lg', 'active:shadow-md'),
+    boxShadow({
+      'shadow-2xl': !unavaliable,
+      'hover:shadow-lg': !unavaliable,
+      'active:shadow-button-active': !unavaliable,
+    }),
     width(fullWidth ? 'w-full' : 'w-fit'),
     textAlign(center ? 'text-center' : undefined),
     fontSize(small ? 'text-sm' : 'text-lg'),
@@ -93,10 +97,11 @@ const colorClasses = (unavaliable?: boolean, type?: ButtonType) =>
             'hover:shadow-tertiary',
             'active:shadow-tertiary'
           ),
-          boxShadow('shadow-button'),
-          unavaliable
-            ? brightness('hover:brightness-75', 'active:brightness-50')
-            : undefined
+          boxShadow({ 'shadow-button': !unavaliable }),
+          brightness({
+            'hover:brightness-95': !unavaliable,
+            'active:brightness-90': !unavaliable,
+          })
         )
       : type === 'secondary'
       ? classnames(
@@ -105,12 +110,12 @@ const colorClasses = (unavaliable?: boolean, type?: ButtonType) =>
           borderColor('border-secondary', 'hover:border-secondary'),
           backgroundImage('bg-gradient-to-r'),
           textColor('text-secondary'),
-          gradientColorStops(
-            'hover:from-accent-light-transparent',
-            'hover:to-secondary-light-transparent',
-            'active:from-accent-light-active-transparent',
-            'active:to-secondary-light-active-transparent'
-          )
+          gradientColorStops({
+            'hover:from-accent-light-transparent': !unavaliable,
+            'hover:to-secondary-light-transparent': !unavaliable,
+            'active:from-accent-light-active-transparent': !unavaliable,
+            'active:to-secondary-light-active-transparent': !unavaliable,
+          })
         )
       : backgroundColor('bg-transparent')
   )
