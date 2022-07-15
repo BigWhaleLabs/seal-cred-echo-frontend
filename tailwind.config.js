@@ -32,6 +32,7 @@ module.exports = {
         secondary: '#ff7bed',
         tertiary: '#01feb6',
         'formal-accent': '#efecd6',
+        'formal-accent-dimmed': '#efecd680',
         'light-grey': '#8899A6',
         'half-grey': '#505050',
 
@@ -62,6 +63,9 @@ module.exports = {
       },
       height: {
         'noisy-rectangle': '0.688rem',
+      },
+      minHeight: {
+        'text-input': '9rem',
       },
       dropShadow: {
         secondary: '0rem 0rem 0.625rem #ff7bed',
