@@ -7323,6 +7323,7 @@ export type TMaxWidth =
   | 'max-w-screen-lg'
   | 'max-w-screen-xl'
   | 'max-w-screen-2xl'
+  | 'max-w-alert'
   | 'max-w-screen-fold'
   | 'max-w-screen-tiny'
 
@@ -7436,6 +7437,7 @@ export type TMaxHeight =
   | 'max-h-min'
   | 'max-h-max'
   | 'max-h-fit'
+  | 'max-h-alert'
 
 export type TSizing =
   | TWidth

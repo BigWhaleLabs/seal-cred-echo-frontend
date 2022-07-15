@@ -43,7 +43,7 @@ export default function () {
         </CardParagraph>
         <CardParagraph>
           <LinkText url="https://sealcred.xyz/email">
-            <Button small gradientFont withArrow type="tertiary">
+            <Button small gradientFont withArrow>
               Create a zkBadge using your work email
             </Button>
           </LinkText>
