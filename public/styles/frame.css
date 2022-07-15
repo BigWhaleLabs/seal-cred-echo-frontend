@@ -5,8 +5,8 @@
   --greyHover: rgba(136, 153, 166, 0.75);
   --border: #2f3336;
   --accent: #fed823;
-  --fontFamily: 'Helvetica Neue', 'Helvetica', 'Roboto', 'Segoe UI', 'Calibri',
-    sans-serif;
+  --fontFamily: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 /* Common */
 .timeline-Tweet-brand,
