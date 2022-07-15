@@ -121,16 +121,11 @@ export function TextareaText({ children }: ChildrenProp) {
   return <div className={textareaText}>{children}</div>
 }
 
-const errorTextSmall = (centered?: boolean) =>
-  classnames(
-    display('flex'),
-    alignItems('items-center'),
-    space('space-x-2'),
-    textColor('text-error'),
-    fontWeight('font-medium'),
-    fontFamily('font-primary'),
-    centered ? textAlign('text-center') : undefined
-  )
+const errorTextBox = classnames(
+  display('flex'),
+  alignItems('items-center'),
+  space('space-x-2')
+)
 const errorText = (centered?: boolean) =>
   classnames(
     textColor('text-error'),
@@ -143,15 +138,17 @@ export function ErrorText({
   withExclamation,
   centered,
 }: ChildrenProp & { centered?: boolean; withExclamation?: boolean }) {
+  const error = <p className={errorText(centered)}>{children}</p>
+
   if (withExclamation)
     return (
-      <div className={errorTextSmall(centered)}>
+      <div className={errorTextBox}>
         {!!children && <SymbolInCircle small paddings />}
-        <p>{children}</p>
+        {error}
       </div>
     )
 
-  return <p className={errorText(centered)}>{children}</p>
+  return error
 }
 
 const badgeText = (small?: boolean) =>

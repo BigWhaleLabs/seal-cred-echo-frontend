@@ -51,7 +51,7 @@ const innerWrapper = (error?: boolean) =>
     backgroundColor('bg-primary-dark'),
     minHeight('min-h-text-input')
   )
-const textWithErrorWrapper = classnames(margin('my-5'), space('space-y-2'))
+const textWithErrorWrapper = classnames(margin('my-5'), space('space-y-4'))
 
 const textBox = classnames(
   backgroundColor('bg-primary-dark'),
