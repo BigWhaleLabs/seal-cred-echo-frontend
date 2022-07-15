@@ -89,8 +89,12 @@ export default function ({
   const [isValid, setIsValid] = useState(false)
 
   useEffect(() => {
-    setIsValid(maxLength !== undefined ? text.length <= maxLength : true)
-  }, [maxLength, text])
+    setIsValid(
+      !error && (maxLength !== undefined ? text.length <= maxLength : true)
+    )
+  }, [maxLength, text, error])
+
+  console.log(isValid)
 
   return (
     <div className={textWithErrorWrapper}>

@@ -41,7 +41,8 @@ export default function () {
         maxLength={maxLength}
         disabled={status.loading}
         footer={truncateMiddleIfNeeded(currentEmailWithoutAt)}
-        error={status.error?.message}
+        // error={status.error?.message}
+        error={'error'}
       />
 
       <div className={bottomContainer}>
