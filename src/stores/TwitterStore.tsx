@@ -2,7 +2,7 @@ import { proxy } from 'valtio'
 
 interface TwitterStoreInterface {
   text: string
-  length: number
+  maxLength: number
   status: {
     isValid: boolean
     loading: boolean
@@ -17,7 +17,7 @@ interface TwitterStoreInterface {
 
 const TwitterStore = proxy<TwitterStoreInterface>({
   text: '',
-  length: 280,
+  maxLength: 280,
   status: { isValid: true, loading: false },
   availableEmails: [
     '@bwl.gg',

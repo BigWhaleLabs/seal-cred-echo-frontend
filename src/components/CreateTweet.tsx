@@ -22,7 +22,7 @@ const bottomContainer = classnames(
 )
 
 export default function () {
-  const { text, length, status } = useSnapshot(TweeterStore)
+  const { text, maxLength, status } = useSnapshot(TweeterStore)
   const { md } = useBreakpoints()
 
   return (
@@ -33,7 +33,7 @@ export default function () {
           text={text}
           placeholder="Write something here..."
           onTextChange={(text) => (TweeterStore.text = text)}
-          maxLength={length}
+          maxLength={maxLength}
           disabled={status.loading}
           footer={
             status.error ? <ErrorText>{status.error}</ErrorText> : undefined
@@ -46,7 +46,7 @@ export default function () {
           <DropDown />
         </div>
         <div className={margin('md:ml-20', 'md:mb-0', 'mb-4')}>
-          <Counter text={text} maxLength={length} />
+          <Counter />
         </div>
         <Button
           primary
