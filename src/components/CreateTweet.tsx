@@ -52,7 +52,7 @@ export default function () {
           <Counter />
         </div>
         <Button
-          primary
+          type="primary"
           loading={status.loading}
           disabled={!status.isValid}
           title="Tweet"
