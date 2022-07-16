@@ -53,7 +53,7 @@ export default function () {
             <div className={tweetBottom}>
               <StatusText>Posted by: </StatusText>
               <LinkText
-                small
+                extraSmall
                 targetBlank
                 title={author}
                 url={getEtherscanAddressUrl(author)}
@@ -64,7 +64,7 @@ export default function () {
                 <StatusText>|</StatusText>
               </div>
               <LinkText
-                small
+                extraSmall
                 targetBlank
                 title={author}
                 url={getEtherscanAddressUrl(author)}
