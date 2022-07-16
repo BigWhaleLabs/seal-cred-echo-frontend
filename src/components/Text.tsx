@@ -221,14 +221,13 @@ const bodyText = (
   primary?: boolean,
   bold?: boolean,
   small?: boolean,
-  center?: boolean,
-  color?: TTextColor
+  center?: boolean
 ) =>
   classnames(
-    primary ? fontFamily('font-primary') : undefined,
-    color ? textColor(color) : textColor('text-formal-accent'),
-    textAlign(center ? 'text-center' : undefined),
-    fontWeight(bold ? 'font-bold' : 'font-normal'),
+    fontFamily({ 'font-primary': primary }),
+    textColor('text-formal-accent'),
+    textAlign({ 'text-center': center }),
+    fontWeight({ 'font-bold': bold }),
     lineHeight('!leading-5'),
     fontSize(small ? 'text-xs' : 'text-sm')
   )
@@ -238,17 +237,13 @@ export function BodyText({
   small,
   center,
   children,
-  color,
 }: ChildrenProp & {
   primary?: boolean
   bold?: boolean
   small?: boolean
   center?: boolean
-  color?: TTextColor
 }) {
-  return (
-    <p className={bodyText(primary, bold, small, center, color)}>{children}</p>
-  )
+  return <p className={bodyText(primary, bold, small, center)}>{children}</p>
 }
 
 const headerText = (accent = false, extraLeading = false, xs = false) =>
@@ -342,7 +337,7 @@ const tweetText = classnames(
   fontSize('text-base'),
   lineHeight('leading-6')
 )
-export function TweetText({ children }: ChildrenProp & { dark?: boolean }) {
+export function TweetText({ children }: ChildrenProp) {
   return <p className={tweetText}>{children}</p>
 }
 
