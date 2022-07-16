@@ -42,7 +42,7 @@ const navLink = classnames(
   display('flex'),
   alignItems('items-center'),
   space('space-x-1'),
-  transitionProperty('transition-all'),
+  transitionProperty('transition-colors'),
   textDecoration('hover:underline'),
   textColor('hover:text-accent')
 )
@@ -66,7 +66,7 @@ export default function ({
             <div className={backArrowClasses}>
               <BackArrow />
             </div>
-            <BodyText>Back to Tweets</BodyText>
+            <BodyText inheritColor>Back to Tweets</BodyText>
           </NavLink>
         ) : (
           <>

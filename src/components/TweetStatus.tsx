@@ -1,33 +1,32 @@
 import { StatusText } from 'components/Text'
+import { TweetStatus } from 'stores/TwitterStore'
 import classnames, {
   backgroundColor,
   borderRadius,
   padding,
 } from 'classnames/tailwind'
 
-const statusContainer = (status: StatusType) =>
+const statusContainer = (status: TweetStatus) =>
   classnames(
     padding('py-1', 'px-2'),
     borderRadius('rounded-lg'),
     backgroundColor({
-      'bg-primary-dimmed': status === 'pending',
-      'bg-primary-background': status === 'posted',
-      'bg-error': status === 'error',
+      'bg-primary-dimmed': status === TweetStatus.pending,
+      'bg-primary-background': status === TweetStatus.posted,
+      'bg-error': status === TweetStatus.rejected,
     })
   )
-
-type StatusType = 'pending' | 'posted' | 'error'
 
 export default function ({
   text,
   status,
 }: {
   text: string
-  status: StatusType
+  status: TweetStatus
 }) {
   return (
     <div className={statusContainer(status)}>
-      <StatusText dark={status === 'error'}>{text}</StatusText>
+      <StatusText dark={status === TweetStatus.rejected}>{text}</StatusText>
     </div>
   )
 }

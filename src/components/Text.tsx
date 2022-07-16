@@ -221,11 +221,12 @@ const bodyText = (
   primary?: boolean,
   bold?: boolean,
   small?: boolean,
-  center?: boolean
+  center?: boolean,
+  inheritColor?: boolean
 ) =>
   classnames(
     fontFamily({ 'font-primary': primary }),
-    textColor('text-formal-accent'),
+    textColor(inheritColor ? 'text-inherit' : 'text-formal-accent'),
     textAlign({ 'text-center': center }),
     fontWeight({ 'font-bold': bold }),
     lineHeight('!leading-5'),
@@ -237,13 +238,19 @@ export function BodyText({
   small,
   center,
   children,
+  inheritColor,
 }: ChildrenProp & {
   primary?: boolean
   bold?: boolean
   small?: boolean
   center?: boolean
+  inheritColor?: boolean
 }) {
-  return <p className={bodyText(primary, bold, small, center)}>{children}</p>
+  return (
+    <p className={bodyText(primary, bold, small, center, inheritColor)}>
+      {children}
+    </p>
+  )
 }
 
 const headerText = (accent = false, extraLeading = false, xs = false) =>
