@@ -47,7 +47,7 @@ export default function () {
           <div className={container}>
             <div className={tweetHeader}>
               <TweetStatus status={status} text={status} />
-              <StatusText>{updatedAt}</StatusText>
+              <StatusText textRight>{updatedAt}</StatusText>
             </div>
             <TweetText>{text}</TweetText>
             <div className={tweetBottom}>

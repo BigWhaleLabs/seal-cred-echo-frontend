@@ -328,17 +328,19 @@ export function StaticHeaderText({
   return <h1 className={staticHeaderText(bold, subheading)}>{children}</h1>
 }
 
-const statusText = (dark?: boolean) =>
+const statusText = (dark?: boolean, textRight?: boolean) =>
   classnames(
     fontSize('text-xs'),
     lineHeight('leading-4'),
-    textColor(dark ? 'text-primary-dark' : 'text-formal-accent')
+    textColor(dark ? 'text-primary-dark' : 'text-formal-accent'),
+    textAlign({ 'text-right': textRight })
   )
 export function StatusText({
   dark,
+  textRight,
   children,
-}: ChildrenProp & { dark?: boolean }) {
-  return <span className={statusText(dark)}>{children}</span>
+}: ChildrenProp & { dark?: boolean; textRight?: boolean }) {
+  return <span className={statusText(dark, textRight)}>{children}</span>
 }
 
 const tweetText = classnames(
