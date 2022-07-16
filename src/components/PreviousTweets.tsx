@@ -1,7 +1,8 @@
-import { BodyText, EmphasizeText, LinkText, LoadingText } from 'components/Text'
+import { LoadingText } from 'components/Text'
 import { TwitterTimelineEmbed } from 'react-twitter-embed'
 import { useState } from 'preact/hooks'
 import Loading from 'components/Loading'
+import PreviousTweetsLayout from 'components/PrevTweetsLayout'
 import classnames, {
   alignItems,
   backgroundColor,
@@ -9,7 +10,6 @@ import classnames, {
   display,
   flexDirection,
   height,
-  justifyContent,
   margin,
   padding,
   space,
@@ -47,20 +47,6 @@ function TwitterLoading() {
   )
 }
 
-const prevTweets = classnames(
-  width('w-full'),
-  height('h-full'),
-  space('space-y-4'),
-  margin('mt-8')
-)
-const prevTweetsHeader = classnames(
-  display('flex'),
-  flexDirection('flex-col', 'sm:flex-row'),
-  space('space-y-2', 'sm:space-y-0'),
-  alignItems('items-start', 'sm:items-center'),
-  justifyContent('justify-start', 'sm:justify-between')
-)
-
 const prepareFrame = (frame: HTMLObjectElement) => {
   if (!frame.contentDocument) return
 
@@ -85,16 +71,7 @@ export default function () {
   const [loading, setLoading] = useState(true)
 
   return (
-    <div className={prevTweets}>
-      <div className={prevTweetsHeader}>
-        <BodyText>
-          <EmphasizeText bold>Tweets</EmphasizeText> by{' '}
-          <LinkText url="https://sealcred.xyz">@SealCredWork</LinkText>
-        </BodyText>
-        <LinkText small url="https://sealcred.xyz">
-          View all on blockchain
-        </LinkText>
-      </div>
+    <PreviousTweetsLayout>
       <div className={tweetCard}>
         {loading && <TwitterLoading />}
         <div className={tweetWidget(loading)}>
@@ -124,6 +101,6 @@ export default function () {
           />
         </div>
       </div>
-    </div>
+    </PreviousTweetsLayout>
   )
 }

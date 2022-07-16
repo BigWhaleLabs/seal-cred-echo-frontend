@@ -63,7 +63,7 @@ export default function () {
               small
               gradientFont
               type="secondary"
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/previous-tweets')}
             >
               I'm under 18
             </Button>

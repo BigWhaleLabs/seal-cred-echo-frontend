@@ -169,31 +169,33 @@ export function BadgeText({
   return <span className={badgeText(small)}>{children}</span>
 }
 
-const linkText = (small?: boolean, bold?: boolean) =>
+const linkText = (small?: boolean, extraSmall?: boolean, bold?: boolean) =>
   classnames(
     textDecoration('no-underline'),
     textColor('text-primary'),
-    fontWeight(bold ? 'font-bold' : 'font-normal'),
-    fontSize(small ? 'text-sm' : 'text-base'),
-    lineHeight(small ? 'leading-5' : 'leading-6')
+    fontWeight({ 'font-bold': bold }),
+    fontSize({ 'text-sm': small, 'text-xs': extraSmall }),
+    lineHeight(small ? 'leading-4' : 'leading-5')
   )
 export function LinkText({
   url,
   bold,
   small,
+  extraSmall,
   title,
   children,
   targetBlank,
 }: ChildrenProp & {
   url: string
   small?: boolean
+  extraSmall?: boolean
   targetBlank?: boolean
   bold?: boolean
   title?: string
 }) {
   return (
     <a
-      className={linkText(small, bold)}
+      className={linkText(small, extraSmall, bold)}
       href={url}
       title={title}
       target={targetBlank ? '_blank' : '_self'}
@@ -218,31 +220,39 @@ export function EmphasizeText({
 }
 
 const bodyText = (
+  primary?: boolean,
   bold?: boolean,
   small?: boolean,
   center?: boolean,
-  color?: TTextColor
+  inheritColor?: boolean
 ) =>
   classnames(
-    color ? textColor(color) : textColor('text-formal-accent'),
-    textAlign(center ? 'text-center' : undefined),
-    fontWeight(bold ? 'font-bold' : 'font-normal'),
+    fontFamily({ 'font-primary': primary }),
+    textColor(inheritColor ? 'text-inherit' : 'text-formal-accent'),
+    textAlign({ 'text-center': center }),
+    fontWeight({ 'font-bold': bold }),
     lineHeight('!leading-5'),
     fontSize(small ? 'text-xs' : 'text-sm')
   )
 export function BodyText({
+  primary,
   bold,
   small,
   center,
   children,
-  color,
+  inheritColor,
 }: ChildrenProp & {
+  primary?: boolean
   bold?: boolean
   small?: boolean
   center?: boolean
-  color?: TTextColor
+  inheritColor?: boolean
 }) {
-  return <p className={bodyText(bold, small, center, color)}>{children}</p>
+  return (
+    <p className={bodyText(primary, bold, small, center, inheritColor)}>
+      {children}
+    </p>
+  )
 }
 
 const headerText = (accent = false, extraLeading = false, xs = false) =>
@@ -316,6 +326,30 @@ export function StaticHeaderText({
   subheading?: boolean
 }) {
   return <h1 className={staticHeaderText(bold, subheading)}>{children}</h1>
+}
+
+const statusText = (dark?: boolean, textRight?: boolean) =>
+  classnames(
+    fontSize('text-xs'),
+    lineHeight('leading-4'),
+    textColor(dark ? 'text-primary-dark' : 'text-formal-accent'),
+    textAlign({ 'text-right': textRight })
+  )
+export function StatusText({
+  dark,
+  textRight,
+  children,
+}: ChildrenProp & { dark?: boolean; textRight?: boolean }) {
+  return <span className={statusText(dark, textRight)}>{children}</span>
+}
+
+const tweetText = classnames(
+  fontFamily('font-primary'),
+  fontSize('text-base'),
+  lineHeight('leading-6')
+)
+export function TweetText({ children }: ChildrenProp) {
+  return <p className={tweetText}>{children}</p>
 }
 
 const hashTagText = classnames(
