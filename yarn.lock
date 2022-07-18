@@ -3209,6 +3209,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/entropy-string@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "@types/entropy-string@npm:4.2.0"
+  dependencies:
+    "@types/node": "*"
+  checksum: 70e03d51ad5af4542dd9e3e1ca6dac99e18659cb8586430e40120047ac62d082608b7295907bc8310eea85409535a2a1495baef155f06c88b6e43c783763efc6
+  languageName: node
+  linkType: hard
+
 "@types/eslint-scope@npm:^3.7.3":
   version: 3.7.4
   resolution: "@types/eslint-scope@npm:3.7.4"
@@ -14018,6 +14027,7 @@ __metadata:
     "@esbuild-plugins/node-globals-polyfill": ^0.1.1
     "@preact/preset-vite": ^2.3.0
     "@rollup/plugin-inject": ^4.0.4
+    "@types/entropy-string": ^4.2.0
     "@types/node": ^18.0.3
     "@types/react-textarea-autosize": ^8.0.0
     "@typescript-eslint/eslint-plugin": ^5.30.5

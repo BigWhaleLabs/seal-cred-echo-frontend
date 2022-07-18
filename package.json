@@ -49,6 +49,7 @@
     "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
     "@preact/preset-vite": "^2.3.0",
     "@rollup/plugin-inject": "^4.0.4",
+    "@types/entropy-string": "^4.2.0",
     "@types/node": "^18.0.3",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/parser": "^5.30.5",
