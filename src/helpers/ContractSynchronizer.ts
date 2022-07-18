@@ -1,9 +1,4 @@
-import { ContractReceipt } from 'ethers'
-import MintedToken from 'models/MintedToken'
-import getOwnedERC721, {
-  isTransferEvent,
-  parseLogData,
-} from 'helpers/getOwnedERC721'
+import getOwnedERC721 from 'helpers/getOwnedERC721'
 
 export interface ContractSynchronizerSchema {
   account: string
@@ -51,30 +46,6 @@ export default class ContractSynchronizer {
       synchronizedBlockId: this.synchronizedBlockId,
       addressToTokenIds: this.addressToTokenIds,
     }
-  }
-
-  applyTransaction(transaction: ContractReceipt) {
-    const minted: MintedToken[] = []
-    for (const { data, topics, transactionHash, address } of transaction.logs) {
-      if (!isTransferEvent(topics)) continue
-      if (this.skipTransactions.has(transactionHash)) continue
-      const {
-        args: { tokenId },
-      } = parseLogData({ data, topics })
-
-      if (!this.addressToTokenIds) this.addressToTokenIds = {}
-      if (!this.addressToTokenIds[address]) this.addressToTokenIds[address] = []
-
-      const value = tokenId.toString()
-      minted.push({
-        address,
-        tokenId,
-      })
-      if (!this.addressToTokenIds[address].includes(value))
-        this.addressToTokenIds[address].push(value)
-      this.skipTransactions.add(transactionHash)
-    }
-    return minted
   }
 
   async syncAddressToTokenIds(blockId: number) {

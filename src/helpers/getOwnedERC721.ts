@@ -1,11 +1,3 @@
-// import {
-//   goerliDefaultProvider,
-//   mainnetDefaultProvider,
-// } from 'helpers/providers/defaultProvider'
-// import {
-//   goerliHeavyProvider,
-//   mainnetHeavyProvider,
-// } from 'helpers/providers/heavyProvider'
 import { utils } from 'ethers'
 import defaultProvider from 'helpers/defaultProvider'
 import heavyProvider from 'helpers/heavyProvider'

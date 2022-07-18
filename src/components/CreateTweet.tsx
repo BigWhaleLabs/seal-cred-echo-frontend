@@ -22,6 +22,11 @@ const bottomContainer = classnames(
   flexWrap('flex-wrap')
 )
 
+const onTweetChange = (text: string) => {
+  TweeterStore.status.isValid = !!text.length
+  TweeterStore.text = text
+}
+
 export default function () {
   const { text, maxLength, status, currentEmail } = useSnapshot(TweeterStore)
   const { md } = useBreakpoints()
@@ -32,7 +37,7 @@ export default function () {
       <TextArea
         text={text}
         placeholder="Write something here..."
-        onTextChange={(text) => (TweeterStore.text = text)}
+        onTextChange={(text) => onTweetChange(text)}
         maxLength={maxLength}
         disabled={status.loading}
         footer={currentEmail}
@@ -51,7 +56,7 @@ export default function () {
         <Button
           type="primary"
           loading={status.loading}
-          disabled={!status.isValid || !currentEmail || !text.length}
+          disabled={!status.isValid || !currentEmail}
           title="Tweet"
           onClick={() => {
             TweeterStore.tweet()
