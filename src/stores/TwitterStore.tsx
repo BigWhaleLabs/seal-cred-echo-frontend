@@ -1,4 +1,8 @@
 import { proxy } from 'valtio'
+import SealCredStore from 'stores/SealCredStore'
+import WalletStore from 'stores/WalletStore'
+import getNullifierMessage from 'helpers/getNullifierMessage'
+import handleError from 'helpers/handleError'
 
 export enum TweetStatus {
   pending = 'Pending review...',
@@ -23,7 +27,7 @@ interface TwitterStoreInterface {
     success?: boolean
   }
   currentEmail?: string
-  tweet: () => void
+  createTweet: () => void
   dropDownOpen: boolean
   blockchainTweets?: BlockchainTweet[]
 }
@@ -31,10 +35,29 @@ interface TwitterStoreInterface {
 const TwitterStore = proxy<TwitterStoreInterface>({
   text: '',
   maxLength: 280,
-  status: { isValid: true, loading: false },
+  status: { isValid: false, loading: false },
   currentEmail: undefined,
-  tweet: () => {
-    console.log(TwitterStore.text)
+  createTweet: async () => {
+    if (!TwitterStore.currentEmail) {
+      TwitterStore.status.error = new Error('No email selected')
+      return
+    }
+    TwitterStore.status.loading = true
+    try {
+      const domain = (await SealCredStore.contractNameEmail)[
+        TwitterStore.currentEmail
+      ]
+      const nullifierMessage = getNullifierMessage()
+      await WalletStore.signMessage(nullifierMessage)
+      await WalletStore.mintTweet(TwitterStore.text, domain)
+    } catch (error) {
+      handleError(error)
+      TwitterStore.status.error =
+        error instanceof Error ? error : new Error('Failed to create tweet')
+      throw error
+    } finally {
+      TwitterStore.status.loading = false
+    }
   },
   dropDownOpen: false,
   blockchainTweets: [

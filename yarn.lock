@@ -1542,6 +1542,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@big-whale-labs/seal-cred-twitter-contract@npm:^0.0.4":
+  version: 0.0.4
+  resolution: "@big-whale-labs/seal-cred-twitter-contract@npm:0.0.4"
+  dependencies:
+    "@big-whale-labs/constants": ^0.1.9
+  checksum: 58d701dbfd06e5d12f28ffd955aad742e2c9ffa57431876cb785facfbbb0665437949f4573207eeea6ff4e752cd52f5e5b9e6d1ab526a3dd0c4164bd3b8899e3
+  languageName: node
+  linkType: hard
+
 "@coinbase/wallet-sdk@npm:^3.3.0":
   version: 3.3.0
   resolution: "@coinbase/wallet-sdk@npm:3.3.0"
@@ -14004,6 +14013,7 @@ __metadata:
   dependencies:
     "@big-whale-labs/constants": ^0.1.0
     "@big-whale-labs/seal-cred-ledger-contract": ^0.2.4
+    "@big-whale-labs/seal-cred-twitter-contract": ^0.0.4
     "@coinbase/wallet-sdk": ^3.3.0
     "@esbuild-plugins/node-globals-polyfill": ^0.1.1
     "@preact/preset-vite": ^2.3.0
@@ -14017,6 +14027,7 @@ __metadata:
     autoprefixer: ^10.4.7
     cross-env: ^7.0.3
     dayjs: ^1.11.3
+    entropy-string: ^4.2.0
     envalid: ^7.3.1
     eslint: ^8.19.0
     eslint-config-prettier: ^8.5.0

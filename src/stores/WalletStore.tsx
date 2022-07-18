@@ -1,6 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
+import TweetBuilder from 'helpers/TweetBuilder'
 import env from 'helpers/env'
 import handleError, { ErrorList } from 'helpers/handleError'
 import web3Modal from 'helpers/web3Modal'
@@ -62,6 +63,17 @@ class WalletStore extends PersistableStore {
     const accounts = await provider.listAccounts()
     this.account = accounts[0]
     this.walletLoading = false
+  }
+
+  async mintTweet(text: string, domain: string) {
+    if (!provider) {
+      throw new Error('No provider found')
+    }
+    if (!this.account) {
+      throw new Error('No account found')
+    }
+    const builder = new TweetBuilder(provider)
+    return await builder.create({ tweet: text, domain })
   }
 
   private subscribeProvider(provider: Web3Provider) {

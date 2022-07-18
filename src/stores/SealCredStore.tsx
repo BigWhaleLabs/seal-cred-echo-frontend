@@ -11,6 +11,7 @@ interface SealCredStoreType {
 
 interface ComputedSealCredStoreType {
   emailDerivativeContracts: Promise<string[]>
+  contractNameEmail: Promise<{ [address: string]: string }>
 }
 
 const state = proxy<SealCredStoreType>({
@@ -22,6 +23,12 @@ const SealCredStore = derive<SealCredStoreType, ComputedSealCredStoreType>(
     emailDerivativeContracts: async (get) =>
       Object.values((await get(state).emailLedger) || {}).map(
         ({ derivativeContract }) => derivativeContract
+      ),
+    contractNameEmail: async (get) =>
+      Object.fromEntries(
+        Object.values((await get(state).emailLedger) || {}).map(
+          ({ derivativeContract, domain }) => [derivativeContract, domain]
+        )
       ),
   },
   { proxy: state }

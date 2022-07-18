@@ -5,7 +5,7 @@ import Button from 'components/Button'
 import Counter from 'components/Counter'
 import DropDown from 'components/DropDown'
 import TextArea from 'components/TextArea'
-import TweeterStore from 'stores/TwitterStore'
+import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   alignItems,
   display,
@@ -23,12 +23,12 @@ const bottomContainer = classnames(
 )
 
 const onTweetChange = (text: string) => {
-  TweeterStore.status.isValid = !!text.length
-  TweeterStore.text = text
+  TwitterStore.status.isValid = !!text.length
+  TwitterStore.text = text
 }
 
 export default function () {
-  const { text, maxLength, status, currentEmail } = useSnapshot(TweeterStore)
+  const { text, maxLength, status, currentEmail } = useSnapshot(TwitterStore)
   const { md } = useBreakpoints()
 
   return (
@@ -59,8 +59,7 @@ export default function () {
           disabled={!status.isValid || !currentEmail}
           title="Tweet"
           onClick={() => {
-            TweeterStore.tweet()
-            TweeterStore.status.success = true
+            TwitterStore.createTweet()
           }}
           fullWidth={!md}
           center
