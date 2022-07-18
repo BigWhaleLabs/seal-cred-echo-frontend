@@ -104,7 +104,10 @@ export default function () {
         {availableEmails.map((email) => (
           <p
             className={menuItem(email === currentEmail)}
-            onClick={() => (TwitterStore.currentEmail = email)}
+            onClick={() => {
+              TwitterStore.currentEmail = email
+              TwitterStore.dropDownOpen = false
+            }}
           >
             {truncateMiddleIfNeeded(email, 12)}
           </p>
