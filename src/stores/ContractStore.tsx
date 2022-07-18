@@ -1,3 +1,4 @@
+import { providers } from 'ethers'
 import { proxy } from 'valtio'
 import { subscribeKey } from 'valtio/utils'
 import ContractSynchronizer, {
@@ -8,13 +9,20 @@ import WalletStore from 'stores/WalletStore'
 import defaultProvider from 'helpers/defaultProvider'
 import transformObjectValues from 'helpers/transformObjectValues'
 
-class ContractsStoreClass extends PersistableStore {
+class ContractsStore extends PersistableStore {
   connectedAccounts: { [account: string]: ContractSynchronizer } = {}
   currentBlock?: number
   addressToTokenIds?: Promise<{ [address: string]: string[] } | undefined>
 
-  constructor() {
+  get persistanceName() {
+    return `${this.constructor.name}_`
+  }
+
+  provider: providers.Provider
+
+  constructor(provider: providers.Provider) {
     super()
+    this.provider = provider
   }
 
   replacer = (key: string, value: unknown) => {
@@ -33,14 +41,13 @@ class ContractsStoreClass extends PersistableStore {
   }
 
   fetchBlockNumber() {
-    return defaultProvider.getBlockNumber()
+    return this.provider.getBlockNumber()
   }
 
   async fetchMoreContractsOwned(accountChange?: boolean) {
     if (!WalletStore.account) return
     if (!this.currentBlock) this.currentBlock = await this.fetchBlockNumber()
 
-    console.log(this.connectedAccounts[WalletStore.account])
     if (!this.connectedAccounts[WalletStore.account])
       this.connectedAccounts[WalletStore.account] = new ContractSynchronizer(
         WalletStore.account
@@ -61,15 +68,17 @@ class ContractsStoreClass extends PersistableStore {
   }
 }
 
-export const ContractsStore = proxy(new ContractsStoreClass()).makePersistent()
+export const GeneralContractsStore = proxy(
+  new ContractsStore(defaultProvider)
+).makePersistent(true)
 
 subscribeKey(WalletStore, 'account', () => {
-  void ContractsStore.fetchMoreContractsOwned(true)
+  void GeneralContractsStore.fetchMoreContractsOwned(true)
 })
 
 defaultProvider.on('block', async (blockNumber: number) => {
-  ContractsStore.currentBlock = blockNumber
-  await ContractsStore.fetchMoreContractsOwned()
+  GeneralContractsStore.currentBlock = blockNumber
+  await GeneralContractsStore.fetchMoreContractsOwned()
 })
 
-export default ContractsStoreClass
+export default ContractsStore

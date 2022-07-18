@@ -1,4 +1,4 @@
-import { ContractsStore } from 'stores/ContractStore'
+import { GeneralContractsStore } from 'stores/ContractStore'
 import { HeaderText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import Button from 'components/Button'
@@ -27,11 +27,15 @@ const bottomContainer = classnames(
 
 export default function () {
   const { emailDerivativeContracts } = useSnapshot(SealCredStore)
-  const contractsOwned = useContractsOwned(ContractsStore)
+  const contractsOwned = useContractsOwned(GeneralContractsStore)
   const ownedEmailDerivativeContracts = emailDerivativeContracts.filter(
     (contractAddress) => contractsOwned.includes(contractAddress)
   )
-  console.log(emailDerivativeContracts, ownedEmailDerivativeContracts)
+  console.log(
+    contractsOwned,
+    emailDerivativeContracts,
+    ownedEmailDerivativeContracts
+  )
 
   const { text, maxLength, status, availableEmails } = useSnapshot(TweeterStore)
   const { md } = useBreakpoints()

@@ -94,7 +94,7 @@ class WalletStore extends PersistableStore {
   }
 }
 
-const walletStore = proxy(new WalletStore()).makePersistent()
+const walletStore = proxy(new WalletStore()).makePersistent(true)
 
 if (walletStore.cachedProvider) void walletStore.connect()
 
