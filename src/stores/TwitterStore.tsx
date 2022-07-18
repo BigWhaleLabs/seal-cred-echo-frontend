@@ -22,8 +22,7 @@ interface TwitterStoreInterface {
     error?: Error
     success?: boolean
   }
-  availableEmails: string[]
-  currentEmail: string
+  currentEmail?: string
   tweet: () => void
   dropDownOpen: boolean
   blockchainTweets?: BlockchainTweet[]
@@ -33,13 +32,7 @@ const TwitterStore = proxy<TwitterStoreInterface>({
   text: '',
   maxLength: 280,
   status: { isValid: true, loading: false },
-  availableEmails: [
-    '@bwl.gg',
-    '@amazon.com',
-    '@google.com',
-    '@biiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiigwhalelabs.com',
-  ],
-  currentEmail: '',
+  currentEmail: undefined,
   tweet: () => {
     console.log(TwitterStore.text)
   },

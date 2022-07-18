@@ -1,7 +1,9 @@
+import { GeneralContractsStore } from 'stores/ContractStore'
 import { MutableRef, useRef } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import Arrow from 'icons/Arrow'
 import ContractName from 'components/ContractName'
+import SealCredStore from 'stores/SealCredStore'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   alignItems,
@@ -25,8 +27,8 @@ import classnames, {
   width,
   zIndex,
 } from 'classnames/tailwind'
-import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import useClickOutside from 'hooks/useClickOutside'
+import useContractsOwned from 'hooks/useContractsOwned'
 
 const sharedStyles = classnames(
   borderRadius('rounded-lg'),
@@ -70,9 +72,15 @@ const menuItem = (current?: boolean) =>
     textDecoration({ underline: current })
   )
 
-export default function ({ ownedContracts }: { ownedContracts: string[] }) {
+export default function () {
+  const { emailDerivativeContracts } = useSnapshot(SealCredStore)
+  const contractsOwned = useContractsOwned(GeneralContractsStore)
+  const ownedEmailDerivativeContracts = emailDerivativeContracts.filter(
+    (contractAddress) => contractsOwned.includes(contractAddress)
+  )
+
   const { dropDownOpen, currentEmail } = useSnapshot(TwitterStore)
-  const hasBadges = !!ownedContracts.length
+  const hasBadges = !!ownedEmailDerivativeContracts.length
 
   const ref = useRef() as MutableRef<HTMLDivElement>
   useClickOutside(ref, () => (TwitterStore.dropDownOpen = false))
@@ -85,10 +93,20 @@ export default function ({ ownedContracts }: { ownedContracts: string[] }) {
         className={opener}
       >
         {hasBadges ? (
-          <span>
-            <span className={postingAs}>Posting as: </span>
-            {truncateMiddleIfNeeded(currentEmail, 12)}
-          </span>
+          <>
+            {currentEmail ? (
+              <span>
+                <span className={postingAs}>Posting as: </span>
+                <ContractName clearType address={currentEmail} />
+              </span>
+            ) : (
+              <span
+                className={textColor('text-formal-accent-semi-transparent')}
+              >
+                Select work email
+              </span>
+            )}
+          </>
         ) : (
           <span className={textColor('text-formal-accent-semi-transparent')}>
             No ZK badge in this wallet
@@ -101,12 +119,15 @@ export default function ({ ownedContracts }: { ownedContracts: string[] }) {
       </button>
 
       <div className={menuWrapper(dropDownOpen)}>
-        {ownedContracts.map((email) => (
+        {ownedEmailDerivativeContracts.map((email) => (
           <p
             className={menuItem(email === currentEmail)}
-            onClick={() => (TwitterStore.currentEmail = email)}
+            onClick={() => {
+              TwitterStore.currentEmail = email
+              TwitterStore.dropDownOpen = false
+            }}
           >
-            <ContractName address={email} />
+            <ContractName clearType address={email} />
           </p>
         ))}
       </div>

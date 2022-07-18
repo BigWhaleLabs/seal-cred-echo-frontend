@@ -46,4 +46,4 @@ class ContractNamesStore extends PersistableStore {
   }
 }
 
-export default proxy(new ContractNamesStore()).makePersistent()
+export default proxy(new ContractNamesStore()).makePersistent(true)

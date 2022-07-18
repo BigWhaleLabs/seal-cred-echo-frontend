@@ -22,6 +22,7 @@ import {
   width,
 } from 'classnames/tailwind'
 import { useEffect, useState } from 'preact/hooks'
+import ContractName from 'components/ContractName'
 import TextareaAutosize, {
   TextareaAutosizeProps,
 } from 'react-textarea-autosize'
@@ -110,10 +111,14 @@ export default function ({
               {...restProps}
             />
           </TextareaText>
-          <div className={footerBox}>
-            <HashTagText>{!!footer && 'VerifiedToWorkAt'}</HashTagText>
-            <HashTagText>{footer}</HashTagText>
-          </div>
+          {!!footer && (
+            <div className={footerBox}>
+              <HashTagText>{'VerifiedToWorkAt'}</HashTagText>
+              <HashTagText>
+                <ContractName clearType address={footer} />
+              </HashTagText>
+            </div>
+          )}
         </div>
       </div>
       <ErrorText visible={!!error} withExclamation>

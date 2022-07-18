@@ -39,8 +39,7 @@ function ContractNameSuspended({
   hyphens,
   truncate,
   clearType,
-}: // network,
-ContractNameProps) {
+}: ContractNameProps) {
   const { emailDerivativeContracts = [] } = useSnapshot(SealCredStore)
   const { contractNames } = useSnapshot(ContractNamesStore)
   let contractName = contractNames[address]
@@ -48,7 +47,10 @@ ContractNameProps) {
 
   if (clearType) {
     if (contractName && emailDerivativeContracts.includes(address))
-      contractName = contractName.replace(' email', '')
+      contractName = contractName
+        .replace(' email', '')
+        .split('.')[0]
+        .slice(1, undefined)
   }
 
   let content = contractName || address
