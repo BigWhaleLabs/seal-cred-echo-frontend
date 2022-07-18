@@ -2,7 +2,6 @@ import { Suspense, memo } from 'react'
 import { useSnapshot } from 'valtio'
 import { utils } from 'ethers'
 import ContractNamesStore from 'stores/ContractNameStore'
-// import Network from 'models/Network'
 import SealCredStore from 'stores/SealCredStore'
 import classNamesToString from 'helpers/classNamesToString'
 import classnames, {
@@ -27,7 +26,6 @@ interface ContractNameProps {
   truncate?: boolean
   clearType?: boolean
   hyphens?: boolean
-  // network: Network
 }
 
 const wrappedWord = (name: string) => {
@@ -51,9 +49,6 @@ ContractNameProps) {
   if (clearType) {
     if (contractName && emailDerivativeContracts.includes(address))
       contractName = contractName.replace(' email', '')
-
-    // if (contractName && ERC721derivativeContracts.includes(address))
-    //   contractName = contractName.replace(' (derivative)', '')
   }
 
   let content = contractName || address
@@ -63,10 +58,7 @@ ContractNameProps) {
 
   return (
     <span
-      className={classNamesToString(
-        contractName ? undefined : addressText
-        // hyphens ? 'hyphensAuto' : undefined
-      )}
+      className={classNamesToString(contractName ? undefined : addressText)}
     >
       {hyphens ? wrappedWord(content) : content}
     </span>

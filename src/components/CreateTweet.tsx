@@ -1,8 +1,10 @@
+import { ContractsStore } from 'stores/ContractStore'
 import { HeaderText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import Button from 'components/Button'
 import Counter from 'components/Counter'
 import DropDown from 'components/DropDown'
+import SealCredStore from 'stores/SealCredStore'
 import TextArea from 'components/TextArea'
 import TweeterStore from 'stores/TwitterStore'
 import classnames, {
@@ -12,17 +14,6 @@ import classnames, {
   justifyContent,
   margin,
 } from 'classnames/tailwind'
-// import defaultProvider from 'helpers/defaultProvider'
-// import getEmailLedger from 'helpers/getEmailLedger'
-// import getOwnedERC721 from 'helpers/getOwnedERC721'
-// import getSCEmailLedgerContract from 'helpers/getSCEmailLedgerContract'
-import { ContractsStore } from 'stores/ContractStore'
-import SCEmailLedgerContract from 'helpers/SCEmailLedgerContract'
-import SealCredStore from 'stores/SealCredStore'
-import WalletStore from 'stores/WalletStore'
-import defaultProvider from 'helpers/defaultProvider'
-import getEmailLedger from 'helpers/getEmailLedger'
-import getOwnedERC721 from 'helpers/getOwnedERC721'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import useBreakpoints from 'hooks/useBreakpoints'
 import useContractsOwned from 'hooks/useContractsOwned'
@@ -34,44 +25,12 @@ const bottomContainer = classnames(
   flexWrap('flex-wrap')
 )
 
-const connect = async () => {
-  // const emailLedgerContracts = SCEmailLedgerContract(defaultProvider)
-  const emailLedger = await getEmailLedger(SCEmailLedgerContract)
-  const con = Object.values(emailLedger).map(
-    ({ derivativeContract }) => derivativeContract
-  )
-  const lastBlock = await defaultProvider.getBlockNumber()
-  console.log('Last block:', lastBlock)
-  if (!WalletStore.account) return
-  const owned = await getOwnedERC721(
-    WalletStore.account,
-    0,
-    lastBlock,
-    {},
-    new Set<string>()
-  )
-  const contractsOwned = Object.keys(owned)
-  const ownedEmailDerivativeContracts = con.filter((contractAddress) =>
-    contractsOwned.includes(contractAddress)
-  )
-
-  console.log(ownedEmailDerivativeContracts)
-}
-
 export default function () {
   const { emailDerivativeContracts } = useSnapshot(SealCredStore)
-  // const contractsOwned = useContractsOwned(ContractsStore)
-  // const { addressToTokenIds = {} } = useSnapshot(ContractsStore)
   const contractsOwned = useContractsOwned(ContractsStore)
   const ownedEmailDerivativeContracts = emailDerivativeContracts.filter(
     (contractAddress) => contractsOwned.includes(contractAddress)
   )
-
-  // console.log(addressToTokenIds)
-  // const ownedEmailDerivativeContracts = emailDerivativeContracts.filter(
-  //   (contractAddress) =>
-  //     Object.keys(addressToTokenIds).includes(contractAddress)
-  // )
   console.log(emailDerivativeContracts, ownedEmailDerivativeContracts)
 
   const { text, maxLength, status, availableEmails } = useSnapshot(TweeterStore)
@@ -107,10 +66,9 @@ export default function () {
           loading={status.loading}
           disabled={!status.isValid}
           title="Tweet"
-          onClick={async () => {
-            // TweeterStore.tweet()
-            // TweeterStore.status.success = true
-            await connect()
+          onClick={() => {
+            TweeterStore.tweet()
+            TweeterStore.status.success = true
           }}
           fullWidth={!md}
           center

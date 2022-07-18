@@ -1,10 +1,8 @@
 import { ERC721__factory } from '@big-whale-labs/seal-cred-ledger-contract'
 import { proxy } from 'valtio'
 import { reservedContractMetadata } from '@big-whale-labs/constants'
-import defaultProvider from 'helpers/defaultProvider'
-// import Network from 'models/Network'
 import PersistableStore from 'stores/persistence/PersistableStore'
-// import networkPick from 'helpers/networkPick'
+import defaultProvider from 'helpers/defaultProvider'
 
 class ContractNamesStore extends PersistableStore {
   savedContractNames = {} as {

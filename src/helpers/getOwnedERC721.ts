@@ -38,7 +38,6 @@ export default async function (
   addressToTokenIds: { [address: string]: string[] },
   skipTransactions: Set<string>
 ) {
-  console.log('Get owned ERC721')
   const provider = fromBlock === 0 ? heavyProvider : defaultProvider
   const receivedLogs = await provider.getLogs({
     fromBlock,

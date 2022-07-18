@@ -1,6 +1,5 @@
 import { ContractReceipt } from 'ethers'
 import MintedToken from 'models/MintedToken'
-// import Network from 'models/Network'
 import getOwnedERC721, {
   isTransferEvent,
   parseLogData,
