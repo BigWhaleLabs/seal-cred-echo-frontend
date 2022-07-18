@@ -1,6 +1,7 @@
 import { MutableRef, useRef } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import Arrow from 'icons/Arrow'
+import ContractName from 'components/ContractName'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   alignItems,
@@ -69,10 +70,9 @@ const menuItem = (current?: boolean) =>
     textDecoration({ underline: current })
   )
 
-export default function () {
-  const { availableEmails, dropDownOpen, currentEmail } =
-    useSnapshot(TwitterStore)
-  const hasBadges = !!availableEmails.length
+export default function ({ ownedContracts }: { ownedContracts: string[] }) {
+  const { dropDownOpen, currentEmail } = useSnapshot(TwitterStore)
+  const hasBadges = !!ownedContracts.length
 
   const ref = useRef() as MutableRef<HTMLDivElement>
   useClickOutside(ref, () => (TwitterStore.dropDownOpen = false))
@@ -101,12 +101,12 @@ export default function () {
       </button>
 
       <div className={menuWrapper(dropDownOpen)}>
-        {availableEmails.map((email) => (
+        {ownedContracts.map((email) => (
           <p
             className={menuItem(email === currentEmail)}
             onClick={() => (TwitterStore.currentEmail = email)}
           >
-            {truncateMiddleIfNeeded(email, 12)}
+            <ContractName address={email} />
           </p>
         ))}
       </div>
