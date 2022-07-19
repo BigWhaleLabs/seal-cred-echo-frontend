@@ -5,6 +5,7 @@ import ContractSynchronizer, {
   ContractSynchronizerSchema,
 } from 'helpers/ContractSynchronizer'
 import PersistableStore from 'stores/persistence/PersistableStore'
+import SealCredStore from 'stores/SealCredStore'
 import WalletStore from 'stores/WalletStore'
 import defaultProvider from 'helpers/defaultProvider'
 import transformObjectValues from 'helpers/transformObjectValues'
@@ -22,7 +23,7 @@ class ContractsStore extends PersistableStore {
   }
 
   replacer = (key: string, value: unknown) => {
-    const disallowList = ['addressToTokenIds', 'connectedAccounts']
+    const disallowList = ['addressToTokenIds']
     return disallowList.includes(key) ? undefined : value
   }
 
@@ -41,40 +42,51 @@ class ContractsStore extends PersistableStore {
   }
 
   async fetchMoreContractsOwned(accountChange?: boolean) {
-    if (!WalletStore.account) return
+    const account = WalletStore.account
+    if (!account) return
     if (!this.currentBlock) this.currentBlock = await this.fetchBlockNumber()
 
-    if (!this.connectedAccounts[WalletStore.account])
-      this.connectedAccounts[WalletStore.account] = new ContractSynchronizer(
-        WalletStore.account
+    const emailDerivativeContracts =
+      await SealCredStore.emailDerivativeContracts
+
+    if (!this.connectedAccounts[account])
+      this.connectedAccounts[account] = new ContractSynchronizer(
+        account,
+        SealCredStore.firstBlockId
       )
 
-    if (!this.addressToTokenIds || accountChange) {
-      this.addressToTokenIds = this.connectedAccounts[
-        WalletStore.account
-      ].syncAddressToTokenIds(this.currentBlock)
-      return
+    if (
+      !this.addressToTokenIds &&
+      this.connectedAccounts[account].mapAddressToTokenIds
+    ) {
+      this.addressToTokenIds = Promise.resolve(
+        this.connectedAccounts[account].mapAddressToTokenIds
+      )
     }
 
-    const result = await this.connectedAccounts[
-      WalletStore.account
-    ].syncAddressToTokenIds(this.currentBlock)
+    const request = this.connectedAccounts[account].syncAddressToTokenIds(
+      this.currentBlock,
+      emailDerivativeContracts
+    )
 
-    this.addressToTokenIds = Promise.resolve(result)
+    this.addressToTokenIds =
+      (this.addressToTokenIds && accountChange) || !this.addressToTokenIds
+        ? request
+        : Promise.resolve(await request)
   }
 }
 
-export const GeneralContractsStore = proxy(
+export const contractsStore = proxy(
   new ContractsStore(defaultProvider)
 ).makePersistent(true)
 
 subscribeKey(WalletStore, 'account', () => {
-  void GeneralContractsStore.fetchMoreContractsOwned(true)
+  void contractsStore.fetchMoreContractsOwned(true)
 })
 
 defaultProvider.on('block', async (blockNumber: number) => {
-  GeneralContractsStore.currentBlock = blockNumber
-  await GeneralContractsStore.fetchMoreContractsOwned()
+  contractsStore.currentBlock = blockNumber
+  await contractsStore.fetchMoreContractsOwned()
 })
 
-export default ContractsStore
+export default contractsStore

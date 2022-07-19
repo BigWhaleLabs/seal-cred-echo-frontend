@@ -1,8 +1,8 @@
 import { useSnapshot } from 'valtio'
-import ContractsStoreClass from 'stores/ContractStore'
+import ContractsStore from 'stores/ContractStore'
 
-export default function (store: ContractsStoreClass) {
-  const { addressToTokenIds } = useSnapshot(store)
+export default function () {
+  const { addressToTokenIds } = useSnapshot(ContractsStore)
 
   if (!addressToTokenIds) return []
 

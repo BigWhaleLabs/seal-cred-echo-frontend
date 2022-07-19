@@ -1,4 +1,3 @@
-import { GeneralContractsStore } from 'stores/ContractStore'
 import { MutableRef, useRef } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import Arrow from 'icons/Arrow'
@@ -80,7 +79,7 @@ const menuItem = (current?: boolean) =>
 
 export default function () {
   const { emailDerivativeContracts } = useSnapshot(SealCredStore)
-  const contractsOwned = useContractsOwned(GeneralContractsStore)
+  const contractsOwned = useContractsOwned()
   const ownedEmailDerivativeContracts = emailDerivativeContracts.filter(
     (contractAddress) => contractsOwned.includes(contractAddress)
   )
