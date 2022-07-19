@@ -41,7 +41,8 @@ class ContractsStore extends PersistableStore {
     return this.provider.getBlockNumber()
   }
 
-  async fetchMoreContractsOwned(account?: string, accountChange?: boolean) {
+  async fetchMoreContractsOwned(accountChange?: boolean) {
+    const account = WalletStore.account
     if (!account) return
     if (!this.currentBlock) this.currentBlock = await this.fetchBlockNumber()
 
@@ -75,17 +76,17 @@ class ContractsStore extends PersistableStore {
   }
 }
 
-export const GeneralContractsStore = proxy(
+export const contractsStore = proxy(
   new ContractsStore(defaultProvider)
 ).makePersistent(true)
 
-subscribeKey(WalletStore, 'account', (account) => {
-  void GeneralContractsStore.fetchMoreContractsOwned(account, true)
+subscribeKey(WalletStore, 'account', () => {
+  void contractsStore.fetchMoreContractsOwned(true)
 })
 
 defaultProvider.on('block', async (blockNumber: number) => {
-  GeneralContractsStore.currentBlock = blockNumber
-  await GeneralContractsStore.fetchMoreContractsOwned(WalletStore.account)
+  contractsStore.currentBlock = blockNumber
+  await contractsStore.fetchMoreContractsOwned()
 })
 
-export default ContractsStore
+export default contractsStore
