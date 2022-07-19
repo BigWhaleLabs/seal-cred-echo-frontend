@@ -113,7 +113,7 @@ export default function ({
           </TextareaText>
           {!!footer && (
             <div className={footerBox}>
-              <HashTagText>{'VerifiedToWorkAt'}</HashTagText>
+              <HashTagText>VerifiedToWorkAt</HashTagText>
               <HashTagText>
                 <ContractName clearType address={footer} />
               </HashTagText>

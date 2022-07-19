@@ -1,3 +1,4 @@
+import { derive } from 'valtio/utils'
 import { proxy } from 'valtio'
 import SealCredStore from 'stores/SealCredStore'
 import WalletStore from 'stores/WalletStore'
@@ -31,32 +32,33 @@ interface TwitterStoreInterface {
   blockchainTweets?: BlockchainTweet[]
 }
 
-const TwitterStore = proxy<TwitterStoreInterface>({
+const state = proxy<TwitterStoreInterface>({
   text: '',
   maxLength: 280,
   status: { isValid: false, loading: false },
   currentEmail: undefined,
   createTweet: async () => {
-    if (!TwitterStore.currentEmail) {
-      TwitterStore.status.error = new Error('No email selected')
+    if (!state.currentEmail) {
+      state.status.error = new Error('No email selected')
       return
     }
-    TwitterStore.status.loading = true
+    state.status.loading = true
     try {
-      const currentDomain = (await SealCredStore.contractNameDomain)[
-        TwitterStore.currentEmail
-      ]
+      const currentDomain = await TwitterStore.currentDomain
+      if (!currentDomain) return
+      const hashtags = await TwitterStore.hashtags
+      if (!hashtags) return
       await WalletStore.saveTweet({
-        tweet: TwitterStore.text,
+        tweet: state.text + hashtags,
         domain: currentDomain,
       })
     } catch (error) {
       handleError(error)
-      TwitterStore.status.error =
+      state.status.error =
         error instanceof Error ? error : new Error('Failed to create tweet')
       throw error
     } finally {
-      TwitterStore.status.loading = false
+      state.status.loading = false
     }
   },
   dropDownOpen: false,
@@ -87,5 +89,30 @@ const TwitterStore = proxy<TwitterStoreInterface>({
     },
   ],
 })
+
+const TwitterStore = derive<
+  TwitterStoreInterface,
+  {
+    currentDomain: Promise<string | undefined>
+    hashtags: Promise<string | undefined>
+  }
+>(
+  {
+    currentDomain: async (get) => {
+      const address = get(state).currentEmail
+      if (!address) return ''
+      return (await SealCredStore.contractNameDomain)[address]
+    },
+    hashtags: async (get) => {
+      const hashtag = '#VerifiedToWorkAt'
+      const address = get(state).currentEmail
+      if (!address) return
+      const currentDomain = (await SealCredStore.contractNameDomain)[address]
+      if (!currentDomain) return
+      return `\n${hashtag} #${currentDomain}`
+    },
+  },
+  { proxy: state }
+)
 
 export default TwitterStore
