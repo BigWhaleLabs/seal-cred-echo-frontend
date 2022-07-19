@@ -21,7 +21,6 @@ import classnames, {
   position,
   space,
   textColor,
-  textDecoration,
   transitionProperty,
   visibility,
   width,
@@ -69,7 +68,12 @@ const menuItem = (current?: boolean) =>
   classnames(
     padding('p-2'),
     cursor('cursor-pointer'),
-    textDecoration({ underline: current })
+    backgroundColor({
+      'bg-primary-dimmed': current,
+      'bg-transparent': !current,
+      'hover:bg-primary-dimmed': current,
+      'hover:bg-primary-background': !current,
+    })
   )
 
 export default function () {
