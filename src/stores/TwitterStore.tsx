@@ -7,6 +7,7 @@ import getTwitterLedgerRecord from 'helpers/getTwitterLedgerRecord'
 import handleError from 'helpers/handleError'
 
 interface BlockchainTweet {
+  id: number
   tweet: string
   derivativeAddress: string
   updatedAt: number
@@ -35,16 +36,15 @@ const state = proxy<TwitterStoreInterface>({
   currentEmail: undefined,
   createTweet: async () => {
     TwitterStore.resetStatus()
-    if (!state.currentEmail) {
-      state.status.error = new Error('No email selected')
-      return
-    }
     state.status.loading = true
     try {
       const currentDomain = await TwitterStore.currentDomain
       if (!currentDomain) return
       const hashtags = await TwitterStore.hashtags
-      if (!hashtags) return
+      if (!hashtags || state.text.length + hashtags.length > state.maxLength) {
+        state.status.error = new Error('Tweet is too long')
+        return
+      }
       await WalletStore.saveTweet({
         tweet: state.text + hashtags,
         domain: currentDomain,
@@ -76,13 +76,16 @@ const state = proxy<TwitterStoreInterface>({
         const block = await event.getBlock()
         blockData.push(block.timestamp)
       }
-      return tweets.map(({ tweet, derivativeAddress }, index) => {
-        return {
-          tweet,
-          derivativeAddress,
-          updatedAt: blockData[index],
-        }
-      })
+      return tweets
+        .map(({ id, tweet, derivativeAddress }, index) => {
+          return {
+            id: id.toNumber(),
+            tweet,
+            derivativeAddress,
+            updatedAt: blockData[index],
+          }
+        })
+        .sort((a, b) => a.id - b.id)
     }
   ),
 })
@@ -114,14 +117,16 @@ const TwitterStore = derive<
 
 SCTwitterLedgerContract.on(
   SCTwitterLedgerContract.filters.TweetSaved(),
-  async (tweet, derivativeAddress) => {
+  async (id, tweet, derivativeAddress) => {
     console.info('TweetSaved event', tweet, derivativeAddress)
     const ledger = await TwitterStore.blockchainTweets
-    if (!ledger.find(({ tweet: ledgerTweet }) => ledgerTweet === tweet)) {
-      ledger.push(getTwitterLedgerRecord(tweet, derivativeAddress, Date.now()))
-      TwitterStore.blockchainTweets = Promise.resolve({
+    if (
+      !ledger.find(({ id: ledgerTweetId }) => ledgerTweetId === id.toNumber())
+    ) {
+      TwitterStore.blockchainTweets = Promise.resolve([
+        getTwitterLedgerRecord(id, tweet, derivativeAddress, Date.now()),
         ...ledger,
-      })
+      ])
     }
   }
 )
