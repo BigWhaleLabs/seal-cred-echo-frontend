@@ -1,80 +1,68 @@
-import { providers } from 'ethers'
 import { proxy } from 'valtio'
 import { subscribeKey } from 'valtio/utils'
-import ContractSynchronizer, {
-  ContractSynchronizerSchema,
-} from 'helpers/ContractSynchronizer'
+import DomainSynchronizer, {
+  DomainSynchronizerSchema,
+} from 'helpers/DomainSynchronizer'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import WalletStore from 'stores/WalletStore'
-import defaultProvider from 'helpers/defaultProvider'
 import transformObjectValues from 'helpers/transformObjectValues'
 
 class ContractsStore extends PersistableStore {
-  connectedAccounts: { [account: string]: ContractSynchronizer } = {}
-  currentBlock?: number
-  addressToTokenIds?: Promise<{ [address: string]: string[] } | undefined>
-
-  provider: providers.Provider
-
-  constructor(provider: providers.Provider) {
-    super()
-    this.provider = provider
-  }
+  connectedAccounts: { [account: string]: DomainSynchronizer } = {}
+  currentDomainAddresses?: Promise<string[] | undefined>
 
   replacer = (key: string, value: unknown) => {
-    const disallowList = ['addressToTokenIds', 'connectedAccounts']
+    const disallowList = ['currentDomains']
     return disallowList.includes(key) ? undefined : value
   }
 
   reviver = (key: string, value: unknown) => {
     if (key === 'connectedAccounts') {
       return transformObjectValues(
-        value as { [account: string]: ContractSynchronizerSchema },
-        ContractSynchronizer.fromJSON
+        value as { [account: string]: DomainSynchronizerSchema },
+        DomainSynchronizer.fromJSON
       )
     }
     return value
   }
 
-  fetchBlockNumber() {
-    return this.provider.getBlockNumber()
-  }
-
-  async fetchMoreContractsOwned(accountChange?: boolean) {
+  async fetchDomains(accountChange?: boolean) {
     if (!WalletStore.account) return
-    if (!this.currentBlock) this.currentBlock = await this.fetchBlockNumber()
 
     if (!this.connectedAccounts[WalletStore.account])
-      this.connectedAccounts[WalletStore.account] = new ContractSynchronizer(
+      this.connectedAccounts[WalletStore.account] = new DomainSynchronizer(
         WalletStore.account
       )
 
-    if (!this.addressToTokenIds || accountChange) {
-      this.addressToTokenIds = this.connectedAccounts[
-        WalletStore.account
-      ].syncAddressToTokenIds(this.currentBlock)
+    if (
+      !this.currentDomainAddresses &&
+      this.connectedAccounts[WalletStore.account].domainAddresses
+    ) {
+      this.currentDomainAddresses = Promise.resolve(
+        this.connectedAccounts[WalletStore.account].domainAddresses
+      )
+    }
+
+    if (!this.currentDomainAddresses || accountChange) {
+      this.currentDomainAddresses =
+        this.connectedAccounts[WalletStore.account].fetchDomains()
       return
     }
 
     const result = await this.connectedAccounts[
       WalletStore.account
-    ].syncAddressToTokenIds(this.currentBlock)
+    ].fetchDomains()
 
-    this.addressToTokenIds = Promise.resolve(result)
+    this.currentDomainAddresses = Promise.resolve(result)
   }
 }
 
-export const GeneralContractsStore = proxy(
-  new ContractsStore(defaultProvider)
-).makePersistent(true)
+export const GeneralContractsStore = proxy(new ContractsStore()).makePersistent(
+  true
+)
 
 subscribeKey(WalletStore, 'account', () => {
-  void GeneralContractsStore.fetchMoreContractsOwned(true)
-})
-
-defaultProvider.on('block', async (blockNumber: number) => {
-  GeneralContractsStore.currentBlock = blockNumber
-  await GeneralContractsStore.fetchMoreContractsOwned()
+  void GeneralContractsStore.fetchDomains(true)
 })
 
 export default ContractsStore

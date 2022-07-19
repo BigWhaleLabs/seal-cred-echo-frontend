@@ -47,10 +47,7 @@ function ContractNameSuspended({
 
   if (clearType) {
     if (contractName && emailDerivativeContracts.includes(address))
-      contractName = contractName
-        .replace(' email', '')
-        .split('.')[0]
-        .slice(1, undefined)
+      contractName = contractName.split(' ')[0]
   }
 
   let content = contractName || address

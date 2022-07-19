@@ -3,7 +3,6 @@ import { MutableRef, useRef } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import Arrow from 'icons/Arrow'
 import ContractName from 'components/ContractName'
-import SealCredStore from 'stores/SealCredStore'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   alignItems,
@@ -28,7 +27,6 @@ import classnames, {
   zIndex,
 } from 'classnames/tailwind'
 import useClickOutside from 'hooks/useClickOutside'
-import useContractsOwned from 'hooks/useContractsOwned'
 
 const sharedStyles = classnames(
   borderRadius('rounded-lg'),
@@ -73,14 +71,10 @@ const menuItem = (current?: boolean) =>
   )
 
 export default function () {
-  const { emailDerivativeContracts } = useSnapshot(SealCredStore)
-  const contractsOwned = useContractsOwned(GeneralContractsStore)
-  const ownedEmailDerivativeContracts = emailDerivativeContracts.filter(
-    (contractAddress) => contractsOwned.includes(contractAddress)
-  )
+  const { currentDomainAddresses = [] } = useSnapshot(GeneralContractsStore)
 
   const { dropDownOpen, currentEmail } = useSnapshot(TwitterStore)
-  const hasBadges = !!ownedEmailDerivativeContracts.length
+  const hasBadges = !!currentDomainAddresses.length
 
   const ref = useRef() as MutableRef<HTMLDivElement>
   useClickOutside(ref, () => (TwitterStore.dropDownOpen = false))
@@ -119,7 +113,7 @@ export default function () {
       </button>
 
       <div className={menuWrapper(dropDownOpen)}>
-        {ownedEmailDerivativeContracts.map((email) => (
+        {currentDomainAddresses.map((email) => (
           <p
             className={menuItem(email === currentEmail)}
             onClick={() => {
