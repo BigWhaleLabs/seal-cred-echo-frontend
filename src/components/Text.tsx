@@ -358,5 +358,5 @@ const hashTagText = classnames(
   textColor('text-formal-accent-semi-transparent')
 )
 export function HashTagText({ children }: ChildrenProp) {
-  return <span className={hashTagText}>#{children}</span>
+  return <span className={hashTagText}>{children}</span>
 }
