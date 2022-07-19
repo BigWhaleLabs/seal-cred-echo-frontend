@@ -27,7 +27,8 @@ export default async function (
   account: string,
   fromBlock = 0,
   toBlock: number,
-  addressToTokenIds: { [address: string]: string[] }
+  addressToTokenIds: { [address: string]: string[] },
+  allowedAddresses: string[]
 ) {
   const provider = fromBlock === 0 ? heavyProvider : defaultProvider
   const receivedLogs = await provider.getLogs({
@@ -43,7 +44,8 @@ export default async function (
   })
 
   for (const { topics, data, address } of receivedLogs.concat(sentLogs)) {
-    if (!isTransferEvent(topics)) continue
+    if (!isTransferEvent(topics) || !allowedAddresses.includes(address))
+      continue
 
     const {
       args: { tokenId },
