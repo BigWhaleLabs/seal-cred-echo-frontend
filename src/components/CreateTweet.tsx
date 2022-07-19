@@ -40,7 +40,6 @@ export default function () {
         onTextChange={(text) => onTweetChange(text)}
         maxLength={maxLength}
         disabled={status.loading}
-        footer={currentEmail}
         error={status.error?.message}
       />
 
@@ -50,7 +49,7 @@ export default function () {
             <DropDown />
           </Suspense>
         </div>
-        <div className={margin('md:ml-20', 'md:mb-0', 'mb-4')}>
+        <div className={margin('md:ml-16', 'md:mb-0', 'mb-4')}>
           <Counter />
         </div>
         <Button

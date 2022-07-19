@@ -1,8 +1,10 @@
 import { LinkText, StatusText, TweetText } from 'components/Text'
+import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
 import TweetChips from 'components/TweetChips'
 import TweetStatus from 'models/TweetStatus'
+import TwitterLoading from 'components/TwitterLoading'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   alignItems,
@@ -37,12 +39,8 @@ const bottomSeparator = classnames(
   display('hidden', 'sm:block')
 )
 
-export default function () {
-  const { blockchainTweets } = useSnapshot(TwitterStore)
-
-  blockchainTweets.forEach(({ tweet, derivativeAddress, updatedAt }) => {
-    console.log(tweet)
-  })
+function BlockchainTweetsSuspended() {
+  const { blockchainTweets = [] } = useSnapshot(TwitterStore)
 
   return (
     <>
@@ -84,5 +82,15 @@ export default function () {
         </Card>
       ))}
     </>
+  )
+}
+
+export default function () {
+  return (
+    <Suspense
+      fallback={<TwitterLoading text="Fetching blockchain tweets..." />}
+    >
+      <BlockchainTweetsSuspended />
+    </Suspense>
   )
 }
