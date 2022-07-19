@@ -21,7 +21,6 @@ import classnames, {
   position,
   space,
   textColor,
-  textDecoration,
   transitionProperty,
   visibility,
   width,
@@ -62,6 +61,7 @@ const menuWrapper = (open: boolean) =>
     opacity(open ? 'opacity-100' : 'opacity-0'),
     visibility(open ? 'visible' : 'invisible'),
     transitionProperty('transition-opacity'),
+    space('space-y-1'),
     sharedStyles
   )
 const postingAs = display('tiny:inline', 'hidden')
@@ -69,7 +69,13 @@ const menuItem = (current?: boolean) =>
   classnames(
     padding('p-2'),
     cursor('cursor-pointer'),
-    textDecoration({ underline: current })
+    borderRadius('rounded-md'),
+    backgroundColor({
+      'bg-primary-dimmed': current,
+      'bg-transparent': !current,
+      'hover:bg-primary-dimmed': current,
+      'hover:bg-primary-background': !current,
+    })
   )
 
 export default function () {

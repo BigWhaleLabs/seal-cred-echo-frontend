@@ -28,6 +28,7 @@ interface TwitterStoreInterface {
   }
   currentEmail?: string
   createTweet: () => void
+  resetStatus: () => void
   dropDownOpen: boolean
   blockchainTweets?: BlockchainTweet[]
 }
@@ -38,6 +39,7 @@ const state = proxy<TwitterStoreInterface>({
   status: { isValid: false, loading: false },
   currentEmail: undefined,
   createTweet: async () => {
+    TwitterStore.resetStatus()
     if (!state.currentEmail) {
       state.status.error = new Error('No email selected')
       return
@@ -52,6 +54,7 @@ const state = proxy<TwitterStoreInterface>({
         tweet: state.text + hashtags,
         domain: currentDomain,
       })
+      TwitterStore.text = ''
     } catch (error) {
       handleError(error)
       state.status.error =
@@ -59,6 +62,12 @@ const state = proxy<TwitterStoreInterface>({
       throw error
     } finally {
       state.status.loading = false
+    }
+  },
+  resetStatus: () => {
+    TwitterStore.status = {
+      isValid: TwitterStore.status.isValid,
+      loading: false,
     }
   },
   dropDownOpen: false,
