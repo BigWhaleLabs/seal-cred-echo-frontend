@@ -1,7 +1,6 @@
 import { proxy } from 'valtio'
 import SealCredStore from 'stores/SealCredStore'
 import WalletStore from 'stores/WalletStore'
-import getNullifierMessage from 'helpers/getNullifierMessage'
 import handleError from 'helpers/handleError'
 
 export enum TweetStatus {
@@ -44,12 +43,13 @@ const TwitterStore = proxy<TwitterStoreInterface>({
     }
     TwitterStore.status.loading = true
     try {
-      const domain = (await SealCredStore.contractNameEmail)[
+      const currentDomain = (await SealCredStore.contractNameDomain)[
         TwitterStore.currentEmail
       ]
-      const nullifierMessage = getNullifierMessage()
-      await WalletStore.signMessage(nullifierMessage)
-      await WalletStore.mintTweet(TwitterStore.text, domain)
+      await WalletStore.saveTweet({
+        tweet: TwitterStore.text,
+        domain: currentDomain,
+      })
     } catch (error) {
       handleError(error)
       TwitterStore.status.error =

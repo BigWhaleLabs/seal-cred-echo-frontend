@@ -12,8 +12,6 @@ export default class ContractSynchronizer {
   synchronizedBlockId?: number
   addressToTokenIds?: { [address: string]: string[] }
 
-  skipTransactions = new Set<string>()
-
   constructor(
     account: string,
     addressToTokenIds?: { [address: string]: string[] },
@@ -57,8 +55,7 @@ export default class ContractSynchronizer {
           ? this.synchronizedBlockId + 1
           : 0,
         blockId,
-        this.addressToTokenIds || {},
-        this.skipTransactions
+        this.addressToTokenIds || {}
       )
 
       this.synchronizedBlockId = blockId

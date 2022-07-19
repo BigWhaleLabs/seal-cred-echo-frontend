@@ -14,10 +14,6 @@ class ContractsStore extends PersistableStore {
   currentBlock?: number
   addressToTokenIds?: Promise<{ [address: string]: string[] } | undefined>
 
-  get persistanceName() {
-    return `${this.constructor.name}_`
-  }
-
   provider: providers.Provider
 
   constructor(provider: providers.Provider) {

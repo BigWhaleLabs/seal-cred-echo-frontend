@@ -27,8 +27,7 @@ export default async function (
   account: string,
   fromBlock = 0,
   toBlock: number,
-  addressToTokenIds: { [address: string]: string[] },
-  skipTransactions: Set<string>
+  addressToTokenIds: { [address: string]: string[] }
 ) {
   const provider = fromBlock === 0 ? heavyProvider : defaultProvider
   const receivedLogs = await provider.getLogs({
@@ -43,19 +42,12 @@ export default async function (
     topics: [utils.id(sig), utils.hexZeroPad(account, 32)],
   })
 
-  for (const { topics, data, address, transactionHash } of receivedLogs.concat(
-    sentLogs
-  )) {
+  for (const { topics, data, address } of receivedLogs.concat(sentLogs)) {
     if (!isTransferEvent(topics)) continue
 
     const {
       args: { tokenId },
     } = parseLogData({ data, topics })
-
-    if (skipTransactions.has(transactionHash)) {
-      skipTransactions.delete(transactionHash)
-      continue
-    }
 
     const value = tokenId.toString()
 
