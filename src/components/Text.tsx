@@ -349,7 +349,7 @@ const tweetText = classnames(
   lineHeight('leading-6')
 )
 export function TweetText({ children }: ChildrenProp) {
-  return <p className={tweetText}>{children}</p>
+  return <pre className={tweetText}>{children}</pre>
 }
 
 const hashTagText = classnames(

@@ -40,6 +40,10 @@ const bottomSeparator = classnames(
 export default function () {
   const { blockchainTweets } = useSnapshot(TwitterStore)
 
+  blockchainTweets.forEach(({ tweet, derivativeAddress, updatedAt }) => {
+    console.log(tweet)
+  })
+
   return (
     <>
       {blockchainTweets.map(({ tweet, derivativeAddress, updatedAt }) => (
