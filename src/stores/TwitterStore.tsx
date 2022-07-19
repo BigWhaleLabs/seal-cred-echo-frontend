@@ -85,7 +85,7 @@ const state = proxy<TwitterStoreInterface>({
             updatedAt: blockData[index],
           }
         })
-        .sort((a, b) => a.id - b.id)
+        .sort((a, b) => b.id - a.id)
     }
   ),
 })
