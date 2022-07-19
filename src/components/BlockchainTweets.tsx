@@ -12,6 +12,7 @@ import classnames, {
   space,
   width,
 } from 'classnames/tailwind'
+import formatDate from 'helpers/formatDate'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 
@@ -41,7 +42,7 @@ export default function () {
 
   return (
     <>
-      {blockchainTweets.map(({ tweet, derivativeAddress }) => (
+      {blockchainTweets.map(({ tweet, derivativeAddress, updatedAt }) => (
         <Card>
           <div className={container}>
             <div className={tweetHeader}>
@@ -49,6 +50,7 @@ export default function () {
                 status={TweetStatus.pending}
                 text={TweetStatus.pending}
               />
+              <StatusText textRight>{formatDate(updatedAt)}</StatusText>
             </div>
             <TweetText>{tweet}</TweetText>
             <div className={tweetBottom}>
