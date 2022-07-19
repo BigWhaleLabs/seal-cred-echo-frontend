@@ -1,7 +1,8 @@
 import { LinkText, StatusText, TweetText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
-import TweetStatus from 'components/TweetStatus'
+import TweetChips from 'components/TweetChips'
+import TweetStatus from 'models/TweetStatus'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   alignItems,
@@ -38,27 +39,28 @@ const bottomSeparator = classnames(
 export default function () {
   const { blockchainTweets } = useSnapshot(TwitterStore)
 
-  if (!blockchainTweets) return null
-
   return (
     <>
-      {blockchainTweets.map(({ text, author, status, updatedAt }) => (
+      {blockchainTweets.map(({ tweet, derivativeAddress }) => (
         <Card>
           <div className={container}>
             <div className={tweetHeader}>
-              <TweetStatus status={status} text={status} />
-              <StatusText textRight>{updatedAt}</StatusText>
+              <TweetChips
+                status={TweetStatus.pending}
+                text={TweetStatus.pending}
+              />
             </div>
-            <TweetText>{text}</TweetText>
+            <TweetText>{tweet}</TweetText>
             <div className={tweetBottom}>
               <StatusText>Posted by: </StatusText>
               <LinkText
                 extraSmall
                 targetBlank
-                title={author}
-                url={getEtherscanAddressUrl(author)}
+                title={derivativeAddress}
+                url={getEtherscanAddressUrl(derivativeAddress)}
               >
-                {truncateMiddleIfNeeded(author, 13)}
+                {!!derivativeAddress &&
+                  truncateMiddleIfNeeded(derivativeAddress, 13)}
               </LinkText>
               <div className={bottomSeparator}>
                 <StatusText>|</StatusText>
@@ -66,8 +68,8 @@ export default function () {
               <LinkText
                 extraSmall
                 targetBlank
-                title={author}
-                url={getEtherscanAddressUrl(author)}
+                title={derivativeAddress}
+                url={getEtherscanAddressUrl(derivativeAddress)}
               >
                 Etherscan
               </LinkText>

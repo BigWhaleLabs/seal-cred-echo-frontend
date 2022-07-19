@@ -1,19 +1,12 @@
 import { proxy } from 'valtio'
+import SCTwitterLedgerContract from 'helpers/SCTwitterLedgerContract'
 import SealCredStore from 'stores/SealCredStore'
 import WalletStore from 'stores/WalletStore'
 import handleError from 'helpers/handleError'
 
-export enum TweetStatus {
-  pending = 'Pending review...',
-  rejected = 'Rejected',
-  posted = 'Posted to twitter',
-}
-
 interface BlockchainTweet {
-  text: string
-  author: string
-  status: TweetStatus
-  updatedAt: string
+  tweet: string
+  derivativeAddress: string
 }
 
 interface TwitterStoreInterface {
@@ -28,7 +21,7 @@ interface TwitterStoreInterface {
   currentEmail?: string
   createTweet: () => void
   dropDownOpen: boolean
-  blockchainTweets?: BlockchainTweet[]
+  blockchainTweets: Promise<BlockchainTweet[]>
 }
 
 const TwitterStore = proxy<TwitterStoreInterface>({
@@ -60,32 +53,12 @@ const TwitterStore = proxy<TwitterStoreInterface>({
     }
   },
   dropDownOpen: false,
-  blockchainTweets: [
-    {
-      text: "I’ve lost over 50% of value on mine. I'm hopeful that the market will turn around, but what do you all think",
-      status: TweetStatus.pending,
-      updatedAt: '1s',
-      author: '0x0000000000000000000000000000000000000000',
-    },
-    {
-      text: "I’ve lost over 50% of value on mine. I'm hopeful that the market will turn around, but what do you all think",
-      status: TweetStatus.rejected,
-      updatedAt: '59m',
-      author: '0x0000000000000000000000000000000000000000',
-    },
-    {
-      text: "I’ve lost over 50% of value on mine. I'm hopeful that the market will turn around, but what do you all think",
-      status: TweetStatus.posted,
-      updatedAt: '1d 1h 1m',
-      author: '0x0000000000000000000000000000000000000000',
-    },
-    {
-      text: "I’ve lost over 50% of value on mine. I'm hopeful that the market will turn around, but what do you all think. I’ve lost over 50% of value on mine. I'm hopeful that the market will turn around, but what do you all think",
-      status: TweetStatus.posted,
-      updatedAt: '255d 12h 12m',
-      author: '0x0000000000000000000000000000000000000000',
-    },
-  ],
+  blockchainTweets: SCTwitterLedgerContract.getAllTweets().then((tweets) =>
+    tweets.map((element) => ({
+      tweet: element.tweet,
+      derivativeAddress: element.derivativeAddress,
+    }))
+  ),
 })
 
 export default TwitterStore

@@ -1,10 +1,12 @@
 import { BodyText } from 'components/Text'
+import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import AgeWarning from 'components/AgeWarning'
 import AppStore from 'stores/AppStore'
 import BlockchainTweets from 'components/BlockchainTweets'
 import HintCard from 'components/HintCard'
 import PreviousTweetsLayout from 'components/PrevTweetsLayout'
+import TwitterLoading from 'components/TwitterLoading'
 
 export default function () {
   const { adultAccepted } = useSnapshot(AppStore)
@@ -18,7 +20,11 @@ export default function () {
           its creation beyond providing a space to display it.
         </BodyText>
       </HintCard>
-      <BlockchainTweets />
+      <Suspense
+        fallback={<TwitterLoading text="Fetching blockchain tweets..." />}
+      >
+        <BlockchainTweets />
+      </Suspense>
     </PreviousTweetsLayout>
   )
 }
