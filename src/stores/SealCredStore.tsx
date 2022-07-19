@@ -6,6 +6,7 @@ import getEmailLedger from 'helpers/getEmailLedger'
 import getEmailLedgerRecord from 'helpers/getEmailLedgerRecord'
 
 interface SealCredStoreType {
+  firstBlockId?: number
   emailLedger: Promise<EmailLedger>
 }
 
@@ -15,7 +16,12 @@ interface ComputedSealCredStoreType {
 }
 
 const state = proxy<SealCredStoreType>({
-  emailLedger: getEmailLedger(SCEmailLedgerContract),
+  emailLedger: getEmailLedger(SCEmailLedgerContract).then(
+    ({ emailLedger, firstBlockId }) => {
+      state.firstBlockId = firstBlockId
+      return emailLedger
+    }
+  ),
 })
 
 const SealCredStore = derive<SealCredStoreType, ComputedSealCredStoreType>(

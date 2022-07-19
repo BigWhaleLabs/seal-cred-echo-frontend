@@ -1,12 +1,5 @@
 import { SCEmailLedger } from '@big-whale-labs/seal-cred-ledger-contract'
 
-interface EmailLedger {
-  [domain: string]: {
-    derivativeContract: string
-    domain: string
-  }
-}
-
 function getEmailLedgerRecord(derivativeContract: string, domain: string) {
   return {
     domain,
@@ -14,10 +7,11 @@ function getEmailLedgerRecord(derivativeContract: string, domain: string) {
   }
 }
 
-export default async function (ledger: SCEmailLedger): Promise<EmailLedger> {
+export default async function (ledger: SCEmailLedger) {
   const eventsFilter = ledger.filters.CreateDerivativeContract()
   const events = await ledger.queryFilter(eventsFilter)
-  const result = events.reduce(
+  const firstBlockId = events.length === 0 ? -1 : events[0].blockNumber
+  const emailLedger = events.reduce(
     (prev, { args: { domain, derivativeContract } }) => {
       return {
         ...prev,
@@ -26,5 +20,8 @@ export default async function (ledger: SCEmailLedger): Promise<EmailLedger> {
     },
     {}
   )
-  return result
+  return {
+    emailLedger,
+    firstBlockId,
+  }
 }
