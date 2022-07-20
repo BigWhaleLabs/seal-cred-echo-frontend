@@ -2,6 +2,7 @@ import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import TweetStructure from 'models/TweetStructure'
+import TwitterStore from 'stores/TwitterStore'
 import createTweet from 'helpers/createTweet'
 import env from 'helpers/env'
 import getNullifierMessage from 'helpers/getNullifierMessage'
@@ -76,7 +77,8 @@ class WalletStore extends PersistableStore {
 
     const nullifierMessage = getNullifierMessage()
     await this.signMessage(nullifierMessage)
-    return await createTweet({ tweet, domain }, provider)
+    await createTweet({ tweet, domain }, provider)
+    TwitterStore.tweetState = 'success'
   }
 
   private subscribeProvider(provider: Web3Provider) {

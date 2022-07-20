@@ -16,6 +16,7 @@ interface BlockchainTweet {
 interface TwitterStoreInterface {
   text: string
   maxLength: number
+  tweetState?: 'pending' | 'success'
   status: {
     isValid: boolean
     loading: boolean
@@ -52,11 +53,15 @@ const state = proxy<TwitterStoreInterface>({
       TwitterStore.text = ''
     } catch (error) {
       handleError(error)
+      state.tweetState = undefined
       state.status.error =
         error instanceof Error ? error : new Error('Failed to create tweet')
       throw error
     } finally {
       state.status.loading = false
+      setTimeout(() => {
+        state.tweetState = undefined
+      }, 7000) // hide twitter processing component after 7 seconds
     }
   },
   resetStatus: () => {
