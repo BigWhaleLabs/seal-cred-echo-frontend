@@ -23,7 +23,7 @@ interface TwitterStoreInterface {
     error?: Error
     success?: boolean
   }
-  currentEmail?: string
+  currentDomainAddress?: string
   createTweet: () => void
   resetStatus: () => void
   dropDownOpen: boolean
@@ -34,7 +34,7 @@ const state = proxy<TwitterStoreInterface>({
   text: '',
   maxLength: 280,
   status: { isValid: false, loading: false },
-  currentEmail: undefined,
+  currentDomainAddress: undefined,
   createTweet: async () => {
     TwitterStore.resetStatus()
     state.status.loading = true
@@ -91,17 +91,18 @@ const TwitterStore = derive<
 >(
   {
     currentDomain: async (get) => {
-      const address = get(state).currentEmail
+      const address = get(state).currentDomainAddress
       if (!address) return ''
       return (await SealCredStore.contractNameDomain)[address]
     },
     hashtags: async (get) => {
       const hashtag = '#VerifiedToWorkAt'
-      const address = get(state).currentEmail
+      const address = get(state).currentDomainAddress
       if (!address) return
       const currentDomain = (await SealCredStore.contractNameDomain)[address]
       if (!currentDomain) return
-      return `\n${hashtag} #${currentDomain}`
+      const name = currentDomain.split('.')[0]
+      return `\n${hashtag} #${name}`
     },
   },
   { proxy: state }
