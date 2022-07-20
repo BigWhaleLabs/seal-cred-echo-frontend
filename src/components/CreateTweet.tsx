@@ -2,7 +2,6 @@ import { HeaderText } from 'components/Text'
 import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Button from 'components/Button'
-import Counter from 'components/Counter'
 import DropDown from 'components/DropDown'
 import TextArea from 'components/TextArea'
 import TweetProcessing from 'components/TweetProcessing'
@@ -61,15 +60,11 @@ export default function () {
             disabled={status.loading}
             error={status.error?.message}
           />
-
           <div className={bottomContainer}>
             <div className={dropdownWrapper}>
               <Suspense fallback={<div>Fetching emails...</div>}>
                 <DropDown />
               </Suspense>
-            </div>
-            <div className={margin('ml-4', 'md:ml-16', 'md:mb-0', 'mb-4')}>
-              <Counter />
             </div>
             <Button
               type="primary"

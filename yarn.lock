@@ -1542,12 +1542,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@big-whale-labs/seal-cred-twitter-contract@npm:^0.0.5":
-  version: 0.0.5
-  resolution: "@big-whale-labs/seal-cred-twitter-contract@npm:0.0.5"
+"@big-whale-labs/seal-cred-twitter-contract@npm:^0.0.6":
+  version: 0.0.6
+  resolution: "@big-whale-labs/seal-cred-twitter-contract@npm:0.0.6"
   dependencies:
     "@big-whale-labs/constants": ^0.1.9
-  checksum: 00bad2415ec43a0b882c6233057d5f8278f4603f1bbd9165ab894af83e4135dcb534d85a39a7fbd94dc1fb3d54b331659cf312a6c62e373661428986c17070ba
+  checksum: 1cc07ecde553e63d4f52393eda660eb15a75101e22b7905eb33a25464ea35774f4655f7192cf8488d85a77287dc43d7745263a8ebd6ed4cb0b0068138f4f8c83
   languageName: node
   linkType: hard
 
@@ -14043,7 +14043,7 @@ __metadata:
   dependencies:
     "@big-whale-labs/constants": ^0.1.0
     "@big-whale-labs/seal-cred-ledger-contract": ^0.2.4
-    "@big-whale-labs/seal-cred-twitter-contract": ^0.0.5
+    "@big-whale-labs/seal-cred-twitter-contract": ^0.0.6
     "@coinbase/wallet-sdk": ^3.3.0
     "@esbuild-plugins/node-globals-polyfill": ^0.1.1
     "@preact/preset-vite": ^2.3.0

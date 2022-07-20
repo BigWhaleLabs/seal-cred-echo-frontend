@@ -19,10 +19,12 @@ import classnames, {
   padding,
   position,
   space,
+  textAlign,
   textColor,
   transitionProperty,
   visibility,
   width,
+  wordBreak,
   zIndex,
 } from 'classnames/tailwind'
 import useClickOutside from 'hooks/useClickOutside'
@@ -43,6 +45,7 @@ const wrapper = (hasBadges: boolean) =>
     position('relative'),
     fontFamily('font-primary'),
     zIndex('z-40'),
+    width('w-full'),
     opacity({ 'opacity-70': !hasBadges })
   )
 const opener = classnames(
@@ -50,6 +53,7 @@ const opener = classnames(
   justifyContent('justify-between'),
   width('md:w-80', 'w-full'),
   space('space-x-2'),
+  textAlign('text-left'),
   sharedStyles
 )
 const menuWrapper = (open: boolean) =>
@@ -69,6 +73,7 @@ const menuItem = (current?: boolean) =>
     padding('p-2'),
     cursor('cursor-pointer'),
     borderRadius('rounded-md'),
+    wordBreak('break-all'),
     backgroundColor({
       'bg-primary-dimmed': current,
       'bg-transparent': !current,
@@ -84,7 +89,7 @@ export default function () {
     (contractAddress) => contractsOwned.includes(contractAddress)
   )
 
-  const { dropDownOpen, currentEmail } = useSnapshot(TwitterStore)
+  const { dropDownOpen, currentDomainAddress } = useSnapshot(TwitterStore)
   const hasBadges = !!ownedEmailDerivativeContracts.length
 
   const ref = useRef() as MutableRef<HTMLDivElement>
@@ -99,10 +104,14 @@ export default function () {
       >
         {hasBadges ? (
           <>
-            {currentEmail ? (
+            {currentDomainAddress ? (
               <span>
                 <span className={postingAs}>Posting as: </span>
-                <ContractName clearType address={currentEmail} />
+                <ContractName
+                  truncate
+                  clearType
+                  address={currentDomainAddress}
+                />
               </span>
             ) : (
               <span
@@ -124,15 +133,15 @@ export default function () {
       </button>
 
       <div className={menuWrapper(dropDownOpen)}>
-        {ownedEmailDerivativeContracts.map((email) => (
+        {ownedEmailDerivativeContracts.map((address) => (
           <p
-            className={menuItem(email === currentEmail)}
+            className={menuItem(address === currentDomainAddress)}
             onClick={() => {
-              TwitterStore.currentEmail = email
+              TwitterStore.currentDomainAddress = address
               TwitterStore.dropDownOpen = false
             }}
           >
-            <ContractName clearType address={email} />
+            <ContractName clearType address={address} />
           </p>
         ))}
       </div>

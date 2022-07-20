@@ -18,6 +18,7 @@ import {
   textDecoration,
   transitionProperty,
   whitespace,
+  wordBreak,
 } from 'classnames/tailwind'
 import ChildrenProp from 'models/ChildrenProp'
 import ExclamationInCircle from 'icons/ExclamationInCircle'
@@ -357,7 +358,8 @@ export function TweetText({ children }: ChildrenProp) {
 const hashTagText = classnames(
   fontSize('text-sm'),
   lineHeight('leading-5'),
-  textColor('text-formal-accent-semi-transparent')
+  textColor('text-formal-accent-semi-transparent'),
+  wordBreak('break-all')
 )
 export function HashTagText({ children }: ChildrenProp) {
   return <span className={hashTagText}>{children}</span>

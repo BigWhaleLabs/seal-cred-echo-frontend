@@ -74,14 +74,6 @@ function BlockchainTweetsSuspended() {
                   Etherscan
                 </LinkText>
               </div>
-              <LinkText
-                extraSmall
-                targetBlank
-                title={derivativeAddress}
-                url={getEtherscanAddressUrl(derivativeAddress)}
-              >
-                Etherscan
-              </LinkText>
             </div>
           </Card>
         )
