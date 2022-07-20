@@ -54,7 +54,7 @@ export default function () {
         <Button
           type="primary"
           loading={status.loading}
-          disabled={!status.isValid}
+          disabled={!status.isValid || !TweeterStore.text.length}
           title="Tweet"
           onClick={() => {
             TweeterStore.tweet()
