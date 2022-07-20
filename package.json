@@ -27,7 +27,7 @@
   "dependencies": {
     "@big-whale-labs/constants": "^0.1.0",
     "@big-whale-labs/seal-cred-ledger-contract": "^0.2.4",
-    "@big-whale-labs/seal-cred-twitter-contract": "^0.0.5",
+    "@big-whale-labs/seal-cred-twitter-contract": "^0.0.6",
     "@coinbase/wallet-sdk": "^3.3.0",
     "@types/react-textarea-autosize": "^8.0.0",
     "@walletconnect/web3-provider": "^1.7.8",
