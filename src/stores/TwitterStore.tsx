@@ -1,20 +1,16 @@
 import { derive } from 'valtio/utils'
 import { proxy } from 'valtio'
+import SCTwitterLedgerContract from 'helpers/SCTwitterLedgerContract'
 import SealCredStore from 'stores/SealCredStore'
 import WalletStore from 'stores/WalletStore'
+import getTwitterLedgerRecord from 'helpers/getTwitterLedgerRecord'
 import handleError from 'helpers/handleError'
 
-export enum TweetStatus {
-  pending = 'Pending review...',
-  rejected = 'Rejected',
-  posted = 'Posted to twitter',
-}
-
 interface BlockchainTweet {
-  text: string
-  author: string
-  status: TweetStatus
-  updatedAt: string
+  id: number
+  tweet: string
+  derivativeAddress: string
+  updatedAt: number
 }
 
 interface TwitterStoreInterface {
@@ -30,7 +26,7 @@ interface TwitterStoreInterface {
   createTweet: () => void
   resetStatus: () => void
   dropDownOpen: boolean
-  blockchainTweets?: BlockchainTweet[]
+  blockchainTweets: Promise<BlockchainTweet[]>
 }
 
 const state = proxy<TwitterStoreInterface>({
@@ -40,16 +36,15 @@ const state = proxy<TwitterStoreInterface>({
   currentEmail: undefined,
   createTweet: async () => {
     TwitterStore.resetStatus()
-    if (!state.currentEmail) {
-      state.status.error = new Error('No email selected')
-      return
-    }
     state.status.loading = true
     try {
       const currentDomain = await TwitterStore.currentDomain
       if (!currentDomain) return
       const hashtags = await TwitterStore.hashtags
-      if (!hashtags) return
+      if (!hashtags || state.text.length + hashtags.length > state.maxLength) {
+        state.status.error = new Error('Tweet is too long')
+        return
+      }
       await WalletStore.saveTweet({
         tweet: state.text + hashtags,
         domain: currentDomain,
@@ -71,32 +66,28 @@ const state = proxy<TwitterStoreInterface>({
     }
   },
   dropDownOpen: false,
-  blockchainTweets: [
-    {
-      text: "I’ve lost over 50% of value on mine. I'm hopeful that the market will turn around, but what do you all think",
-      status: TweetStatus.pending,
-      updatedAt: '1s',
-      author: '0x0000000000000000000000000000000000000000',
-    },
-    {
-      text: "I’ve lost over 50% of value on mine. I'm hopeful that the market will turn around, but what do you all think",
-      status: TweetStatus.rejected,
-      updatedAt: '59m',
-      author: '0x0000000000000000000000000000000000000000',
-    },
-    {
-      text: "I’ve lost over 50% of value on mine. I'm hopeful that the market will turn around, but what do you all think",
-      status: TweetStatus.posted,
-      updatedAt: '1d 1h 1m',
-      author: '0x0000000000000000000000000000000000000000',
-    },
-    {
-      text: "I’ve lost over 50% of value on mine. I'm hopeful that the market will turn around, but what do you all think. I’ve lost over 50% of value on mine. I'm hopeful that the market will turn around, but what do you all think",
-      status: TweetStatus.posted,
-      updatedAt: '255d 12h 12m',
-      author: '0x0000000000000000000000000000000000000000',
-    },
-  ],
+  blockchainTweets: SCTwitterLedgerContract.getAllTweets().then(
+    async (tweets) => {
+      const eventsFilter = SCTwitterLedgerContract.filters.TweetSaved()
+      const events = await SCTwitterLedgerContract.queryFilter(eventsFilter)
+      const blockData: number[] = []
+
+      for (const event of events) {
+        const block = await event.getBlock()
+        blockData.push(block.timestamp)
+      }
+      return tweets
+        .map(({ id, tweet, derivativeAddress }, index) => {
+          return {
+            id: id.toNumber(),
+            tweet,
+            derivativeAddress,
+            updatedAt: blockData[index],
+          }
+        })
+        .sort((a, b) => b.id - a.id)
+    }
+  ),
 })
 
 const TwitterStore = derive<
@@ -122,6 +113,22 @@ const TwitterStore = derive<
     },
   },
   { proxy: state }
+)
+
+SCTwitterLedgerContract.on(
+  SCTwitterLedgerContract.filters.TweetSaved(),
+  async (id, tweet, derivativeAddress) => {
+    console.info('TweetSaved event', tweet, derivativeAddress)
+    const ledger = await TwitterStore.blockchainTweets
+    if (
+      !ledger.find(({ id: ledgerTweetId }) => ledgerTweetId === id.toNumber())
+    ) {
+      TwitterStore.blockchainTweets = Promise.resolve([
+        getTwitterLedgerRecord(id, tweet, derivativeAddress, Date.now()),
+        ...ledger,
+      ])
+    }
+  }
 )
 
 export default TwitterStore

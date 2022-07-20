@@ -72,7 +72,9 @@ export default function ({
           <>
             <BodyText>
               <EmphasizeText bold>Tweets</EmphasizeText> by{' '}
-              <LinkText url="https://sealcred.xyz">@SealCredWork</LinkText>
+              <LinkText url="https://twitter.com/SealCredWork">
+                @SealCredWork
+              </LinkText>
             </BodyText>
             <NavLink to="blockchain" className={navLinkPrimary}>
               View all on blockchain

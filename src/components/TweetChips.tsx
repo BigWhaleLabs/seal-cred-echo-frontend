@@ -1,5 +1,5 @@
 import { StatusText } from 'components/Text'
-import { TweetStatus } from 'stores/TwitterStore'
+import TweetStatus from 'models/TweetStatus'
 import classnames, {
   backgroundColor,
   borderRadius,

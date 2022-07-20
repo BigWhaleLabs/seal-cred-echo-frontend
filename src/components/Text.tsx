@@ -17,6 +17,7 @@ import {
   textColor,
   textDecoration,
   transitionProperty,
+  whitespace,
 } from 'classnames/tailwind'
 import ChildrenProp from 'models/ChildrenProp'
 import ExclamationInCircle from 'icons/ExclamationInCircle'
@@ -346,7 +347,8 @@ export function StatusText({
 const tweetText = classnames(
   fontFamily('font-primary'),
   fontSize('text-base'),
-  lineHeight('leading-6')
+  lineHeight('leading-6'),
+  whitespace('whitespace-pre-wrap')
 )
 export function TweetText({ children }: ChildrenProp) {
   return <p className={tweetText}>{children}</p>
