@@ -1,5 +1,4 @@
 import { MutableRef, useRef } from 'preact/hooks'
-import { truncate } from 'fs'
 import { useSnapshot } from 'valtio'
 import Arrow from 'icons/Arrow'
 import ContractName from 'components/ContractName'
