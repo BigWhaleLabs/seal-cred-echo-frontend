@@ -9,6 +9,7 @@ import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   alignItems,
   display,
+  flexGrow,
   flexWrap,
   justifyContent,
   margin,
@@ -27,8 +28,15 @@ const onTweetChange = (text: string) => {
   TwitterStore.text = text
 }
 
+const dropdownWrapper = classnames(
+  margin('md:mb-0', 'mb-4'),
+  display('flex'),
+  flexGrow('grow', 'md:grow-0')
+)
+
 export default function () {
-  const { text, maxLength, status, currentEmail } = useSnapshot(TwitterStore)
+  const { text, maxLength, status, currentDomainAddress } =
+    useSnapshot(TwitterStore)
   const { md } = useBreakpoints()
 
   return (
@@ -44,18 +52,18 @@ export default function () {
       />
 
       <div className={bottomContainer}>
-        <div className={margin('md:mb-0', 'mb-4')}>
+        <div className={dropdownWrapper}>
           <Suspense fallback={<div>Fetching emails...</div>}>
             <DropDown />
           </Suspense>
         </div>
-        <div className={margin('md:ml-16', 'md:mb-0', 'mb-4')}>
+        <div className={margin('ml-4', 'md:ml-16', 'md:mb-0', 'mb-4')}>
           <Counter />
         </div>
         <Button
           type="primary"
           loading={status.loading}
-          disabled={!status.isValid || !currentEmail}
+          disabled={!status.isValid || !currentDomainAddress}
           title="Tweet"
           onClick={() => {
             TwitterStore.createTweet()
