@@ -3,6 +3,7 @@ import { proxy } from 'valtio'
 import SCTwitterLedgerContract from 'helpers/SCTwitterLedgerContract'
 import SealCredStore from 'stores/SealCredStore'
 import WalletStore from 'stores/WalletStore'
+import getBlockchainTweets from 'helpers/getBlockchainTweets'
 import getTwitterLedgerRecord from 'helpers/getTwitterLedgerRecord'
 import handleError from 'helpers/handleError'
 
@@ -67,19 +68,7 @@ const state = proxy<TwitterStoreInterface>({
     }
   },
   dropDownOpen: false,
-  blockchainTweets: SCTwitterLedgerContract.getAllTweets().then((tweets) => {
-    return tweets
-      .map(({ id, tweet, derivativeAddress, sender, timestamp }) => {
-        return {
-          id: id.toNumber(),
-          tweet,
-          derivativeAddress,
-          sender,
-          timestamp: timestamp.toNumber(),
-        }
-      })
-      .reverse()
-  }),
+  blockchainTweets: getBlockchainTweets(),
 })
 
 const TwitterStore = derive<
