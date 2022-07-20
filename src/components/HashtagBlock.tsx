@@ -1,22 +1,25 @@
 import { HashTagText } from 'components/Text'
 import { Suspense } from 'preact/compat'
 import {
+  alignItems,
   classnames,
   display,
   flexDirection,
-  flexWrap,
+  justifyContent,
   margin,
   space,
 } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
+import Counter from 'components/Counter'
 import TwitterStore from 'stores/TwitterStore'
 
 const footerBox = classnames(
   display('flex'),
   flexDirection('flex-row'),
-  flexWrap('flex-wrap'),
   space('space-x-2'),
-  margin('mt-4')
+  margin('mt-4'),
+  alignItems('items-end'),
+  justifyContent('justify-between')
 )
 
 function HashtagBlockSuspended() {
@@ -27,6 +30,7 @@ function HashtagBlockSuspended() {
       {!!hashtags && (
         <div className={footerBox}>
           <HashTagText>{hashtags}</HashTagText>
+          <Counter />
         </div>
       )}
     </>

@@ -19,10 +19,12 @@ import classnames, {
   padding,
   position,
   space,
+  textAlign,
   textColor,
   transitionProperty,
   visibility,
   width,
+  wordBreak,
   zIndex,
 } from 'classnames/tailwind'
 import useClickOutside from 'hooks/useClickOutside'
@@ -51,6 +53,7 @@ const opener = classnames(
   justifyContent('justify-between'),
   width('md:w-80', 'w-full'),
   space('space-x-2'),
+  textAlign('text-left'),
   sharedStyles
 )
 const menuWrapper = (open: boolean) =>
@@ -70,6 +73,7 @@ const menuItem = (current?: boolean) =>
     padding('p-2'),
     cursor('cursor-pointer'),
     borderRadius('rounded-md'),
+    wordBreak('break-all'),
     backgroundColor({
       'bg-primary-dimmed': current,
       'bg-transparent': !current,
@@ -103,7 +107,11 @@ export default function () {
             {currentDomainAddress ? (
               <span>
                 <span className={postingAs}>Posting as: </span>
-                <ContractName clearType address={currentDomainAddress} />
+                <ContractName
+                  truncate
+                  clearType
+                  address={currentDomainAddress}
+                />
               </span>
             ) : (
               <span
