@@ -1,7 +1,7 @@
 enum TweetStatus {
-  pending = 'Pending review...',
-  rejected = 'Rejected',
-  posted = 'Posted to twitter',
+  approved = 'approved',
+  rejected = 'rejected',
+  pending = 'pending',
 }
 
 export default TweetStatus

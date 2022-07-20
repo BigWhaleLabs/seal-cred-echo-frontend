@@ -3,7 +3,6 @@ import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
 import TweetChips from 'components/TweetChips'
-import TweetStatus from 'models/TweetStatus'
 import TwitterLoading from 'components/TwitterLoading'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
@@ -44,30 +43,36 @@ function BlockchainTweetsSuspended() {
 
   return (
     <>
-      {blockchainTweets.map(({ tweet, derivativeAddress, updatedAt }) => (
-        <Card>
-          <div className={container}>
-            <div className={tweetHeader}>
-              <TweetChips
-                status={TweetStatus.pending}
-                text={TweetStatus.pending}
-              />
-              <StatusText textRight>{formatDate(updatedAt)}</StatusText>
-            </div>
-            <TweetText>{tweet}</TweetText>
-            <div className={tweetBottom}>
-              <StatusText>Posted by: </StatusText>
-              <LinkText
-                extraSmall
-                targetBlank
-                title={derivativeAddress}
-                url={getEtherscanAddressUrl(derivativeAddress)}
-              >
-                {!!derivativeAddress &&
-                  truncateMiddleIfNeeded(derivativeAddress, 13)}
-              </LinkText>
-              <div className={bottomSeparator}>
-                <StatusText>|</StatusText>
+      {blockchainTweets.map(
+        ({ tweet, derivativeAddress, sender, timestamp, status }) => (
+          <Card>
+            <div className={container}>
+              <div className={tweetHeader}>
+                <TweetChips status={status} />
+                <StatusText textRight>{formatDate(timestamp)}</StatusText>
+              </div>
+              <TweetText>{tweet}</TweetText>
+              <div className={tweetBottom}>
+                <StatusText>Posted by: </StatusText>
+                <LinkText
+                  extraSmall
+                  targetBlank
+                  title={sender}
+                  url={getEtherscanAddressUrl(sender)}
+                >
+                  {!!sender && truncateMiddleIfNeeded(sender, 13)}
+                </LinkText>
+                <div className={bottomSeparator}>
+                  <StatusText>|</StatusText>
+                </div>
+                <LinkText
+                  extraSmall
+                  targetBlank
+                  title={derivativeAddress}
+                  url={getEtherscanAddressUrl(derivativeAddress)}
+                >
+                  Etherscan
+                </LinkText>
               </div>
               <LinkText
                 extraSmall
@@ -78,9 +83,9 @@ function BlockchainTweetsSuspended() {
                 Etherscan
               </LinkText>
             </div>
-          </div>
-        </Card>
-      ))}
+          </Card>
+        )
+      )}
     </>
   )
 }
