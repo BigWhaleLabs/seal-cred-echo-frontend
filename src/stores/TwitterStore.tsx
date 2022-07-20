@@ -36,7 +36,7 @@ const state = proxy<TwitterStoreInterface>({
   status: { isValid: false, loading: false },
   currentDomainAddress: undefined,
   createTweet: async () => {
-    TwitterStore.resetStatus()
+    state.resetStatus()
     state.status.loading = true
     try {
       const currentDomain = await TwitterStore.currentDomain
@@ -50,7 +50,7 @@ const state = proxy<TwitterStoreInterface>({
         tweet: state.text + hashtags,
         domain: currentDomain,
       })
-      TwitterStore.text = ''
+      state.text = ''
     } catch (error) {
       handleError(error)
       state.status.error =
