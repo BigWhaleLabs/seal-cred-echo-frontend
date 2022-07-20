@@ -1,4 +1,4 @@
-import { TweetModel, TweetsSet } from 'models/TweetModel'
+import { TweetsSet } from 'models/TweetModel'
 import { proxy } from 'valtio'
 import { subscribeKey } from 'valtio/utils'
 import PersistableStore from 'stores/persistence/PersistableStore'
@@ -9,11 +9,10 @@ import getBlockchainTweets from 'helpers/getBlockchainTweets'
 import getTweetsFromPoster from 'helpers/getTweetsFromPoster'
 
 class TweetStore extends PersistableStore {
-  currentTweet?: TweetModel
   tweets: TweetsSet = {}
 
   async fetchTweetList(force?: boolean) {
-    if (!force && !this.currentTweet) return
+    if (!force && !TwitterStore.currentTweet) return
     this.tweets = await getTweetsFromPoster()
     const tweetsInBlockchain = await getBlockchainTweets()
     TwitterStore.blockchainTweets = Promise.resolve(

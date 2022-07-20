@@ -5,7 +5,6 @@ import Button from 'components/Button'
 import DropDown from 'components/DropDown'
 import TextArea from 'components/TextArea'
 import TweetProcessing from 'components/TweetProcessing'
-import TweetStore from 'stores/TweetStore'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   alignItems,
@@ -39,7 +38,7 @@ const dropdownWrapper = classnames(
 export default function () {
   const { text, maxLength, status, currentDomainAddress } =
     useSnapshot(TwitterStore)
-  const { currentTweet } = useSnapshot(TweetStore)
+  const { currentTweet } = useSnapshot(TwitterStore)
   const { md } = useBreakpoints()
 
   return (
