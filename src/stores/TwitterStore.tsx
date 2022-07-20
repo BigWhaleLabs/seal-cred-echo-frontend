@@ -3,6 +3,7 @@ import { proxy } from 'valtio'
 import SCTwitterLedgerContract from 'helpers/SCTwitterLedgerContract'
 import SealCredStore from 'stores/SealCredStore'
 import WalletStore from 'stores/WalletStore'
+import getBlockchainTweets from 'helpers/getBlockchainTweets'
 import getTwitterLedgerRecord from 'helpers/getTwitterLedgerRecord'
 import handleError from 'helpers/handleError'
 
@@ -10,7 +11,8 @@ interface BlockchainTweet {
   id: number
   tweet: string
   derivativeAddress: string
-  updatedAt: number
+  sender: string
+  timestamp: number
 }
 
 interface TwitterStoreInterface {
@@ -35,7 +37,7 @@ const state = proxy<TwitterStoreInterface>({
   status: { isValid: false, loading: false },
   currentDomainAddress: undefined,
   createTweet: async () => {
-    TwitterStore.resetStatus()
+    state.resetStatus()
     state.status.loading = true
     try {
       const currentDomain = await TwitterStore.currentDomain
@@ -49,7 +51,7 @@ const state = proxy<TwitterStoreInterface>({
         tweet: state.text + hashtags,
         domain: currentDomain,
       })
-      TwitterStore.text = ''
+      state.text = ''
     } catch (error) {
       handleError(error)
       state.status.error =
@@ -66,28 +68,7 @@ const state = proxy<TwitterStoreInterface>({
     }
   },
   dropDownOpen: false,
-  blockchainTweets: SCTwitterLedgerContract.getAllTweets().then(
-    async (tweets) => {
-      const eventsFilter = SCTwitterLedgerContract.filters.TweetSaved()
-      const events = await SCTwitterLedgerContract.queryFilter(eventsFilter)
-      const blockData: number[] = []
-
-      for (const event of events) {
-        const block = await event.getBlock()
-        blockData.push(block.timestamp)
-      }
-      return tweets
-        .map(({ id, tweet, derivativeAddress }, index) => {
-          return {
-            id: id.toNumber(),
-            tweet,
-            derivativeAddress,
-            updatedAt: blockData[index],
-          }
-        })
-        .sort((a, b) => b.id - a.id)
-    }
-  ),
+  blockchainTweets: getBlockchainTweets(),
 })
 
 const TwitterStore = derive<
@@ -118,14 +99,14 @@ const TwitterStore = derive<
 
 SCTwitterLedgerContract.on(
   SCTwitterLedgerContract.filters.TweetSaved(),
-  async (id, tweet, derivativeAddress) => {
+  async (id, tweet, derivativeAddress, sender, timestamp) => {
     console.info('TweetSaved event', tweet, derivativeAddress)
     const ledger = await TwitterStore.blockchainTweets
     if (
       !ledger.find(({ id: ledgerTweetId }) => ledgerTweetId === id.toNumber())
     ) {
       TwitterStore.blockchainTweets = Promise.resolve([
-        getTwitterLedgerRecord(id, tweet, derivativeAddress, Date.now()),
+        getTwitterLedgerRecord(id, tweet, derivativeAddress, sender, timestamp),
         ...ledger,
       ])
     }
