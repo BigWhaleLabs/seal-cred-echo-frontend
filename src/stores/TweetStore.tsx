@@ -1,33 +1,42 @@
+import { TweetModel, TweetsSet } from 'models/TweetModel'
 import { proxy } from 'valtio'
+import { subscribeKey } from 'valtio/utils'
 import PersistableStore from 'stores/persistence/PersistableStore'
-import TweetModel from 'models/TweetModel'
 import TweetStatus from 'models/TweetStatus'
-import twitterPoster from 'helpers/twitterPoster'
+import TwitterStore from 'stores/TwitterStore'
+import WalletStore from 'stores/WalletStore'
+import getBlockchainTweets from 'helpers/getBlockchainTweets'
+import getTweetsFromPoster from 'helpers/getTweetsFromPoster'
 
 class TweetStore extends PersistableStore {
   currentTweet?: TweetModel
-  tweets: TweetModel[] = []
+  tweets: TweetsSet = {}
 
-  async updateTweestList() {
-    if (!this.currentTweet) return
-
-    this.tweets = await twitterPoster()
+  async fetchTweetList(force?: boolean) {
+    if (!force && !this.currentTweet) return
+    this.tweets = await getTweetsFromPoster()
+    const tweetsInBlockchain = await getBlockchainTweets()
+    TwitterStore.blockchainTweets = Promise.resolve(
+      tweetsInBlockchain.map((tweet) => ({
+        ...tweet,
+        status: this.getTweetStatus(tweet.id),
+      }))
+    )
   }
 
   getTweetStatus(id: number) {
-    const status =
-      this.tweets.find(({ tweetId }) => tweetId === id)?.status ||
-      TweetStatus.pending
-    return status
-  }
-
-  constructor() {
-    super()
-
-    setInterval(async () => {
-      await this.updateTweestList()
-    }, 30000) // request every 30 seconds
+    return this.tweets[id] || TweetStatus.pending
   }
 }
 
-export default proxy(new TweetStore()).makePersistent()
+export const tweetStore = proxy(new TweetStore()).makePersistent()
+
+subscribeKey(WalletStore, 'account', () => {
+  void tweetStore.fetchTweetList(true)
+})
+
+setInterval(() => {
+  void tweetStore.fetchTweetList()
+}, 10000) // poll tweets list every 10 seconds
+
+export default tweetStore
