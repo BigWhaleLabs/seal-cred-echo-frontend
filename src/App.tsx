@@ -5,7 +5,6 @@ import {
   Routes,
 } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import Background from 'components/Background'
 import DeepDive from 'components/DeepDive'
 import HowItWorks from 'components/HowItWorks'
 import NavTabLink from 'components/NavTabLink'
@@ -17,7 +16,6 @@ import WalletOrTweet from 'components/WalletOrTweet'
 import classnames, {
   height,
   margin,
-  minHeight,
   overflow,
   padding,
   position,
@@ -26,11 +24,7 @@ import classnames, {
   zIndex,
 } from 'classnames/tailwind'
 
-const wrapper = classnames(
-  position('relative'),
-  overflow('overflow-hidden'),
-  minHeight('min-h-screen')
-)
+const wrapper = classnames(position('relative'), overflow('overflow-hidden'))
 const body = classnames(
   position('relative'),
   width('md:w-body', 'w-screen'),
@@ -67,7 +61,6 @@ export default function () {
           </div>
         </div>
         <ToastContainer position="bottom-right" theme="dark" />
-        <Background />
       </div>
     </Router>
   )
