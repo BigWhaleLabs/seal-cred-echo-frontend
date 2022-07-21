@@ -1,5 +1,4 @@
 import { BigNumber } from 'ethers'
-import TweetStatus from 'models/TweetStatus'
 
 export default function (
   id: number,
@@ -14,6 +13,5 @@ export default function (
     derivativeAddress,
     sender,
     timestamp: timestamp.toNumber(),
-    status: TweetStatus.pending,
   }
 }
