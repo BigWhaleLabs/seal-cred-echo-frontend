@@ -1,6 +1,5 @@
-import { TweetIdAndStatus, TweetModel } from 'models/TweetModel'
+import { TweetIdAndStatus } from 'models/TweetModel'
 import { proxy } from 'valtio'
-import { subscribeKey } from 'valtio/utils'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import TweetStatus from 'models/TweetStatus'
 import TwitterStore from 'stores/TwitterStore'
@@ -10,7 +9,6 @@ import getTweetsFromPoster from 'helpers/getTweetsFromPoster'
 class TweetStatusStore extends PersistableStore {
   tweetsStatuses: TweetIdAndStatus = {}
   processingTweets: { [account: string]: number | undefined } = {}
-  currentUserTweet?: TweetModel
 
   async fetchTweetList() {
     this.tweetsStatuses = await getTweetsFromPoster()
@@ -27,7 +25,7 @@ class TweetStatusStore extends PersistableStore {
     return this.tweetsStatuses[id] || TweetStatus.pending
   }
 
-  setNewCurrentTweet() {
+  get currentUserTweet() {
     const account = WalletStore.account
     if (!account) return
     const tweetId = this.processingTweets[account]
@@ -38,10 +36,6 @@ class TweetStatusStore extends PersistableStore {
 }
 
 export const tweetStatusStore = proxy(new TweetStatusStore()).makePersistent()
-
-subscribeKey(WalletStore, 'account', () => {
-  tweetStatusStore.currentUserTweet = tweetStatusStore.setNewCurrentTweet()
-})
 
 setInterval(() => {
   void tweetStatusStore.fetchTweetList()

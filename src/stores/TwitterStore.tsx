@@ -118,9 +118,6 @@ SCTwitterLedgerContract.on(
         ...ledger,
       ])
       TweetStatusStore.processingTweets[sender] = tweetId
-      if (sender === WalletStore.account) {
-        TweetStatusStore.setNewCurrentTweet()
-      }
     }
   }
 )
