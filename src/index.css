@@ -24,6 +24,13 @@ html {
   scrollbar-width: thin;
 }
 
+html {
+  background-size: cover, 3rem 3rem;
+  background-repeat: no-repeat, repeat;
+  background-position: top, 0;
+  background-image: url('/img/bg-shadows.svg'),
+    conic-gradient(from 90deg at 0.06rem 0.06rem, #0d0030 90deg, #1a0259 0);
+}
 body {
   scroll-behavior: smooth;
   margin: 0;
@@ -32,31 +39,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-family: 'JetBrains Mono', monospace;
   color: #efecd6;
-  background: conic-gradient(
-      from 90deg at 0.06rem 0.06rem,
-      #0d0030 90deg,
-      #1a0259 0
-    )
-    0 0/3rem 3rem;
-}
-
-.bgCover {
-  background: url('/img/bg-shadows.svg') top no-repeat;
-  background-size: cover;
 }
 
 @media screen and (max-width: 600px) {
   /* Grid for mobiles */
-  body {
+  html {
     background: conic-gradient(
         from 90deg at 0.06rem 0.06rem,
         #0d0030 90deg,
         #1a0259 0
       )
       0 0/2rem 2rem;
-  }
-  .bgCover {
-    background: none;
   }
 }
 
