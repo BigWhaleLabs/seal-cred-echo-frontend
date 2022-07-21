@@ -2,8 +2,6 @@ import { derive } from 'valtio/utils'
 import { proxy } from 'valtio'
 import SCTwitterLedgerContract from 'helpers/SCTwitterLedgerContract'
 import SealCredStore from 'stores/SealCredStore'
-import TweetStatus from 'models/TweetStatus'
-import TweetStatusStore from 'stores/TweetStatusStore'
 import WalletStore from 'stores/WalletStore'
 import getBlockchainTweets from 'helpers/getBlockchainTweets'
 import getTwitterLedgerRecord from 'helpers/getTwitterLedgerRecord'
@@ -15,7 +13,6 @@ interface BlockchainTweet {
   derivativeAddress: string
   sender: string
   timestamp: number
-  status: TweetStatus
 }
 
 interface TwitterStoreInterface {
@@ -79,9 +76,16 @@ const TwitterStore = derive<
   {
     currentDomain: Promise<string | undefined>
     hashtags: Promise<string | undefined>
+    lastUserTweet: Promise<BlockchainTweet | undefined> | undefined
   }
 >(
   {
+    lastUserTweet: async (get) => {
+      const account = get(WalletStore).account
+      if (!account) return
+      const blockchainTweets = await get(state).blockchainTweets
+      return blockchainTweets.find((tweet) => tweet.sender === account)
+    },
     currentDomain: async (get) => {
       const address = get(state).currentDomainAddress
       if (!address) return ''
@@ -117,7 +121,6 @@ SCTwitterLedgerContract.on(
         ),
         ...ledger,
       ])
-      TweetStatusStore.processingTweets[sender] = tweetId
     }
   }
 )

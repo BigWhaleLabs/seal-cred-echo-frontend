@@ -16,6 +16,7 @@ import classnames, {
 import formatDate from 'helpers/formatDate'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
+import tweetStatusStore from 'stores/TweetStatusStore'
 
 const container = classnames(
   display('flex'),
@@ -40,15 +41,16 @@ const bottomSeparator = classnames(
 
 function BlockchainTweetsSuspended() {
   const { blockchainTweets = [] } = useSnapshot(TwitterStore)
+  const { tweetsStatuses } = useSnapshot(tweetStatusStore)
 
   return (
     <>
       {blockchainTweets.map(
-        ({ tweet, derivativeAddress, sender, timestamp, status }) => (
+        ({ tweet, derivativeAddress, sender, timestamp, id }) => (
           <Card>
             <div className={container}>
               <div className={tweetHeader}>
-                <TweetChips status={status} />
+                <TweetChips status={tweetsStatuses[id]} />
                 <StatusText textRight>{formatDate(timestamp)}</StatusText>
               </div>
               <TweetText>{tweet}</TweetText>

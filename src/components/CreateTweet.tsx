@@ -5,6 +5,7 @@ import Button from 'components/Button'
 import DropDown from 'components/DropDown'
 import TextArea from 'components/TextArea'
 import TweetProcessing from 'components/TweetProcessing'
+import TweetStatus from 'models/TweetStatus'
 import TweetStatusStore from 'stores/TweetStatusStore'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
@@ -37,18 +38,21 @@ const dropdownWrapper = classnames(
 )
 
 export default function () {
-  const { text, maxLength, status, currentDomainAddress } =
+  const { text, maxLength, status, currentDomainAddress, lastUserTweet } =
     useSnapshot(TwitterStore)
-  const { currentUserTweet } = useSnapshot(TweetStatusStore)
+  const { tweetsStatuses } = useSnapshot(TweetStatusStore)
   const { md } = useBreakpoints()
+  const lastUserTweetStatus = lastUserTweet && tweetsStatuses[lastUserTweet.id]
+
+  console.log(lastUserTweetStatus)
 
   return (
     <div className={margin('mb-16')}>
-      {currentUserTweet?.status === 'pending' ? (
+      {lastUserTweetStatus === TweetStatus.pending ? (
         <TweetProcessing loading title="Your tweet is processing" />
       ) : (
         <div className={space('space-y-12')}>
-          {currentUserTweet?.status === 'approved' && (
+          {lastUserTweetStatus === TweetStatus.approved && (
             <TweetProcessing title="Tweet successful" />
           )}
           <HeaderText>Create your anonymous tweet</HeaderText>
