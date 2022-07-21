@@ -1,6 +1,8 @@
 import { MutableRef, useRef } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import Arrow from 'icons/Arrow'
+import ContractName from 'components/ContractName'
+import SealCredStore from 'stores/SealCredStore'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   alignItems,
@@ -17,15 +19,16 @@ import classnames, {
   padding,
   position,
   space,
+  textAlign,
   textColor,
-  textDecoration,
   transitionProperty,
   visibility,
   width,
+  wordBreak,
   zIndex,
 } from 'classnames/tailwind'
-import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import useClickOutside from 'hooks/useClickOutside'
+import useContractsOwned from 'hooks/useContractsOwned'
 
 const sharedStyles = classnames(
   borderRadius('rounded-lg'),
@@ -42,6 +45,7 @@ const wrapper = (hasBadges: boolean) =>
     position('relative'),
     fontFamily('font-primary'),
     zIndex('z-40'),
+    width('w-full'),
     opacity({ 'opacity-70': !hasBadges })
   )
 const opener = classnames(
@@ -49,6 +53,7 @@ const opener = classnames(
   justifyContent('justify-between'),
   width('md:w-80', 'w-full'),
   space('space-x-2'),
+  textAlign('text-left'),
   sharedStyles
 )
 const menuWrapper = (open: boolean) =>
@@ -59,6 +64,7 @@ const menuWrapper = (open: boolean) =>
     opacity(open ? 'opacity-100' : 'opacity-0'),
     visibility(open ? 'visible' : 'invisible'),
     transitionProperty('transition-opacity'),
+    space('space-y-1'),
     sharedStyles
   )
 const postingAs = display('tiny:inline', 'hidden')
@@ -66,13 +72,25 @@ const menuItem = (current?: boolean) =>
   classnames(
     padding('p-2'),
     cursor('cursor-pointer'),
-    textDecoration({ underline: current })
+    borderRadius('rounded-md'),
+    wordBreak('break-all'),
+    backgroundColor({
+      'bg-primary-dimmed': current,
+      'bg-transparent': !current,
+      'hover:bg-primary-dimmed': current,
+      'hover:bg-primary-background': !current,
+    })
   )
 
 export default function () {
-  const { availableEmails, dropDownOpen, currentEmail } =
-    useSnapshot(TwitterStore)
-  const hasBadges = !!availableEmails.length
+  const { emailDerivativeContracts } = useSnapshot(SealCredStore)
+  const contractsOwned = useContractsOwned()
+  const ownedEmailDerivativeContracts = emailDerivativeContracts.filter(
+    (contractAddress) => contractsOwned.includes(contractAddress)
+  )
+
+  const { dropDownOpen, currentDomainAddress } = useSnapshot(TwitterStore)
+  const hasBadges = !!ownedEmailDerivativeContracts.length
 
   const ref = useRef() as MutableRef<HTMLDivElement>
   useClickOutside(ref, () => (TwitterStore.dropDownOpen = false))
@@ -85,10 +103,24 @@ export default function () {
         className={opener}
       >
         {hasBadges ? (
-          <span>
-            <span className={postingAs}>Posting as: </span>
-            {truncateMiddleIfNeeded(currentEmail, 12)}
-          </span>
+          <>
+            {currentDomainAddress ? (
+              <span>
+                <span className={postingAs}>Posting as: </span>
+                <ContractName
+                  truncate
+                  clearType
+                  address={currentDomainAddress}
+                />
+              </span>
+            ) : (
+              <span
+                className={textColor('text-formal-accent-semi-transparent')}
+              >
+                Select work email
+              </span>
+            )}
+          </>
         ) : (
           <span className={textColor('text-formal-accent-semi-transparent')}>
             No ZK badge in this wallet
@@ -101,15 +133,15 @@ export default function () {
       </button>
 
       <div className={menuWrapper(dropDownOpen)}>
-        {availableEmails.map((email) => (
+        {ownedEmailDerivativeContracts.map((address) => (
           <p
-            className={menuItem(email === currentEmail)}
+            className={menuItem(address === currentDomainAddress)}
             onClick={() => {
-              TwitterStore.currentEmail = email
+              TwitterStore.currentDomainAddress = address
               TwitterStore.dropDownOpen = false
             }}
           >
-            {truncateMiddleIfNeeded(email, 12)}
+            <ContractName clearType address={address} />
           </p>
         ))}
       </div>

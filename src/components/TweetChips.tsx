@@ -1,5 +1,6 @@
 import { StatusText } from 'components/Text'
-import { TweetStatus } from 'stores/TwitterStore'
+import TweetStatus from 'models/TweetStatus'
+import TweetStatusText from 'models/TweetStatusText'
 import classnames, {
   backgroundColor,
   borderRadius,
@@ -12,21 +13,17 @@ const statusContainer = (status: TweetStatus) =>
     borderRadius('rounded-lg'),
     backgroundColor({
       'bg-primary-dimmed': status === TweetStatus.pending,
-      'bg-primary-background': status === TweetStatus.posted,
+      'bg-primary-background': status === TweetStatus.approved,
       'bg-error': status === TweetStatus.rejected,
     })
   )
 
-export default function ({
-  text,
-  status,
-}: {
-  text: string
-  status: TweetStatus
-}) {
+export default function ({ status }: { status: TweetStatus }) {
   return (
     <div className={statusContainer(status)}>
-      <StatusText dark={status === TweetStatus.rejected}>{text}</StatusText>
+      <StatusText dark={status === TweetStatus.rejected}>
+        {TweetStatusText[status]}
+      </StatusText>
     </div>
   )
 }

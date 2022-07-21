@@ -1,4 +1,8 @@
-import classnames, { stroke, strokeWidth } from 'classnames/tailwind'
+import classnames, {
+  flexShrink,
+  stroke,
+  strokeWidth,
+} from 'classnames/tailwind'
 
 const strokes = classnames(
   strokeWidth('stroke-1'),
@@ -13,6 +17,7 @@ export default function () {
       viewBox="0 0 13 13"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={flexShrink('shrink-0')}
     >
       <circle
         cx="6.50065"
