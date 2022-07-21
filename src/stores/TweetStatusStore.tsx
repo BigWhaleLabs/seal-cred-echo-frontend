@@ -18,6 +18,8 @@ class TweetStatusStore extends PersistableStore {
 
 export const tweetStatusStore = proxy(new TweetStatusStore()).makePersistent()
 
+void tweetStatusStore.fetchTweetList()
+
 setInterval(() => {
   void tweetStatusStore.fetchTweetList()
 }, 10000) // poll tweets list every 10 seconds
