@@ -1,20 +1,18 @@
-import { TweetsSet } from 'models/TweetModel'
+import { TweetIdAndStatus } from 'models/TweetModel'
 import { proxy } from 'valtio'
 import { subscribeKey } from 'valtio/utils'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import TweetStatus from 'models/TweetStatus'
 import TwitterStore from 'stores/TwitterStore'
 import WalletStore from 'stores/WalletStore'
-import getBlockchainTweets from 'helpers/getBlockchainTweets'
 import getTweetsFromPoster from 'helpers/getTweetsFromPoster'
 
 class TweetStore extends PersistableStore {
-  tweets: TweetsSet = {}
+  tweetsStatuses: TweetIdAndStatus = {}
 
-  async fetchTweetList(force?: boolean) {
-    if (!force && !TwitterStore.currentTweet) return
-    this.tweets = await getTweetsFromPoster()
-    const tweetsInBlockchain = await getBlockchainTweets()
+  async fetchTweetList() {
+    this.tweetsStatuses = await getTweetsFromPoster()
+    const tweetsInBlockchain = await TwitterStore.blockchainTweets
     TwitterStore.blockchainTweets = Promise.resolve(
       tweetsInBlockchain.map((tweet) => ({
         ...tweet,
@@ -24,14 +22,14 @@ class TweetStore extends PersistableStore {
   }
 
   getTweetStatus(id: number) {
-    return this.tweets[id] || TweetStatus.pending
+    return this.tweetsStatuses[id] || TweetStatus.pending
   }
 }
 
 export const tweetStore = proxy(new TweetStore()).makePersistent()
 
 subscribeKey(WalletStore, 'account', () => {
-  void tweetStore.fetchTweetList(true)
+  void tweetStore.fetchTweetList()
 })
 
 setInterval(() => {

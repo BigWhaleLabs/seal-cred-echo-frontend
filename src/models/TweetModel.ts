@@ -5,6 +5,6 @@ export interface TweetModel {
   status: TweetStatus
 }
 
-export interface TweetsSet {
+export interface TweetIdAndStatus {
   [id: number]: TweetStatus
 }

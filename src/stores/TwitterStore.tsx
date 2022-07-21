@@ -91,7 +91,7 @@ const TwitterStore = derive<
 
       return {
         tweetId,
-        status: get(TweetStore).tweets[tweetId],
+        status: get(TweetStore).tweetsStatuses[tweetId],
       }
     },
     currentDomain: async (get) => {
