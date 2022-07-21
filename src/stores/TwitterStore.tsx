@@ -19,6 +19,7 @@ interface BlockchainTweet {
 interface TwitterStoreInterface {
   text: string
   maxLength: number
+  calculatedMaxLength?: number
   status: {
     isValid: boolean
     loading: boolean
@@ -43,13 +44,12 @@ const state = proxy<TwitterStoreInterface>({
     try {
       const currentDomain = await TwitterStore.currentDomain
       if (!currentDomain) return
-      const hashtags = await TwitterStore.hashtags
-      if (!hashtags || state.text.length + hashtags.length > state.maxLength) {
+      if (state.text.length > TwitterStore.maxLengthWithHashtag) {
         state.status.error = new Error('Tweet is too long')
         return
       }
       await WalletStore.saveTweet({
-        tweet: state.text + hashtags,
+        tweet: state.text,
         domain: currentDomain,
       })
       state.text = ''
@@ -77,6 +77,7 @@ const TwitterStore = derive<
   {
     currentDomain: Promise<string | undefined>
     hashtags: Promise<string | undefined>
+    maxLengthWithHashtag: number
   }
 >(
   {
@@ -86,14 +87,16 @@ const TwitterStore = derive<
       return (await SealCredStore.contractNameDomain)[address]
     },
     hashtags: async (get) => {
-      const hashtag = '#VerifiedToWorkAt'
       const address = get(state).currentDomainAddress
       if (!address) return
       const currentDomain = (await SealCredStore.contractNameDomain)[address]
       if (!currentDomain) return
       const name = currentDomain.split('.')[0]
-      return `\n${hashtag} #${name}`
+      get(state).calculatedMaxLength = get(state).maxLength - name.length - 1
+      return `#${name}`
     },
+    maxLengthWithHashtag: (get) =>
+      get(state).calculatedMaxLength || get(state).maxLength,
   },
   { proxy: state }
 )

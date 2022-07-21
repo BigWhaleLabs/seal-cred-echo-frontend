@@ -37,7 +37,7 @@ const dropdownWrapper = classnames(
 )
 
 export default function () {
-  const { text, maxLength, status, currentDomainAddress } =
+  const { text, maxLengthWithHashtag, status, currentDomainAddress } =
     useSnapshot(TwitterStore)
   const { currentUserTweet } = useSnapshot(TweetStatusStore)
   const { md } = useBreakpoints()
@@ -56,7 +56,7 @@ export default function () {
             text={text}
             placeholder="Write something here..."
             onTextChange={(text) => onTweetChange(text)}
-            maxLength={maxLength}
+            maxLength={maxLengthWithHashtag}
             disabled={status.loading}
             error={status.error?.message}
           />

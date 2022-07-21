@@ -15,22 +15,19 @@ const counterText = (error?: boolean) =>
   )
 
 function CounterSuspended() {
-  const { text, maxLength, hashtags } = useSnapshot(TwitterStore)
-  const count = text.length + (hashtags?.length || 0)
+  const { text, maxLengthWithHashtag } = useSnapshot(TwitterStore)
+  const count = text.length
 
   return (
-    <div className={counterText(count > maxLength)}>
-      {count} / {maxLength}
+    <div className={counterText(count > maxLengthWithHashtag)}>
+      {count} / {maxLengthWithHashtag}
     </div>
   )
 }
 
 export default function () {
-  const { maxLength } = useSnapshot(TwitterStore)
   return (
-    <Suspense
-      fallback={<div className={counterText(false)}>... / {maxLength}</div>}
-    >
+    <Suspense fallback={<div className={counterText(false)}>... / ...</div>}>
       <CounterSuspended />
     </Suspense>
   )
