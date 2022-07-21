@@ -1,10 +1,9 @@
-import { TweetModel } from 'models/TweetModel'
 import { derive } from 'valtio/utils'
 import { proxy } from 'valtio'
 import SCTwitterLedgerContract from 'helpers/SCTwitterLedgerContract'
 import SealCredStore from 'stores/SealCredStore'
 import TweetStatus from 'models/TweetStatus'
-import TweetStore from 'stores/TweetStore'
+import TweetStatusStore from 'stores/TweetStatusStore'
 import WalletStore from 'stores/WalletStore'
 import getBlockchainTweets from 'helpers/getBlockchainTweets'
 import getTwitterLedgerRecord from 'helpers/getTwitterLedgerRecord'
@@ -28,7 +27,6 @@ interface TwitterStoreInterface {
     error?: Error
     success?: boolean
   }
-  currentTweetId?: number
   currentDomainAddress?: string
   createTweet: () => void
   resetStatus: () => void
@@ -81,19 +79,9 @@ const TwitterStore = derive<
   {
     currentDomain: Promise<string | undefined>
     hashtags: Promise<string | undefined>
-    currentTweet?: TweetModel
   }
 >(
   {
-    currentTweet: (get) => {
-      const tweetId = get(state).currentTweetId
-      if (!tweetId) return undefined
-
-      return {
-        tweetId,
-        status: get(TweetStore).tweetsStatuses[tweetId],
-      }
-    },
     currentDomain: async (get) => {
       const address = get(state).currentDomainAddress
       if (!address) return ''
@@ -129,8 +117,9 @@ SCTwitterLedgerContract.on(
         ),
         ...ledger,
       ])
+      TweetStatusStore.processingTweets[sender] = tweetId
       if (sender === WalletStore.account) {
-        TwitterStore.currentTweetId = tweetId
+        TweetStatusStore.setNewCurrentTweet()
       }
     }
   }

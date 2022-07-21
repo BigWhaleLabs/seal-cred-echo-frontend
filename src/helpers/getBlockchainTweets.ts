@@ -1,5 +1,5 @@
 import SCTwitterLedgerContract from 'helpers/SCTwitterLedgerContract'
-import TweetStore from 'stores/TweetStore'
+import TweetStatusStore from 'stores/TweetStatusStore'
 
 export default async function () {
   return (await SCTwitterLedgerContract.getAllTweets())
@@ -9,7 +9,7 @@ export default async function () {
       derivativeAddress,
       sender,
       timestamp: timestamp.toNumber(),
-      status: TweetStore.getTweetStatus(id.toNumber()),
+      status: TweetStatusStore.getTweetStatus(id.toNumber()),
     }))
     .reverse()
 }
