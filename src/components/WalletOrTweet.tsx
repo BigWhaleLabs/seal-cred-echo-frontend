@@ -2,6 +2,7 @@ import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import ConnectWalletBlock from 'components/ConnectWalletBlock'
 import CreateTweet from 'components/CreateTweet'
+import TweetProcessing from 'components/TweetProcessing'
 import WalletStore from 'stores/WalletStore'
 
 export default function () {
@@ -9,7 +10,11 @@ export default function () {
 
   if (account)
     return (
-      <Suspense fallback={null}>
+      <Suspense
+        fallback={
+          <TweetProcessing hideLink loading title="Fetching statuses" />
+        }
+      >
         <CreateTweet />
       </Suspense>
     )

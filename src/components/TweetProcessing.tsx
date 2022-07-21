@@ -45,9 +45,11 @@ const LinkInnerContainer = () => {
 export default function ({
   title,
   loading,
+  hideLink,
 }: {
   title: string
   loading?: boolean
+  hideLink?: boolean
 }) {
   const redirectTo = loading
     ? '/previous-tweets/blockchain'
@@ -62,16 +64,18 @@ export default function ({
         </div>
       )}
       {loading && <Loading />}
-      <LinkText
-        small
-        url={redirectTo}
-        title={loading ? 'Tweets on blockchain' : '@SealCredWork Twitter'}
-        targetBlank={!loading}
-        gradientFrom="from-secondary"
-        gradientTo="to-accent"
-      >
-        <LinkInnerContainer />
-      </LinkText>
+      {!hideLink && (
+        <LinkText
+          small
+          url={redirectTo}
+          title={loading ? 'Tweets on blockchain' : '@SealCredWork Twitter'}
+          targetBlank={!loading}
+          gradientFrom="from-secondary"
+          gradientTo="to-accent"
+        >
+          <LinkInnerContainer />
+        </LinkText>
+      )}
     </div>
   )
 }
