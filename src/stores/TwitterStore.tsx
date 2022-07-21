@@ -2,7 +2,6 @@ import { derive } from 'valtio/utils'
 import { proxy } from 'valtio'
 import SCTwitterLedgerContract from 'helpers/SCTwitterLedgerContract'
 import SealCredStore from 'stores/SealCredStore'
-import TweetStatus from 'models/TweetStatus'
 import TweetStatusStore from 'stores/TweetStatusStore'
 import WalletStore from 'stores/WalletStore'
 import getBlockchainTweets from 'helpers/getBlockchainTweets'
@@ -15,7 +14,6 @@ interface BlockchainTweet {
   derivativeAddress: string
   sender: string
   timestamp: number
-  status: TweetStatus
 }
 
 interface TwitterStoreInterface {

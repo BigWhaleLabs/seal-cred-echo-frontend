@@ -13,12 +13,19 @@ class TweetStatusStore extends PersistableStore {
   async fetchTweetList() {
     this.tweetsStatuses = await getTweetsFromPoster()
     const tweetsInBlockchain = await TwitterStore.blockchainTweets
-    TwitterStore.blockchainTweets = Promise.resolve(
-      tweetsInBlockchain.map((tweet) => ({
-        ...tweet,
-        status: this.getTweetStatus(tweet.id),
-      }))
-    )
+    const blockchainTweets = tweetsInBlockchain.map((tweet) => ({
+      ...tweet,
+      status: this.getTweetStatus(tweet.id),
+    }))
+
+    if (WalletStore.account) {
+      const record = blockchainTweets.find(
+        (record) => record.sender === WalletStore.account
+      )
+      if (record) this.processingTweets[WalletStore.account] = record.id
+    }
+
+    TwitterStore.blockchainTweets = Promise.resolve(blockchainTweets)
   }
 
   getTweetStatus(id: number) {

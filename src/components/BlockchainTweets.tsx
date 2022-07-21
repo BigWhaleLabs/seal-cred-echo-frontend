@@ -3,6 +3,7 @@ import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
 import TweetChips from 'components/TweetChips'
+import TweetStatusStore from 'stores/TweetStatusStore'
 import TwitterLoading from 'components/TwitterLoading'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
@@ -40,15 +41,16 @@ const bottomSeparator = classnames(
 
 function BlockchainTweetsSuspended() {
   const { blockchainTweets = [] } = useSnapshot(TwitterStore)
+  const { tweetsStatuses } = useSnapshot(TweetStatusStore)
 
   return (
     <>
       {blockchainTweets.map(
-        ({ tweet, derivativeAddress, sender, timestamp, status }) => (
+        ({ id, tweet, derivativeAddress, sender, timestamp }) => (
           <Card>
             <div className={container}>
               <div className={tweetHeader}>
-                <TweetChips status={status} />
+                <TweetChips status={tweetsStatuses[id]} />
                 <StatusText textRight>{formatDate(timestamp)}</StatusText>
               </div>
               <TweetText>{tweet}</TweetText>
