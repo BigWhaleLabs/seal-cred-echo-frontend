@@ -1,4 +1,4 @@
-import { TweetModel, TweetsSet } from 'models/TweetModel'
+import { TweetIdAndStatus, TweetModel } from 'models/TweetModel'
 import axios from 'axios'
 import env from 'helpers/env'
 
@@ -9,5 +9,5 @@ export default async function () {
   return data.reduce((acc, tweet) => {
     acc[tweet.tweetId] = tweet.status
     return acc
-  }, {} as TweetsSet)
+  }, {} as TweetIdAndStatus)
 }
