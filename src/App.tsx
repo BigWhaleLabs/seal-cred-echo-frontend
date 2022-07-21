@@ -17,6 +17,7 @@ import WalletOrTweet from 'components/WalletOrTweet'
 import classnames, {
   height,
   margin,
+  minHeight,
   overflow,
   padding,
   position,
@@ -25,7 +26,11 @@ import classnames, {
   zIndex,
 } from 'classnames/tailwind'
 
-const wrapper = classnames(position('relative'), overflow('overflow-hidden'))
+const wrapper = classnames(
+  position('relative'),
+  overflow('overflow-hidden'),
+  minHeight('min-h-screen')
+)
 const body = classnames(
   position('relative'),
   width('md:w-body', 'w-screen'),
