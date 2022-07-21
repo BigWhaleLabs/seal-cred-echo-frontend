@@ -69,7 +69,11 @@ export default function () {
             <Button
               type="primary"
               loading={status.loading}
-              disabled={!status.isValid || !currentDomainAddress}
+              disabled={
+                !status.isValid ||
+                !currentDomainAddress ||
+                !TweetStatusStore.getTweetStatus.length
+              }
               title="Tweet"
               onClick={() => {
                 TwitterStore.createTweet()

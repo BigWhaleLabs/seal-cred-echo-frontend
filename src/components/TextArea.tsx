@@ -42,8 +42,8 @@ const innerWrapper = (error?: boolean) =>
     justifyContent('justify-between'),
     borderWidth('border'),
     borderColor(
-      error ? 'border-error' : 'border-formal-accent-dimmed',
-      'focus-within:border-formal-accent'
+      error ? 'border-error' : 'border-formal-accent',
+      'focus-within:border-primary'
     ),
     borderRadius('rounded-lg'),
     padding('py-3', 'px-4'),

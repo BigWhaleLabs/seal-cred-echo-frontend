@@ -33,7 +33,7 @@ import useContractsOwned from 'hooks/useContractsOwned'
 const sharedStyles = classnames(
   borderRadius('rounded-lg'),
   borderWidth('border'),
-  borderColor('border-formal-accent-dimmed', 'focus:border-formal-accent'),
+  borderColor('border-formal-accent', 'focus:border-primary'),
   transitionProperty('transition-colors'),
   padding('tiny:px-4', 'px-3', 'py-3'),
   backgroundColor('bg-primary-dark'),
