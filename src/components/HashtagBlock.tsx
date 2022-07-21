@@ -29,7 +29,10 @@ function HashtagBlockSuspended() {
     <>
       {!!hashtags && (
         <div className={footerBox}>
-          <HashTagText>{hashtags}</HashTagText>
+          <div>
+            <HashTagText>#VerifiedToWorkAt </HashTagText>
+            <HashTagText>{hashtags}</HashTagText>
+          </div>
           <Counter />
         </div>
       )}
@@ -39,7 +42,7 @@ function HashtagBlockSuspended() {
 
 export default function () {
   return (
-    <Suspense fallback={<div>...</div>}>
+    <Suspense fallback={<HashTagText>...</HashTagText>}>
       <HashtagBlockSuspended />
     </Suspense>
   )
