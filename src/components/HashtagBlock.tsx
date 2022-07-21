@@ -30,7 +30,6 @@ function HashtagBlockSuspended() {
       {!!hashtags && (
         <div className={footerBox}>
           <div>
-            <HashTagText>#VerifiedToWorkAt </HashTagText>
             <HashTagText>{hashtags}</HashTagText>
           </div>
           <Counter />
