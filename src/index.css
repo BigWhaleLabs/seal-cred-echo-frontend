@@ -22,14 +22,6 @@ html {
   background-color: #0d0030;
   scrollbar-color: #fed823 transparent;
   scrollbar-width: thin;
-
-  /* Grid */
-  background: conic-gradient(
-      from 90deg at 0.06rem 0.06rem,
-      #0d0030 90deg,
-      #1a0259 0
-    )
-    0 0/3rem 3rem;
 }
 
 body {
@@ -40,13 +32,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-family: 'JetBrains Mono', monospace;
   color: #efecd6;
+  background: conic-gradient(
+      from 90deg at 0.06rem 0.06rem,
+      #0d0030 90deg,
+      #1a0259 0
+    )
+    0 0/3rem 3rem;
+}
+
+.bgCover {
   background: url('/img/bg-shadows.svg') top no-repeat;
   background-size: cover;
 }
 
 @media screen and (max-width: 600px) {
   /* Grid for mobiles */
-  html {
+  body {
     background: conic-gradient(
         from 90deg at 0.06rem 0.06rem,
         #0d0030 90deg,
@@ -54,7 +55,7 @@ body {
       )
       0 0/2rem 2rem;
   }
-  body {
+  .bgCover {
     background: none;
   }
 }
