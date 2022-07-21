@@ -44,8 +44,6 @@ export default function () {
   const { md } = useBreakpoints()
   const lastUserTweetStatus = lastUserTweet && tweetsStatuses[lastUserTweet.id]
 
-  console.log(lastUserTweetStatus)
-
   return (
     <div className={margin('mb-16')}>
       {lastUserTweetStatus === TweetStatus.pending ? (
