@@ -91,9 +91,9 @@ const TwitterStore = derive<
       if (!address) return
       const currentDomain = (await SealCredStore.contractNameDomain)[address]
       if (!currentDomain) return
-      const name = currentDomain.split('.')[0]
-      get(state).calculatedMaxLength = get(state).maxLength - name.length - 1
-      return `#${name}`
+      get(state).calculatedMaxLength =
+        get(state).maxLength - currentDomain.length - 1
+      return `#${currentDomain}`
     },
     maxLengthWithHashtag: (get) =>
       get(state).calculatedMaxLength || get(state).maxLength,
