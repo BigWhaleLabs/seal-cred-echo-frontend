@@ -29,7 +29,7 @@ class TweetStatusStore extends PersistableStore {
     const account = WalletStore.account
     if (!account) return
     const tweetId = this.processingTweets[account]
-    if (!tweetId) return undefined
+    if (!tweetId) return
     const status = this.getTweetStatus(tweetId)
     return { tweetId, status }
   }
