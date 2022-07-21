@@ -1,18 +1,21 @@
 import { HeaderText } from 'components/Text'
+import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Button from 'components/Button'
-import Counter from 'components/Counter'
 import DropDown from 'components/DropDown'
 import TextArea from 'components/TextArea'
-import TweeterStore from 'stores/TwitterStore'
+import TweetProcessing from 'components/TweetProcessing'
+import TweetStatusStore from 'stores/TweetStatusStore'
+import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   alignItems,
   display,
+  flexGrow,
   flexWrap,
   justifyContent,
   margin,
+  space,
 } from 'classnames/tailwind'
-import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import useBreakpoints from 'hooks/useBreakpoints'
 
 const bottomContainer = classnames(
@@ -22,50 +25,67 @@ const bottomContainer = classnames(
   flexWrap('flex-wrap')
 )
 
-export default function () {
-  const { text, maxLength, status, availableEmails } = useSnapshot(TweeterStore)
-  const { md } = useBreakpoints()
+const onTweetChange = (text: string) => {
+  TwitterStore.status.isValid = !!text.length
+  TwitterStore.text = text
+}
 
-  const currentEmailWithoutAt = availableEmails[0].substring(
-    1,
-    availableEmails[0].length
-  )
+const dropdownWrapper = classnames(
+  margin('md:mb-0', 'mb-4'),
+  display('flex'),
+  flexGrow('grow', 'md:grow-0')
+)
+
+export default function () {
+  const { text, maxLengthWithHashtag, status, currentDomainAddress } =
+    useSnapshot(TwitterStore)
+  const { currentUserTweet } = useSnapshot(TweetStatusStore)
+  const { md } = useBreakpoints()
 
   return (
     <div className={margin('mb-16')}>
-      <HeaderText>Create your anonymous tweet</HeaderText>
-      <TextArea
-        text={text}
-        placeholder="Write something here..."
-        onTextChange={(text) => (TweeterStore.text = text)}
-        maxLength={maxLength}
-        disabled={status.loading}
-        footer={truncateMiddleIfNeeded(currentEmailWithoutAt, 12)}
-        error={status.error?.message}
-      />
-
-      <div className={bottomContainer}>
-        <div className={margin('md:mb-0', 'mb-4')}>
-          <DropDown />
+      {currentUserTweet?.status === 'pending' ? (
+        <TweetProcessing loading title="Your tweet is processing" />
+      ) : (
+        <div className={space('space-y-12')}>
+          {currentUserTweet?.status === 'approved' && (
+            <TweetProcessing title="Tweet successful" />
+          )}
+          <HeaderText>Create your anonymous tweet</HeaderText>
+          <TextArea
+            text={text}
+            placeholder="Write something here..."
+            onTextChange={(text) => onTweetChange(text)}
+            maxLength={maxLengthWithHashtag}
+            disabled={status.loading}
+            error={status.error?.message}
+          />
+          <div className={bottomContainer}>
+            <div className={dropdownWrapper}>
+              <Suspense fallback={<div>Fetching emails...</div>}>
+                <DropDown />
+              </Suspense>
+            </div>
+            <Button
+              type="primary"
+              loading={status.loading}
+              disabled={
+                !status.isValid ||
+                !currentDomainAddress ||
+                !TweetStatusStore.getTweetStatus.length
+              }
+              title="Tweet"
+              onClick={() => {
+                TwitterStore.createTweet()
+              }}
+              fullWidth={!md}
+              center
+            >
+              Tweet
+            </Button>
+          </div>
         </div>
-        <div className={margin('md:ml-20', 'md:mb-0', 'mb-4')}>
-          <Counter />
-        </div>
-        <Button
-          type="primary"
-          loading={status.loading}
-          disabled={!status.isValid || !TweeterStore.text.length}
-          title="Tweet"
-          onClick={() => {
-            TweeterStore.tweet()
-            TweeterStore.status.success = true
-          }}
-          fullWidth={!md}
-          center
-        >
-          Tweet
-        </Button>
-      </div>
+      )}
     </div>
   )
 }

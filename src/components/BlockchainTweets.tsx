@@ -1,7 +1,10 @@
 import { LinkText, StatusText, TweetText } from 'components/Text'
+import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
-import TweetStatus from 'components/TweetStatus'
+import TweetChips from 'components/TweetChips'
+import TweetStatusStore from 'stores/TweetStatusStore'
+import TwitterLoading from 'components/TwitterLoading'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   alignItems,
@@ -11,6 +14,7 @@ import classnames, {
   space,
   width,
 } from 'classnames/tailwind'
+import formatDate from 'helpers/formatDate'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 
@@ -35,46 +39,57 @@ const bottomSeparator = classnames(
   display('hidden', 'sm:block')
 )
 
-export default function () {
-  const { blockchainTweets } = useSnapshot(TwitterStore)
-
-  if (!blockchainTweets) return null
+function BlockchainTweetsSuspended() {
+  const { blockchainTweets = [] } = useSnapshot(TwitterStore)
+  const { tweetsStatuses } = useSnapshot(TweetStatusStore)
 
   return (
     <>
-      {blockchainTweets.map(({ text, author, status, updatedAt }) => (
-        <Card>
-          <div className={container}>
-            <div className={tweetHeader}>
-              <TweetStatus status={status} text={status} />
-              <StatusText textRight>{updatedAt}</StatusText>
-            </div>
-            <TweetText>{text}</TweetText>
-            <div className={tweetBottom}>
-              <StatusText>Posted by: </StatusText>
-              <LinkText
-                extraSmall
-                targetBlank
-                title={author}
-                url={getEtherscanAddressUrl(author)}
-              >
-                {truncateMiddleIfNeeded(author, 13)}
-              </LinkText>
-              <div className={bottomSeparator}>
-                <StatusText>|</StatusText>
+      {blockchainTweets.map(
+        ({ id, tweet, derivativeAddress, sender, timestamp }) => (
+          <Card>
+            <div className={container}>
+              <div className={tweetHeader}>
+                <TweetChips status={tweetsStatuses[id]} />
+                <StatusText textRight>{formatDate(timestamp)}</StatusText>
               </div>
-              <LinkText
-                extraSmall
-                targetBlank
-                title={author}
-                url={getEtherscanAddressUrl(author)}
-              >
-                Etherscan
-              </LinkText>
+              <TweetText>{tweet}</TweetText>
+              <div className={tweetBottom}>
+                <StatusText>Posted by: </StatusText>
+                <LinkText
+                  extraSmall
+                  targetBlank
+                  title={sender}
+                  url={getEtherscanAddressUrl(sender)}
+                >
+                  {!!sender && truncateMiddleIfNeeded(sender, 13)}
+                </LinkText>
+                <div className={bottomSeparator}>
+                  <StatusText>|</StatusText>
+                </div>
+                <LinkText
+                  extraSmall
+                  targetBlank
+                  title={derivativeAddress}
+                  url={getEtherscanAddressUrl(derivativeAddress)}
+                >
+                  Etherscan
+                </LinkText>
+              </div>
             </div>
-          </div>
-        </Card>
-      ))}
+          </Card>
+        )
+      )}
     </>
+  )
+}
+
+export default function () {
+  return (
+    <Suspense
+      fallback={<TwitterLoading text="Fetching blockchain tweets..." />}
+    >
+      <BlockchainTweetsSuspended />
+    </Suspense>
   )
 }

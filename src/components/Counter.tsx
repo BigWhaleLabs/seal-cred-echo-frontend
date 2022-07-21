@@ -1,21 +1,34 @@
-import { BadgeText, ErrorText } from 'components/Text'
+import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import TwitterStore from 'stores/TwitterStore'
+import classnames, {
+  fontSize,
+  textColor,
+  whitespace,
+} from 'classnames/tailwind'
 
-export default function () {
-  const { text, maxLength } = useSnapshot(TwitterStore)
+const counterText = (error?: boolean) =>
+  classnames(
+    textColor(error ? 'text-error' : 'text-formal-accent'),
+    fontSize('text-xs'),
+    whitespace('whitespace-nowrap')
+  )
+
+function CounterSuspended() {
+  const { text, maxLengthWithHashtag } = useSnapshot(TwitterStore)
   const count = text.length
 
-  if (count > maxLength)
-    return (
-      <ErrorText>
-        {count} / {maxLength}
-      </ErrorText>
-    )
-
   return (
-    <BadgeText>
-      {count} / {maxLength}
-    </BadgeText>
+    <div className={counterText(count > maxLengthWithHashtag)}>
+      {count} / {maxLengthWithHashtag}
+    </div>
+  )
+}
+
+export default function () {
+  return (
+    <Suspense fallback={<div className={counterText(false)}>... / ...</div>}>
+      <CounterSuspended />
+    </Suspense>
   )
 }

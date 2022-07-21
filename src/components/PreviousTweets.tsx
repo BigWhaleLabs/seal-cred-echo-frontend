@@ -1,18 +1,13 @@
-import { LoadingText } from 'components/Text'
 import { TwitterTimelineEmbed } from 'react-twitter-embed'
 import { useState } from 'preact/hooks'
-import Loading from 'components/Loading'
 import PreviousTweetsLayout from 'components/PrevTweetsLayout'
+import TwitterLoading from 'components/TwitterLoading'
 import classnames, {
-  alignItems,
   backgroundColor,
   borderWidth,
   display,
   flexDirection,
   height,
-  margin,
-  padding,
-  space,
   width,
 } from 'classnames/tailwind'
 import formatDate from 'helpers/formatDate'
@@ -25,27 +20,8 @@ const tweetCard = classnames(
   flexDirection('flex-col'),
   borderWidth('border-b', 'last:border-b-0')
 )
-const loadingClass = classnames(
-  display('flex'),
-  flexDirection('flex-col'),
-  alignItems('items-center'),
-  space('space-y-8'),
-  height('h-full'),
-  padding('py-6')
-)
 const tweetWidget = (loading?: boolean) =>
   classnames(display(loading ? 'hidden' : 'block'), height('h-full'))
-
-function TwitterLoading() {
-  return (
-    <div className={loadingClass}>
-      <LoadingText>Fetching tweets...</LoadingText>
-      <div className={margin('mx-auto')}>
-        <Loading />
-      </div>
-    </div>
-  )
-}
 
 const prepareFrame = (frame: HTMLObjectElement) => {
   if (!frame.contentDocument) return
@@ -73,7 +49,7 @@ export default function () {
   return (
     <PreviousTweetsLayout>
       <div className={tweetCard}>
-        {loading && <TwitterLoading />}
+        {loading && <TwitterLoading text="Fetching twitter widget" />}
         <div className={tweetWidget(loading)}>
           <TwitterTimelineEmbed
             noHeader
@@ -85,7 +61,7 @@ export default function () {
             tweetLimit={50}
             theme="dark"
             sourceType="profile"
-            screenName="sealcred"
+            screenName="SealCredWork"
             borderColor="#2F3336"
             linkColor="#15A1FC"
             options={{

@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'preact/compat'
-import { ErrorText, HashTagText, TextareaText } from 'components/Text'
+import { ErrorText, TextareaText } from 'components/Text'
 import {
   alignItems,
   backgroundColor,
@@ -10,7 +10,6 @@ import {
   display,
   flexDirection,
   flexGrow,
-  flexWrap,
   justifyContent,
   margin,
   minHeight,
@@ -22,6 +21,7 @@ import {
   width,
 } from 'classnames/tailwind'
 import { useEffect, useState } from 'preact/hooks'
+import HashtagBlock from 'components/HashtagBlock'
 import TextareaAutosize, {
   TextareaAutosizeProps,
 } from 'react-textarea-autosize'
@@ -60,13 +60,6 @@ const textBox = classnames(
   transitionProperty('transition-colors'),
   outlineStyle('outline-none', 'focus:outline-none')
 )
-const footerBox = classnames(
-  display('flex'),
-  flexDirection('flex-row'),
-  flexWrap('flex-wrap'),
-  space('space-x-2'),
-  margin('mt-4')
-)
 
 interface TextAreaProps {
   text: string
@@ -82,7 +75,6 @@ export default function ({
   text,
   onTextChange,
   maxLength,
-  footer,
   error,
   ...restProps
 }: TextAreaProps & TextareaAutosizeProps) {
@@ -97,7 +89,7 @@ export default function ({
   return (
     <div className={textWithErrorWrapper}>
       <div className={containerWithFooter}>
-        <div className={innerWrapper(!isValid)}>
+        <div className={innerWrapper(!isValid && !!error)}>
           <TextareaText>
             <TextareaAutosize
               className={classNamesToString('no-scrollbar', textBox)}
@@ -110,10 +102,7 @@ export default function ({
               {...restProps}
             />
           </TextareaText>
-          <div className={footerBox}>
-            <HashTagText>{!!footer && 'VerifiedToWorkAt'}</HashTagText>
-            <HashTagText>{footer}</HashTagText>
-          </div>
+          <HashtagBlock />
         </div>
       </div>
       <ErrorText visible={!!error} withExclamation>
