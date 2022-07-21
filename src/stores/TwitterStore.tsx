@@ -2,6 +2,7 @@ import { derive } from 'valtio/utils'
 import { proxy } from 'valtio'
 import SCTwitterLedgerContract from 'helpers/SCTwitterLedgerContract'
 import SealCredStore from 'stores/SealCredStore'
+import TweetStatusStore from 'stores/TweetStatusStore'
 import WalletStore from 'stores/WalletStore'
 import getBlockchainTweets from 'helpers/getBlockchainTweets'
 import getTwitterLedgerRecord from 'helpers/getTwitterLedgerRecord'
@@ -101,14 +102,20 @@ SCTwitterLedgerContract.on(
   SCTwitterLedgerContract.filters.TweetSaved(),
   async (id, tweet, derivativeAddress, sender, timestamp) => {
     console.info('TweetSaved event', tweet, derivativeAddress)
+    const tweetId = id.toNumber()
     const ledger = await TwitterStore.blockchainTweets
-    if (
-      !ledger.find(({ id: ledgerTweetId }) => ledgerTweetId === id.toNumber())
-    ) {
+    if (!ledger.find(({ id: ledgerTweetId }) => ledgerTweetId === tweetId)) {
       TwitterStore.blockchainTweets = Promise.resolve([
-        getTwitterLedgerRecord(id, tweet, derivativeAddress, sender, timestamp),
+        getTwitterLedgerRecord(
+          tweetId,
+          tweet,
+          derivativeAddress,
+          sender,
+          timestamp
+        ),
         ...ledger,
       ])
+      TweetStatusStore.processingTweets[sender] = tweetId
     }
   }
 )

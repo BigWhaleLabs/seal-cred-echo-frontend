@@ -1,7 +1,10 @@
 import {
   TDropShadow,
+  TGradientColorStops,
   TTextColor,
   alignItems,
+  backgroundClip,
+  backgroundImage,
   classnames,
   cursor,
   display,
@@ -9,6 +12,7 @@ import {
   fontFamily,
   fontSize,
   fontWeight,
+  gradientColorStops,
   letterSpacing,
   lineHeight,
   placeholderColor,
@@ -171,10 +175,21 @@ export function BadgeText({
   return <span className={badgeText(small)}>{children}</span>
 }
 
-const linkText = (small?: boolean, extraSmall?: boolean, bold?: boolean) =>
+const linkText = (
+  small?: boolean,
+  extraSmall?: boolean,
+  bold?: boolean,
+  gradientFrom?: TGradientColorStops,
+  gradientTo?: TGradientColorStops
+) =>
   classnames(
     textDecoration('no-underline'),
-    textColor('text-primary'),
+    textColor(gradientFrom && gradientTo ? 'text-transparent' : 'text-primary'),
+    backgroundImage(
+      gradientFrom && gradientTo ? 'bg-gradient-to-r' : undefined
+    ),
+    backgroundClip(gradientFrom && gradientTo ? 'bg-clip-text' : undefined),
+    gradientColorStops(gradientFrom, gradientTo),
     fontWeight({ 'font-bold': bold }),
     fontSize({ 'text-sm': small, 'text-xs': extraSmall }),
     lineHeight(small ? 'leading-4' : 'leading-5')
@@ -187,6 +202,8 @@ export function LinkText({
   title,
   children,
   targetBlank,
+  gradientFrom,
+  gradientTo,
 }: ChildrenProp & {
   url: string
   small?: boolean
@@ -194,10 +211,12 @@ export function LinkText({
   targetBlank?: boolean
   bold?: boolean
   title?: string
+  gradientFrom?: TGradientColorStops
+  gradientTo?: TGradientColorStops
 }) {
   return (
     <a
-      className={linkText(small, extraSmall, bold)}
+      className={linkText(small, extraSmall, bold, gradientFrom, gradientTo)}
       href={url}
       title={title}
       target={targetBlank ? '_blank' : '_self'}

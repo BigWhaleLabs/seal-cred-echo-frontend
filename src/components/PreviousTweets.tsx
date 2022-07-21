@@ -61,7 +61,7 @@ export default function () {
             tweetLimit={50}
             theme="dark"
             sourceType="profile"
-            screenName="sealcred"
+            screenName="SealCredWork"
             borderColor="#2F3336"
             linkColor="#15A1FC"
             options={{

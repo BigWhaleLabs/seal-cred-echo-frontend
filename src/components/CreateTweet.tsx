@@ -4,6 +4,8 @@ import { useSnapshot } from 'valtio'
 import Button from 'components/Button'
 import DropDown from 'components/DropDown'
 import TextArea from 'components/TextArea'
+import TweetProcessing from 'components/TweetProcessing'
+import TweetStatusStore from 'stores/TweetStatusStore'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   alignItems,
@@ -12,6 +14,7 @@ import classnames, {
   flexWrap,
   justifyContent,
   margin,
+  space,
 } from 'classnames/tailwind'
 import useBreakpoints from 'hooks/useBreakpoints'
 
@@ -36,40 +39,49 @@ const dropdownWrapper = classnames(
 export default function () {
   const { text, maxLength, status, currentDomainAddress } =
     useSnapshot(TwitterStore)
+  const { currentUserTweet } = useSnapshot(TweetStatusStore)
   const { md } = useBreakpoints()
 
   return (
     <div className={margin('mb-16')}>
-      <HeaderText>Create your anonymous tweet</HeaderText>
-      <TextArea
-        text={text}
-        placeholder="Write something here..."
-        onTextChange={(text) => onTweetChange(text)}
-        maxLength={maxLength}
-        disabled={status.loading}
-        error={status.error?.message}
-      />
-
-      <div className={bottomContainer}>
-        <div className={dropdownWrapper}>
-          <Suspense fallback={<div>Fetching emails...</div>}>
-            <DropDown />
-          </Suspense>
+      {currentUserTweet?.status === 'pending' ? (
+        <TweetProcessing loading title="Your tweet is processing" />
+      ) : (
+        <div className={space('space-y-12')}>
+          {currentUserTweet?.status === 'approved' && (
+            <TweetProcessing title="Tweet successful" />
+          )}
+          <HeaderText>Create your anonymous tweet</HeaderText>
+          <TextArea
+            text={text}
+            placeholder="Write something here..."
+            onTextChange={(text) => onTweetChange(text)}
+            maxLength={maxLength}
+            disabled={status.loading}
+            error={status.error?.message}
+          />
+          <div className={bottomContainer}>
+            <div className={dropdownWrapper}>
+              <Suspense fallback={<div>Fetching emails...</div>}>
+                <DropDown />
+              </Suspense>
+            </div>
+            <Button
+              type="primary"
+              loading={status.loading}
+              disabled={!status.isValid || !currentDomainAddress}
+              title="Tweet"
+              onClick={() => {
+                TwitterStore.createTweet()
+              }}
+              fullWidth={!md}
+              center
+            >
+              Tweet
+            </Button>
+          </div>
         </div>
-        <Button
-          type="primary"
-          loading={status.loading}
-          disabled={!status.isValid || !currentDomainAddress}
-          title="Tweet"
-          onClick={() => {
-            TwitterStore.createTweet()
-          }}
-          fullWidth={!md}
-          center
-        >
-          Tweet
-        </Button>
-      </div>
+      )}
     </div>
   )
 }

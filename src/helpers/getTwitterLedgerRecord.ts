@@ -1,14 +1,14 @@
 import { BigNumber } from 'ethers'
 
 export default function (
-  id: BigNumber,
+  id: number,
   tweet: string,
   derivativeAddress: string,
   sender: string,
   timestamp: BigNumber
 ) {
   return {
-    id: id.toNumber(),
+    id,
     tweet,
     derivativeAddress,
     sender,
