@@ -223,7 +223,7 @@ export function LinkText({
       href={url}
       title={title}
       target={targetBlank ? '_blank' : '_self'}
-      rel="noopener"
+      rel="noopener noreferrer"
     >
       {children}
     </a>
