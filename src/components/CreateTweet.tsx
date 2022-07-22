@@ -4,7 +4,6 @@ import { useSnapshot } from 'valtio'
 import Button from 'components/Button'
 import DropDown from 'components/DropDown'
 import TextArea from 'components/TextArea'
-import TweetProcessing from 'components/TweetProcessing'
 import TweetStatusStore from 'stores/TweetStatusStore'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
@@ -39,53 +38,45 @@ const dropdownWrapper = classnames(
 export default function () {
   const { text, maxLengthWithHashtag, status, currentDomainAddress } =
     useSnapshot(TwitterStore)
-  const { currentUserTweet } = useSnapshot(TweetStatusStore)
   const { md } = useBreakpoints()
 
   return (
-    <div className={margin('mb-16')}>
-      {currentUserTweet?.status === 'pending' ? (
-        <TweetProcessing loading title="Your tweet is processing" />
-      ) : (
-        <div className={space('space-y-12')}>
-          {currentUserTweet?.status === 'approved' && (
-            <TweetProcessing title="Tweet successful" />
-          )}
-          <HeaderText>Create your anonymous tweet</HeaderText>
-          <TextArea
-            text={text}
-            placeholder="Write something here..."
-            onTextChange={(text) => onTweetChange(text)}
-            maxLength={maxLengthWithHashtag}
-            disabled={status.loading}
-            error={status.error?.message}
-          />
-          <div className={bottomContainer}>
-            <div className={dropdownWrapper}>
-              <Suspense fallback={<div>Fetching emails...</div>}>
-                <DropDown />
-              </Suspense>
-            </div>
-            <Button
-              type="primary"
-              loading={status.loading}
-              disabled={
-                !status.isValid ||
-                !currentDomainAddress ||
-                !TweetStatusStore.getTweetStatus.length
-              }
-              title="Tweet"
-              onClick={() => {
-                TwitterStore.createTweet()
-              }}
-              fullWidth={!md}
-              center
-            >
-              Tweet
-            </Button>
+    <div className={space('space-y-6')}>
+      <HeaderText>Create your anonymous tweet</HeaderText>
+      <div className={space('space-y-4')}>
+        <TextArea
+          text={text}
+          placeholder="Write something here..."
+          onTextChange={(text) => onTweetChange(text)}
+          maxLength={maxLengthWithHashtag}
+          disabled={status.loading}
+          error={status.error?.message}
+        />
+        <div className={bottomContainer}>
+          <div className={dropdownWrapper}>
+            <Suspense fallback={<div>Fetching emails...</div>}>
+              <DropDown />
+            </Suspense>
           </div>
+          <Button
+            type="primary"
+            loading={status.loading}
+            disabled={
+              !status.isValid ||
+              !currentDomainAddress ||
+              !TweetStatusStore.getTweetStatus.length
+            }
+            title="Tweet"
+            onClick={() => {
+              TwitterStore.createTweet()
+            }}
+            fullWidth={!md}
+            center
+          >
+            Tweet
+          </Button>
         </div>
-      )}
+      </div>
     </div>
   )
 }
