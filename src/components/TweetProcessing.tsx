@@ -1,4 +1,5 @@
 import { LargeText, LinkText, LoadingText } from 'components/Text'
+import { NavLink } from 'react-router-dom'
 import Arrow from 'icons/Arrow'
 import Loading from 'components/Loading'
 import classnames, {
@@ -10,6 +11,7 @@ import classnames, {
   margin,
   padding,
   space,
+  textColor,
   width,
 } from 'classnames/tailwind'
 
@@ -23,7 +25,7 @@ const container = (loading?: boolean) =>
     borderRadius('rounded-2xl'),
     space(loading ? 'space-y-6' : 'space-y-2')
   )
-const loadingText = margin('!mt-4')
+const loadingText = classnames(margin('!mt-4'), padding('px-16'))
 const linkInnerContainer = classnames(
   display('flex'),
   alignItems('items-center'),
@@ -41,6 +43,8 @@ const LinkInnerContainer = () => {
   )
 }
 
+const viewBlockchainLink = textColor('text-primary')
+
 export default function ({
   title,
   loading,
@@ -57,7 +61,17 @@ export default function ({
       <LargeText>{title}</LargeText>
       {loading && (
         <div className={loadingText}>
-          <LoadingText>This may take a few minutes.</LoadingText>
+          <LoadingText>
+            It is currently posted to the raw data (
+            <NavLink
+              to="/previous-tweets/blockchain"
+              className={viewBlockchainLink}
+            >
+              view it here
+            </NavLink>
+            ). But it may take as long as 24 before it posts to Twitter due to
+            moderation.
+          </LoadingText>
         </div>
       )}
       {loading && <Loading />}
