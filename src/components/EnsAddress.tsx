@@ -29,7 +29,13 @@ export default memo<EnsAddressProps>(({ address }) => {
   const { lg } = useBreakpoints()
   return (
     <Suspense
-      fallback={<>{!lg ? truncateMiddleIfNeeded(address, 17) : address}</>}
+      fallback={
+        <>
+          {!lg
+            ? truncateMiddleIfNeeded(address, 17)
+            : truncateMiddleIfNeeded(address, 25)}
+        </>
+      }
     >
       <EnsAddressSuspended address={address} truncate={!lg} />
     </Suspense>
