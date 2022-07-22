@@ -22,16 +22,16 @@ html {
   background-color: #0d0030;
   scrollbar-color: #fed823 transparent;
   scrollbar-width: thin;
-}
-
-html {
-  background-size: cover, 3rem 3rem;
-  background-repeat: no-repeat, repeat;
-  background-position: top, 0;
-  background-image: url('/img/bg-shadows.svg'),
+  background-size: 100% auto, 100% auto, 3rem 3rem;
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-position: top, top, 0;
+  background-image: url('/img/bg-shadows-top.svg'),
+    url('/img/bg-shadows-bottom.svg'),
     conic-gradient(from 90deg at 0.06rem 0.06rem, #0d0030 90deg, #1a0259 0);
 }
+
 body {
+  overflow: overlay;
   scroll-behavior: smooth;
   margin: 0;
   min-height: 100vh;
@@ -62,28 +62,19 @@ body {
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 25px;
-}
-::-webkit-scrollbar-track {
-  background: linear-gradient(
-    90deg,
-    #0d0030 47%,
-    #fed823 47%,
-    #fed823 51%,
-    #0d0030 52%
-  );
+  width: 15px;
 }
 ::-webkit-scrollbar-thumb {
   background: #fed823;
   border-radius: 20px;
   background-clip: content-box;
-  border: 8px solid transparent;
+  border: 5px solid transparent;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #fed950;
   border-radius: 20px;
   background-clip: content-box;
-  border: 7.5px solid transparent;
+  border: 4px solid transparent;
 }
 
 /* Wallet select menu for dark and light theme */
