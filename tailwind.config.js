@@ -71,7 +71,7 @@ module.exports = {
         secondary: '0rem 0rem 0.625rem #ff7bed',
       },
       width: {
-        body: '38rem',
+        body: '35rem',
       },
       maxWidth: {
         alert: '33rem',

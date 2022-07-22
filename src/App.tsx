@@ -26,7 +26,7 @@ const body = classnames(
   height('h-fit'),
   space('space-y-4'),
   padding('pb-5'),
-  margin('mx-auto')
+  margin('mx-auto', 'md:mb-32')
 )
 
 export default function () {
