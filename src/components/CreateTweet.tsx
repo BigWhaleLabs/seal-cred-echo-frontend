@@ -20,9 +20,7 @@ export default function () {
             }
           />
         ) : (
-          lastApprovedTweet?.status === 'approved' && (
-            <TweetProcessing title="Tweet successful" />
-          )
+          lastApprovedTweet && <TweetProcessing title="Tweet successful" />
         )}
         <CreateTweetForm />
       </div>

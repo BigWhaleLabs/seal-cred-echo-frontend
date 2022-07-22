@@ -118,7 +118,15 @@ SCTwitterLedgerContract.on(
         ),
         ...ledger,
       ])
-      TweetStatusStore.processingTweets[sender] = tweetId
+      const processingTweets = TweetStatusStore.processingTweets[sender]
+      if (processingTweets) {
+        TweetStatusStore.processingTweets[sender] = [
+          tweetId,
+          ...processingTweets,
+        ]
+        return
+      }
+      TweetStatusStore.processingTweets[sender] = [tweetId]
     }
   }
 )

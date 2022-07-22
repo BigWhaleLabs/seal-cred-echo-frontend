@@ -10,13 +10,34 @@ class TweetStatusStore extends PersistableStore {
   tweetsStatuses: TweetIdAndStatus = {}
   processingTweets: { [account: string]: number[] | undefined } = {}
 
-  async fetchTweetList() {
+  replacer = (key: string, value: unknown) => {
+    const disallowList = ['processingTweets']
+    return disallowList.includes(key) ? undefined : value
+  }
+
+  async initFetchTweetList() {
     this.tweetsStatuses = await getTweetsFromPoster()
 
     if (WalletStore.account) {
       const tweetsInBlockchain = await TwitterStore.blockchainTweets
       const records = tweetsInBlockchain
         .filter((record) => record.sender === WalletStore.account)
+        .map((record) => record.id)
+      this.processingTweets[WalletStore.account] = records
+    }
+  }
+
+  async fetchTweetList() {
+    this.tweetsStatuses = await getTweetsFromPoster()
+
+    if (WalletStore.account) {
+      const tweetsInBlockchain = await TwitterStore.blockchainTweets
+      const records = tweetsInBlockchain
+        .filter(
+          (record) =>
+            record.sender === WalletStore.account &&
+            this.getTweetStatus(record.id) === TweetStatus.pending
+        )
         .map((record) => record.id)
       this.processingTweets[WalletStore.account] = records
     }
@@ -38,8 +59,14 @@ class TweetStatusStore extends PersistableStore {
   }
 
   get lastApprovedTweet() {
+    console.log(
+      this.currentUserTweets,
+      this.currentUserTweets.find(
+        ({ status }) => status === TweetStatus.rejected
+      )
+    )
     return this.currentUserTweets.find(
-      ({ status }) => status === TweetStatus.approved
+      ({ status }) => status === TweetStatus.rejected
     )
   }
 
@@ -50,9 +77,11 @@ class TweetStatusStore extends PersistableStore {
   }
 }
 
-export const tweetStatusStore = proxy(new TweetStatusStore()).makePersistent()
+export const tweetStatusStore = proxy(new TweetStatusStore()).makePersistent(
+  true
+)
 
-void tweetStatusStore.fetchTweetList()
+void tweetStatusStore.initFetchTweetList()
 
 setInterval(() => {
   void tweetStatusStore.fetchTweetList()
