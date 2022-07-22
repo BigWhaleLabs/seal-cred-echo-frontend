@@ -13,6 +13,7 @@ import {
   justifyContent,
   margin,
   minHeight,
+  outlineColor,
   outlineStyle,
   padding,
   resize,
@@ -42,9 +43,11 @@ const innerWrapper = (error?: boolean) =>
     justifyContent('justify-between'),
     borderWidth('border'),
     borderColor(
-      error ? 'border-error' : 'border-formal-accent',
-      'focus-within:border-primary'
+      error ? 'border-error' : 'border-formal-accent-dimmed',
+      'focus-within:border-formal-accent'
     ),
+    outlineColor('focus-within:outline-primary'),
+    outlineStyle('focus-within:outline'),
     borderRadius('rounded-lg'),
     padding('py-3', 'px-4'),
     transitionProperty('transition-colors'),
