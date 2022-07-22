@@ -22,15 +22,14 @@ const tweetCard = classnames(
 const tweetWidget = (loading?: boolean) =>
   classnames(display(loading ? 'hidden' : 'block'), height('h-full'))
 
-const prepareFrame = (frame: HTMLObjectElement): Promise<void> => {
-  if (!frame.contentDocument) return Promise.reject()
+const prepareFrame = (frame: HTMLObjectElement) => {
+  if (!frame.contentDocument) return
 
   const cssLink = document.createElement('link')
   cssLink.href = 'styles/frame.css'
   cssLink.rel = 'stylesheet'
   cssLink.type = 'text/css'
   frame.contentDocument.head.appendChild(cssLink)
-  return Promise.resolve()
 }
 
 export default function () {
@@ -60,8 +59,8 @@ export default function () {
               hide_media: true,
               hide_thread: true,
             }}
-            onLoad={async (element) => {
-              await prepareFrame(element)
+            onLoad={(element) => {
+              prepareFrame(element)
               setLoading(false)
             }}
           />
