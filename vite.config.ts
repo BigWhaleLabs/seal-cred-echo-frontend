@@ -37,4 +37,7 @@ export default defineConfig({
       plugins: [GlobalsPolyfills({ buffer: true })],
     },
   },
+  esbuild: {
+    logOverride: { 'this-is-undefined-in-esm': 'silent' },
+  },
 })
