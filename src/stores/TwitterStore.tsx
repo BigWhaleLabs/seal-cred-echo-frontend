@@ -92,7 +92,7 @@ const TwitterStore = derive<
       const currentDomain = (await SealCredStore.contractNameDomain)[address]
       if (!currentDomain) return
       get(state).calculatedMaxLength =
-        get(state).maxLength - currentDomain.length - 1
+        get(state).maxLength - currentDomain.length - 2
       return `#${currentDomain}`
     },
     maxLengthWithHashtag: (get) =>
@@ -118,7 +118,15 @@ SCTwitterLedgerContract.on(
         ),
         ...ledger,
       ])
-      TweetStatusStore.processingTweets[sender] = tweetId
+      const processingTweets = TweetStatusStore.processingTweets[sender]
+      if (processingTweets) {
+        TweetStatusStore.processingTweets[sender] = [
+          tweetId,
+          ...processingTweets,
+        ]
+        return
+      }
+      TweetStatusStore.processingTweets[sender] = [tweetId]
     }
   }
 )
