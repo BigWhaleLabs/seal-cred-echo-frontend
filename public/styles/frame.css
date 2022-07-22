@@ -94,6 +94,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.TweetAuthor__time abbr {
+  text-decoration: none;
+}
 .TweetAuthor__time:before {
   content: '·';
   padding: 0 5px;
