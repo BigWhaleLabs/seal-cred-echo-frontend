@@ -107,7 +107,6 @@ export function SocialLink({ url, children }: ChildrenProp & { url: string }) {
   return (
     <span
       className={socialLink}
-      href={url}
       onClick={() => {
         const newWindow = window.open(url, '_blank')
         if (newWindow) {
