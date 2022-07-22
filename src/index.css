@@ -24,9 +24,9 @@ html {
   scrollbar-width: thin;
   background-size: 100% auto, 100% auto, 3rem 3rem;
   background-repeat: no-repeat, no-repeat, repeat;
-  background-position: top, top, 0;
-  background-image: url('/img/bg-shadows-top.svg'),
-    url('/img/bg-shadows-bottom.svg'),
+  background-position: 50% -15px, 100%, 0;
+  background-image: url('/img/bg-shadows-top.webp'),
+    url('/img/bg-shadows-bottom.webp'),
     conic-gradient(from 90deg at 0.06rem 0.06rem, #0d0030 90deg, #1a0259 0);
 }
 
