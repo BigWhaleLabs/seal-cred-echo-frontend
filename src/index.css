@@ -41,6 +41,22 @@ body {
   color: #efecd6;
 }
 
+/* slightly transparent fallback */
+.blurEffect {
+  background-color: rgba(13, 0, 48, 0.98);
+  box-shadow: 0.125rem 0.125rem 1rem rgba(13, 0, 48, 0.95);
+}
+
+/* if backdrop support: very transparent and blurred */
+@supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .blurEffect {
+    background-color: transparent;
+    -webkit-backdrop-filter: blur(0.5rem);
+    backdrop-filter: blur(0.5rem);
+    box-shadow: none;
+  }
+}
+
 @media screen and (max-width: 600px) {
   /* Grid for mobiles */
   html {
