@@ -1,4 +1,4 @@
-import { LinkText, StatusText, TweetText } from 'components/Text'
+import { BodyText, LinkText, StatusText, TweetText } from 'components/Text'
 import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
@@ -10,7 +10,6 @@ import classnames, {
   alignItems,
   display,
   flexDirection,
-  fontFamily,
   justifyContent,
   space,
   width,
@@ -33,8 +32,7 @@ const tweetBottom = classnames(
   display('flex'),
   flexDirection('flex-col', 'sm:flex-row'),
   alignItems('items-start', 'sm:items-baseline'),
-  space('space-y-1', 'sm:space-x-2', 'sm:space-y-0'),
-  fontFamily('font-primary')
+  space('space-y-1', 'sm:space-x-2', 'sm:space-y-0')
 )
 const bottomSeparator = classnames(
   width('w-fit'),
@@ -55,28 +53,30 @@ function BlockchainTweetsSuspended() {
                 <StatusText textRight>{formatDate(timestamp)}</StatusText>
               </div>
               <TweetText>{tweet}</TweetText>
-              <div className={tweetBottom}>
-                <StatusText>Posted by: </StatusText>
-                <LinkText
-                  extraSmall
-                  targetBlank
-                  title={sender}
-                  url={getEtherscanAddressUrl(sender)}
-                >
-                  {!!sender && truncateMiddleIfNeeded(sender, 13)}
-                </LinkText>
-                <div className={bottomSeparator}>
-                  <StatusText>|</StatusText>
-                </div>
-                <LinkText
-                  extraSmall
-                  targetBlank
-                  title={derivativeAddress}
-                  url={getEtherscanAddressUrl(derivativeAddress)}
-                >
-                  Etherscan
-                </LinkText>
-              </div>
+              <BodyText primary>
+                <span className={tweetBottom}>
+                  <StatusText>Posted by: </StatusText>
+                  <LinkText
+                    extraSmall
+                    targetBlank
+                    title={sender}
+                    url={getEtherscanAddressUrl(sender)}
+                  >
+                    {!!sender && truncateMiddleIfNeeded(sender, 13)}
+                  </LinkText>
+                  <div className={bottomSeparator}>
+                    <StatusText>|</StatusText>
+                  </div>
+                  <LinkText
+                    extraSmall
+                    targetBlank
+                    title={derivativeAddress}
+                    url={getEtherscanAddressUrl(derivativeAddress)}
+                  >
+                    Etherscan
+                  </LinkText>
+                </span>
+              </BodyText>
             </div>
           </Card>
         )
