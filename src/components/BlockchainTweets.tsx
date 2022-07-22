@@ -10,6 +10,7 @@ import classnames, {
   alignItems,
   display,
   flexDirection,
+  fontFamily,
   justifyContent,
   space,
   width,
@@ -31,8 +32,9 @@ const tweetHeader = classnames(
 const tweetBottom = classnames(
   display('flex'),
   flexDirection('flex-col', 'sm:flex-row'),
-  alignItems('items-start', 'sm:items-center'),
-  space('space-y-1', 'sm:space-x-1', 'sm:space-y-0')
+  alignItems('items-start', 'sm:items-baseline'),
+  space('space-y-1', 'sm:space-x-2', 'sm:space-y-0'),
+  fontFamily('font-primary')
 )
 const bottomSeparator = classnames(
   width('w-fit'),
@@ -41,7 +43,6 @@ const bottomSeparator = classnames(
 
 function BlockchainTweetsSuspended() {
   const { blockchainTweets = [] } = useSnapshot(TwitterStore)
-  const { tweetsStatuses } = useSnapshot(TweetStatusStore)
 
   return (
     <>
@@ -50,7 +51,7 @@ function BlockchainTweetsSuspended() {
           <Card>
             <div className={container}>
               <div className={tweetHeader}>
-                <TweetChips status={tweetsStatuses[id]} />
+                <TweetChips status={TweetStatusStore.getTweetStatus(id)} />
                 <StatusText textRight>{formatDate(timestamp)}</StatusText>
               </div>
               <TweetText>{tweet}</TweetText>
