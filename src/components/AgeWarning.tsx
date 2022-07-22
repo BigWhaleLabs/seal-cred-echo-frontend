@@ -12,6 +12,7 @@ import classnames, {
   flexDirection,
   inset,
   justifyContent,
+  margin,
   padding,
   position,
   space,
@@ -23,7 +24,8 @@ const container = classnames(
   display('flex'),
   justifyContent('justify-center'),
   inset('inset-0'),
-  padding('pt-16'),
+  padding('py-16'),
+  margin('!mt-0'),
   zIndex('z-40')
 )
 const overlay = classnames(
@@ -48,8 +50,8 @@ export default function () {
   const navigate = useNavigate()
 
   return (
-    <div className={container}>
-      <div className={classNamesToString(overlay, 'blurEffect')} />
+    <div className={classNamesToString(container, 'blurEffect')}>
+      <div className={overlay} />
       <Card alert>
         <div className={warningCard}>
           <SealLogo />
