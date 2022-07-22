@@ -63,10 +63,7 @@ export default function ({
         <div className={loadingText}>
           <LoadingText>
             It is currently posted to the raw data (
-            <NavLink
-              to="/previous-tweets/blockchain"
-              className={viewBlockchainLink}
-            >
+            <NavLink to={redirectTo} className={viewBlockchainLink}>
               view it here
             </NavLink>
             ). But it may take as long as 24 before it posts to Twitter due to
