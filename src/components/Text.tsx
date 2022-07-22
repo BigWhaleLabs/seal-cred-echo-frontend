@@ -98,20 +98,20 @@ export function AccentText({
   )
 }
 
-const socialLink = (tertiary?: boolean) =>
-  classnames(
-    lineHeight('leading-6'),
-    fontSize('text-base'),
-    textDecoration('no-underline', 'hover:underline'),
-    textColor(tertiary ? 'hover:text-tertiary' : 'text-formal-accent')
-  )
-export function SocialLink({
-  url,
-  tertiary,
-  children,
-}: ChildrenProp & { url: string; tertiary?: boolean }) {
+const socialLink = classnames(
+  lineHeight('leading-6'),
+  fontSize('text-base'),
+  textDecoration('no-underline', 'hover:underline'),
+  textColor('text-formal-accent', 'hover:text-tertiary')
+)
+export function SocialLink({ url, children }: ChildrenProp & { url: string }) {
   return (
-    <a className={socialLink(tertiary)} href={url} target="_blank">
+    <a
+      className={socialLink}
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       {children}
     </a>
   )
@@ -222,6 +222,7 @@ export function LinkText({
       href={url}
       title={title}
       target={targetBlank ? '_blank' : '_self'}
+      rel="noopener noreferrer"
     >
       {children}
     </a>

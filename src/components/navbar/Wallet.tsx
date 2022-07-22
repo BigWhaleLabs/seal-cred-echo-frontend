@@ -47,10 +47,10 @@ export default function () {
       {md && (
         <>
           <div className={container}>
-            <SocialLink tertiary url="https://discord.gg/NHk96pPZUV">
+            <SocialLink url="https://discord.gg/NHk96pPZUV">
               <Discord />
             </SocialLink>
-            <SocialLink tertiary url="https://twitter.com/bigwhalelabs">
+            <SocialLink url="https://twitter.com/bigwhalelabs">
               <Twitter />
             </SocialLink>
           </div>
@@ -61,7 +61,14 @@ export default function () {
         className={container}
         onClick={async () => {
           if (account) {
-            window.open(getEtherscanAddressUrl(account), '_blank')?.focus()
+            const newWindow = window.open(
+              getEtherscanAddressUrl(account),
+              '_blank'
+            )
+            if (newWindow) {
+              newWindow?.focus()
+              newWindow.opener = null
+            }
           } else {
             await WalletStore.connect(true)
           }
