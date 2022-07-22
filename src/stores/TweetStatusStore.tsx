@@ -59,14 +59,8 @@ class TweetStatusStore extends PersistableStore {
   }
 
   get lastApprovedTweet() {
-    console.log(
-      this.currentUserTweets,
-      this.currentUserTweets.find(
-        ({ status }) => status === TweetStatus.rejected
-      )
-    )
     return this.currentUserTweets.find(
-      ({ status }) => status === TweetStatus.rejected
+      ({ status }) => status === TweetStatus.approved
     )
   }
 
