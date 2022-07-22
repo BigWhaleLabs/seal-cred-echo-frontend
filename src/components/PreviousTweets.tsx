@@ -10,7 +10,6 @@ import classnames, {
   height,
   width,
 } from 'classnames/tailwind'
-import formatDate from 'helpers/formatDate'
 
 const tweetCard = classnames(
   display('flex'),
@@ -37,8 +36,8 @@ const prepareFrame = (frame: HTMLObjectElement) => {
   for (let index = 0; index < authors.length; index++) {
     const child = document.createElement('span')
     child.className = 'TweetAuthor__time'
-    const time = timeTags[index].innerHTML
-    child.innerHTML = formatDate(time)
+    const time = timeTags[index].textContent || timeTags[index].innerHTML
+    child.innerHTML = time
     authors[index].appendChild(child)
   }
 }
