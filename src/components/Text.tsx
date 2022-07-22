@@ -203,14 +203,12 @@ export function LinkText({
   extraSmall,
   title,
   children,
-  targetBlank,
   gradientFrom,
   gradientTo,
 }: ChildrenProp & {
   url: string
   small?: boolean
   extraSmall?: boolean
-  targetBlank?: boolean
   bold?: boolean
   title?: string
   gradientFrom?: TGradientColorStops
@@ -221,7 +219,7 @@ export function LinkText({
       className={linkText(small, extraSmall, bold, gradientFrom, gradientTo)}
       href={url}
       title={title}
-      target={targetBlank ? '_blank' : '_self'}
+      target="_blank"
       rel="noopener noreferrer"
     >
       {children}
