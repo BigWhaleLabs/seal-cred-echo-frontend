@@ -45,11 +45,13 @@ function BlockchainTweetsSuspended() {
   return (
     <>
       {blockchainTweets.map(
-        ({ id, tweet, derivativeAddress, sender, timestamp }) => (
+        async ({ id, tweet, derivativeAddress, sender, timestamp }) => (
           <Card>
             <div className={container}>
               <div className={tweetHeader}>
-                <TweetChips status={TweetStatusStore.getTweetStatus(id)} />
+                <TweetChips
+                  status={await TweetStatusStore.getTweetStatus(id)}
+                />
                 <StatusText textRight>{formatDate(timestamp)}</StatusText>
               </div>
               <TweetText>{tweet}</TweetText>

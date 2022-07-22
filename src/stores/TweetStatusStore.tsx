@@ -1,13 +1,13 @@
-import { TweetIdAndStatus } from 'models/TweetModel'
+import { TweetModel } from 'models/TweetModel'
 import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import TweetStatus from 'models/TweetStatus'
 import TwitterStore from 'stores/TwitterStore'
 import WalletStore from 'stores/WalletStore'
-import getTweetsFromPoster from 'helpers/getTweetsFromPoster'
+import axios from 'axios'
+import env from 'helpers/env'
 
 class TweetStatusStore extends PersistableStore {
-  tweetsStatuses: TweetIdAndStatus = {}
   processingTweets: { [account: string]: number[] | undefined } = {}
 
   replacer = (key: string, value: unknown) => {
@@ -16,27 +16,24 @@ class TweetStatusStore extends PersistableStore {
   }
 
   async initFetchTweetList() {
-    this.tweetsStatuses = await getTweetsFromPoster()
-
     if (WalletStore.account) {
       const tweetsInBlockchain = await TwitterStore.blockchainTweets
       const records = tweetsInBlockchain
         .filter(
-          (record) =>
+          async (record) =>
             record.sender === WalletStore.account &&
-            this.getTweetStatus(record.id) === TweetStatus.pending
+            (await this.getTweetStatus(record.id)) === TweetStatus.pending
         )
         .map((record) => record.id)
       this.processingTweets[WalletStore.account] = records
     }
   }
 
-  async fetchTweetList() {
-    this.tweetsStatuses = await getTweetsFromPoster()
-  }
-
-  getTweetStatus(id: number) {
-    return this.tweetsStatuses[id] || TweetStatus.pending
+  async getTweetStatus(id: number) {
+    const { data } = await axios.get<TweetModel>(
+      `${env.VITE_TWITTER_POSTER_URL}/tweets/${id}`
+    )
+    return data.status || TweetStatus.pending
   }
 
   get currentUserTweets() {
@@ -52,13 +49,13 @@ class TweetStatusStore extends PersistableStore {
 
   get lastApprovedTweet() {
     return this.currentUserTweets.find(
-      ({ status }) => status === TweetStatus.approved
+      async ({ status }) => (await status) === TweetStatus.approved
     )
   }
 
   get pendingTweets() {
     return this.currentUserTweets.filter(
-      ({ status }) => status === TweetStatus.pending
+      async ({ status }) => (await status) === TweetStatus.pending
     )
   }
 }
@@ -68,9 +65,5 @@ export const tweetStatusStore = proxy(new TweetStatusStore()).makePersistent(
 )
 
 void tweetStatusStore.initFetchTweetList()
-
-setInterval(() => {
-  void tweetStatusStore.fetchTweetList()
-}, 10000) // poll tweets list every 10 seconds
 
 export default tweetStatusStore
