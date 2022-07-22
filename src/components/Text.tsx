@@ -5,6 +5,7 @@ import {
   alignItems,
   backgroundClip,
   backgroundImage,
+  caretColor,
   classnames,
   cursor,
   display,
@@ -121,7 +122,8 @@ const textareaText = classnames(
   fontFamily('font-primary'),
   alignItems('items-center'),
   textColor('text-formal-accent'),
-  placeholderColor('placeholder-formal-accent-dimmed')
+  placeholderColor('placeholder-formal-accent-dimmed'),
+  caretColor('caret-primary')
 )
 export function TextareaText({ children }: ChildrenProp) {
   return <div className={textareaText}>{children}</div>
