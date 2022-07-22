@@ -101,6 +101,7 @@ export default function ({
                 onTextChange(event.currentTarget.value)
               }
               maxLength={maxLength}
+              minRows={5}
               spellcheck={true}
               {...restProps}
             />
