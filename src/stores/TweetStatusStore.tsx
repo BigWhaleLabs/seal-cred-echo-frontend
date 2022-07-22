@@ -21,18 +21,6 @@ class TweetStatusStore extends PersistableStore {
     if (WalletStore.account) {
       const tweetsInBlockchain = await TwitterStore.blockchainTweets
       const records = tweetsInBlockchain
-        .filter((record) => record.sender === WalletStore.account)
-        .map((record) => record.id)
-      this.processingTweets[WalletStore.account] = records
-    }
-  }
-
-  async fetchTweetList() {
-    this.tweetsStatuses = await getTweetsFromPoster()
-
-    if (WalletStore.account) {
-      const tweetsInBlockchain = await TwitterStore.blockchainTweets
-      const records = tweetsInBlockchain
         .filter(
           (record) =>
             record.sender === WalletStore.account &&
@@ -41,6 +29,10 @@ class TweetStatusStore extends PersistableStore {
         .map((record) => record.id)
       this.processingTweets[WalletStore.account] = records
     }
+  }
+
+  async fetchTweetList() {
+    this.tweetsStatuses = await getTweetsFromPoster()
   }
 
   getTweetStatus(id: number) {

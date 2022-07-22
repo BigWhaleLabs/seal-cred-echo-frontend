@@ -9,7 +9,7 @@ import removeConsole from 'vite-plugin-remove-console'
 import mkcert from 'vite-plugin-mkcert'
 
 export default defineConfig({
-  server: { https: false },
+  server: { https: true },
   plugins: [mkcert, preact(), tsconfigPaths()],
   build: {
     rollupOptions: {
