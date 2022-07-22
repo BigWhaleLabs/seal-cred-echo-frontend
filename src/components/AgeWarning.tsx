@@ -4,14 +4,15 @@ import AppStore from 'stores/AppStore'
 import Button from 'components/Button'
 import Card from 'components/Card'
 import SealLogo from 'icons/SealLogo'
+import classNamesToString from 'helpers/classNamesToString'
 import classnames, {
   alignItems,
-  backdropBlur,
   borderRadius,
   display,
   flexDirection,
   inset,
   justifyContent,
+  margin,
   padding,
   position,
   space,
@@ -23,14 +24,14 @@ const container = classnames(
   display('flex'),
   justifyContent('justify-center'),
   inset('inset-0'),
-  padding('pt-16'),
+  padding('py-16'),
+  margin('!mt-0'),
   zIndex('z-40')
 )
 const overlay = classnames(
   position('absolute'),
   inset('inset-0'),
-  borderRadius('rounded-2xl'),
-  backdropBlur('backdrop-blur')
+  borderRadius('rounded-2xl')
 )
 const warningCard = classnames(
   display('flex'),
@@ -49,7 +50,7 @@ export default function () {
   const navigate = useNavigate()
 
   return (
-    <div className={container}>
+    <div className={classNamesToString(container, 'blurEffect')}>
       <div className={overlay} />
       <Card alert>
         <div className={warningCard}>

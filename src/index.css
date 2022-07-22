@@ -41,6 +41,30 @@ body {
   color: #efecd6;
 }
 
+/* slightly transparent fallback */
+.blurEffect {
+  position: relative !important;
+}
+.blurEffect + .blockchainTweets {
+  display: none;
+}
+
+/* if backdrop support: very transparent and blurred */
+@supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .blurEffect {
+    position: absolute !important;
+  }
+  .blurEffect:first-child {
+    background-color: rgba(13, 0, 48, 0.1);
+    -webkit-backdrop-filter: blur(0.625rem);
+    backdrop-filter: blur(0.625rem);
+    box-shadow: none;
+  }
+  .blurEffect + .blockchainTweets {
+    display: block;
+  }
+}
+
 @media screen and (max-width: 600px) {
   /* Grid for mobiles */
   html {
