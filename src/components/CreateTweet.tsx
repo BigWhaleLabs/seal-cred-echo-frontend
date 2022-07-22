@@ -15,7 +15,7 @@ export default function () {
             loading
             title={
               pendingTweets.length > 1
-                ? 'Your tweets is processing'
+                ? 'Your tweets are processing'
                 : 'Your tweet is processing'
             }
           />
