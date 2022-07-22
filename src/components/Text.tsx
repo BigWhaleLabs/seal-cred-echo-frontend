@@ -105,14 +105,14 @@ const socialLink = classnames(
 )
 export function SocialLink({ url, children }: ChildrenProp & { url: string }) {
   return (
-    <span
+    <a
       className={socialLink}
       href={url}
       target="_blank"
       rel="noopener noreferrer"
     >
       {children}
-    </span>
+    </a>
   )
 }
 
