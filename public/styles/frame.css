@@ -11,8 +11,7 @@
 /* Common */
 .timeline-Tweet-brand,
 .TweetAuthor-decoratedName,
-.timeline-Tweet-media,
-.timeline-Tweet-metadata {
+.timeline-Tweet-media {
   display: none !important;
 }
 /* Body text */
@@ -85,7 +84,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.TweetAuthor__time {
+.timeline-Tweet-metadata {
   font-family: var(--fontFamily);
   font-weight: 400 !important;
   font-size: 12px;
@@ -94,12 +93,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.TweetAuthor__time abbr {
-  text-decoration: none;
+.timeline-Tweet:hover .timeline-Tweet-metadata {
+  color: var(--greyHover) !important;
 }
-.TweetAuthor__time:before {
-  content: '·';
-  padding: 0 5px;
+.timeline-Tweet-metadata abbr {
+  text-decoration: none;
 }
 /* Tweet block */
 .timeline-TweetList-tweet + .timeline-TweetList-tweet {
