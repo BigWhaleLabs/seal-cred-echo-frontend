@@ -2,13 +2,17 @@ import { StatusText } from 'components/Text'
 import TweetStatus from 'models/TweetStatus'
 import TweetStatusText from 'models/TweetStatusText'
 import classnames, {
+  alignItems,
   backgroundColor,
   borderRadius,
+  display,
   padding,
 } from 'classnames/tailwind'
 
 const statusContainer = (status: TweetStatus) =>
   classnames(
+    display('flex'),
+    alignItems('items-center'),
     padding('py-1', 'px-2'),
     borderRadius('rounded-lg'),
     backgroundColor({
