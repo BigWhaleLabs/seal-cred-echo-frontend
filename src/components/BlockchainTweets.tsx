@@ -58,7 +58,6 @@ function BlockchainTweetsSuspended() {
                   <StatusText>Posted by: </StatusText>
                   <LinkText
                     extraSmall
-                    targetBlank
                     title={sender}
                     url={getEtherscanAddressUrl(sender)}
                   >
@@ -69,7 +68,6 @@ function BlockchainTweetsSuspended() {
                   </div>
                   <LinkText
                     extraSmall
-                    targetBlank
                     title={derivativeAddress}
                     url={getEtherscanAddressUrl(derivativeAddress)}
                   >

@@ -65,7 +65,6 @@ export default function ({
         small
         url={redirectTo}
         title={loading ? 'Tweets on blockchain' : '@SealCredWork Twitter'}
-        targetBlank={!loading}
         gradientFrom="from-secondary"
         gradientTo="to-accent"
       >
