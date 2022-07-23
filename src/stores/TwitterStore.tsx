@@ -23,7 +23,13 @@ interface TwitterStoreInterface {
     success?: boolean
   }
   currentDomain?: string
-  createTweet: ({ tweet, domain }: { tweet: string; domain: string }) => void
+  createTweet: ({
+    tweet,
+    domain,
+  }: {
+    tweet: string
+    domain: string
+  }) => Promise<void>
   blockchainTweets: Promise<BlockchainTweet[]>
 }
 

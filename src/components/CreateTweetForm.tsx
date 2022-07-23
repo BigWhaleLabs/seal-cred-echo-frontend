@@ -63,12 +63,14 @@ export default function () {
             loading={status.loading}
             disabled={!isValidForm}
             title="Tweet"
-            onClick={() => {
-              if (isValidForm)
-                TwitterStore.createTweet({
+            onClick={async () => {
+              if (isValidForm) {
+                await TwitterStore.createTweet({
                   tweet: text,
                   domain: currentDomain,
                 })
+                onTweetChange('')
+              }
             }}
             fullWidth={!md}
             center
