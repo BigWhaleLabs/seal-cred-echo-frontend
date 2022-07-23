@@ -13,6 +13,7 @@ export default function () {
         {pendingTweets.length > 0 ? (
           <TweetProcessing
             loading
+            tweet={pendingTweets[0]}
             title={
               pendingTweets.length > 1
                 ? 'Your tweets are processing'
@@ -20,7 +21,12 @@ export default function () {
             }
           />
         ) : (
-          lastApprovedTweet && <TweetProcessing title="Tweet successful" />
+          lastApprovedTweet && (
+            <TweetProcessing
+              tweet={lastApprovedTweet}
+              title="Tweet successful"
+            />
+          )
         )}
         <CreateTweetForm />
       </div>
