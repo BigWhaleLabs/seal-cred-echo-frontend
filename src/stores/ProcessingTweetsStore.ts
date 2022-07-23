@@ -51,6 +51,6 @@ subscribeKey(WalletStore, 'account', () => {
 
 setInterval(() => {
   void processingTweetsStore.updateStatus()
-}, 1000) // poll tweets list every 10 seconds
+}, 10000) // poll tweets list every 10 seconds
 
 export default processingTweetsStore
