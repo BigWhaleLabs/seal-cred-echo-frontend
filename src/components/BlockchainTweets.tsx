@@ -86,7 +86,7 @@ function BlockchainTweetsSuspended() {
 export default function () {
   return (
     <Suspense
-      fallback={<TwitterLoading spinner text="Fetching blockchain tweets..." />}
+      fallback={<TwitterLoading text="Fetching blockchain tweets..." />}
     >
       <BlockchainTweetsSuspended />
     </Suspense>
