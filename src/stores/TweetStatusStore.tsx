@@ -45,7 +45,7 @@ class TweetStatusStore extends PersistableStore {
     const tweets = this.processingTweets[account]
     if (!tweets) return []
     return tweets.map((id) => ({
-      id: id,
+      tweetId: id,
       status: this.getTweetStatus(id),
     }))
   }
