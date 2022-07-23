@@ -13,8 +13,9 @@ export default function () {
   const { processingTweetIds } = useSnapshot(ProcessingTweetsStore)
 
   const accountProcessingTweetIds = account && processingTweetIds[account]
+  const currentTweetsStatuses = { ...tweetsStatuses }
   const currentTweets = accountProcessingTweetIds
-    ? accountProcessingTweetIds.map((id) => tweetsStatuses[id])
+    ? accountProcessingTweetIds.map((id) => currentTweetsStatuses[id])
     : []
 
   const pendingTweets = currentTweets.filter(
