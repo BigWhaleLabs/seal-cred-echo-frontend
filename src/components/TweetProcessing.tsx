@@ -1,5 +1,7 @@
 import { LargeText, LinkText, LoadingText } from 'components/Text'
 import { NavLink } from 'react-router-dom'
+import { TweetModel } from 'models/TweetModel'
+import { scrollToHashElement } from 'helpers/useHashFragment'
 import Arrow from 'icons/Arrow'
 import Loading from 'components/Loading'
 import classnames, {
@@ -48,12 +50,14 @@ const viewBlockchainLink = textColor('text-primary')
 export default function ({
   title,
   loading,
+  tweet,
 }: {
+  tweet: TweetModel
   title: string
   loading?: boolean
 }) {
   const redirectTo = loading
-    ? '/previous-tweets/blockchain'
+    ? `/previous-tweets/blockchain#${tweet.tweetId}`
     : 'https://twitter.com/SealCredWork'
 
   return (
@@ -63,7 +67,11 @@ export default function ({
         <div className={loadingText}>
           <LoadingText>
             It is currently posted to the raw data (
-            <NavLink to={redirectTo} className={viewBlockchainLink}>
+            <NavLink
+              onClick={() => scrollToHashElement()}
+              to={redirectTo}
+              className={viewBlockchainLink}
+            >
               view it here
             </NavLink>
             ). But it may take as long as 24 before it posts to Twitter due to

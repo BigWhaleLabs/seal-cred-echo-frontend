@@ -3,7 +3,6 @@ import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
 import TweetChips from 'components/TweetChips'
-import TweetStatusStore from 'stores/TweetStatusStore'
 import TwitterLoading from 'components/TwitterLoading'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
@@ -17,6 +16,7 @@ import classnames, {
 import formatDate from 'helpers/formatDate'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
+import useHashFragment from 'helpers/useHashFragment'
 
 const container = classnames(
   display('flex'),
@@ -41,15 +41,16 @@ const bottomSeparator = classnames(
 
 function BlockchainTweetsSuspended() {
   const { blockchainTweets = [] } = useSnapshot(TwitterStore)
+  useHashFragment()
 
   return (
     <>
       {blockchainTweets.map(
         ({ id, tweet, derivativeAddress, sender, timestamp }) => (
-          <Card>
+          <Card key={id}>
             <div className={container}>
               <div className={tweetHeader}>
-                <TweetChips status={TweetStatusStore.getTweetStatus(id)} />
+                <TweetChips id={id} />
                 <StatusText textRight>{formatDate(timestamp)}</StatusText>
               </div>
               <TweetText>{tweet}</TweetText>

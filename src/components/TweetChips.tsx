@@ -8,6 +8,7 @@ import classnames, {
   display,
   padding,
 } from 'classnames/tailwind'
+import tweetStatusStore from 'stores/TweetStatusStore'
 
 const statusContainer = (status: TweetStatus) =>
   classnames(
@@ -22,12 +23,13 @@ const statusContainer = (status: TweetStatus) =>
     })
   )
 
-export default function ({ status }: { status: TweetStatus }) {
+export default function ({ id }: { id: number }) {
+  const status = tweetStatusStore.tweetsStatuses[id] || TweetStatus.pending
   return (
-    <div className={statusContainer(status)}>
+    <a href={`#${id}`} className={statusContainer(status)}>
       <StatusText dark={status === TweetStatus.rejected}>
         {TweetStatusText[status]}
       </StatusText>
-    </div>
+    </a>
   )
 }
