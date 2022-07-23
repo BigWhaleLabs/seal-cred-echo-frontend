@@ -21,7 +21,7 @@ export const scrollToHashElement = (offset = 0) => {
   })
 }
 
-export default function useHashFragment(offset = 0, trigger = true) {
+export default function useScrollToAnchor(offset = 0, trigger = true) {
   useEffect(() => {
     scrollToHashElement(offset)
     const listener = () => (trigger ? scrollToHashElement(offset) : undefined)

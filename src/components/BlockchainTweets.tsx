@@ -16,7 +16,7 @@ import classnames, {
 import formatDate from 'helpers/formatDate'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
-import useHashFragment from 'helpers/useHashFragment'
+import useScrollToAnchor from 'helpers/useScrollToAnchor'
 
 const container = classnames(
   display('flex'),
@@ -41,7 +41,7 @@ const bottomSeparator = classnames(
 
 function BlockchainTweetsSuspended() {
   const { blockchainTweets = [] } = useSnapshot(TwitterStore)
-  useHashFragment()
+  useScrollToAnchor()
 
   return (
     <>

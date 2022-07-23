@@ -26,7 +26,7 @@ const statusContainer = (status: TweetStatus) =>
 export default function ({ id }: { id: number }) {
   const status = tweetStatusStore.tweetsStatuses[id] || TweetStatus.pending
   return (
-    <a href={`#${id}`} className={statusContainer(status)}>
+    <a href={`#blockchainTweetId=${id}`} className={statusContainer(status)}>
       <StatusText dark={status === TweetStatus.rejected}>
         {TweetStatusText[status]}
       </StatusText>

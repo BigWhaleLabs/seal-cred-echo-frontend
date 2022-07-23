@@ -1,7 +1,7 @@
 import { LargeText, LinkText, LoadingText } from 'components/Text'
 import { NavLink } from 'react-router-dom'
 import { TweetModel } from 'models/TweetModel'
-import { scrollToHashElement } from 'helpers/useHashFragment'
+import { scrollToHashElement } from 'helpers/useScrollToAnchor'
 import Arrow from 'icons/Arrow'
 import Loading from 'components/Loading'
 import classnames, {
@@ -57,7 +57,7 @@ export default function ({
   loading?: boolean
 }) {
   const redirectTo = loading
-    ? `/previous-tweets/blockchain#${tweet.tweetId}`
+    ? `/previous-tweets/blockchain#blockchainTweetId=${tweet.tweetId}`
     : 'https://twitter.com/SealCredWork'
 
   return (
