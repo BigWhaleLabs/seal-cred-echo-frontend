@@ -16,6 +16,7 @@ import classnames, {
 import formatDate from 'helpers/formatDate'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
+import tweetStatusStore from 'stores/TweetStatusStore'
 import useScrollToAnchor from 'helpers/useScrollToAnchor'
 
 const container = classnames(
@@ -41,6 +42,7 @@ const bottomSeparator = classnames(
 
 function BlockchainTweetsSuspended() {
   const { blockchainTweets = [] } = useSnapshot(TwitterStore)
+  const { tweetsStatuses } = useSnapshot(tweetStatusStore)
   useScrollToAnchor()
 
   return (
@@ -74,6 +76,20 @@ function BlockchainTweetsSuspended() {
                   >
                     Etherscan
                   </LinkText>
+                  {tweetsStatuses[id].statusId && (
+                    <>
+                      <div className={bottomSeparator}>
+                        <StatusText>|</StatusText>
+                      </div>
+                      <LinkText
+                        extraSmall
+                        title={derivativeAddress}
+                        url={`https://twitter.com/SealCredWork/status/${tweetsStatuses[id].statusId}`}
+                      >
+                        Twitter
+                      </LinkText>
+                    </>
+                  )}
                 </span>
               </BodyText>
             </div>

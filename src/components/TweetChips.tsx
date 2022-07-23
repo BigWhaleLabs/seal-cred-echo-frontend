@@ -1,5 +1,7 @@
 import { StatusText } from 'components/Text'
+import { useSnapshot } from 'valtio'
 import TweetStatus from 'models/TweetStatus'
+import TweetStatusStore from 'stores/TweetStatusStore'
 import TweetStatusText from 'models/TweetStatusText'
 import classnames, {
   alignItems,
@@ -8,7 +10,6 @@ import classnames, {
   display,
   padding,
 } from 'classnames/tailwind'
-import tweetStatusStore from 'stores/TweetStatusStore'
 
 const statusContainer = (status: TweetStatus) =>
   classnames(
@@ -24,7 +25,10 @@ const statusContainer = (status: TweetStatus) =>
   )
 
 export default function ({ id }: { id: number }) {
-  const status = tweetStatusStore.tweetsStatuses[id] || TweetStatus.pending
+  const { tweetsStatuses } = useSnapshot(TweetStatusStore)
+  const tweet = tweetsStatuses[id]
+  const status = tweet?.status || TweetStatus.pending
+
   return (
     <a href={`#blockchainTweetId=${id}`} className={statusContainer(status)}>
       <StatusText dark={status === TweetStatus.rejected}>

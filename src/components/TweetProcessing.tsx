@@ -4,6 +4,7 @@ import { TweetModel } from 'models/TweetModel'
 import { scrollToHashElement } from 'helpers/useScrollToAnchor'
 import Arrow from 'icons/Arrow'
 import Loading from 'components/Loading'
+import TweetStatus from 'models/TweetStatus'
 import classnames, {
   alignItems,
   backgroundColor,
@@ -49,16 +50,15 @@ const viewBlockchainLink = textColor('text-primary')
 
 export default function ({
   title,
-  loading,
   tweet,
 }: {
   tweet: TweetModel
   title: string
-  loading?: boolean
 }) {
-  const redirectTo = loading
-    ? `/previous-tweets/blockchain#blockchainTweetId=${tweet.tweetId}`
-    : 'https://twitter.com/SealCredWork'
+  const loading = !tweet.status || tweet.status === TweetStatus.pending
+  const redirectTo = tweet.statusId
+    ? `https://twitter.com/SealCredWork/status/${tweet.statusId}`
+    : `/previous-tweets/blockchain#blockchainTweetId=${tweet.tweetId}`
 
   return (
     <div className={container(loading)}>

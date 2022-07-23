@@ -1,7 +1,7 @@
 import { proxy } from 'valtio'
 import { subscribeKey } from 'valtio/utils'
+import ProcessingTweetsStore from 'stores/ProcessingTweetsStore'
 import SCTwitterLedgerContract from 'helpers/SCTwitterLedgerContract'
-import TweetStatusStore from 'stores/TweetStatusStore'
 import WalletStore from 'stores/WalletStore'
 import getBlockchainTweets from 'helpers/getBlockchainTweets'
 import getTwitterLedgerRecord from 'helpers/getTwitterLedgerRecord'
@@ -65,7 +65,7 @@ subscribeKey(WalletStore, 'account', () => {
 SCTwitterLedgerContract.on(
   SCTwitterLedgerContract.filters.TweetSaved(),
   async (id, tweet, derivativeAddress, sender, timestamp) => {
-    console.info('TweetSaved event', tweet, derivativeAddress)
+    console.info('TweetSaved event', id.toNumber(), tweet, derivativeAddress)
     const tweetId = id.toNumber()
     const ledger = await TwitterStore.blockchainTweets
     if (!ledger.find(({ id: ledgerTweetId }) => ledgerTweetId === tweetId)) {
@@ -79,15 +79,16 @@ SCTwitterLedgerContract.on(
         ),
         ...ledger,
       ])
-      const processingTweets = TweetStatusStore.processingTweets[sender]
-      if (processingTweets) {
-        TweetStatusStore.processingTweets[sender] = [
+      const processingTweetIds =
+        ProcessingTweetsStore.processingTweetIds[sender]
+      if (processingTweetIds) {
+        ProcessingTweetsStore.processingTweetIds[sender] = [
           tweetId,
-          ...processingTweets,
+          ...processingTweetIds,
         ]
         return
       }
-      TweetStatusStore.processingTweets[sender] = [tweetId]
+      ProcessingTweetsStore.processingTweetIds[sender] = [tweetId]
     }
   }
 )
