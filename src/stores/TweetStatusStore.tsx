@@ -12,7 +12,7 @@ class TweetStatusStore extends PersistableStore {
   }
 
   getTweetStatus(id: number) {
-    return this.tweetsStatuses[id] || TweetStatus.pending
+    return this.tweetsStatuses[id]?.status || TweetStatus.pending
   }
 }
 

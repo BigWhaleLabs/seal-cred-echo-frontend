@@ -1,8 +1,7 @@
-import { derive } from 'valtio/utils'
 import { proxy } from 'valtio'
+import { subscribeKey } from 'valtio/utils'
 import ProcessingTweetsStore from 'stores/ProcessingTweetsStore'
 import SCTwitterLedgerContract from 'helpers/SCTwitterLedgerContract'
-import SealCredStore from 'stores/SealCredStore'
 import WalletStore from 'stores/WalletStore'
 import getBlockchainTweets from 'helpers/getBlockchainTweets'
 import getTwitterLedgerRecord from 'helpers/getTwitterLedgerRecord'
@@ -17,94 +16,56 @@ interface BlockchainTweet {
 }
 
 interface TwitterStoreInterface {
-  text: string
-  maxLength: number
   calculatedMaxLength?: number
   status: {
-    isValid: boolean
     loading: boolean
     error?: Error
     success?: boolean
   }
-  currentDomainAddress?: string
-  createTweet: () => void
-  resetStatus: () => void
-  dropDownOpen: boolean
+  currentDomain?: string
+  createTweet: ({
+    tweet,
+    domain,
+  }: {
+    tweet: string
+    domain: string
+  }) => Promise<void>
   blockchainTweets: Promise<BlockchainTweet[]>
 }
 
-const state = proxy<TwitterStoreInterface>({
-  text: '',
-  maxLength: 280,
-  status: { isValid: false, loading: false },
-  currentDomainAddress: undefined,
-  createTweet: async () => {
-    state.resetStatus()
-    state.status.loading = true
+const TwitterStore = proxy<TwitterStoreInterface>({
+  status: { loading: false },
+  currentDomain: undefined,
+  createTweet: async ({ tweet, domain }: { tweet: string; domain: string }) => {
+    TwitterStore.status = {
+      loading: false,
+    }
+    TwitterStore.status.loading = true
     try {
-      const currentDomain = await TwitterStore.currentDomain
-      if (!currentDomain) return
-      if (state.text.length > TwitterStore.maxLengthWithHashtag) {
-        state.status.error = new Error('Tweet is too long')
-        return
-      }
       await WalletStore.saveTweet({
-        tweet: state.text,
-        domain: currentDomain,
+        tweet,
+        domain,
       })
-      state.text = ''
     } catch (error) {
       handleError(error)
-      state.status.error =
+      TwitterStore.status.error =
         error instanceof Error ? error : new Error('Failed to create tweet')
       throw error
     } finally {
-      state.status.loading = false
+      TwitterStore.status.loading = false
     }
   },
-  resetStatus: () => {
-    TwitterStore.status = {
-      isValid: TwitterStore.status.isValid,
-      loading: false,
-    }
-  },
-  dropDownOpen: false,
   blockchainTweets: getBlockchainTweets(),
 })
 
-const TwitterStore = derive<
-  TwitterStoreInterface,
-  {
-    currentDomain: Promise<string | undefined>
-    hashtags: Promise<string | undefined>
-    maxLengthWithHashtag: number
-  }
->(
-  {
-    currentDomain: async (get) => {
-      const address = get(state).currentDomainAddress
-      if (!address) return ''
-      return (await SealCredStore.contractNameDomain)[address]
-    },
-    hashtags: async (get) => {
-      const address = get(state).currentDomainAddress
-      if (!address) return
-      const currentDomain = (await SealCredStore.contractNameDomain)[address]
-      if (!currentDomain) return
-      get(state).calculatedMaxLength =
-        get(state).maxLength - currentDomain.length - 2
-      return `#${currentDomain}`
-    },
-    maxLengthWithHashtag: (get) =>
-      get(state).calculatedMaxLength || get(state).maxLength,
-  },
-  { proxy: state }
-)
+subscribeKey(WalletStore, 'account', () => {
+  TwitterStore.currentDomain = undefined
+})
 
 SCTwitterLedgerContract.on(
   SCTwitterLedgerContract.filters.TweetSaved(),
   async (id, tweet, derivativeAddress, sender, timestamp) => {
-    console.info('TweetSaved event', tweet, derivativeAddress)
+    console.info('TweetSaved event', id.toNumber(), tweet, derivativeAddress)
     const tweetId = id.toNumber()
     const ledger = await TwitterStore.blockchainTweets
     if (!ledger.find(({ id: ledgerTweetId }) => ledgerTweetId === tweetId)) {
@@ -118,15 +79,16 @@ SCTwitterLedgerContract.on(
         ),
         ...ledger,
       ])
-      const processingTweets = ProcessingTweetsStore.processingTweets[sender]
-      if (processingTweets) {
-        ProcessingTweetsStore.processingTweets[sender] = [
+      const processingTweetIds =
+        ProcessingTweetsStore.processingTweetIds[sender]
+      if (processingTweetIds) {
+        ProcessingTweetsStore.processingTweetIds[sender] = [
           tweetId,
-          ...processingTweets,
+          ...processingTweetIds,
         ]
         return
       }
-      ProcessingTweetsStore.processingTweets[sender] = [tweetId]
+      ProcessingTweetsStore.processingTweetIds[sender] = [tweetId]
     }
   }
 )

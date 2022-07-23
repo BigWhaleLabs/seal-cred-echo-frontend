@@ -1,6 +1,7 @@
-import { TwitterTimelineEmbed } from 'react-twitter-embed'
-import { useState } from 'preact/hooks'
+import { Timeline } from 'react-twitter-widgets'
+import { useEffect, useRef, useState } from 'preact/hooks'
 import PreviousTweetsLayout from 'components/PrevTweetsLayout'
+import TwitterError from 'components/TwitterError'
 import TwitterLoading from 'components/TwitterLoading'
 import classnames, {
   backgroundColor,
@@ -22,7 +23,7 @@ const tweetCard = classnames(
 const tweetWidget = (loading?: boolean) =>
   classnames(display(loading ? 'hidden' : 'block'), height('h-full'))
 
-const prepareFrame = (frame: HTMLObjectElement) => {
+const prepareFrame = (frame: HTMLIFrameElement) => {
   if (!frame.contentDocument) return
 
   const cssLink = document.createElement('link')
@@ -33,35 +34,59 @@ const prepareFrame = (frame: HTMLObjectElement) => {
 }
 
 export default function () {
-  const [loading, setLoading] = useState(true)
+  const [status, setStatus] = useState<'content' | 'error' | 'loading'>(
+    'loading'
+  )
+
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (ref.current && status === 'content') {
+      const frame = ref.current.getElementsByTagName('iframe')[0]
+      if (frame) prepareFrame(frame)
+    }
+  }, [ref, status])
 
   return (
     <PreviousTweetsLayout>
       <div className={tweetCard}>
-        {loading && <TwitterLoading text="Fetching twitter widget" />}
-        <div className={tweetWidget(loading)}>
-          <TwitterTimelineEmbed
-            noHeader
-            noFooter
-            noBorders
-            autoHeight
-            noScrollbar
-            transparent
-            tweetLimit={50}
-            theme="dark"
-            sourceType="profile"
-            screenName="SealCredWork"
-            borderColor="#2F3336"
-            linkColor="#15A1FC"
+        {status === 'error' ? (
+          <TwitterError
+            onRefresh={() => setStatus('loading')}
+            text="Couldn't load tweets. Try disabling content blockers?"
+          />
+        ) : (
+          status === 'loading' && (
+            <TwitterLoading text="Fetching twitter widget" />
+          )
+        )}
+        <div
+          id="twitter_timeline"
+          ref={ref}
+          className={tweetWidget(status !== 'content')}
+        >
+          <Timeline
+            dataSource={{ sourceType: 'profile', screenName: 'SealCredWork' }}
             options={{
+              theme: 'dark',
+              linkColor: '#15A1FC',
+              borderColor: '#2F3336',
+              tweetLimit: 50,
+              chrome: [
+                'noheader',
+                'nofooter',
+                'noborders',
+                'noscrollbar',
+                'transparent',
+              ].join(' '),
               width: '100%',
               height: '100%',
               hide_media: true,
               hide_thread: true,
             }}
-            onLoad={(element) => {
-              prepareFrame(element)
-              setLoading(false)
+            onLoad={() => setStatus('content')}
+            renderError={() => {
+              setStatus('error')
             }}
           />
         </div>
