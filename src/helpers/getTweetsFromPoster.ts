@@ -1,5 +1,4 @@
 import { TweetIdAndStatus, TweetModel } from 'models/TweetModel'
-import TweetStatus from 'models/TweetStatus'
 import axios from 'axios'
 import env from 'helpers/env'
 
