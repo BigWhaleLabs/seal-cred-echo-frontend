@@ -55,7 +55,7 @@ export default function ({
   tweet: TweetModel
   title: string
 }) {
-  const loading = !tweet.status || tweet.status === TweetStatus.pending
+  const loading = tweet.status === TweetStatus.pending
   const redirectTo = tweet.statusId
     ? `https://twitter.com/SealCredWork/status/${tweet.statusId}`
     : `/previous-tweets/blockchain#blockchainTweetId=${tweet.tweetId}`

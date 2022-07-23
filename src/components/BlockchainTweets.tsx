@@ -76,7 +76,7 @@ function BlockchainTweetsSuspended() {
                   >
                     Etherscan
                   </LinkText>
-                  {tweetsStatuses[id].statusId && (
+                  {tweetsStatuses[id] && tweetsStatuses[id].statusId && (
                     <>
                       <div className={bottomSeparator}>
                         <StatusText>|</StatusText>

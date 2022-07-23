@@ -15,11 +15,17 @@ export default function () {
   const accountProcessingTweetIds = account && processingTweetIds[account]
   const currentTweetsStatuses = { ...tweetsStatuses }
   const currentTweets = accountProcessingTweetIds
-    ? accountProcessingTweetIds.map((id) => currentTweetsStatuses[id])
+    ? accountProcessingTweetIds.map(
+        (tweetId) =>
+          currentTweetsStatuses[tweetId] || {
+            tweetId,
+            status: TweetStatus.pending,
+          }
+      )
     : []
 
   const pendingTweets = currentTweets.filter(
-    (tweet) => !tweet.status || tweet.status === TweetStatus.pending
+    (tweet) => tweet.status === TweetStatus.pending
   )
 
   const lastApprovedTweet = currentTweets.find(
