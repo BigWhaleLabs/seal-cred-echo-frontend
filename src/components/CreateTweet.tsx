@@ -1,11 +1,13 @@
 import { margin, space } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import CreateTweetForm from 'components/CreateTweetForm'
+import ProcessingTweetsStore from 'stores/ProcessingTweetsStore'
 import TweetProcessing from 'components/TweetProcessing'
-import TweetStatusStore from 'stores/TweetStatusStore'
 
 export default function () {
-  const { pendingTweets, lastApprovedTweet } = useSnapshot(TweetStatusStore)
+  const { pendingTweets, lastApprovedTweet } = useSnapshot(
+    ProcessingTweetsStore
+  )
 
   return (
     <div className={margin('mt-6', 'mb-16')}>

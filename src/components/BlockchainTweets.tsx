@@ -49,7 +49,7 @@ function BlockchainTweetsSuspended() {
           <Card>
             <div className={container}>
               <div className={tweetHeader}>
-                <TweetChips status={TweetStatusStore.getTweetStatus(id)} />
+                <TweetChips status={TweetStatusStore.tweetsStatuses[id]} />
                 <StatusText textRight>{formatDate(timestamp)}</StatusText>
               </div>
               <TweetText>{tweet}</TweetText>

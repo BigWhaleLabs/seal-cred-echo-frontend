@@ -22,7 +22,11 @@ const statusContainer = (status: TweetStatus) =>
     })
   )
 
-export default function ({ status }: { status: TweetStatus }) {
+export default function ({
+  status = TweetStatus.pending,
+}: {
+  status?: TweetStatus
+}) {
   return (
     <div className={statusContainer(status)}>
       <StatusText dark={status === TweetStatus.rejected}>

@@ -1,8 +1,8 @@
 import { derive } from 'valtio/utils'
 import { proxy } from 'valtio'
+import ProcessingTweetsStore from 'stores/ProcessingTweetsStore'
 import SCTwitterLedgerContract from 'helpers/SCTwitterLedgerContract'
 import SealCredStore from 'stores/SealCredStore'
-import TweetStatusStore from 'stores/TweetStatusStore'
 import WalletStore from 'stores/WalletStore'
 import getBlockchainTweets from 'helpers/getBlockchainTweets'
 import getTwitterLedgerRecord from 'helpers/getTwitterLedgerRecord'
@@ -118,15 +118,15 @@ SCTwitterLedgerContract.on(
         ),
         ...ledger,
       ])
-      const processingTweets = TweetStatusStore.processingTweets[sender]
+      const processingTweets = ProcessingTweetsStore.processingTweets[sender]
       if (processingTweets) {
-        TweetStatusStore.processingTweets[sender] = [
+        ProcessingTweetsStore.processingTweets[sender] = [
           tweetId,
           ...processingTweets,
         ]
         return
       }
-      TweetStatusStore.processingTweets[sender] = [tweetId]
+      ProcessingTweetsStore.processingTweets[sender] = [tweetId]
     }
   }
 )
