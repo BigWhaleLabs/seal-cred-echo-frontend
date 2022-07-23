@@ -1,6 +1,3 @@
-import { Suspense } from 'preact/compat'
-import { useSnapshot } from 'valtio'
-import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   fontSize,
   textColor,
@@ -14,21 +11,10 @@ const counterText = (error?: boolean) =>
     whitespace('whitespace-nowrap')
   )
 
-function CounterSuspended() {
-  const { text, maxLengthWithHashtag } = useSnapshot(TwitterStore)
-  const count = text.length
-
+export default function ({ max, value }: { max: number; value: number }) {
   return (
-    <div className={counterText(count > maxLengthWithHashtag)}>
-      {count} / {maxLengthWithHashtag}
+    <div className={counterText(value > max)}>
+      {value} / {max}
     </div>
-  )
-}
-
-export default function () {
-  return (
-    <Suspense fallback={<div className={counterText(false)}>... / ...</div>}>
-      <CounterSuspended />
-    </Suspense>
   )
 }

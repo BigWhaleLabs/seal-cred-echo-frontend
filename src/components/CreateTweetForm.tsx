@@ -1,10 +1,9 @@
 import { HeaderText } from 'components/Text'
-import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
+import { useState } from 'preact/hooks'
 import Button from 'components/Button'
 import DropDown from 'components/DropDown'
 import TextArea from 'components/TextArea'
-import TweetStatusStore from 'stores/TweetStatusStore'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   alignItems,
@@ -24,11 +23,6 @@ const bottomContainer = classnames(
   flexWrap('flex-wrap')
 )
 
-const onTweetChange = (text: string) => {
-  TwitterStore.status.isValid = !!text.length
-  TwitterStore.text = text
-}
-
 const dropdownWrapper = classnames(
   margin('md:mb-0', 'mb-4'),
   display('flex'),
@@ -36,9 +30,16 @@ const dropdownWrapper = classnames(
 )
 
 export default function () {
-  const { text, maxLengthWithHashtag, status, currentDomainAddress } =
-    useSnapshot(TwitterStore)
+  const [text, onTweetChange] = useState('')
+  const { status, currentDomain } = useSnapshot(TwitterStore)
+
   const { md } = useBreakpoints()
+
+  const hashtags = currentDomain ? `#${currentDomain}` : ''
+  const maxLength = 280 - hashtags.length
+
+  const isValidForm =
+    text.length <= maxLength && text.length > 0 && !!currentDomain
 
   return (
     <div className={space('space-y-6')}>
@@ -47,28 +48,27 @@ export default function () {
         <TextArea
           text={text}
           placeholder="Write something here..."
-          onTextChange={(text) => onTweetChange(text)}
-          maxLength={maxLengthWithHashtag}
+          onTextChange={onTweetChange}
+          maxLength={maxLength}
+          hashtags={hashtags}
           disabled={status.loading}
           error={status.error?.message}
         />
         <div className={bottomContainer}>
           <div className={dropdownWrapper}>
-            <Suspense fallback={<div>Fetching emails...</div>}>
-              <DropDown />
-            </Suspense>
+            <DropDown />
           </div>
           <Button
             type="primary"
             loading={status.loading}
-            disabled={
-              !status.isValid ||
-              !currentDomainAddress ||
-              !TweetStatusStore.getTweetStatus.length
-            }
+            disabled={!isValidForm}
             title="Tweet"
             onClick={() => {
-              TwitterStore.createTweet()
+              if (isValidForm)
+                TwitterStore.createTweet({
+                  tweet: text,
+                  domain: currentDomain,
+                })
             }}
             fullWidth={!md}
             center

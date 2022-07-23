@@ -21,7 +21,6 @@ import {
   transitionProperty,
   width,
 } from 'classnames/tailwind'
-import { useEffect, useState } from 'preact/hooks'
 import HashtagBlock from 'components/HashtagBlock'
 import TextareaAutosize, {
   TextareaAutosizeProps,
@@ -34,7 +33,7 @@ const containerWithFooter = classnames(
   alignItems('items-stretch', 'md:items-start'),
   space('space-y-2', 'md:space-x-2', 'md:space-y-0')
 )
-const innerWrapper = (error?: boolean) =>
+const innerWrapper = (isValid?: boolean) =>
   classnames(
     display('flex'),
     flexDirection('flex-col'),
@@ -43,7 +42,7 @@ const innerWrapper = (error?: boolean) =>
     justifyContent('justify-between'),
     borderWidth('border'),
     borderColor(
-      error ? 'border-error' : 'border-formal-accent-dimmed',
+      isValid ? 'border-error' : 'border-formal-accent-dimmed',
       'focus-within:border-formal-accent'
     ),
     outlineColor('focus-within:outline-primary'),
@@ -66,10 +65,10 @@ const textBox = classnames(
 
 interface TextAreaProps {
   text: string
+  maxLength: number
+  hashtags: string
   onTextChange: (text: string) => void
   disabled?: boolean
-  maxLength?: number
-
   error?: string
   footer?: string
 }
@@ -79,20 +78,15 @@ export default function ({
   onTextChange,
   maxLength,
   error,
+  hashtags,
   ...restProps
 }: TextAreaProps & TextareaAutosizeProps) {
-  const [isValid, setIsValid] = useState(false)
-
-  useEffect(() => {
-    setIsValid(
-      !error && (maxLength !== undefined ? text.length <= maxLength : true)
-    )
-  }, [maxLength, text, error])
+  const isValid = !error && text.length <= maxLength
 
   return (
     <div className={textWithErrorWrapper}>
       <div className={containerWithFooter}>
-        <div className={innerWrapper(!isValid && !!error)}>
+        <div className={innerWrapper(!isValid)}>
           <TextareaText>
             <TextareaAutosize
               className={classNamesToString('no-scrollbar', textBox)}
@@ -106,7 +100,7 @@ export default function ({
               {...restProps}
             />
           </TextareaText>
-          <HashtagBlock />
+          <HashtagBlock maxCount={maxLength} text={text} hashtags={hashtags} />
         </div>
       </div>
       <ErrorText visible={!!error} withExclamation>

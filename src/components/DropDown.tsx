@@ -1,8 +1,10 @@
-import { MutableRef, useRef } from 'preact/hooks'
+import { MutableRef, useRef, useState } from 'preact/hooks'
+import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Arrow from 'icons/Arrow'
 import ContractName from 'components/ContractName'
 import SealCredStore from 'stores/SealCredStore'
+import Spinner from 'icons/Spinner'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   alignItems,
@@ -86,36 +88,33 @@ const menuItem = (current?: boolean) =>
     })
   )
 
-export default function () {
-  const { emailDerivativeContracts } = useSnapshot(SealCredStore)
+export function DropDown() {
+  const [dropDownOpen, setOpen] = useState(false)
+  const { emailLedger } = useSnapshot(SealCredStore)
   const contractsOwned = useContractsOwned()
-  const ownedEmailDerivativeContracts = emailDerivativeContracts.filter(
-    (contractAddress) => contractsOwned.includes(contractAddress)
+  const ownedEmailDerivativeContracts = Object.values(emailLedger).filter(
+    ({ derivativeContract }) => contractsOwned.includes(derivativeContract)
   )
 
-  const { dropDownOpen, currentDomainAddress } = useSnapshot(TwitterStore)
+  const { currentDomain } = useSnapshot(TwitterStore)
   const hasBadges = !!ownedEmailDerivativeContracts.length
 
   const ref = useRef() as MutableRef<HTMLDivElement>
-  useClickOutside(ref, () => (TwitterStore.dropDownOpen = false))
+  useClickOutside(ref, () => setOpen(false))
 
   return (
     <div className={wrapper(hasBadges)} ref={ref}>
       <button
-        onClick={() => (TwitterStore.dropDownOpen = !dropDownOpen)}
+        onClick={() => setOpen(!dropDownOpen)}
         disabled={!hasBadges}
         className={opener}
       >
         {hasBadges ? (
           <>
-            {currentDomainAddress ? (
+            {currentDomain ? (
               <span>
                 <span className={postingAs}>Posting as: </span>
-                <ContractName
-                  truncate
-                  clearType
-                  address={currentDomainAddress}
-                />
+                {currentDomain}
               </span>
             ) : (
               <span
@@ -137,18 +136,39 @@ export default function () {
       </button>
 
       <div className={menuWrapper(dropDownOpen)}>
-        {ownedEmailDerivativeContracts.map((address) => (
+        {ownedEmailDerivativeContracts.map(({ derivativeContract, domain }) => (
           <p
-            className={menuItem(address === currentDomainAddress)}
+            className={menuItem(domain === currentDomain)}
             onClick={() => {
-              TwitterStore.currentDomainAddress = address
-              TwitterStore.dropDownOpen = false
+              TwitterStore.currentDomain = domain
+              setOpen(false)
             }}
           >
-            <ContractName clearType address={address} />
+            <ContractName clearType address={derivativeContract} />
           </p>
         ))}
       </div>
     </div>
+  )
+}
+
+export default function () {
+  return (
+    <Suspense
+      fallback={
+        <div className={wrapper(false)}>
+          <button disabled className={opener}>
+            <span className={textColor('text-formal-accent-semi-transparent')}>
+              Fetching emails...
+            </span>
+            <div className={width('w-5')}>
+              <Spinner />
+            </div>
+          </button>
+        </div>
+      }
+    >
+      <DropDown />
+    </Suspense>
   )
 }

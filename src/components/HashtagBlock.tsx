@@ -1,5 +1,4 @@
 import { HashTagText } from 'components/Text'
-import { Suspense } from 'preact/compat'
 import {
   alignItems,
   classnames,
@@ -9,9 +8,7 @@ import {
   margin,
   space,
 } from 'classnames/tailwind'
-import { useSnapshot } from 'valtio'
 import Counter from 'components/Counter'
-import TwitterStore from 'stores/TwitterStore'
 
 const footerBox = classnames(
   display('flex'),
@@ -22,27 +19,23 @@ const footerBox = classnames(
   justifyContent('justify-between')
 )
 
-function HashtagBlockSuspended() {
-  const { hashtags } = useSnapshot(TwitterStore, { sync: true })
-
+export default function ({
+  maxCount,
+  hashtags,
+  text,
+}: {
+  maxCount: number
+  hashtags: string
+  text: string
+}) {
   return (
     <>
-      {!!hashtags && (
-        <div className={footerBox}>
-          <div>
-            <HashTagText>{hashtags}</HashTagText>
-          </div>
-          <Counter />
+      <div className={footerBox}>
+        <div>
+          <HashTagText>{hashtags}</HashTagText>
         </div>
-      )}
+        <Counter max={maxCount} value={text.length} />
+      </div>
     </>
-  )
-}
-
-export default function () {
-  return (
-    <Suspense fallback={<HashTagText>...</HashTagText>}>
-      <HashtagBlockSuspended />
-    </Suspense>
   )
 }
