@@ -45,6 +45,8 @@ const LinkInnerContainer = () => {
   )
 }
 
+const textWidth = { maxWidth: '28rem' }
+
 const viewBlockchainLink = textColor('text-primary')
 
 export default function ({
@@ -64,7 +66,7 @@ export default function ({
     <div className={container(loading)}>
       <LargeText>{title}</LargeText>
       {loading && (
-        <div className={margin('!mt-4')}>
+        <div className={margin('!mt-4')} style={textWidth}>
           <LoadingText>
             It is currently posted to the raw data (
             <NavLink
