@@ -18,8 +18,9 @@ const statusContainer = (status: TweetStatus) =>
     padding('py-1', 'px-2'),
     borderRadius('rounded-lg'),
     backgroundColor({
-      'bg-primary-dimmed': status === TweetStatus.pending,
-      'bg-primary-background': status === TweetStatus.approved,
+      'bg-primary-dimmed':
+        status === TweetStatus.pending || status === TweetStatus.approved,
+      'bg-primary-background': status === TweetStatus.published,
       'bg-error': status === TweetStatus.rejected,
     })
   )

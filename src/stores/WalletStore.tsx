@@ -58,13 +58,13 @@ class WalletStore extends PersistableStore {
     this.walletLoading = false
   }
 
-  async saveTweet({ tweet, domain }: TweetStructure) {
+  saveTweet({ tweet, domain }: TweetStructure) {
     if (!provider) throw new Error('No provider found')
 
     if (!tweet) throw new Error('Invalid tweet')
     if (!domain) throw new Error('Invalid domain')
 
-    return await createTweet({ tweet, domain }, provider)
+    return createTweet({ tweet, domain }, provider)
   }
 
   private subscribeProvider(provider: Web3Provider) {

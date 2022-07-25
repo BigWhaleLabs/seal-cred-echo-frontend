@@ -1,5 +1,6 @@
 enum TweetStatusText {
-  approved = 'Posted to Twitter',
+  approved = 'Posting to Twitter...',
+  published = 'Posted to Twitter',
   rejected = 'Rejected',
   pending = 'Pending review...',
 }

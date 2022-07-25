@@ -15,15 +15,21 @@ export default function () {
   const accountProcessingTweetIds = account && processingTweetIds[account]
   const currentTweetsStatuses = { ...tweetsStatuses }
   const currentTweets = accountProcessingTweetIds
-    ? accountProcessingTweetIds.map((id) => currentTweetsStatuses[id])
+    ? accountProcessingTweetIds.map(
+        (tweetId) =>
+          currentTweetsStatuses[tweetId] || {
+            tweetId,
+            status: TweetStatus.pending,
+          }
+      )
     : []
 
   const pendingTweets = currentTweets.filter(
-    (tweet) => !tweet.status || tweet.status === TweetStatus.pending
+    (tweet) => tweet.status === TweetStatus.pending
   )
 
-  const lastApprovedTweet = currentTweets.find(
-    (tweet) => tweet.status === TweetStatus.approved
+  const lastPublishedTweet = currentTweets.find(
+    (tweet) => tweet.status === TweetStatus.published
   )
 
   return (
@@ -39,9 +45,9 @@ export default function () {
             }
           />
         ) : (
-          lastApprovedTweet && (
+          lastPublishedTweet && (
             <TweetProcessing
-              tweet={lastApprovedTweet}
+              tweet={lastPublishedTweet}
               title="Tweet successful"
             />
           )

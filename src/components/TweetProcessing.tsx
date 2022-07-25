@@ -55,10 +55,11 @@ export default function ({
   tweet: TweetModel
   title: string
 }) {
-  const loading = !tweet.status || tweet.status === TweetStatus.pending
-  const redirectTo = tweet.statusId
-    ? `https://twitter.com/SealCredWork/status/${tweet.statusId}`
-    : `/previous-tweets/blockchain#blockchainTweetId=${tweet.tweetId}`
+  const loading = tweet.status === TweetStatus.pending
+  const redirectTo =
+    tweet.status === TweetStatus.published
+      ? `https://twitter.com/SealCredWork/status/${tweet.statusId}`
+      : `/previous-tweets/blockchain#blockchainTweetId=${tweet.tweetId}`
 
   return (
     <div className={container(loading)}>
