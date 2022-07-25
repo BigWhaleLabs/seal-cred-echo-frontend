@@ -24,11 +24,10 @@ const container = (loading?: boolean) =>
     flexDirection('flex-col'),
     alignItems('items-center'),
     backgroundColor('bg-primary-background'),
-    padding('py-6', 'px-2'),
+    padding('py-6', 'px-9'),
     borderRadius('rounded-2xl'),
     space(loading ? 'space-y-6' : 'space-y-2')
   )
-const loadingText = classnames(margin('!mt-4'), padding('px-16'))
 const linkInnerContainer = classnames(
   display('flex'),
   alignItems('items-center'),
@@ -65,7 +64,7 @@ export default function ({
     <div className={container(loading)}>
       <LargeText>{title}</LargeText>
       {loading && (
-        <div className={loadingText}>
+        <div className={margin('!mt-4')}>
           <LoadingText>
             It is currently posted to the raw data (
             <NavLink

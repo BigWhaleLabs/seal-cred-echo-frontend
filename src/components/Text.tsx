@@ -316,7 +316,11 @@ export function LargeText({ children }: ChildrenProp) {
   return <h2 className={largeText}>{children}</h2>
 }
 
-const loadingText = fontSize('text-xs', 'tiny:text-sm')
+const loadingText = classnames(
+  fontSize('text-xs', 'tiny:text-sm'),
+  lineHeight('!leading-5'),
+  textAlign('text-center')
+)
 export function LoadingText({ children }: ChildrenProp) {
   return <h4 className={loadingText}>{children}</h4>
 }
