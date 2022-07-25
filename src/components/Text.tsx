@@ -123,8 +123,8 @@ const textareaText = (dark?: boolean) =>
     fontFamily('font-primary'),
     alignItems('items-center'),
     textColor({
-      'text-formal-accent': !dark,
       'text-formal-accent-semi-transparent': dark,
+      'text-formal-accent': !dark,
     }),
     placeholderColor('placeholder-formal-accent-dimmed'),
     caretColor('caret-primary')
