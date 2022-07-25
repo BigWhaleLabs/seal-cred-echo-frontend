@@ -117,16 +117,23 @@ export function SocialLink({ url, children }: ChildrenProp & { url: string }) {
   )
 }
 
-const textareaText = classnames(
-  display('flex'),
-  fontFamily('font-primary'),
-  alignItems('items-center'),
-  textColor('text-formal-accent'),
-  placeholderColor('placeholder-formal-accent-dimmed'),
-  caretColor('caret-primary')
-)
-export function TextareaText({ children }: ChildrenProp) {
-  return <div className={textareaText}>{children}</div>
+const textareaText = (dark?: boolean) =>
+  classnames(
+    display('flex'),
+    fontFamily('font-primary'),
+    alignItems('items-center'),
+    textColor({
+      'text-formal-accent-semi-transparent': dark,
+      'text-formal-accent': !dark,
+    }),
+    placeholderColor('placeholder-formal-accent-dimmed'),
+    caretColor('caret-primary')
+  )
+export function TextareaText({
+  dark,
+  children,
+}: ChildrenProp & { dark?: boolean }) {
+  return <div className={textareaText(dark)}>{children}</div>
 }
 
 const errorTextBox = (visible?: boolean) =>

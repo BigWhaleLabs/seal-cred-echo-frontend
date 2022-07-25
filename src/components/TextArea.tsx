@@ -77,6 +77,7 @@ export default function ({
   text,
   onTextChange,
   maxLength,
+  disabled,
   error,
   hashtags,
   ...restProps
@@ -87,13 +88,14 @@ export default function ({
     <div className={textWithErrorWrapper}>
       <div className={containerWithFooter}>
         <div className={innerWrapper(!isValid)}>
-          <TextareaText>
+          <TextareaText dark={disabled}>
             <TextareaAutosize
               className={classNamesToString('no-scrollbar', textBox)}
               value={text}
               onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
                 onTextChange(event.currentTarget.value)
               }
+              disabled={disabled}
               maxLength={maxLength}
               minRows={5}
               spellcheck={true}

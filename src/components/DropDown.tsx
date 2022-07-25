@@ -1,5 +1,6 @@
 import { MutableRef, useRef, useState } from 'preact/hooks'
 import { Suspense } from 'preact/compat'
+import { TextareaText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import Arrow from 'icons/Arrow'
 import ContractName from 'components/ContractName'
@@ -24,7 +25,6 @@ import classnames, {
   position,
   space,
   textAlign,
-  textColor,
   transitionProperty,
   visibility,
   width,
@@ -73,7 +73,10 @@ const menuWrapper = (open: boolean) =>
     space('space-y-1'),
     sharedStyles
   )
-const postingAs = display('tiny:inline', 'hidden')
+const postingAs = classnames(
+  display('tiny:inline', 'hidden'),
+  padding('tiny:pr-1', 'pr-0')
+)
 const menuItem = (current?: boolean) =>
   classnames(
     padding('p-2'),
@@ -88,7 +91,7 @@ const menuItem = (current?: boolean) =>
     })
   )
 
-export function DropDown() {
+export function DropDown({ disabled }: { disabled?: boolean }) {
   const [dropDownOpen, setOpen] = useState(false)
   const { emailLedger } = useSnapshot(SealCredStore)
   const contractsOwned = useContractsOwned()
@@ -106,28 +109,22 @@ export function DropDown() {
     <div className={wrapper(hasBadges)} ref={ref}>
       <button
         onClick={() => setOpen(!dropDownOpen)}
-        disabled={!hasBadges}
+        disabled={!hasBadges || disabled}
         className={opener}
       >
         {hasBadges ? (
           <>
             {currentDomain ? (
-              <span>
+              <TextareaText dark={disabled}>
                 <span className={postingAs}>Posting as: </span>
                 {currentDomain}
-              </span>
+              </TextareaText>
             ) : (
-              <span
-                className={textColor('text-formal-accent-semi-transparent')}
-              >
-                Select work email
-              </span>
+              <TextareaText dark>Select work email</TextareaText>
             )}
           </>
         ) : (
-          <span className={textColor('text-formal-accent-semi-transparent')}>
-            No ZK badge in this wallet
-          </span>
+          <TextareaText dark>No ZK badge in this wallet</TextareaText>
         )}
 
         <div className={width('w-5')}>
@@ -152,15 +149,13 @@ export function DropDown() {
   )
 }
 
-export default function () {
+export default function ({ disabled }: { disabled?: boolean }) {
   return (
     <Suspense
       fallback={
         <div className={wrapper(false)}>
           <button disabled className={opener}>
-            <span className={textColor('text-formal-accent-semi-transparent')}>
-              Fetching emails...
-            </span>
+            <TextareaText dark>Fetching emails...</TextareaText>
             <div className={width('w-5')}>
               <Spinner />
             </div>
@@ -168,7 +163,7 @@ export default function () {
         </div>
       }
     >
-      <DropDown />
+      <DropDown disabled={disabled} />
     </Suspense>
   )
 }

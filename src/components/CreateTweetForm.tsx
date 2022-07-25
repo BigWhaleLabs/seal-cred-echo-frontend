@@ -56,7 +56,7 @@ export default function () {
         />
         <div className={bottomContainer}>
           <div className={dropdownWrapper}>
-            <DropDown />
+            <DropDown disabled={status.loading} />
           </div>
           <Button
             type="primary"
