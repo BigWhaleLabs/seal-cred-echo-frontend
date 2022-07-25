@@ -28,8 +28,8 @@ export default function () {
     (tweet) => tweet.status === TweetStatus.pending
   )
 
-  const lastApprovedTweet = currentTweets.find(
-    (tweet) => tweet.status === TweetStatus.approved
+  const lastPublishedTweet = currentTweets.find(
+    (tweet) => tweet.status === TweetStatus.published
   )
 
   return (
@@ -45,9 +45,9 @@ export default function () {
             }
           />
         ) : (
-          lastApprovedTweet && (
+          lastPublishedTweet && (
             <TweetProcessing
-              tweet={lastApprovedTweet}
+              tweet={lastPublishedTweet}
               title="Tweet successful"
             />
           )

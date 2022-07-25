@@ -56,7 +56,7 @@ const TwitterStore = proxy<TwitterStoreInterface>({
           args: { id, tweet, derivativeAddress, sender, timestamp },
         } = parseTweetSavedLogData({ data, topics })
 
-        await addTwitterLeaderRecord(
+        await addTwitterLedgerRecord(
           id.toNumber(),
           tweet,
           derivativeAddress,
@@ -76,7 +76,7 @@ const TwitterStore = proxy<TwitterStoreInterface>({
   blockchainTweets: getBlockchainTweets(),
 })
 
-async function addTwitterLeaderRecord(
+async function addTwitterLedgerRecord(
   tweetId: number,
   tweet: string,
   derivativeAddress: string,
@@ -110,6 +110,7 @@ async function addTwitterLeaderRecord(
       ]
       return
     }
+
     ProcessingTweetsStore.processingTweetIds[sender] = [tweetId]
   }
 }
@@ -123,7 +124,7 @@ SCTwitterLedgerContract.on(
   async (id, tweet, derivativeAddress, sender, timestamp) => {
     console.info('TweetSaved event', id.toNumber(), tweet, derivativeAddress)
     const tweetId = id.toNumber()
-    await addTwitterLeaderRecord(
+    await addTwitterLedgerRecord(
       tweetId,
       tweet,
       derivativeAddress,
