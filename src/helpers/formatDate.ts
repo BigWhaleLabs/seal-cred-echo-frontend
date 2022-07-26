@@ -3,8 +3,8 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 
 dayjs.extend(relativeTime)
 
-export default function (rawDate: string | number): string {
+export default function (rawDate: string | number, from: number): string {
   return typeof rawDate === 'number'
-    ? dayjs.unix(rawDate).fromNow()
-    : dayjs(rawDate).fromNow()
+    ? dayjs.unix(rawDate).from(from)
+    : dayjs(rawDate).from(from)
 }
