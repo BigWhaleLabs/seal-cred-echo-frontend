@@ -5,6 +5,7 @@ import Card from 'components/Card'
 import ContractName from 'components/ContractName'
 import EnsAddress from 'components/EnsAddress'
 import TweetChips from 'components/TweetChips'
+import TweetStatus from 'models/TweetStatus'
 import TweetTime from 'components/TweetTime'
 import TwitterLoading from 'components/TwitterLoading'
 import TwitterStore from 'stores/TwitterStore'
@@ -42,10 +43,57 @@ const bottomSeparator = classnames(
   display('hidden', 'sm:block')
 )
 
-function BlockchainTweetsSuspended() {
+function Sender({ sender }: { sender: string }) {
   const { account } = useSnapshot(walletStore)
-  const { blockchainTweets = [] } = useSnapshot(TwitterStore)
+  return (
+    <LinkText extraSmall title={sender} url={getEtherscanAddressUrl(sender)}>
+      {sender === account ? (
+        'you'
+      ) : (
+        <EnsAddress address={sender} truncateSize={13} />
+      )}
+    </LinkText>
+  )
+}
+
+function Contract({ address }: { address: string }) {
+  return (
+    <LinkText extraSmall title={address} url={getEtherscanAddressUrl(address)}>
+      <ContractName clearType truncate address={address} />
+    </LinkText>
+  )
+}
+
+function Delimiter() {
+  return (
+    <div className={bottomSeparator}>
+      <StatusText>|</StatusText>
+    </div>
+  )
+}
+
+function Status({ id }: { id: number }) {
   const { tweetsStatuses } = useSnapshot(tweetStatusStore)
+  const tweet = tweetsStatuses[id]
+
+  if (tweet?.status !== TweetStatus.published) return null
+
+  return (
+    <>
+      <Delimiter />
+      <LinkText
+        extraSmall
+        title="status"
+        url={`https://twitter.com/SealCredWork/status/${tweet.statusId}`}
+      >
+        Twitter
+      </LinkText>
+    </>
+  )
+}
+
+function BlockchainTweetsSuspended() {
+  const { blockchainTweets = [] } = useSnapshot(TwitterStore)
   useScrollToAnchor()
 
   return (
@@ -62,34 +110,10 @@ function BlockchainTweetsSuspended() {
               <BodyText primary>
                 <span className={tweetBottom}>
                   <StatusText>Posted by: </StatusText>
-                  <LinkText
-                    extraSmall
-                    title={sender}
-                    url={getEtherscanAddressUrl(sender)}
-                  >
-                    {sender === account ? (
-                      'you'
-                    ) : (
-                      <EnsAddress address={sender} truncateSize={13} />
-                    )}
-                  </LinkText>
-                  <div className={bottomSeparator}>
-                    <StatusText>|</StatusText>
-                  </div>
-                  <LinkText
-                    extraSmall
-                    title={derivativeAddress}
-                    url={getEtherscanAddressUrl(derivativeAddress)}
-                  >
-                    <ContractName
-                      clearType
-                      truncate
-                      address={derivativeAddress}
-                    />
-                  </LinkText>
-                  <div className={bottomSeparator}>
-                    <StatusText>|</StatusText>
-                  </div>
+                  <Sender sender={sender} />
+                  <Delimiter />
+                  <Contract address={derivativeAddress} />
+                  <Delimiter />
                   <LinkText
                     extraSmall
                     title={derivativeAddress}
@@ -97,20 +121,7 @@ function BlockchainTweetsSuspended() {
                   >
                     Etherscan
                   </LinkText>
-                  {tweetsStatuses[id] && tweetsStatuses[id].statusId && (
-                    <>
-                      <div className={bottomSeparator}>
-                        <StatusText>|</StatusText>
-                      </div>
-                      <LinkText
-                        extraSmall
-                        title={derivativeAddress}
-                        url={`https://twitter.com/SealCredWork/status/${tweetsStatuses[id].statusId}`}
-                      >
-                        Twitter
-                      </LinkText>
-                    </>
-                  )}
+                  <Status id={id} />
                 </span>
               </BodyText>
             </div>
