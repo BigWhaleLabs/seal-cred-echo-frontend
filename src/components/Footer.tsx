@@ -12,23 +12,16 @@ import classnames, {
 } from 'classnames/tailwind'
 import useBreakpoints from 'hooks/useBreakpoints'
 
+const commonClasses = classnames(display('flex'), alignItems('items-center'))
 const footerContainer = classnames(
-  display('flex'),
+  commonClasses,
   flexDirection('flex-col', 'md:flex-row'),
-  alignItems('items-center'),
   padding('py-8', 'px-4', 'lg:px-25'),
   space('space-y-4', 'md:space-x-4', 'md:space-y-0')
 )
-const footerLogoLink = classnames(
-  display('flex'),
+const linksContainer = classnames(
+  commonClasses,
   flexDirection('flex-row'),
-  alignItems('items-center'),
-  space('space-x-4')
-)
-const socialContainer = classnames(
-  display('flex'),
-  flexDirection('flex-row'),
-  alignItems('items-center'),
   space('space-x-4')
 )
 
@@ -38,7 +31,7 @@ export default function () {
   return (
     <div className={footerContainer}>
       <FooterlLink url="https://blog.bigwhalelabs.com/">
-        <div className={footerLogoLink}>
+        <div className={linksContainer}>
           <FooterLogo />
           <span>Blog</span>
         </div>
@@ -49,15 +42,17 @@ export default function () {
       <Delimiter primary showOn="md" />
       <FooterlLink url="/privacy">Privacy policy</FooterlLink>
       {!md && (
-        <div className={socialContainer}>
+        <>
           <Delimiter primary showOn="md" />
-          <SocialLink url="https://discord.gg/NHk96pPZUV">
-            <Discord />
-          </SocialLink>
-          <SocialLink url="https://twitter.com/bigwhalelabs">
-            <Twitter />
-          </SocialLink>
-        </div>
+          <div className={linksContainer}>
+            <SocialLink url="https://discord.gg/NHk96pPZUV">
+              <Discord />
+            </SocialLink>
+            <SocialLink url="https://twitter.com/bigwhalelabs">
+              <Twitter />
+            </SocialLink>
+          </div>
+        </>
       )}
     </div>
   )
