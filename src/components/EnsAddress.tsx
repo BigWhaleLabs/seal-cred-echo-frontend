@@ -6,12 +6,14 @@ import useBreakpoints from 'hooks/useBreakpoints'
 
 interface EnsAddressProps {
   address: string
+  truncateSize?: number
 }
 
 function EnsAddressSuspended({
   address,
   truncate,
-}: EnsAddressProps & { truncate?: boolean }) {
+  truncateSize,
+}: EnsAddressProps & { truncate?: boolean; truncateSize: number }) {
   const { ensNames } = useSnapshot(EnsStore)
   const ensName = ensNames[address]
   if (!ensName) EnsStore.fetchEnsName(address)
@@ -19,25 +21,31 @@ function EnsAddressSuspended({
   return (
     <>
       {truncate
-        ? truncateMiddleIfNeeded(ensName || address, 17)
-        : ensName || truncateMiddleIfNeeded(address, 25)}
+        ? truncateMiddleIfNeeded(ensName || address, truncateSize)
+        : ensName || truncateMiddleIfNeeded(address, truncateSize)}
     </>
   )
 }
 
-export default memo<EnsAddressProps>(({ address }) => {
-  const { lg } = useBreakpoints()
+export default memo<EnsAddressProps>(({ address, truncateSize }) => {
+  const { md, lg } = useBreakpoints()
+  const currentTruncateSize = truncateSize ?? md ? (lg ? 25 : 17) : 11
+
   return (
     <Suspense
       fallback={
         <>
           {!lg
-            ? truncateMiddleIfNeeded(address, 17)
-            : truncateMiddleIfNeeded(address, 25)}
+            ? truncateMiddleIfNeeded(address, currentTruncateSize)
+            : truncateMiddleIfNeeded(address, currentTruncateSize)}
         </>
       }
     >
-      <EnsAddressSuspended address={address} truncate={!lg} />
+      <EnsAddressSuspended
+        address={address}
+        truncateSize={currentTruncateSize}
+        truncate={!lg}
+      />
     </Suspense>
   )
 })
