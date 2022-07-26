@@ -3,6 +3,7 @@ import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
 import TweetChips from 'components/TweetChips'
+import TweetTime from 'components/TweetTime'
 import TwitterLoading from 'components/TwitterLoading'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
@@ -13,7 +14,6 @@ import classnames, {
   space,
   width,
 } from 'classnames/tailwind'
-import formatDate from 'helpers/formatDate'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import tweetStatusStore from 'stores/TweetStatusStore'
@@ -53,7 +53,7 @@ function BlockchainTweetsSuspended() {
             <div className={container}>
               <div className={tweetHeader}>
                 <TweetChips id={id} />
-                <StatusText textRight>{formatDate(timestamp)}</StatusText>
+                <TweetTime timestamp={timestamp} />
               </div>
               <TweetText>{tweet}</TweetText>
               <BodyText primary>
