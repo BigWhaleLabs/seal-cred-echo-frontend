@@ -44,13 +44,13 @@ export default function () {
         </div>
       </FooterlLink>
 
-      <Delimiter showOn="md" />
+      <Delimiter primary showOn="md" />
       <FooterlLink url="/terms">Terms of service</FooterlLink>
-      <Delimiter showOn="md" />
+      <Delimiter primary showOn="md" />
       <FooterlLink url="/privacy">Privacy policy</FooterlLink>
       {!md && (
         <div className={socialContainer}>
-          <Delimiter showOn="md" />
+          <Delimiter primary showOn="md" />
           <SocialLink url="https://discord.gg/NHk96pPZUV">
             <Discord />
           </SocialLink>

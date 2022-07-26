@@ -11,10 +11,16 @@ const bottomSeparator = (showOn: 'sm' | 'md' = 'sm') =>
     })
   )
 
-export default function ({ showOn }: { showOn?: 'sm' | 'md' }) {
+export default function ({
+  showOn,
+  primary,
+}: {
+  showOn?: 'sm' | 'md'
+  primary?: boolean
+}) {
   return (
     <div className={bottomSeparator(showOn)}>
-      <StatusText>|</StatusText>
+      <StatusText color={primary ? 'primary' : 'default'}>|</StatusText>
     </div>
   )
 }

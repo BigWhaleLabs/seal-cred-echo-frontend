@@ -32,7 +32,7 @@ export default function ({ id }: { id: number }) {
 
   return (
     <a href={`#blockchainTweetId=${id}`} className={statusContainer(status)}>
-      <StatusText dark={status === TweetStatus.rejected}>
+      <StatusText color={status === TweetStatus.rejected ? 'dark' : 'default'}>
         {TweetStatusText[status]}
       </StatusText>
     </a>

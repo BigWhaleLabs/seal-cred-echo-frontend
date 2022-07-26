@@ -118,9 +118,8 @@ export function SocialLink({ url, children }: ChildrenProp & { url: string }) {
 }
 
 const footerLink = classnames(
-  lineHeight('leading-5'),
   fontSize('text-sm'),
-  fontWeight('font-bold'),
+  fontWeight('font-semibold'),
   textDecoration('no-underline', 'hover:underline'),
   textColor('text-formal-accent', 'hover:text-accent')
 )
@@ -381,19 +380,29 @@ export function StaticHeaderText({
   return <h1 className={staticHeaderText(bold, subheading)}>{children}</h1>
 }
 
-const statusText = (dark?: boolean, textRight?: boolean) =>
+const statusText = (
+  color?: 'primary' | 'dark' | 'default',
+  textRight?: boolean
+) =>
   classnames(
     fontSize('text-xs'),
     lineHeight('leading-4'),
-    textColor(dark ? 'text-primary-dark' : 'text-formal-accent'),
+    textColor({
+      'text-primary-dark': color === 'dark',
+      'text-primary-dimmed': color === 'primary',
+      'text-formal-accent': color === 'default',
+    }),
     textAlign({ 'text-right': textRight })
   )
 export function StatusText({
-  dark,
+  color = 'default',
   textRight,
   children,
-}: ChildrenProp & { dark?: boolean; textRight?: boolean }) {
-  return <span className={statusText(dark, textRight)}>{children}</span>
+}: ChildrenProp & {
+  color?: 'primary' | 'dark' | 'default'
+  textRight?: boolean
+}) {
+  return <span className={statusText(color, textRight)}>{children}</span>
 }
 
 const tweetText = classnames(
