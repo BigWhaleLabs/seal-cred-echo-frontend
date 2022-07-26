@@ -3,6 +3,7 @@ import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
 import ContractName from 'components/ContractName'
+import Delimiter from 'components/Delimiter'
 import EnsAddress from 'components/EnsAddress'
 import TweetChips from 'components/TweetChips'
 import TweetStatus from 'models/TweetStatus'
@@ -15,7 +16,6 @@ import classnames, {
   flexDirection,
   justifyContent,
   space,
-  width,
 } from 'classnames/tailwind'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
 import tweetStatusStore from 'stores/TweetStatusStore'
@@ -38,10 +38,6 @@ const tweetBottom = classnames(
   alignItems('items-start', 'sm:items-baseline'),
   space('space-y-1', 'sm:space-x-2', 'sm:space-y-0')
 )
-const bottomSeparator = classnames(
-  width('w-fit'),
-  display('hidden', 'sm:block')
-)
 
 function Sender({ sender }: { sender: string }) {
   const { account } = useSnapshot(walletStore)
@@ -61,14 +57,6 @@ function Contract({ address }: { address: string }) {
     <LinkText extraSmall title={address} url={getEtherscanAddressUrl(address)}>
       <ContractName clearType truncate address={address} />
     </LinkText>
-  )
-}
-
-function Delimiter() {
-  return (
-    <div className={bottomSeparator}>
-      <StatusText>|</StatusText>
-    </div>
   )
 }
 

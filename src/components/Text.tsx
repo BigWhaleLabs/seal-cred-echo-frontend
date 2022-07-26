@@ -117,6 +117,26 @@ export function SocialLink({ url, children }: ChildrenProp & { url: string }) {
   )
 }
 
+const footerLink = classnames(
+  lineHeight('leading-5'),
+  fontSize('text-sm'),
+  fontWeight('font-bold'),
+  textDecoration('no-underline', 'hover:underline'),
+  textColor('text-formal-accent', 'hover:text-accent')
+)
+export function FooterlLink({ url, children }: ChildrenProp & { url: string }) {
+  return (
+    <a
+      className={footerLink}
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {children}
+    </a>
+  )
+}
+
 const textareaText = (dark?: boolean) =>
   classnames(
     display('flex'),
