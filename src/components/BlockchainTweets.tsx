@@ -2,6 +2,8 @@ import { BodyText, LinkText, StatusText, TweetText } from 'components/Text'
 import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
+import ContractName from 'components/ContractName'
+import EnsAddress from 'components/EnsAddress'
 import TweetChips from 'components/TweetChips'
 import TweetTime from 'components/TweetTime'
 import TwitterLoading from 'components/TwitterLoading'
@@ -15,9 +17,9 @@ import classnames, {
   width,
 } from 'classnames/tailwind'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
-import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import tweetStatusStore from 'stores/TweetStatusStore'
 import useScrollToAnchor from 'helpers/useScrollToAnchor'
+import walletStore from 'stores/WalletStore'
 
 const container = classnames(
   display('flex'),
@@ -41,6 +43,7 @@ const bottomSeparator = classnames(
 )
 
 function BlockchainTweetsSuspended() {
+  const { account } = useSnapshot(walletStore)
   const { blockchainTweets = [] } = useSnapshot(TwitterStore)
   const { tweetsStatuses } = useSnapshot(tweetStatusStore)
   useScrollToAnchor()
@@ -64,7 +67,25 @@ function BlockchainTweetsSuspended() {
                     title={sender}
                     url={getEtherscanAddressUrl(sender)}
                   >
-                    {!!sender && truncateMiddleIfNeeded(sender, 13)}
+                    {sender === account ? (
+                      'you'
+                    ) : (
+                      <EnsAddress address={sender} truncateSize={13} />
+                    )}
+                  </LinkText>
+                  <div className={bottomSeparator}>
+                    <StatusText>|</StatusText>
+                  </div>
+                  <LinkText
+                    extraSmall
+                    title={derivativeAddress}
+                    url={getEtherscanAddressUrl(derivativeAddress)}
+                  >
+                    <ContractName
+                      clearType
+                      truncate
+                      address={derivativeAddress}
+                    />
                   </LinkText>
                   <div className={bottomSeparator}>
                     <StatusText>|</StatusText>
