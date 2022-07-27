@@ -8,13 +8,10 @@ export default function (element?: HTMLAnchorElement, position?: number) {
   }
   if (!position) makeTweetPulse()
 
-  const timer = setInterval(() => {
-    if (
-      position &&
-      (position >= window.pageYOffset || document.documentElement.scrollTop)
-    ) {
-      clearInterval(timer)
-      makeTweetPulse()
-    }
-  }, 25)
+  const observer = new IntersectionObserver(() => makeTweetPulse(), {
+    root: element,
+    threshold: 1,
+  })
+
+  observer.observe(element)
 }
