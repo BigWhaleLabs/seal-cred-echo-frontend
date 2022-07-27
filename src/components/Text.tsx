@@ -431,7 +431,7 @@ const contractButtonContainer = (clickable?: boolean) =>
     fontSize('text-xs'),
     textDecoration('underline'),
     textColor('text-primary'),
-    clickable ? cursor('cursor-pointer') : undefined
+    cursor({ 'cursor-pointer': clickable })
   )
 export function UnderlineTextButton({
   children,
