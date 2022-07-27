@@ -12,7 +12,7 @@ export default function () {
   return (
     <Card>
       <div className={space('space-y-4')}>
-        <HeaderText>Terms of Use</HeaderText>
+        <HeaderText>Terms of Service</HeaderText>
         <div className={space('space-y-4')}>
           <CardSection smallPadding>
             <CardSubheader>Terms</CardSubheader>

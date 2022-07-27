@@ -16,7 +16,7 @@ export default function () {
         <div className={space('space-y-4')}>
           <CardSection smallPadding>
             <CardParagraph>
-              Project operates the website listed at borodutch.com, which
+              Project operates the website listed at work.sealcred.xyz, which
               provides the SERVICE.
             </CardParagraph>
             <CardParagraph>
