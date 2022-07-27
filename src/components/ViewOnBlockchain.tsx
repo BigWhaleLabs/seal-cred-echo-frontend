@@ -3,7 +3,7 @@ import { space } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import AgeWarning from 'components/AgeWarning'
 import AppStore from 'stores/AppStore'
-import BlockchainTweets from 'components/BlockchainTweets'
+import BlockchainTweetsList from 'components/BlockchainTweetsList'
 import HintCard from 'components/HintCard'
 import PreviousTweetsLayout from 'components/PrevTweetsLayout'
 import classNamesToString from 'helpers/classNamesToString'
@@ -24,7 +24,7 @@ export default function () {
           </BodyText>
         </HintCard>
 
-        <BlockchainTweets />
+        <BlockchainTweetsList />
       </div>
     </PreviousTweetsLayout>
   )
