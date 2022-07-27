@@ -1,4 +1,10 @@
-import { BodyText, LinkText, StatusText, TweetText } from 'components/Text'
+import {
+  BodyText,
+  LinkText,
+  StatusText,
+  TweetText,
+  UnderlineTextButton,
+} from 'components/Text'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
 import ContractName from 'components/ContractName'
@@ -48,11 +54,17 @@ function Sender({ sender }: { sender: string }) {
   )
 }
 
-function Contract({ address }: { address: string }) {
+function Contract({
+  address,
+  onClick,
+}: {
+  address: string
+  onClick: () => void
+}) {
   return (
-    <LinkText extraSmall title={address} url={getEtherscanAddressUrl(address)}>
+    <UnderlineTextButton onClick={onClick}>
       <ContractName clearType truncate address={address} />
-    </LinkText>
+    </UnderlineTextButton>
   )
 }
 
@@ -82,12 +94,14 @@ export default function ({
   derivativeAddress,
   sender,
   timestamp,
+  onSelectAddress,
 }: {
   id: number
   tweet: string
   derivativeAddress: string
   sender: string
   timestamp: number
+  onSelectAddress: (address: string) => void
 }) {
   return (
     <Card key={id}>
@@ -102,7 +116,10 @@ export default function ({
             <StatusText>Posted by: </StatusText>
             <Sender sender={sender} />
             <Delimiter />
-            <Contract address={derivativeAddress} />
+            <Contract
+              address={derivativeAddress}
+              onClick={() => onSelectAddress(derivativeAddress)}
+            />
             <Delimiter />
             <LinkText
               extraSmall
