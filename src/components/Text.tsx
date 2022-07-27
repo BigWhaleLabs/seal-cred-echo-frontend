@@ -1,3 +1,4 @@
+import { HTMLAttributes } from 'preact/compat'
 import {
   TDropShadow,
   TGradientColorStops,
@@ -423,4 +424,27 @@ const hashTagText = classnames(
 )
 export function HashTagText({ children }: ChildrenProp) {
   return <span className={hashTagText}>{children}</span>
+}
+
+const contractButtonContainer = (clickable?: boolean) =>
+  classnames(
+    fontSize('text-xs'),
+    textDecoration('underline'),
+    textColor('text-primary'),
+    clickable ? cursor('cursor-pointer') : undefined
+  )
+export function UnderlineTextButton({
+  children,
+  onClick,
+  ...rest
+}: ChildrenProp & HTMLAttributes<HTMLSpanElement>) {
+  return (
+    <span
+      className={contractButtonContainer(!!onClick)}
+      onClick={onClick}
+      {...rest}
+    >
+      {children}
+    </span>
+  )
 }
