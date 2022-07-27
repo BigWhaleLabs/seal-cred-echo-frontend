@@ -6,13 +6,14 @@ import {
 } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import DeepDive from 'components/DeepDive'
+import Footer from 'components/Footer'
 import HowItWorks from 'components/HowItWorks'
-import NavTabLink from 'components/NavTabLink'
+import Main from 'pages/Main'
 import Navbar from 'components/navbar/Navbar'
 import PreviousTweets from 'components/PreviousTweets'
-import TabBar from 'components/TabBar'
+import Privacy from 'pages/Privacy'
+import Terms from 'pages/Terms'
 import ViewOnBlockchain from 'components/ViewOnBlockchain'
-import WalletOrTweet from 'components/WalletOrTweet'
 import classnames, {
   height,
   margin,
@@ -26,7 +27,7 @@ const body = classnames(
   height('h-fit'),
   space('space-y-4'),
   padding('pb-5'),
-  margin('mx-auto', 'md:mb-32')
+  margin('mx-auto', 'md:mb-16')
 )
 
 export default function () {
@@ -35,24 +36,46 @@ export default function () {
       <Navbar />
       <div className={body}>
         <div className={margin('mx-5', 'md:mx-auto')}>
-          <WalletOrTweet />
-          <TabBar>
-            <NavTabLink to="/how-it-works" label="How this works" />
-            <NavTabLink to="/previous-tweets" label="Previous Tweets" />
-            <NavTabLink to="/deep-dive" label="Deep Dive" />
-          </TabBar>
           <Routes>
             <Route index element={<Navigate replace to="/how-it-works" />} />
-            <Route path="/how-it-works" element={<HowItWorks />} />
-            <Route path="/previous-tweets" element={<PreviousTweets />} />
+            <Route
+              path="/how-it-works"
+              element={
+                <Main>
+                  <HowItWorks />
+                </Main>
+              }
+            />
+            <Route
+              path="/previous-tweets"
+              element={
+                <Main>
+                  <PreviousTweets />
+                </Main>
+              }
+            />
             <Route
               path="/previous-tweets/blockchain"
-              element={<ViewOnBlockchain />}
+              element={
+                <Main>
+                  <ViewOnBlockchain />
+                </Main>
+              }
             />
-            <Route path="/deep-dive" element={<DeepDive />} />
+            <Route
+              path="/deep-dive"
+              element={
+                <Main>
+                  <DeepDive />
+                </Main>
+              }
+            />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
           </Routes>
         </div>
       </div>
+      <Footer />
       <ToastContainer position="bottom-right" theme="dark" />
     </Router>
   )
