@@ -74,8 +74,8 @@ export default function ({
             >
               view it here
             </NavLink>
-            ). But it may take as long as 24 before it posts to Twitter due to
-            moderation.
+            ). But it may take as long as 24 hours before it posts to Twitter
+            due to moderation.
           </LoadingText>
         </div>
       )}
