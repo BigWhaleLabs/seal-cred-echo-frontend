@@ -35,8 +35,8 @@ export default function () {
 
   const { md } = useBreakpoints()
 
-  const hashtags = currentDomain ? `#${currentDomain}` : ''
-  const maxLength = 280 - hashtags.length
+  const suffix = currentDomain ? ` @ ${currentDomain}` : ''
+  const maxLength = 280 - suffix.length
 
   const isValidForm =
     text.length <= maxLength && text.length > 0 && !!currentDomain
@@ -50,7 +50,7 @@ export default function () {
           placeholder="Write something here..."
           onTextChange={onTweetChange}
           maxLength={maxLength}
-          hashtags={hashtags}
+          suffix={suffix}
           disabled={status.loading}
           error={status.error?.message}
         />

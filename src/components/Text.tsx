@@ -416,14 +416,14 @@ export function TweetText({ children }: ChildrenProp) {
   return <p className={tweetText}>{children}</p>
 }
 
-const hashTagText = classnames(
+const suffixText = classnames(
   fontSize('text-sm'),
   lineHeight('leading-5'),
   textColor('text-formal-accent-semi-transparent'),
   wordBreak('break-all')
 )
-export function HashTagText({ children }: ChildrenProp) {
-  return <span className={hashTagText}>{children}</span>
+export function SuffixText({ children }: ChildrenProp) {
+  return <span className={suffixText}>{children}</span>
 }
 
 const contractButtonContainer = (clickable?: boolean) =>

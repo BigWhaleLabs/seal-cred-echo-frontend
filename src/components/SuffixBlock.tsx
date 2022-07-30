@@ -1,4 +1,4 @@
-import { HashTagText } from 'components/Text'
+import { SuffixText } from 'components/Text'
 import {
   alignItems,
   classnames,
@@ -21,18 +21,18 @@ const footerBox = classnames(
 
 export default function ({
   maxCount,
-  hashtags,
+  suffix,
   text,
 }: {
   maxCount: number
-  hashtags: string
+  suffix: string
   text: string
 }) {
   return (
     <>
       <div className={footerBox}>
         <div>
-          <HashTagText>{hashtags}</HashTagText>
+          <SuffixText>{suffix}</SuffixText>
         </div>
         <Counter max={maxCount} value={text.length} />
       </div>
