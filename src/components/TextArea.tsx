@@ -21,7 +21,7 @@ import {
   transitionProperty,
   width,
 } from 'classnames/tailwind'
-import HashtagBlock from 'components/HashtagBlock'
+import SuffixBlock from 'components/SuffixBlock'
 import TextareaAutosize, {
   TextareaAutosizeProps,
 } from 'react-textarea-autosize'
@@ -66,7 +66,7 @@ const textBox = classnames(
 interface TextAreaProps {
   text: string
   maxLength: number
-  hashtags: string
+  suffix: string
   onTextChange: (text: string) => void
   disabled?: boolean
   error?: string
@@ -79,7 +79,7 @@ export default function ({
   maxLength,
   disabled,
   error,
-  hashtags,
+  suffix,
   ...restProps
 }: TextAreaProps & TextareaAutosizeProps) {
   const isValid = !error && text.length <= maxLength
@@ -102,7 +102,7 @@ export default function ({
               {...restProps}
             />
           </TextareaText>
-          <HashtagBlock maxCount={maxLength} text={text} hashtags={hashtags} />
+          <SuffixBlock maxCount={maxLength} text={text} suffix={suffix} />
         </div>
       </div>
       <ErrorText visible={!!error} withExclamation>
