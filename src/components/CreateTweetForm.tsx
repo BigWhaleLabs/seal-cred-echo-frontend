@@ -35,7 +35,11 @@ export default function () {
 
   const { md } = useBreakpoints()
 
-  const hashtags = currentDomain ? `#${currentDomain}` : ''
+  const hashtags = currentDomain
+    ? `@ ${currentDomain.split('.').slice(0, -1).join('.')}\u2024${currentDomain
+        .split('.')
+        .pop()}`
+    : ''
   const maxLength = 280 - hashtags.length
 
   const isValidForm =
