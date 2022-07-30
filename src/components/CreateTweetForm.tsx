@@ -40,7 +40,7 @@ export default function () {
         .split('.')
         .pop()}`
     : ''
-  const maxLength = 280 - hashtags.length
+  const maxLength = 279 - hashtags.length
 
   const isValidForm =
     text.length <= maxLength && text.length > 0 && !!currentDomain
