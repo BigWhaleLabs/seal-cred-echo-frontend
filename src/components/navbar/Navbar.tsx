@@ -50,7 +50,7 @@ const logoBlock = classnames(
   flexDirection('flex-row'),
   alignItems('items-center')
 )
-const upperBlock = classnames(logoBlock, space('space-x-2'))
+const upperBlock = classnames(logoBlock, space('space-x-4'))
 const bottomBlock = classnames(logoBlock, space('md:space-x-0', 'space-x-2'))
 const displayOnBig = display('md:block', 'hidden')
 const displayOnSmall = display('block', 'md:hidden')
@@ -80,7 +80,7 @@ export default function () {
                 <LogoText textSecondary>|</LogoText>
               </div>
               <div className={displayOnBig}>
-                <LogoText textSecondary>work</LogoText>
+                <LogoText textSecondary>Echo</LogoText>
               </div>
             </div>
             <div className={bottomBlock}>
