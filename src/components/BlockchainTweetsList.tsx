@@ -13,17 +13,17 @@ import classnames, {
   padding,
   space,
 } from 'classnames/tailwind'
-import flasingTweet from 'helpers/flasingTweet'
+import flashingTweet from 'helpers/flashingTweet'
 import useScrollToAnchor from 'helpers/useScrollToAnchor'
 
-const blockhainTweetTagContainer = classnames(
+const blockchainTweetTagContainer = classnames(
   display('inline-flex'),
   backgroundColor('bg-primary-background'),
   padding('px-4', 'py-2'),
   borderRadius('rounded'),
   space('space-x-2')
 )
-function BlockhainTweetTag({
+function BlockchainTweetTag({
   address,
   onClick,
 }: {
@@ -31,7 +31,7 @@ function BlockhainTweetTag({
   onClick: () => void
 }) {
   return (
-    <span className={blockhainTweetTagContainer}>
+    <span className={blockchainTweetTagContainer}>
       <UnderlineTextButton>
         <ContractName clearType truncate address={address} />
       </UnderlineTextButton>
@@ -43,12 +43,12 @@ function BlockhainTweetTag({
 function BlockchainTweetsListSuspended() {
   const { blockchainTweets = [] } = useSnapshot(TwitterStore)
   const [selectedAddress, setAddress] = useState('')
-  useScrollToAnchor(0, true, flasingTweet)
+  useScrollToAnchor(0, true, flashingTweet)
 
   return (
     <>
       {selectedAddress && (
-        <BlockhainTweetTag
+        <BlockchainTweetTag
           address={selectedAddress}
           onClick={() => setAddress('')}
         />
