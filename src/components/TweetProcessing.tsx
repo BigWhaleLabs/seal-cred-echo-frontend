@@ -57,7 +57,7 @@ export default function ({
   const loading = tweet.status === TweetStatus.pending
   const redirectTo =
     tweet.status === TweetStatus.published
-      ? `https://twitter.com/SealCredWork/status/${tweet.statusId}`
+      ? `https://twitter.com/SealCredEcho/status/${tweet.statusId}`
       : `/previous-tweets/blockchain#blockchainTweetId=${tweet.tweetId}`
 
   return (
@@ -83,7 +83,7 @@ export default function ({
       <LinkText
         small
         url={redirectTo}
-        title={loading ? 'Tweets on blockchain' : '@SealCredWork Twitter'}
+        title={loading ? 'Tweets on blockchain' : '@SealCredEcho Twitter'}
         gradientFrom="from-secondary"
         gradientTo="to-accent"
       >
