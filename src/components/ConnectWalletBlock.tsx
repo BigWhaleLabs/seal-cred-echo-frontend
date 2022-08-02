@@ -38,7 +38,7 @@ export default function () {
         <AnonymousAvatar />
         <StaticHeaderText bold>Create your anonymous tweet</StaticHeaderText>
         <AccentText color="text-white" small>
-          We verify your email, you post with 100% anonymity
+          Tweet anonymously using your ZK badges.
         </AccentText>
       </div>
 

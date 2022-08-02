@@ -120,7 +120,7 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
                 {currentDomain}
               </TextareaText>
             ) : (
-              <TextareaText dark>Select work email</TextareaText>
+              <TextareaText dark>Select badge</TextareaText>
             )}
           </>
         ) : (
@@ -155,7 +155,7 @@ export default function ({ disabled }: { disabled?: boolean }) {
       fallback={
         <div className={wrapper(false)}>
           <button disabled className={opener}>
-            <TextareaText dark>Fetching emails...</TextareaText>
+            <TextareaText dark>Fetching badges...</TextareaText>
             <div className={width('w-5')}>
               <Spinner />
             </div>

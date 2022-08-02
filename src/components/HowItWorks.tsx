@@ -1,4 +1,5 @@
 import {
+  AccentText,
   CardParagraph,
   CardSubheader,
   HeaderText,
@@ -29,22 +30,31 @@ export default function () {
       <Card>
         <HeaderText>What is this?</HeaderText>
         <CardParagraph>
-          With SealCred’s ZK Badges for email, you can prove you work somewhere
+          With SealCred’s ZK Badges, you can prove you own an{' '}
+          <AccentText color="text-secondary">NFT</AccentText>,{' '}
+          <AccentText color="text-secondary">email</AccentText>, or{' '}
+          <AccentText color="text-secondary">
+            asset amount (coming soon)
+          </AccentText>{' '}
           without revealing your identity.
         </CardParagraph>
         <CardParagraph>
-          This means you can spill the tea about your place of employment on
-          Twitter without anyone (even us!) from knowing it’s you. All tweets
-          are posted to{' '}
+          This means you can speak as an NFT holder, spill the tea about your
+          place of employment, or just share your thoughts on Twitter without
+          anyone (even us!) from knowing it’s you. All tweets are posted to
+          <LinkText url="https://twitter.com/SelCredNFT">
+            @SelCredNFT
+          </LinkText>{' '}
+          for all NFT posts and{' '}
           <LinkText url="https://twitter.com/SealCredWork">
             @SealCredWork
-          </LinkText>
-          .
+          </LinkText>{' '}
+          for email posts.
         </CardParagraph>
         <CardParagraph>
-          <LinkText url="https://sealcred.xyz/email">
+          <LinkText url="https://sealcred.xyz/app">
             <Button small gradientFont withArrow>
-              Create a zkBadge using your work email
+              Create a zkBadge
             </Button>
           </LinkText>
         </CardParagraph>
@@ -54,7 +64,7 @@ export default function () {
         <HintCard>
           <OrderedList>
             <ListItem>
-              Mint your ZK Badge with your email (
+              Mint your ZK Badge (
               <LinkText url="https://sealcred.xyz/app">here</LinkText>
               ).
             </ListItem>
@@ -74,11 +84,7 @@ export default function () {
               be compliant with Twitter rules.
             </ListItem>
             <ListItem>
-              Your message will be posted here as well as tweeted on{' '}
-              <LinkText url="https://twitter.com/SealCredWork">
-                @SealCredWork
-              </LinkText>
-              .
+              Your message will be posted here as well as tweeted.
             </ListItem>
           </OrderedList>
         </HintCard>

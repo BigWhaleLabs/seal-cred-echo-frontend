@@ -53,7 +53,7 @@ export default function () {
         {status === 'error' ? (
           <TwitterError
             onRefresh={() => setStatus('loading')}
-            text="Couldn't load tweets. Try disabling content blockers?"
+            text="Couldn’t load Tweets. Try disabling content blockers or refresh the page to try again."
           />
         ) : (
           status === 'loading' && (

@@ -23,7 +23,7 @@ export default function () {
             <CardSubheader>Who are we?</CardSubheader>
             <CardParagraph>
               <LinkText url="https://sealcred.xyz">SealCred</LinkText>, a
-              privacy-preserving social protocol built with zero-knowlege (ZK)
+              privacy-preserving social protocol built with zero-knowledge (ZK)
               soul-bound NFTs, is built by{' '}
               <LinkText url="https://bigwhalelabs.com/">
                 Big Whale Labs
@@ -48,7 +48,7 @@ export default function () {
               ZK Badges are minted when you create ‘ZK Proof’ using an NFT,
               asset, or piece of your identity. This is all done using a mix of
               ZK proof, EdDSA, and the blockchain. That allows us to create
-              pseudonymous accounts on the blockcahin. We also wrote about what
+              pseudonymous accounts on the blockchain. We also wrote about what
               we’ve done so far on our blog{' '}
               <LinkText url="https://blog.bigwhalelabs.com">here</LinkText>.
             </CardParagraph>

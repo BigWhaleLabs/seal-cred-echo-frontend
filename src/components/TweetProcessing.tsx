@@ -66,16 +66,16 @@ export default function ({
       {loading && (
         <div className={margin('!mt-4')} style={{ maxWidth: '28rem' }}>
           <LoadingText>
-            It is currently posted to the raw data (
+            This may take a few minutes or up to 24 hours to post to Twitter.
+            However, you can always view{' '}
             <NavLink
               onClick={() => scrollToHashElement()}
               to={redirectTo}
               className={viewBlockchainLink}
             >
-              view it here
-            </NavLink>
-            ). But it may take as long as 24 hours before it posts to Twitter
-            due to moderation.
+              your Tweet
+            </NavLink>{' '}
+            here under ‘View all on Blockchain’.
           </LoadingText>
         </div>
       )}
