@@ -17,8 +17,10 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
 
   return (
     <SelectDropdown
-      disabled={disabled}
       border
+      disabled={disabled}
+      placeholder="Select badge"
+      emptyText="No ZK badge in this wallet"
       current={currentDomain || ''}
       options={ownedEmailDerivativeContracts.map(
         ({ derivativeContract, domain }) => ({

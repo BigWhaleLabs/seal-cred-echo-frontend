@@ -48,12 +48,15 @@ const sharedStyles = (border?: boolean) =>
     alignItems('items-center')
   )
 
-const wrapper = (hasOptions: boolean) =>
+const wrapper = (hasOptions: boolean, hasBorder?: boolean) =>
   classnames(
     position('relative'),
     fontFamily('font-primary'),
     zIndex('z-40'),
-    width('w-fit'),
+    width(
+      hasBorder ? 'w-full' : 'w-fit',
+      hasBorder ? 'tiny:w-full' : 'tiny:w-fit'
+    ),
     opacity({ 'opacity-70': !hasOptions })
   )
 const opener = (border?: boolean) =>
@@ -69,7 +72,10 @@ const menuWrapper = (open: boolean, parentWithBorder?: boolean) =>
   classnames(
     position('absolute'),
     inset(parentWithBorder ? 'top-14' : 'top-9'),
-    width(parentWithBorder ? 'tiny:w-full' : 'tiny:w-72', 'w-fit'),
+    width(
+      parentWithBorder ? 'tiny:w-full' : 'sm:w-72',
+      parentWithBorder ? 'w-fit' : 'w-44'
+    ),
     opacity(open ? 'opacity-100' : 'opacity-0'),
     visibility(open ? 'visible' : 'invisible'),
     transitionProperty('transition-opacity'),
@@ -101,17 +107,21 @@ export default function ({
   options,
   loading,
   disabled,
-  OptionElement,
+  emptyText,
+  placeholder,
   SelectedValue,
+  OptionElement,
   onChange,
 }: {
-  border?: boolean
   current: string
-  options: SelectOption[]
+  border?: boolean
   loading?: boolean
   disabled?: boolean
-  OptionElement?: (optionValue: SelectOption) => JSX.Element
+  emptyText?: string
+  placeholder?: string
+  options: SelectOption[]
   SelectedValue?: JSX.Element
+  OptionElement?: (optionValue: SelectOption) => JSX.Element
   onChange?: (selected: SelectOption) => void
 }) {
   const [dropDownOpen, setOpen] = useState(false)
@@ -122,7 +132,7 @@ export default function ({
   useClickOutside(ref, () => setOpen(false))
 
   return (
-    <div className={wrapper(hasOptions)} ref={ref}>
+    <div className={wrapper(hasOptions, border)} ref={ref}>
       <button
         onClick={() => setOpen(!dropDownOpen)}
         disabled={!hasOptions || isDisabled}
@@ -144,11 +154,11 @@ export default function ({
                 )}
               </>
             ) : (
-              <TextareaText dark>Select badge</TextareaText>
+              <TextareaText dark>{placeholder}</TextareaText>
             )}
           </>
         ) : (
-          <TextareaText dark>No ZK badge in this wallet</TextareaText>
+          <TextareaText dark>{emptyText || 'Nothing to select'}</TextareaText>
         )}
 
         <div className={width('w-5')}>
