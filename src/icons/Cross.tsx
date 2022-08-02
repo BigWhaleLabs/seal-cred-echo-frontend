@@ -6,7 +6,7 @@ import classnames, {
   width,
 } from 'classnames/tailwind'
 
-const strokeStle = classnames(
+const strokeStyle = classnames(
   strokeWidth('stroke-2'),
   stroke('stroke-formal-accent')
 )
@@ -18,7 +18,7 @@ export default function (props: HTMLAttributes<HTMLSpanElement>) {
     <span className={svgWrapper} {...props}>
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line
-          className={strokeStle}
+          className={strokeStyle}
           x1="5.41"
           y1="5"
           x2="19"
@@ -30,7 +30,7 @@ export default function (props: HTMLAttributes<HTMLSpanElement>) {
           y1="18.64"
           x2="18.59"
           y2="5"
-          className={strokeStle}
+          className={strokeStyle}
           stroke-linecap="round"
         />
       </svg>
