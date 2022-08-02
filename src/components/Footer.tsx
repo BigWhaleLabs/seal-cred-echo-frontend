@@ -38,9 +38,13 @@ export default function () {
       </FooterlLink>
 
       <Delimiter primary showOn="md" />
-      <FooterlLink url="/terms">Terms of service</FooterlLink>
+      <FooterlLink internal url="/terms">
+        Terms of service
+      </FooterlLink>
       <Delimiter primary showOn="md" />
-      <FooterlLink url="/privacy">Privacy policy</FooterlLink>
+      <FooterlLink internal url="/privacy">
+        Privacy policy
+      </FooterlLink>
       {!md && (
         <>
           <Delimiter primary showOn="md" />

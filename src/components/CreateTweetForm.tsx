@@ -1,8 +1,9 @@
-import { HeaderText } from 'components/Text'
+import { BodyText, HeaderText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import { useState } from 'preact/hooks'
 import Button from 'components/Button'
 import DropDown from 'components/DropDown'
+import HasNoBadges from 'components/HasNoBadges'
 import TextArea from 'components/TextArea'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
@@ -44,6 +45,7 @@ export default function () {
   return (
     <div className={space('space-y-6')}>
       <HeaderText>Create your anonymous tweet</HeaderText>
+      <HasNoBadges />
       <div className={space('space-y-4')}>
         <TextArea
           text={text}
@@ -54,29 +56,32 @@ export default function () {
           disabled={status.loading}
           error={status.error?.message}
         />
-        <div className={bottomContainer}>
-          <div className={dropdownWrapper}>
-            <DropDown disabled={status.loading} />
+        <div className={space('space-y-2')}>
+          <BodyText>Choose a ZK Badge</BodyText>
+          <div className={bottomContainer}>
+            <div className={dropdownWrapper}>
+              <DropDown disabled={status.loading} />
+            </div>
+            <Button
+              type="primary"
+              loading={status.loading}
+              disabled={!isValidForm}
+              title="Tweet"
+              onClick={async () => {
+                if (isValidForm) {
+                  await TwitterStore.createTweet({
+                    tweet: text,
+                    domain: currentDomain,
+                  })
+                  onTweetChange('')
+                }
+              }}
+              fullWidth={!md}
+              center
+            >
+              Tweet
+            </Button>
           </div>
-          <Button
-            type="primary"
-            loading={status.loading}
-            disabled={!isValidForm}
-            title="Tweet"
-            onClick={async () => {
-              if (isValidForm) {
-                await TwitterStore.createTweet({
-                  tweet: text,
-                  domain: currentDomain,
-                })
-                onTweetChange('')
-              }
-            }}
-            fullWidth={!md}
-            center
-          >
-            Tweet
-          </Button>
         </div>
       </div>
     </div>

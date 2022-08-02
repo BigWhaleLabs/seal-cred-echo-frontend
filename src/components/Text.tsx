@@ -1,4 +1,5 @@
 import { HTMLAttributes } from 'preact/compat'
+import { Link } from 'react-router-dom'
 import {
   TDropShadow,
   TGradientColorStops,
@@ -124,8 +125,16 @@ const footerLink = classnames(
   textDecoration('no-underline', 'hover:underline'),
   textColor('text-formal-accent', 'hover:text-accent')
 )
-export function FooterlLink({ url, children }: ChildrenProp & { url: string }) {
-  return (
+export function FooterlLink({
+  url,
+  children,
+  internal,
+}: ChildrenProp & { url: string; internal?: boolean }) {
+  return internal ? (
+    <Link to={url} className={footerLink}>
+      {children}
+    </Link>
+  ) : (
     <a
       className={footerLink}
       href={url}
