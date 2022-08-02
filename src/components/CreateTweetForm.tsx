@@ -1,4 +1,4 @@
-import { HeaderText } from 'components/Text'
+import { BodyText, HeaderText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import { useState } from 'preact/hooks'
 import Button from 'components/Button'
@@ -54,29 +54,32 @@ export default function () {
           disabled={status.loading}
           error={status.error?.message}
         />
-        <div className={bottomContainer}>
-          <div className={dropdownWrapper}>
-            <DropDown disabled={status.loading} />
+        <div className={space('space-y-2')}>
+          <BodyText>Choose a ZK Badge</BodyText>
+          <div className={bottomContainer}>
+            <div className={dropdownWrapper}>
+              <DropDown disabled={status.loading} />
+            </div>
+            <Button
+              type="primary"
+              loading={status.loading}
+              disabled={!isValidForm}
+              title="Tweet"
+              onClick={async () => {
+                if (isValidForm) {
+                  await TwitterStore.createTweet({
+                    tweet: text,
+                    domain: currentDomain,
+                  })
+                  onTweetChange('')
+                }
+              }}
+              fullWidth={!md}
+              center
+            >
+              Tweet
+            </Button>
           </div>
-          <Button
-            type="primary"
-            loading={status.loading}
-            disabled={!isValidForm}
-            title="Tweet"
-            onClick={async () => {
-              if (isValidForm) {
-                await TwitterStore.createTweet({
-                  tweet: text,
-                  domain: currentDomain,
-                })
-                onTweetChange('')
-              }
-            }}
-            fullWidth={!md}
-            center
-          >
-            Tweet
-          </Button>
         </div>
       </div>
     </div>
