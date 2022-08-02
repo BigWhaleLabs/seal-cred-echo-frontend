@@ -4,8 +4,8 @@ export interface SelectOption {
 }
 
 const twitterAccounts: SelectOption[] = [
-  { label: '@SealCredWork', value: 'SealCredWork' },
-  { label: '@SealCred', value: 'SealCred' },
+  { label: '@SealCredEcho', value: 'SealCredEcho' },
+  { label: '@SealCredNFT', value: 'SealCredNFT' },
 ]
 
 export default twitterAccounts

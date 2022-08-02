@@ -91,7 +91,7 @@ const postingAs = classnames(
 const menuItem = (current?: boolean) =>
   classnames(
     padding('p-2'),
-    cursor(current ? 'cursor-default' : 'cursor-pointer'),
+    cursor({ 'cursor-pointer': !current }),
     borderRadius('rounded-md'),
     wordBreak('break-all'),
     textColor({ 'text-formal-accent-semi-transparent': current }),

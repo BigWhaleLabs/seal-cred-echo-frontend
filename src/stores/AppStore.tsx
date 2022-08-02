@@ -3,7 +3,7 @@ import PersistableStore from 'stores/persistence/PersistableStore'
 
 class AppStore extends PersistableStore {
   adultAccepted = false
-  currentTwitterAccount = 'SealCredWork'
+  currentTwitterAccount = 'SealCredEcho'
 }
 
 export default proxy(new AppStore()).makePersistent()
