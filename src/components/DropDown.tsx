@@ -13,7 +13,7 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
     ({ derivativeContract }) => contractsOwned.includes(derivativeContract)
   )
 
-  const { currentDomain } = useSnapshot(TwitterStore)
+  const { currentDomain = '' } = useSnapshot(TwitterStore)
 
   return (
     <SelectDropdown
@@ -21,7 +21,7 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
       disabled={disabled}
       placeholder="Select badge"
       emptyText="No ZK badge in this wallet"
-      current={currentDomain || ''}
+      current={currentDomain}
       options={ownedEmailDerivativeContracts.map(
         ({ derivativeContract, domain }) => ({
           label: domain,
@@ -36,9 +36,7 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
 
 export default function ({ disabled }: { disabled?: boolean }) {
   return (
-    <Suspense
-      fallback={<SelectDropdown border loading current="" options={[]} />}
-    >
+    <Suspense fallback={<SelectDropdown border loading current="" />}>
       <DropDown disabled={disabled} />
     </Suspense>
   )

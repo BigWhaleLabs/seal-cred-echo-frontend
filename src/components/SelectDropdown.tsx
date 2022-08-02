@@ -34,7 +34,7 @@ import useClickOutside from 'hooks/useClickOutside'
 const sharedStyles = (border?: boolean) =>
   classnames(
     borderRadius('rounded-lg'),
-    borderWidth({ border: border }),
+    borderWidth({ border }),
     borderColor('border-formal-accent-dimmed', 'focus:border-formal-accent'),
     outlineColor({ 'focus:outline-primary': border }),
     outlineStyle({ 'focus:outline': border }),
@@ -54,8 +54,9 @@ const wrapper = (hasOptions: boolean, hasBorder?: boolean) =>
     fontFamily('font-primary'),
     zIndex('z-40'),
     width(
-      hasBorder ? 'w-full' : 'w-fit',
-      hasBorder ? 'tiny:w-full' : 'tiny:w-fit'
+      hasBorder
+        ? { 'w-full': true, 'tiny:w-full': true }
+        : { 'w-fit': true, 'tiny:w-fit': true }
     ),
     opacity({ 'opacity-70': !hasOptions })
   )
@@ -76,8 +77,8 @@ const menuWrapper = (open: boolean, parentWithBorder?: boolean) =>
       parentWithBorder ? 'tiny:w-full' : 'sm:w-72',
       parentWithBorder ? 'w-fit' : 'w-44'
     ),
-    opacity(open ? 'opacity-100' : 'opacity-0'),
-    visibility(open ? 'visible' : 'invisible'),
+    opacity({ 'opacity-0': !open }),
+    visibility({ invisible: !open }),
     transitionProperty('transition-opacity'),
     space('space-y-1'),
     sharedStyles(true)
@@ -92,14 +93,35 @@ const menuItem = (current?: boolean) =>
     cursor(current ? 'cursor-default' : 'cursor-pointer'),
     borderRadius('rounded-md'),
     wordBreak('break-all'),
-    textColor(
-      current ? 'text-formal-accent-semi-transparent' : 'text-formal-accent'
-    ),
+    textColor({ 'text-formal-accent-semi-transparent': current }),
     backgroundColor({
       'hover:bg-primary-background': !current,
       'active:bg-primary-dimmed': !current,
     })
   )
+
+const SelectedValueComponent = ({
+  isDisabled,
+  placeholder,
+  currentValue,
+  userComponent,
+}: {
+  isDisabled: boolean
+  placeholder: string
+  currentValue: string
+  userComponent?: JSX.Element
+}) => {
+  return currentValue ? (
+    userComponent || (
+      <TextareaText dark={isDisabled}>
+        <span className={postingAs}>Posting as: </span>
+        {currentValue}
+      </TextareaText>
+    )
+  ) : (
+    <TextareaText dark>{placeholder}</TextareaText>
+  )
+}
 
 export default function ({
   border,
@@ -107,8 +129,8 @@ export default function ({
   options,
   loading,
   disabled,
-  emptyText,
-  placeholder,
+  emptyText = 'Nothing to select',
+  placeholder = 'Select option',
   SelectedValue,
   OptionElement,
   onChange,
@@ -119,14 +141,14 @@ export default function ({
   disabled?: boolean
   emptyText?: string
   placeholder?: string
-  options: SelectOption[]
+  options?: SelectOption[]
   SelectedValue?: JSX.Element
   OptionElement?: (optionValue: SelectOption) => JSX.Element
   onChange?: (selected: SelectOption) => void
 }) {
   const [dropDownOpen, setOpen] = useState(false)
-  const hasOptions = !!options.length
-  const isDisabled = disabled || loading
+  const hasOptions = !!options && !!options.length
+  const unavailable = !!disabled || !!loading
 
   const ref = useRef() as MutableRef<HTMLDivElement>
   useClickOutside(ref, () => setOpen(false))
@@ -135,51 +157,41 @@ export default function ({
     <div className={wrapper(hasOptions, border)} ref={ref}>
       <button
         onClick={() => setOpen(!dropDownOpen)}
-        disabled={!hasOptions || isDisabled}
+        disabled={!hasOptions || unavailable}
         className={opener(border)}
       >
         {loading ? (
           <TextareaText dark>Fetching badges...</TextareaText>
         ) : hasOptions ? (
-          <>
-            {current ? (
-              <>
-                {SelectedValue ? (
-                  SelectedValue
-                ) : (
-                  <TextareaText dark={isDisabled}>
-                    <span className={postingAs}>Posting as: </span>
-                    {current}
-                  </TextareaText>
-                )}
-              </>
-            ) : (
-              <TextareaText dark>{placeholder}</TextareaText>
-            )}
-          </>
+          <SelectedValueComponent
+            currentValue={current}
+            placeholder={placeholder}
+            userComponent={SelectedValue}
+            isDisabled={unavailable}
+          />
         ) : (
-          <TextareaText dark>{emptyText || 'Nothing to select'}</TextareaText>
+          <TextareaText dark>{emptyText}</TextareaText>
         )}
-
         <div className={width('w-5')}>
           {loading ? <Spinner /> : <Arrow pulseDisabled open={dropDownOpen} />}
         </div>
       </button>
 
       <div className={menuWrapper(dropDownOpen, border)}>
-        {options.map(({ label, value }) => (
-          <p
-            className={menuItem(label === current || value === current)}
-            onClick={() => {
-              if (value === current) return
-              if (onChange) onChange({ label, value })
+        {options &&
+          options.map(({ label, value }) => (
+            <p
+              className={menuItem(label === current || value === current)}
+              onClick={() => {
+                if (value === current) return
+                if (onChange) onChange({ label, value })
 
-              setOpen(false)
-            }}
-          >
-            {OptionElement ? OptionElement({ label, value }) : label || value}
-          </p>
-        ))}
+                setOpen(false)
+              }}
+            >
+              {OptionElement ? OptionElement({ label, value }) : label || value}
+            </p>
+          ))}
       </div>
     </div>
   )
