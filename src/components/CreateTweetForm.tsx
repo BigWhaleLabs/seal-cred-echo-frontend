@@ -3,6 +3,7 @@ import { useSnapshot } from 'valtio'
 import { useState } from 'preact/hooks'
 import Button from 'components/Button'
 import DropDown from 'components/DropDown'
+import HasNoBadges from 'components/HasNoBadges'
 import TextArea from 'components/TextArea'
 import TwitterStore from 'stores/TwitterStore'
 import classnames, {
@@ -44,6 +45,7 @@ export default function () {
   return (
     <div className={space('space-y-6')}>
       <HeaderText>Create your anonymous tweet</HeaderText>
+      <HasNoBadges />
       <div className={space('space-y-4')}>
         <TextArea
           text={text}
