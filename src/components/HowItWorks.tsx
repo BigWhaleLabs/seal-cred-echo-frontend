@@ -46,8 +46,8 @@ export default function () {
             @SelCredNFT
           </LinkText>{' '}
           for all NFT posts and{' '}
-          <LinkText url="https://twitter.com/SealCredWork">
-            @SealCredWork
+          <LinkText url="https://twitter.com/SealCredEcho">
+            @SealCredEcho
           </LinkText>{' '}
           for email posts.
         </CardParagraph>

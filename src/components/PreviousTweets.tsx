@@ -1,5 +1,7 @@
 import { Timeline } from 'react-twitter-widgets'
 import { useEffect, useRef, useState } from 'preact/hooks'
+import { useSnapshot } from 'valtio'
+import AppStore from 'stores/AppStore'
 import PreviousTweetsLayout from 'components/PrevTweetsLayout'
 import TwitterError from 'components/TwitterError'
 import TwitterLoading from 'components/TwitterLoading'
@@ -37,6 +39,7 @@ export default function () {
   const [status, setStatus] = useState<'content' | 'error' | 'loading'>(
     'loading'
   )
+  const { currentTwitterAccount } = useSnapshot(AppStore)
 
   const ref = useRef<HTMLDivElement>(null)
 
@@ -46,6 +49,10 @@ export default function () {
       if (frame) prepareFrame(frame)
     }
   }, [ref, status])
+
+  useEffect(() => {
+    setStatus('loading')
+  }, [currentTwitterAccount])
 
   return (
     <PreviousTweetsLayout>
@@ -66,7 +73,10 @@ export default function () {
           className={tweetWidget(status !== 'content')}
         >
           <Timeline
-            dataSource={{ sourceType: 'profile', screenName: 'SealCredWork' }}
+            dataSource={{
+              sourceType: 'profile',
+              screenName: currentTwitterAccount,
+            }}
             options={{
               theme: 'dark',
               linkColor: '#15A1FC',
