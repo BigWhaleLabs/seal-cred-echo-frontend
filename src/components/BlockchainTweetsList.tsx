@@ -41,7 +41,7 @@ function BlockchainTweetTag({
 }
 
 function BlockchainTweetsListSuspended() {
-  const { blockchainTweets = [] } = useSnapshot(TwitterStore)
+  const { blockchainPosts = [] } = useSnapshot(TwitterStore)
   const [selectedAddress, setAddress] = useState('')
   useScrollToAnchor(0, true, flashingTweet)
 
@@ -53,7 +53,7 @@ function BlockchainTweetsListSuspended() {
           onClick={() => setAddress('')}
         />
       )}
-      {blockchainTweets
+      {blockchainPosts
         .filter(
           ({ derivativeAddress }) =>
             !selectedAddress || selectedAddress === derivativeAddress

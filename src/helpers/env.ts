@@ -13,6 +13,6 @@ export default cleanEnv(import.meta.env, {
   VITE_SC_EMAIL_LEDGER_CONTRACT_ADDRESS: str({
     default: SC_EMAIL_LEDGER_CONTRACT_ADDRESS,
   }),
-  VITE_SC_TWITTER_LEDGER_CONTRACT_ADDRESS: str(),
+  VITE_SC_ERC721_POSTS_CONTRACT: str(),
   VITE_TWITTER_POSTER_URL: str(),
 })

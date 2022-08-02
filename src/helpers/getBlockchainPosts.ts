@@ -1,10 +1,10 @@
 import SCTwitterLedgerContract from 'helpers/SCTwitterLedgerContract'
 
 export default async function () {
-  return (await SCTwitterLedgerContract.getAllTweets())
-    .map(({ id, tweet, derivativeAddress, sender, timestamp }) => ({
+  return (await SCTwitterLedgerContract.getAllPosts())
+    .map(({ id, post, derivativeAddress, sender, timestamp }) => ({
       id: id.toNumber(),
-      tweet,
+      post,
       derivativeAddress,
       sender,
       timestamp: timestamp.toNumber(),

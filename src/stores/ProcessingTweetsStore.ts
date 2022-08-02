@@ -12,7 +12,7 @@ class ProcessingTweetsStore {
 
   async fetchProcessingTweets() {
     if (WalletStore.account) {
-      const tweetsInBlockchain = await TwitterStore.blockchainTweets
+      const tweetsInBlockchain = await TwitterStore.blockchainPosts
       const records = tweetsInBlockchain
         .filter(
           (record) =>
@@ -33,7 +33,7 @@ class ProcessingTweetsStore {
     if (result) {
       const tweetsStatuses = {} as TweetIdAndStatus
       for (const tweet of result) {
-        tweetsStatuses[tweet.tweetId] = tweet
+        tweetsStatuses[tweet.id] = tweet
       }
       TweetStatusStore.tweetsStatuses = {
         ...TweetStatusStore.tweetsStatuses,

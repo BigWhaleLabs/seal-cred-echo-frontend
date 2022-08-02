@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers'
-import { parseTweetSavedLogData } from 'helpers/createTweet'
+import { parseTweetSavedLogData } from 'helpers/createPost'
 import { proxy } from 'valtio'
 import { subscribeKey } from 'valtio/utils'
 import ProcessingTweetsStore from 'stores/ProcessingTweetsStore'
@@ -7,13 +7,13 @@ import SCTwitterLedgerContract from 'helpers/SCTwitterLedgerContract'
 import TweetStatus from 'models/TweetStatus'
 import TweetStatusStore from 'stores/TweetStatusStore'
 import WalletStore from 'stores/WalletStore'
-import getBlockchainTweets from 'helpers/getBlockchainTweets'
+import getBlockchainPosts from 'helpers/getBlockchainPosts'
 import getTwitterLedgerRecord from 'helpers/getTwitterLedgerRecord'
 import handleError from 'helpers/handleError'
 
 interface BlockchainTweet {
   id: number
-  tweet: string
+  post: string
   derivativeAddress: string
   sender: string
   timestamp: number
@@ -34,7 +34,7 @@ interface TwitterStoreInterface {
     tweet: string
     domain: string
   }) => Promise<void>
-  blockchainTweets: Promise<BlockchainTweet[]>
+  blockchainPosts: Promise<BlockchainTweet[]>
 }
 
 const TwitterStore = proxy<TwitterStoreInterface>({
@@ -46,7 +46,7 @@ const TwitterStore = proxy<TwitterStoreInterface>({
     }
     TwitterStore.status.loading = true
     try {
-      const transaction = await WalletStore.saveTweet({
+      const transaction = await WalletStore.savePost({
         tweet,
         domain,
       })
@@ -73,45 +73,39 @@ const TwitterStore = proxy<TwitterStoreInterface>({
       TwitterStore.status.loading = false
     }
   },
-  blockchainTweets: getBlockchainTweets(),
+  blockchainPosts: getBlockchainPosts(),
 })
 
 async function addTwitterLedgerRecord(
-  tweetId: number,
-  tweet: string,
+  id: number,
+  post: string,
   derivativeAddress: string,
   sender: string,
   timestamp: BigNumber
 ) {
-  const ledger = await TwitterStore.blockchainTweets
-  if (!ledger.find(({ id: ledgerTweetId }) => ledgerTweetId === tweetId)) {
-    TwitterStore.blockchainTweets = Promise.resolve([
-      getTwitterLedgerRecord(
-        tweetId,
-        tweet,
-        derivativeAddress,
-        sender,
-        timestamp
-      ),
+  const ledger = await TwitterStore.blockchainPosts
+  if (!ledger.find(({ id: ledgerTweetId }) => ledgerTweetId === id)) {
+    TwitterStore.blockchainPosts = Promise.resolve([
+      getTwitterLedgerRecord(id, post, derivativeAddress, sender, timestamp),
       ...ledger,
     ])
     const processingTweetIds = ProcessingTweetsStore.processingTweetIds[sender]
 
-    if (TweetStatusStore.tweetsStatuses[tweetId])
-      TweetStatusStore.tweetsStatuses[tweetId] = {
-        tweetId,
+    if (TweetStatusStore.tweetsStatuses[id])
+      TweetStatusStore.tweetsStatuses[id] = {
+        id,
         status: TweetStatus.pending,
       }
 
     if (processingTweetIds) {
       ProcessingTweetsStore.processingTweetIds[sender] = [
-        tweetId,
+        id,
         ...processingTweetIds,
       ]
       return
     }
 
-    ProcessingTweetsStore.processingTweetIds[sender] = [tweetId]
+    ProcessingTweetsStore.processingTweetIds[sender] = [id]
   }
 }
 
@@ -120,7 +114,7 @@ subscribeKey(WalletStore, 'account', () => {
 })
 
 SCTwitterLedgerContract.on(
-  SCTwitterLedgerContract.filters.TweetSaved(),
+  SCTwitterLedgerContract.filters.PostSaved(),
   async (id, tweet, derivativeAddress, sender, timestamp) => {
     console.info('TweetSaved event', id.toNumber(), tweet, derivativeAddress)
     const tweetId = id.toNumber()

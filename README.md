@@ -16,6 +16,7 @@
 | `VITE_ETH_RPC`                            | Ethereum node RPC URI (defaults to @bwl/constants)                       |
 | `VITE_SC_EMAIL_LEDGER_CONTRACT_ADDRESS`   | SealCred Email Ledger contract address (defaults to @bwl/constants)      |
 | `VITE_SC_TWITTER_LEDGER_CONTRACT_ADDRESS` | SealCred Twitter Ledger contract address                                 |
+| `VITE_SC_ERC721_POSTS_CONTRACT`           | SealCred ERC721-Posts ledger contract                                    |
 | `VITE_TWITTER_POSTER_URL`                 | Url to Twitter Poster                                                    |
 
 Also, please, consider looking at `.env.sample`.
