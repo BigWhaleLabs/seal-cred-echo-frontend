@@ -74,8 +74,9 @@ const menuWrapper = (open: boolean, parentWithBorder?: boolean) =>
     position('absolute'),
     inset(parentWithBorder ? 'top-14' : 'top-9'),
     width(
-      parentWithBorder ? 'tiny:w-full' : 'sm:w-72',
-      parentWithBorder ? 'w-fit' : 'w-44'
+      parentWithBorder
+        ? { 'tiny:w-full': true, 'w-fit': true }
+        : { 'sm:w-72': true, 'w-44': true }
     ),
     opacity({ 'opacity-0': !open }),
     visibility({ invisible: !open }),
