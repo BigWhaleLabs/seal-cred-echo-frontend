@@ -1,7 +1,10 @@
 import { Web3Provider } from '@ethersproject/providers'
+import { hexValue } from 'ethers/lib/utils'
 import { proxy } from 'valtio'
+import { serializeError } from 'eth-rpc-errors'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import TweetStructure from 'models/TweetStructure'
+import chainForWallet from 'helpers/chainForWalllet'
 import createTweet from 'helpers/createTweet'
 import env from 'helpers/env'
 import handleError, { ErrorList } from 'helpers/handleError'
@@ -12,6 +15,7 @@ let provider: Web3Provider
 class WalletStore extends PersistableStore {
   account?: string
   walletLoading = false
+  needNetworkChange = false
   walletsToNotifiedOfBeingDoxxed = {} as {
     [address: string]: boolean
   }
@@ -32,11 +36,14 @@ class WalletStore extends PersistableStore {
 
       const instance = await web3Modal.connect()
       provider = new Web3Provider(instance)
+
       const userNetwork = (await provider.getNetwork()).name
-      if (userNetwork !== env.VITE_ETH_NETWORK && env.VITE_ETH_NETWORK)
+      await this.checkNetwork(provider, userNetwork)
+      if (this.needNetworkChange)
         throw new Error(
           ErrorList.wrongNetwork(userNetwork, env.VITE_ETH_NETWORK)
         )
+
       this.account = (await provider.listAccounts())[0]
       this.subscribeProvider(instance)
     } catch (error) {
@@ -46,6 +53,29 @@ class WalletStore extends PersistableStore {
       }
     } finally {
       this.walletLoading = false
+    }
+  }
+
+  private async checkNetwork(provider: Web3Provider, userNetwork: string) {
+    const network = env.VITE_ETH_NETWORK
+    if (userNetwork === network) return (this.needNetworkChange = false)
+
+    this.needNetworkChange = true
+    await this.requestChangeNetwork(provider)
+  }
+
+  private async requestChangeNetwork(provider: Web3Provider) {
+    const chainId = hexValue(env.VITE_CHAIN_ID)
+
+    try {
+      await provider.send('wallet_switchEthereumChain', [{ chainId }])
+      this.needNetworkChange = false
+    } catch (error) {
+      const code = serializeError(error).code
+      if (code !== 4902) return
+
+      await provider.send('wallet_addEthereumChain', [chainForWallet()])
+      this.needNetworkChange = false
     }
   }
 
