@@ -8,6 +8,6 @@ export default await RelayProvider.newProvider({
     new Eip1193Bridge(defaultProvider.getSigner(), defaultProvider)
   ),
   config: {
-    paymasterAddress: '0x16666013bAa8B242437ADD7f846897B3B2AF713D',
+    paymasterAddress: '0xD6bB542f9240ecbACE7CC1a91A4E7C9D302837Cb',
   },
 }).init()
