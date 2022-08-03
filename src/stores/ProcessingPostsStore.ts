@@ -12,10 +12,8 @@ class ProcessingPostsStore {
 
   async fetchProcessingPosts() {
     if (WalletStore.account) {
-      const blockchainERC721Posts = await PostStore.blockchainERC721Posts
-      const blockchainEmailPosts = await PostStore.blockchainEmailPosts
-      const posts = [...blockchainERC721Posts, ...blockchainEmailPosts]
-      const records = posts
+      const blockchainPosts = await PostStore.blockchainPosts
+      const records = blockchainPosts
         .filter(
           (record) =>
             record.sender === WalletStore.account &&
