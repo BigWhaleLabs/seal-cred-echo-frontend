@@ -1,4 +1,4 @@
-import { PostERC721Structure, PostEmailStructure } from 'models/PostStructure'
+import { PostERC721Structure, PostEmailStructure } from 'models/TweetStructure'
 import { Web3Provider } from '@ethersproject/providers'
 import { createERC721Post, createEmailPost } from 'helpers/createPost'
 import { proxy } from 'valtio'

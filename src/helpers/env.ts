@@ -20,4 +20,5 @@ export default cleanEnv(import.meta.env, {
   VITE_SC_ERC721_POSTS_CONTRACT: str(),
   VITE_SC_EMAIL_POSTS_CONTRACT: str(),
   VITE_TWITTER_POSTER_URL: str(),
+  VITE_PAYMASTER_CONTRACT: str(),
 })

@@ -18,6 +18,7 @@
 | `VITE_EXTERNAL_SC_ERC721_LEDGER_CONTRACT_ADDRESS` | External SealCred ERC721 Ledger contract address (defaults to @bwl/constants) |
 | `VITE_SC_ERC721_POSTS_CONTRACT`                   | SealCred ERC721-Posts ledger contract                                         |
 | `VITE_SC_EMAIL_POSTS_CONTRACT`                    | SealCred Email-Posts ledger contract                                          |
+| `VITE_PAYMASTER_CONTRACT`                         | Paymaster contract                                                            |
 | `VITE_TWITTER_POSTER_URL`                         | Url to Twitter Poster                                                         |
 
 Also, please, consider looking at `.env.sample`.
