@@ -6,13 +6,16 @@ import SealCredStore from 'stores/SealCredStore'
 import useContractsOwned from 'hooks/useContractsOwned'
 
 function HasNoBadgesSuspended() {
-  const { emailLedger } = useSnapshot(SealCredStore)
+  const { emailLedger, externalERC721Ledger } = useSnapshot(SealCredStore)
   const contractsOwned = useContractsOwned()
-  const ownedEmailDerivativeContracts = Object.values(emailLedger).filter(
-    ({ derivativeContract }) => contractsOwned.includes(derivativeContract)
+  const ownedDerivativeContracts = [
+    ...Object.values(emailLedger),
+    ...Object.values(externalERC721Ledger),
+  ].filter(({ derivativeContract }) =>
+    contractsOwned.includes(derivativeContract)
   )
 
-  if (ownedEmailDerivativeContracts.length) return null
+  if (ownedDerivativeContracts.length) return null
 
   return (
     <Button type="primary" title="Create a ZK Badge to Tweet">
