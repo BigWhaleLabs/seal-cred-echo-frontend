@@ -14,6 +14,7 @@ export default defineConfig({
       http: 'rollup-plugin-node-polyfills/polyfills/http',
       https: 'rollup-plugin-node-polyfills/polyfills/http',
       stream: 'rollup-plugin-node-polyfills/polyfills/stream',
+      util: 'rollup-plugin-node-polyfills/polyfills/util',
     },
   },
   server: { https: false },
