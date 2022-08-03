@@ -438,7 +438,7 @@ export function SuffixText({ children }: ChildrenProp) {
 const contractButtonContainer = (clickable?: boolean) =>
   classnames(
     fontSize('text-xs'),
-    textDecoration('underline'),
+    textDecoration('hover:underline'),
     textColor('text-primary'),
     cursor({ 'cursor-pointer': clickable })
   )
