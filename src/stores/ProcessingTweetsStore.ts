@@ -13,13 +13,17 @@ class ProcessingTweetsStore {
   async fetchProcessingTweets() {
     if (WalletStore.account) {
       const tweetsInBlockchain = await TwitterStore.blockchainTweets
-      const records = tweetsInBlockchain
-        .filter(
-          (record) =>
-            record.sender === WalletStore.account &&
-            TweetStatusStore.getTweetStatus(record.id) === TweetStatus.pending
-        )
-        .map((record) => record.id)
+      const records =
+        (tweetsInBlockchain &&
+          tweetsInBlockchain
+            .filter(
+              (record) =>
+                record.sender === WalletStore.account &&
+                TweetStatusStore.getTweetStatus(record.id) ===
+                  TweetStatus.pending
+            )
+            .map((record) => record.id)) ||
+        []
       this.processingTweetIds[WalletStore.account] = records
     }
   }
