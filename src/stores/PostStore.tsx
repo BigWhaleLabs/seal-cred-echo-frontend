@@ -8,9 +8,11 @@ import PostModel from 'models/PostModel'
 import PostStatus from 'models/PostStatus'
 import PostStatusStore from 'stores/PostStatusStore'
 import ProcessingPostsStore from 'stores/ProcessingPostsStore'
-import SCPostStorageContract from 'helpers/contracts/SCPostStorageContract'
+import SCEmailPostStorageContract from 'helpers/contracts/SCEmailPostStorageContract'
+import SCExternalERC721PostStorageContract from 'helpers/contracts/SCExternalERC721PostStorageContract'
 import WalletStore from 'stores/WalletStore'
-import getBlockchainPosts from 'helpers/getBlockchainPosts'
+import getBlockchainEmailPosts from 'helpers/getBlockchainEmailPosts'
+import getBlockchainExternalERC721Posts from 'helpers/getBlockchainExternalERC721Posts'
 import getPostRecord from 'helpers/contracts/getPostRecord'
 import handleError from 'helpers/handleError'
 
@@ -36,7 +38,8 @@ interface PostStoreInterface {
     post: string
     originalContract: string
   }) => Promise<void>
-  blockchainPosts: Promise<PostModel[]>
+  blockchainEmailPosts: Promise<PostModel[]>
+  blockchainExternalERC721Posts: Promise<PostModel[]>
 }
 
 const PostStore = proxy<PostStoreInterface>({
@@ -120,10 +123,11 @@ const PostStore = proxy<PostStoreInterface>({
       PostStore.status.loading = false
     }
   },
-  blockchainPosts: getBlockchainPosts(),
+  blockchainEmailPosts: getBlockchainEmailPosts(),
+  blockchainExternalERC721Posts: getBlockchainExternalERC721Posts(),
 })
 
-async function addPost(
+async function addEmailPost(
   id: number,
   post: string,
   derivativeAddress: string,
@@ -131,9 +135,43 @@ async function addPost(
   timestamp: BigNumber
 ) {
   console.log('add', { id, post, derivativeAddress, sender, timestamp })
-  const storage = await PostStore.blockchainPosts
+  const storage = await PostStore.blockchainEmailPosts
   if (!storage.find(({ id: postId }) => postId === id)) {
-    PostStore.blockchainPosts = Promise.resolve([
+    PostStore.blockchainEmailPosts = Promise.resolve([
+      getPostRecord(id, post, derivativeAddress, sender, timestamp),
+      ...storage,
+    ])
+    const processingPostIds = ProcessingPostsStore.processingPostIds[sender]
+
+    if (PostStatusStore.postsStatuses[id])
+      PostStatusStore.postsStatuses[id] = {
+        tweetId: id,
+        status: PostStatus.pending,
+      }
+
+    if (processingPostIds) {
+      ProcessingPostsStore.processingPostIds[sender] = [
+        id,
+        ...processingPostIds,
+      ]
+      return
+    }
+
+    ProcessingPostsStore.processingPostIds[sender] = [id]
+  }
+}
+
+async function addExternalERC721Post(
+  id: number,
+  post: string,
+  derivativeAddress: string,
+  sender: string,
+  timestamp: BigNumber
+) {
+  console.log('add', { id, post, derivativeAddress, sender, timestamp })
+  const storage = await PostStore.blockchainExternalERC721Posts
+  if (!storage.find(({ id: postId }) => postId === id)) {
+    PostStore.blockchainExternalERC721Posts = Promise.resolve([
       getPostRecord(id, post, derivativeAddress, sender, timestamp),
       ...storage,
     ])
@@ -161,12 +199,26 @@ subscribeKey(WalletStore, 'account', () => {
   PostStore.currentPost = undefined
 })
 
-SCPostStorageContract.on(
-  SCPostStorageContract.filters.PostSaved(),
+SCEmailPostStorageContract.on(
+  SCEmailPostStorageContract.filters.PostSaved(),
   async (id, post, derivativeAddress, sender, timestamp) => {
     const postId = id.toNumber()
-    console.info('post event', postId, post, derivativeAddress)
-    await addPost(postId, post, derivativeAddress, sender, timestamp)
+    console.info('EmailPost event', postId, post, derivativeAddress)
+    await addEmailPost(postId, post, derivativeAddress, sender, timestamp)
+  }
+)
+SCExternalERC721PostStorageContract.on(
+  SCExternalERC721PostStorageContract.filters.PostSaved(),
+  async (id, post, derivativeAddress, sender, timestamp) => {
+    const postId = id.toNumber()
+    console.info('ExternalERC721Post event', postId, post, derivativeAddress)
+    await addExternalERC721Post(
+      postId,
+      post,
+      derivativeAddress,
+      sender,
+      timestamp
+    )
   }
 )
 

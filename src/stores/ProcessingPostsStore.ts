@@ -12,7 +12,14 @@ class ProcessingPostsStore {
 
   async fetchProcessingPosts() {
     if (WalletStore.account) {
-      const blockchainPosts = await PostStore.blockchainPosts
+      const blockchablockchainEmailPostsinPosts =
+        await PostStore.blockchainEmailPosts
+      const blockchainExternalERC721Posts =
+        await PostStore.blockchainExternalERC721Posts
+      const blockchainPosts = [
+        ...blockchablockchainEmailPostsinPosts,
+        ...blockchainExternalERC721Posts,
+      ]
       const records = blockchainPosts
         .filter(
           (record) =>

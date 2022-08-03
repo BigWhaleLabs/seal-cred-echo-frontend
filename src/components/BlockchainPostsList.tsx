@@ -37,7 +37,12 @@ function BlockchainPostTag({
 }
 
 function BlockchainPostsListSuspended() {
-  const { blockchainPosts = [] } = useSnapshot(PostStore)
+  const { blockchainEmailPosts = [], blockchainExternalERC721Posts } =
+    useSnapshot(PostStore)
+  const blockchainPosts = [
+    ...blockchainEmailPosts,
+    ...blockchainExternalERC721Posts,
+  ]
   const [selectedAddress, setAddress] = useState('')
   useScrollToAnchor(0, true, flashingPost)
 

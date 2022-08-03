@@ -8,13 +8,13 @@ function getEmailLedgerRecord(derivativeContract: string, domain: string) {
 }
 
 export default async function (ledger: SCEmailLedger) {
-  const eventsFilter = ledger.filters.CreateDerivativeContract()
+  const eventsFilter = ledger.filters.CreateDerivative()
   const events = await ledger.queryFilter(eventsFilter)
   const emailLedger = events.reduce(
-    (prev, { args: { domain, derivativeContract } }) => {
+    (prev, { args: { original, derivative } }) => {
       return {
         ...prev,
-        [domain]: getEmailLedgerRecord(derivativeContract, domain),
+        [original]: getEmailLedgerRecord(derivative, original),
       }
     },
     {}
