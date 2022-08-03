@@ -1,8 +1,8 @@
-enum TweetStatus {
+enum PostStatus {
   approved = 'approved',
   published = 'published',
   rejected = 'rejected',
   pending = 'pending',
 }
 
-export default TweetStatus
+export default PostStatus

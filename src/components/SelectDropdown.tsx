@@ -124,7 +124,7 @@ const SelectedValueComponent = ({
   )
 }
 
-export default function ({
+export default function <V>({
   border,
   current,
   options,
@@ -136,16 +136,16 @@ export default function ({
   OptionElement,
   onChange,
 }: {
-  current: string
+  current?: V
   border?: boolean
   loading?: boolean
   disabled?: boolean
   emptyText?: string
   placeholder?: string
-  options?: SelectOption[]
+  options?: SelectOption<V>[]
   SelectedValue?: JSX.Element
-  OptionElement?: (optionValue: SelectOption) => JSX.Element
-  onChange?: (selected: SelectOption) => void
+  OptionElement?: (optionValue: SelectOption<V>) => JSX.Element
+  onChange?: (selected: SelectOption<V>) => void
 }) {
   const [dropDownOpen, setOpen] = useState(false)
   const hasOptions = !!options && !!options.length

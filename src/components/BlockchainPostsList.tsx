@@ -1,11 +1,9 @@
 import { Suspense, useState } from 'preact/compat'
-import { UnderlineTextButton } from 'components/Text'
 import { useSnapshot } from 'valtio'
-import BlockchainTweet from 'components/BlockchainTweet'
-import ContractName from 'components/ContractName'
+import BlockchainPost, { PostContract } from 'components/BlockchainPost'
 import Cross from 'icons/Cross'
+import PostStore from 'stores/PostStore'
 import TwitterLoading from 'components/TwitterLoading'
-import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   backgroundColor,
   borderRadius,
@@ -13,17 +11,17 @@ import classnames, {
   padding,
   space,
 } from 'classnames/tailwind'
-import flashingTweet from 'helpers/flashingTweet'
+import flashingPost from 'helpers/flashingPost'
 import useScrollToAnchor from 'helpers/useScrollToAnchor'
 
-const blockchainTweetTagContainer = classnames(
+const blockchainPostTagContainer = classnames(
   display('inline-flex'),
   backgroundColor('bg-primary-background'),
   padding('px-4', 'py-2'),
   borderRadius('rounded'),
   space('space-x-2')
 )
-function BlockchainTweetTag({
+function BlockchainPostTag({
   address,
   onClick,
 }: {
@@ -31,38 +29,41 @@ function BlockchainTweetTag({
   onClick: () => void
 }) {
   return (
-    <span className={blockchainTweetTagContainer}>
-      <UnderlineTextButton>
-        <ContractName clearType truncate address={address} />
-      </UnderlineTextButton>
+    <span className={blockchainPostTagContainer}>
+      <PostContract address={address} />
       <Cross onClick={onClick} />
     </span>
   )
 }
 
-function BlockchainTweetsListSuspended() {
-  const { blockchainTweets = [] } = useSnapshot(TwitterStore)
+function BlockchainPostsListSuspended() {
+  const { blockchainERC721Posts = [], blockchainEmailPosts = [] } =
+    useSnapshot(PostStore)
   const [selectedAddress, setAddress] = useState('')
-  useScrollToAnchor(0, true, flashingTweet)
+  useScrollToAnchor(0, true, flashingPost)
+
+  const posts = [...blockchainERC721Posts, ...blockchainEmailPosts].sort(
+    (a, b) => b.timestamp - a.timestamp
+  )
 
   return (
     <>
       {selectedAddress && (
-        <BlockchainTweetTag
+        <BlockchainPostTag
           address={selectedAddress}
           onClick={() => setAddress('')}
         />
       )}
-      {blockchainTweets
+      {posts
         .filter(
           ({ derivativeAddress }) =>
             !selectedAddress || selectedAddress === derivativeAddress
         )
-        .map(({ id, tweet, derivativeAddress, sender, timestamp }) => (
-          <BlockchainTweet
-            key={id}
+        .map(({ id, post, derivativeAddress, sender, timestamp }) => (
+          <BlockchainPost
+            key={`${id}-${derivativeAddress}`}
             id={id}
-            tweet={tweet}
+            post={post}
             derivativeAddress={derivativeAddress}
             sender={sender}
             timestamp={timestamp}
@@ -75,10 +76,8 @@ function BlockchainTweetsListSuspended() {
 
 export default function () {
   return (
-    <Suspense
-      fallback={<TwitterLoading text="Fetching blockchain tweets..." />}
-    >
-      <BlockchainTweetsListSuspended />
+    <Suspense fallback={<TwitterLoading text="Fetching blockchain posts..." />}>
+      <BlockchainPostsListSuspended />
     </Suspense>
   )
 }

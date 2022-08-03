@@ -1,18 +1,21 @@
 import {
   BodyText,
   LinkText,
+  PostText,
   StatusText,
-  TweetText,
   UnderlineTextButton,
 } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
 import ContractName from 'components/ContractName'
+import ContractSymbol from 'components/ContractSymbol'
 import Delimiter from 'components/Delimiter'
 import EnsAddress from 'components/EnsAddress'
-import TweetChips from 'components/TweetChips'
-import TweetStatus from 'models/TweetStatus'
-import TweetTime from 'components/TweetTime'
+import PostChips from 'components/PostChips'
+import PostStatus from 'models/PostStatus'
+import PostStatusStore from 'stores/PostStatusStore'
+import PostTime from 'components/PostTime'
+import SealCredStore from 'stores/SealCredStore'
 import classnames, {
   alignItems,
   display,
@@ -21,7 +24,6 @@ import classnames, {
   space,
 } from 'classnames/tailwind'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
-import tweetStatusStore from 'stores/TweetStatusStore'
 import walletStore from 'stores/WalletStore'
 
 const container = classnames(
@@ -29,12 +31,12 @@ const container = classnames(
   flexDirection('flex-col'),
   space('space-y-4')
 )
-const tweetHeader = classnames(
+const postHeader = classnames(
   display('flex'),
   justifyContent('justify-between'),
   alignItems('items-center')
 )
-const tweetBottom = classnames(
+const postBottom = classnames(
   display('flex'),
   flexDirection('flex-col', 'sm:flex-row'),
   alignItems('items-start', 'sm:items-baseline'),
@@ -54,13 +56,23 @@ function Sender({ sender }: { sender: string }) {
   )
 }
 
-function Contract({
+export function PostContract({
   address,
   onClick,
 }: {
   address: string
-  onClick: () => void
+  onClick?: () => void
 }) {
+  const { externalERC721derivativeContracts } = useSnapshot(SealCredStore)
+
+  if (externalERC721derivativeContracts.includes(address)) {
+    return (
+      <UnderlineTextButton onClick={onClick}>
+        <ContractSymbol address={address} />
+      </UnderlineTextButton>
+    )
+  }
+
   return (
     <UnderlineTextButton onClick={onClick}>
       <ContractName clearType truncate address={address} />
@@ -69,10 +81,10 @@ function Contract({
 }
 
 function Status({ id }: { id: number }) {
-  const { tweetsStatuses } = useSnapshot(tweetStatusStore)
-  const tweet = tweetsStatuses[id]
+  const { postsStatuses } = useSnapshot(PostStatusStore)
+  const post = postsStatuses[id]
 
-  if (tweet?.status !== TweetStatus.published) return null
+  if (post?.status !== PostStatus.published) return null
 
   return (
     <>
@@ -90,14 +102,14 @@ function Status({ id }: { id: number }) {
 
 export default function ({
   id,
-  tweet,
+  post,
   derivativeAddress,
   sender,
   timestamp,
   onSelectAddress,
 }: {
   id: number
-  tweet: string
+  post: string
   derivativeAddress: string
   sender: string
   timestamp: number
@@ -106,17 +118,18 @@ export default function ({
   return (
     <Card key={id}>
       <div className={container}>
-        <div className={tweetHeader}>
-          <TweetChips id={id} />
-          <TweetTime timestamp={timestamp} />
+        <div className={postHeader}>
+          <PostChips id={id} />
+          <PostTime timestamp={timestamp} />
         </div>
-        <TweetText>{tweet}</TweetText>
+        <PostText>{post}</PostText>
         <BodyText primary>
-          <span className={tweetBottom}>
+          <span className={postBottom}>
             <StatusText>Posted by: </StatusText>
             <Sender sender={sender} />
             <Delimiter />
-            <Contract
+
+            <PostContract
               address={derivativeAddress}
               onClick={() => onSelectAddress(derivativeAddress)}
             />

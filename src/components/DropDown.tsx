@@ -1,35 +1,83 @@
 import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import ContractName from 'components/ContractName'
+import ContractSymbol from 'components/ContractSymbol'
+import ERC721Post from 'helpers/posts/ERC721Post'
+import EmailPost from 'helpers/posts/EmailPost'
+import PostStore from 'stores/PostStore'
 import SealCredStore from 'stores/SealCredStore'
 import SelectDropdown from 'components/SelectDropdown'
-import TwitterStore from 'stores/TwitterStore'
 import useContractsOwned from 'hooks/useContractsOwned'
 
+function SelectedValue({ value }: { value?: ERC721Post | EmailPost }) {
+  return (
+    <>
+      {value ? (
+        value instanceof ERC721Post ? (
+          <ContractSymbol address={value.derivativeContract} />
+        ) : value instanceof EmailPost ? (
+          value.domain
+        ) : (
+          ''
+        )
+      ) : (
+        ''
+      )}
+    </>
+  )
+}
+
+function OptionElement({
+  value,
+  label,
+}: {
+  value?: ERC721Post | EmailPost
+  label?: string
+}) {
+  if (!label) return <>Not found</>
+  if (value instanceof ERC721Post) {
+    return <ContractSymbol address={label} />
+  }
+  return <ContractName clearType address={label} />
+}
+
 export function DropDown({ disabled }: { disabled?: boolean }) {
-  const { emailLedger } = useSnapshot(SealCredStore)
+  const { emailLedger, externalERC721Ledger } = useSnapshot(SealCredStore)
   const contractsOwned = useContractsOwned()
   const ownedEmailDerivativeContracts = Object.values(emailLedger).filter(
     ({ derivativeContract }) => contractsOwned.includes(derivativeContract)
   )
+  const ownedExternalERC721DerivativeContracts = Object.values(
+    externalERC721Ledger
+  ).filter(({ derivativeContract }) =>
+    contractsOwned.includes(derivativeContract)
+  )
+  const { currentPost } = useSnapshot(PostStore)
 
-  const { currentDomain = '' } = useSnapshot(TwitterStore)
+  const options = [
+    ...ownedEmailDerivativeContracts.map(({ domain, derivativeContract }) => ({
+      label: derivativeContract,
+      value: new EmailPost(domain),
+    })),
+    ...ownedExternalERC721DerivativeContracts.map(
+      ({ originalContract, derivativeContract }) => ({
+        label: derivativeContract,
+        value: new ERC721Post(originalContract, derivativeContract),
+      })
+    ),
+  ]
 
   return (
-    <SelectDropdown
+    <SelectDropdown<ERC721Post | EmailPost>
       border
       disabled={disabled}
       placeholder="Select badge"
       emptyText="No ZK badge in this wallet"
-      current={currentDomain}
-      options={ownedEmailDerivativeContracts.map(
-        ({ derivativeContract, domain }) => ({
-          label: domain,
-          value: derivativeContract,
-        })
-      )}
-      OptionElement={({ value }) => <ContractName clearType address={value} />}
-      onChange={({ label }) => (TwitterStore.currentDomain = label)}
+      current={currentPost}
+      options={options}
+      SelectedValue={<SelectedValue value={currentPost} />}
+      OptionElement={OptionElement}
+      onChange={({ value }) => (PostStore.currentPost = value)}
     />
   )
 }
