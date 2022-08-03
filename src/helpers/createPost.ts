@@ -34,12 +34,12 @@ export async function createERC721Post(
   if (!post) throw new Error('Invalid post')
   if (!originalContract) throw new Error('Invalid originalContract')
 
-  const ledger = SCERC721Posts__factory.connect(
+  const storage = SCERC721Posts__factory.connect(
     env.VITE_SC_ERC721_POSTS_CONTRACT,
     provider.getSigner(0)
   )
 
-  const tx = await ledger.savePost(post, originalContract)
+  const tx = await storage.savePost(post, originalContract)
 
   return tx.wait()
 }
@@ -51,12 +51,12 @@ export async function createEmailPost(
   if (!post) throw new Error('Invalid post')
   if (!domain) throw new Error('Invalid symbol')
 
-  const ledger = SCEmailPosts__factory.connect(
+  const storage = SCEmailPosts__factory.connect(
     env.VITE_SC_EMAIL_POSTS_CONTRACT,
     provider.getSigner(0)
   )
 
-  const tx = await ledger.savePost(post, domain)
+  const tx = await storage.savePost(post, domain)
 
   return tx.wait()
 }
