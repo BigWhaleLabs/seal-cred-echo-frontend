@@ -1,6 +1,6 @@
 {
-  "name": "SealCred-Work",
-  "short_name": "SealCred-Work",
+  "name": "SealCred-Echo",
+  "short_name": "SealCred-Echo",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
