@@ -1,6 +1,6 @@
-type FlashingTweetCallback = (
+type FlashingCallback = (
   elementToScroll?: HTMLAnchorElement,
   elementPosition?: number
 ) => void
 
-export default FlashingTweetCallback
+export default FlashingCallback

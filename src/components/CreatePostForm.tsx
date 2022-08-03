@@ -34,7 +34,7 @@ const dropdownWrapper = classnames(
 )
 
 export default function () {
-  const [text, onTweetChange] = useState('')
+  const [text, onTextChange] = useState('')
   const { status, currentPost } = useSnapshot(PostStore)
   const { savedContractSymbols } = useSnapshot(ContractNameStore)
 
@@ -63,7 +63,7 @@ export default function () {
         <TextArea
           text={text}
           placeholder="Write something here..."
-          onTextChange={onTweetChange}
+          onTextChange={onTextChange}
           maxLength={maxLength}
           suffix={suffix}
           disabled={status.loading}
@@ -93,7 +93,7 @@ export default function () {
                       originalContract: currentPost.originalDomain,
                     })
                   }
-                  onTweetChange('')
+                  onTextChange('')
                 }
               }}
               fullWidth={!md}

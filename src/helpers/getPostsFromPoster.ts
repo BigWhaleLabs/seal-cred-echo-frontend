@@ -6,8 +6,8 @@ const baseURL = `${env.VITE_TWITTER_POSTER_URL}/tweets`
 
 export async function getPostsFromPoster() {
   const { data } = await axios.get<PostStatusModel[]>(`${baseURL}/`)
-  return data.reduce((acc, tweet) => {
-    acc[tweet.tweetId] = tweet
+  return data.reduce((acc, post) => {
+    acc[post.tweetId] = post
     return acc
   }, {} as PostIdAndStatus)
 }

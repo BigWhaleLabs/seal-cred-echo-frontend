@@ -1,4 +1,4 @@
-import { PostERC721Structure, PostEmailStructure } from 'models/TweetStructure'
+import { PostERC721Structure, PostEmailStructure } from 'models/PostStructure'
 import {
   SCERC721Posts__factory,
   SCEmailPosts__factory,
