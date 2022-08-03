@@ -37,14 +37,9 @@ function BlockchainPostTag({
 }
 
 function BlockchainPostsListSuspended() {
-  const { blockchainERC721Posts = [], blockchainEmailPosts = [] } =
-    useSnapshot(PostStore)
+  const { blockchainPosts = [] } = useSnapshot(PostStore)
   const [selectedAddress, setAddress] = useState('')
   useScrollToAnchor(0, true, flashingPost)
-
-  const posts = [...blockchainERC721Posts, ...blockchainEmailPosts].sort(
-    (a, b) => b.timestamp - a.timestamp
-  )
 
   return (
     <>
@@ -54,7 +49,7 @@ function BlockchainPostsListSuspended() {
           onClick={() => setAddress('')}
         />
       )}
-      {posts
+      {blockchainPosts
         .filter(
           ({ derivativeAddress }) =>
             !selectedAddress || selectedAddress === derivativeAddress

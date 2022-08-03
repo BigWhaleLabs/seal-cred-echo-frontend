@@ -1,8 +1,5 @@
 import { PostERC721Structure, PostEmailStructure } from 'models/TweetStructure'
-import {
-  SCERC721Posts__factory,
-  SCEmailPosts__factory,
-} from '@big-whale-labs/seal-cred-posts-contract'
+import { SCPostStorage__factory } from '@big-whale-labs/seal-cred-posts-contract'
 import { Web3Provider } from '@ethersproject/providers'
 import { utils } from 'ethers'
 import env from 'helpers/env'
@@ -34,12 +31,12 @@ export async function createERC721Post(
   if (!post) throw new Error('Invalid post')
   if (!originalContract) throw new Error('Invalid originalContract')
 
-  const ledger = SCERC721Posts__factory.connect(
-    env.VITE_SC_ERC721_POSTS_CONTRACT,
+  const storage = SCPostStorage__factory.connect(
+    env.VITE_SC_POST_STORAGE_CONTRACT,
     provider.getSigner(0)
   )
 
-  const tx = await ledger.savePost(post, originalContract)
+  const tx = await storage.savePost(post, originalContract)
 
   return tx.wait()
 }
@@ -51,12 +48,12 @@ export async function createEmailPost(
   if (!post) throw new Error('Invalid post')
   if (!domain) throw new Error('Invalid symbol')
 
-  const ledger = SCEmailPosts__factory.connect(
-    env.VITE_SC_EMAIL_POSTS_CONTRACT,
+  const storage = SCPostStorage__factory.connect(
+    env.VITE_SC_POST_STORAGE_CONTRACT,
     provider.getSigner(0)
   )
 
-  const tx = await ledger.savePost(post, domain)
+  const tx = await storage.savePost(post, domain)
 
   return tx.wait()
 }
