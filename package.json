@@ -27,7 +27,7 @@
   "dependencies": {
     "@big-whale-labs/constants": "^0.1.9",
     "@big-whale-labs/seal-cred-ledger-contract": "^0.2.4",
-    "@big-whale-labs/seal-cred-posts-contract": "^0.0.7",
+    "@big-whale-labs/seal-cred-posts-contract": "^0.0.9",
     "@big-whale-labs/seal-cred-twitter-contract": "^0.0.6",
     "@coinbase/wallet-sdk": "^3.4.0",
     "@ethersproject/experimental": "^5.6.3",
