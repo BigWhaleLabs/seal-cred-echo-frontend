@@ -4,9 +4,12 @@ import { TextareaText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import Arrow from 'icons/Arrow'
 import ContractName from 'components/ContractName'
+import ContractSymbol from 'components/ContractSymbol'
+import ERC721Post from 'helpers/posts/ERC721Post'
+import EmailPost from 'helpers/posts/EmailPost'
+import PostStore from 'stores/PostStore'
 import SealCredStore from 'stores/SealCredStore'
 import Spinner from 'icons/Spinner'
-import TwitterStore from 'stores/TwitterStore'
 import classnames, {
   alignItems,
   backgroundColor,
@@ -93,14 +96,21 @@ const menuItem = (current?: boolean) =>
 
 export function DropDown({ disabled }: { disabled?: boolean }) {
   const [dropDownOpen, setOpen] = useState(false)
-  const { emailLedger } = useSnapshot(SealCredStore)
+  const { emailLedger, externalERC721Ledger } = useSnapshot(SealCredStore)
   const contractsOwned = useContractsOwned()
   const ownedEmailDerivativeContracts = Object.values(emailLedger).filter(
     ({ derivativeContract }) => contractsOwned.includes(derivativeContract)
   )
+  const ownedExternalERC721DerivativeContracts = Object.values(
+    externalERC721Ledger
+  ).filter(({ derivativeContract }) =>
+    contractsOwned.includes(derivativeContract)
+  )
 
-  const { currentDomain } = useSnapshot(TwitterStore)
-  const hasBadges = !!ownedEmailDerivativeContracts.length
+  const { currentPost } = useSnapshot(PostStore)
+  const hasBadges =
+    !!ownedEmailDerivativeContracts.length ||
+    !!ownedExternalERC721DerivativeContracts.length
 
   const ref = useRef() as MutableRef<HTMLDivElement>
   useClickOutside(ref, () => setOpen(false))
@@ -114,10 +124,20 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
       >
         {hasBadges ? (
           <>
-            {currentDomain ? (
+            {currentPost ? (
               <TextareaText dark={disabled}>
                 <span className={postingAs}>Posting as: </span>
-                {currentDomain}
+                {currentPost ? (
+                  currentPost instanceof ERC721Post ? (
+                    <ContractSymbol address={currentPost.derivativeContract} />
+                  ) : currentPost instanceof EmailPost ? (
+                    currentPost.domain
+                  ) : (
+                    ''
+                  )
+                ) : (
+                  ''
+                )}
               </TextareaText>
             ) : (
               <TextareaText dark>Select badge</TextareaText>
@@ -135,15 +155,36 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
       <div className={menuWrapper(dropDownOpen)}>
         {ownedEmailDerivativeContracts.map(({ derivativeContract, domain }) => (
           <p
-            className={menuItem(domain === currentDomain)}
+            className={menuItem(
+              currentPost instanceof EmailPost && domain === currentPost.domain
+            )}
             onClick={() => {
-              TwitterStore.currentDomain = domain
+              PostStore.currentPost = new EmailPost(domain)
               setOpen(false)
             }}
           >
             <ContractName clearType address={derivativeContract} />
           </p>
         ))}
+        {ownedExternalERC721DerivativeContracts.map(
+          ({ derivativeContract, originalContract }) => (
+            <p
+              className={menuItem(
+                currentPost instanceof ERC721Post &&
+                  originalContract === currentPost.originalDomain
+              )}
+              onClick={() => {
+                PostStore.currentPost = new ERC721Post(
+                  originalContract,
+                  derivativeContract
+                )
+                setOpen(false)
+              }}
+            >
+              <ContractSymbol address={derivativeContract} />
+            </p>
+          )
+        )}
       </div>
     </div>
   )

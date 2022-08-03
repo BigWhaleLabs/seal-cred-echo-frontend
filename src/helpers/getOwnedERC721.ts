@@ -1,6 +1,6 @@
 import { utils } from 'ethers'
-import defaultProvider from 'helpers/defaultProvider'
-import heavyProvider from 'helpers/heavyProvider'
+import defaultProvider from 'helpers/providers/defaultProvider'
+import heavyProvider from 'helpers/providers/heavyProvider'
 
 const transferEventInterface = new utils.Interface([
   'event Transfer(address indexed from, address indexed to, uint indexed tokenId)',
@@ -27,8 +27,7 @@ export default async function (
   account: string,
   fromBlock = 0,
   toBlock: number,
-  addressToTokenIds: { [address: string]: string[] },
-  allowedAddresses: string[]
+  addressToTokenIds: { [address: string]: string[] }
 ) {
   const provider = fromBlock === 0 ? heavyProvider : defaultProvider
   const receivedLogs = await provider.getLogs({
@@ -44,8 +43,7 @@ export default async function (
   })
 
   for (const { topics, data, address } of receivedLogs.concat(sentLogs)) {
-    if (!isTransferEvent(topics) || !allowedAddresses.includes(address))
-      continue
+    if (!isTransferEvent(topics)) continue
 
     const {
       args: { tokenId },

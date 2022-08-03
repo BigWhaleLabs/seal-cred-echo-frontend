@@ -1,20 +1,23 @@
-import { SCERC721Posts__factory } from '@big-whale-labs/seal-cred-posts-contract'
+import { PostERC721Structure, PostEmailStructure } from 'models/TweetStructure'
+import {
+  SCERC721Posts__factory,
+  SCEmailPosts__factory,
+} from '@big-whale-labs/seal-cred-posts-contract'
 import { Web3Provider } from '@ethersproject/providers'
 import { utils } from 'ethers'
-import TweetStructure from 'models/TweetStructure'
 import env from 'helpers/env'
 
 const transferEventInterface = new utils.Interface([
-  `event TweetSaved(
+  `event PostSaved(
     uint256 id,
-    string tweet,
+    string post,
     address indexed derivativeAddress,
     address indexed sender,
     uint256 timestamp
   )`,
 ])
 
-export function parseTweetSavedLogData({
+export function parsePostSavedLogData({
   data,
   topics,
 }: {
@@ -24,18 +27,36 @@ export function parseTweetSavedLogData({
   return transferEventInterface.parseLog({ data, topics })
 }
 
-export default async function (
-  { tweet, domain }: TweetStructure,
+export async function createERC721Post(
+  { post, originalContract }: PostERC721Structure,
   provider: Web3Provider
 ) {
-  if (!tweet) throw new Error('Invalid tweet')
-  if (!domain) throw new Error('Invalid domain')
+  if (!post) throw new Error('Invalid post')
+  if (!originalContract) throw new Error('Invalid originalContract')
 
   const ledger = SCERC721Posts__factory.connect(
     env.VITE_SC_ERC721_POSTS_CONTRACT,
     provider.getSigner(0)
   )
 
-  const tx = await ledger.savePost(tweet, domain)
+  const tx = await ledger.savePost(post, originalContract)
+
+  return tx.wait()
+}
+
+export async function createEmailPost(
+  { post, domain }: PostEmailStructure,
+  provider: Web3Provider
+) {
+  if (!post) throw new Error('Invalid post')
+  if (!domain) throw new Error('Invalid symbol')
+
+  const ledger = SCEmailPosts__factory.connect(
+    env.VITE_SC_EMAIL_POSTS_CONTRACT,
+    provider.getSigner(0)
+  )
+
+  const tx = await ledger.savePost(post, domain)
+
   return tx.wait()
 }

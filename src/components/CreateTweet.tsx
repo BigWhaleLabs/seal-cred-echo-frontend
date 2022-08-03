@@ -1,35 +1,35 @@
 import { margin, space } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import CreateTweetForm from 'components/CreateTweetForm'
-import ProcessingTweetsStore from 'stores/ProcessingTweetsStore'
+import PostStatus from 'models/PostStatus'
+import PostStatusStore from 'stores/PostStatusStore'
+import ProcessingPostsStore from 'stores/ProcessingPostsStore'
 import TweetProcessing from 'components/TweetProcessing'
-import TweetStatus from 'models/TweetStatus'
 import WalletStore from 'stores/WalletStore'
-import tweetStatusStore from 'stores/TweetStatusStore'
 
 export default function () {
   const { account } = useSnapshot(WalletStore)
-  const { tweetsStatuses } = useSnapshot(tweetStatusStore)
-  const { processingTweetIds } = useSnapshot(ProcessingTweetsStore)
+  const { postsStatuses } = useSnapshot(PostStatusStore)
+  const { processingPostIds } = useSnapshot(ProcessingPostsStore)
 
-  const accountProcessingTweetIds = account && processingTweetIds[account]
-  const currentTweetsStatuses = { ...tweetsStatuses }
+  const accountProcessingTweetIds = account && processingPostIds[account]
+  const currentTweetsStatuses = { ...postsStatuses }
   const currentTweets = accountProcessingTweetIds
     ? accountProcessingTweetIds.map(
         (tweetId) =>
           currentTweetsStatuses[tweetId] || {
             tweetId,
-            status: TweetStatus.pending,
+            status: PostStatus.pending,
           }
       )
     : []
 
   const pendingTweets = currentTweets.filter(
-    (tweet) => tweet.status === TweetStatus.pending
+    (tweet) => tweet.status === PostStatus.pending
   )
 
   const lastPublishedTweet = currentTweets.find(
-    (tweet) => tweet.status === TweetStatus.published
+    (tweet) => tweet.status === PostStatus.published
   )
 
   return (

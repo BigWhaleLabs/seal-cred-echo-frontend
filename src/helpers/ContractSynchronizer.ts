@@ -54,7 +54,7 @@ export default class ContractSynchronizer {
     }
   }
 
-  async syncAddressToTokenIds(blockId: number, addresses: string[]) {
+  async syncAddressToTokenIds(blockId: number) {
     if (!this.locked && blockId !== this.synchronizedBlockId) {
       this.locked = true
 
@@ -67,8 +67,7 @@ export default class ContractSynchronizer {
         this.account,
         fromBlock,
         blockId,
-        { ...this.mapAddressToTokenIds },
-        addresses
+        { ...this.mapAddressToTokenIds }
       )
 
       this.synchronizedBlockId = blockId

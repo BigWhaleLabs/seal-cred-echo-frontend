@@ -1,10 +1,10 @@
 import { LargeText, LinkText, LoadingText } from 'components/Text'
 import { NavLink } from 'react-router-dom'
-import { TweetModel } from 'models/TweetModel'
+import { PostStatusModel } from 'models/PostStatusModel'
 import { scrollToHashElement } from 'helpers/useScrollToAnchor'
 import Arrow from 'icons/Arrow'
 import Loading from 'components/Loading'
-import TweetStatus from 'models/TweetStatus'
+import PostStatus from 'models/PostStatus'
 import classnames, {
   alignItems,
   backgroundColor,
@@ -51,12 +51,12 @@ export default function ({
   title,
   tweet,
 }: {
-  tweet: TweetModel
+  tweet: PostStatusModel
   title: string
 }) {
-  const loading = tweet.status === TweetStatus.pending
+  const loading = tweet.status === PostStatus.pending
   const redirectTo =
-    tweet.status === TweetStatus.published
+    tweet.status === PostStatus.published
       ? `https://twitter.com/SealCredWork/status/${tweet.statusId}`
       : `/previous-tweets/blockchain#blockchainTweetId=${tweet.tweetId}`
 

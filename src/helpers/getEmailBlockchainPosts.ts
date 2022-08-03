@@ -1,7 +1,7 @@
-import SCTwitterLedgerContract from 'helpers/SCTwitterLedgerContract'
+import SCEmailPostsContract from 'helpers/contracts/SCEmailPostsContract'
 
 export default async function () {
-  return (await SCTwitterLedgerContract.getAllPosts())
+  return (await SCEmailPostsContract.getAllPosts())
     .map(({ id, post, derivativeAddress, sender, timestamp }) => ({
       id: id.toNumber(),
       post,

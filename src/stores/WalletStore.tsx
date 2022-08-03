@@ -1,8 +1,8 @@
+import { PostERC721Structure, PostEmailStructure } from 'models/TweetStructure'
 import { Web3Provider } from '@ethersproject/providers'
+import { createERC721Post, createEmailPost } from 'helpers/createPost'
 import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
-import TweetStructure from 'models/TweetStructure'
-import createErc721Post from 'helpers/createPost'
 import env from 'helpers/env'
 import handleError, { ErrorList } from 'helpers/handleError'
 import web3Modal from 'helpers/web3Modal'
@@ -58,13 +58,16 @@ class WalletStore extends PersistableStore {
     this.walletLoading = false
   }
 
-  savePost({ tweet, domain }: TweetStructure) {
+  saveEmailPost({ post, domain }: PostEmailStructure) {
     if (!provider) throw new Error('No provider found')
 
-    if (!tweet) throw new Error('Invalid tweet')
-    if (!domain) throw new Error('Invalid domain')
+    return createEmailPost({ post, domain }, provider)
+  }
 
-    return createErc721Post({ tweet, domain }, provider)
+  saveERC721Post({ post, originalContract }: PostERC721Structure) {
+    if (!provider) throw new Error('No provider found')
+
+    return createERC721Post({ post, originalContract }, provider)
   }
 
   private subscribeProvider(provider: Web3Provider) {
