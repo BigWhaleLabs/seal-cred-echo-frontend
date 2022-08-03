@@ -131,11 +131,11 @@ async function addPost(
   timestamp: BigNumber
 ) {
   console.log('add', { id, post, derivativeAddress, sender, timestamp })
-  const ledger = await PostStore.blockchainPosts
-  if (!ledger.find(({ id: ledgerPostId }) => ledgerPostId === id)) {
+  const storage = await PostStore.blockchainPosts
+  if (!storage.find(({ id: postId }) => postId === id)) {
     PostStore.blockchainPosts = Promise.resolve([
       getPostRecord(id, post, derivativeAddress, sender, timestamp),
-      ...ledger,
+      ...storage,
     ])
     const processingPostIds = ProcessingPostsStore.processingPostIds[sender]
 
