@@ -18,7 +18,7 @@ export default defineConfig({
       util: 'rollup-plugin-node-polyfills/polyfills/util',
     },
   },
-  server: { https: false },
+  server: { https: false, port: 3000 },
   plugins: [mkcert, preact(), tsconfigPaths()],
   build: {
     rollupOptions: {
