@@ -7,6 +7,7 @@ import inject from '@rollup/plugin-inject'
 import nodePolyfills from 'rollup-plugin-node-polyfills'
 import removeConsole from 'vite-plugin-remove-console'
 import mkcert from 'vite-plugin-mkcert'
+import { builtinModules } from 'module'
 
 export default defineConfig({
   resolve: {
@@ -17,7 +18,7 @@ export default defineConfig({
       util: 'rollup-plugin-node-polyfills/polyfills/util',
     },
   },
-  server: { https: false },
+  server: { https: false, port: 3000 },
   plugins: [mkcert, preact(), tsconfigPaths()],
   build: {
     rollupOptions: {
@@ -32,6 +33,7 @@ export default defineConfig({
         }),
         removeConsole(),
       ],
+      external: builtinModules,
     },
     commonjsOptions: {
       transformMixedEsModules: true,
