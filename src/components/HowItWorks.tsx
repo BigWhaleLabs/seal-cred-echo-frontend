@@ -42,12 +42,12 @@ export default function () {
           This means you can speak as an NFT holder, spill the tea about your
           place of employment, or just share your thoughts on Twitter without
           anyone (even us!) from knowing it’s you. All tweets are posted to
-          <LinkText url="https://twitter.com/SelCredNFT">
-            @SelCredNFT
+          <LinkText url="https://twitter.com/SealCredNFT">
+            @SealCredNFT
           </LinkText>{' '}
           for all NFT posts and{' '}
-          <LinkText url="https://twitter.com/SealCredWork">
-            @SealCredWork
+          <LinkText url="https://twitter.com/SealCredEcho">
+            @SealCredEcho
           </LinkText>{' '}
           for email posts.
         </CardParagraph>

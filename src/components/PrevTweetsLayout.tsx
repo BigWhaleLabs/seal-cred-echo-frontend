@@ -1,7 +1,10 @@
 import { BodyText, EmphasizeText, LinkText } from 'components/Text'
 import { NavLink } from 'react-router-dom'
+import { useSnapshot } from 'valtio'
+import AppStore from 'stores/AppStore'
 import BackArrow from 'icons/BackArrow'
 import ChildrenProp from 'models/ChildrenProp'
+import SelectDropdown from 'components/SelectDropdown'
 import classnames, {
   alignItems,
   display,
@@ -19,6 +22,7 @@ import classnames, {
   transitionProperty,
   width,
 } from 'classnames/tailwind'
+import twitterAccounts from 'models/SelectOption'
 
 const prevTweets = classnames(
   width('w-full'),
@@ -53,11 +57,28 @@ const tabContainer = classnames(
   flexDirection('flex-col'),
   space('space-y-4')
 )
+const tweetByWrapper = classnames(
+  display('flex'),
+  space('space-x-2'),
+  alignItems('items-center')
+)
+
+const SelectedOption = ({ currentAccount }: { currentAccount: string }) => {
+  return (
+    <BodyText>
+      <LinkText url={`https://twitter.com/${currentAccount}`}>
+        @{currentAccount}
+      </LinkText>
+    </BodyText>
+  )
+}
 
 export default function ({
   back,
   children,
 }: ChildrenProp & { back?: boolean }) {
+  const { currentTwitterAccount } = useSnapshot(AppStore)
+
   return (
     <div className={prevTweets}>
       <div className={prevTweetsHeader}>
@@ -70,12 +91,21 @@ export default function ({
           </NavLink>
         ) : (
           <>
-            <BodyText>
-              <EmphasizeText bold>Tweets</EmphasizeText> by{' '}
-              <LinkText url="https://twitter.com/SealCredWork">
-                @SealCredWork
-              </LinkText>
-            </BodyText>
+            <div className={tweetByWrapper}>
+              <BodyText>
+                <EmphasizeText bold>Tweets</EmphasizeText> by
+              </BodyText>
+              <SelectDropdown
+                current={currentTwitterAccount}
+                options={twitterAccounts}
+                SelectedValue={
+                  <SelectedOption currentAccount={currentTwitterAccount} />
+                }
+                onChange={({ value }) =>
+                  (AppStore.currentTwitterAccount = value)
+                }
+              />
+            </div>
             <NavLink to="blockchain" className={navLinkPrimary}>
               View all on blockchain
             </NavLink>

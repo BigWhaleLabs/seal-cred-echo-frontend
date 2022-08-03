@@ -85,7 +85,7 @@ export default function () {
             </div>
             <div className={bottomBlock}>
               <div className={displayOnSmall}>
-                <LogoText textSecondary>work</LogoText>
+                <LogoText textSecondary>Echo</LogoText>
               </div>
               <LogoSubText>(ALPHA)</LogoSubText>
             </div>

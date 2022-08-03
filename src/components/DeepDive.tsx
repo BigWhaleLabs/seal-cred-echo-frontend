@@ -45,9 +45,9 @@ export default function () {
           <CardSection>
             <CardSubheader>What are ZK Badges?</CardSubheader>
             <CardParagraph>
-              ZK Badges are minted when you create ‘ZK Proof’ using an NFT,
+              ZK Badges are minted when you create a ‘ZK Proof’ using an NFT,
               asset, or piece of your identity. This is all done using a mix of
-              ZK proof, EdDSA, and the blockchain. That allows us to create
+              ZK proofs, EdDSA, and the blockchain. That allows us to create
               pseudonymous accounts on the blockchain. We also wrote about what
               we’ve done so far on our blog{' '}
               <LinkText url="https://blog.bigwhalelabs.com">here</LinkText>.
@@ -62,7 +62,7 @@ export default function () {
             <CardParagraph>
               In this case, when you present us with your work email we send you
               a token. If you have access to that email, you can access that
-              token. Then, you can use that token to create ZK Proof with
+              token. Then, you can use that token to create a ZK Proof with
               SealCred (
               <LinkText url="https://sealcred.xyz/email">here</LinkText>), which
               will provide you with a ZK Badge for your anonymous wallet that

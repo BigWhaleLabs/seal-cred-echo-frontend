@@ -1,101 +1,47 @@
-import { MutableRef, useRef, useState } from 'preact/hooks'
 import { Suspense } from 'preact/compat'
-import { TextareaText } from 'components/Text'
 import { useSnapshot } from 'valtio'
-import Arrow from 'icons/Arrow'
 import ContractName from 'components/ContractName'
 import ContractSymbol from 'components/ContractSymbol'
 import ERC721Post from 'helpers/posts/ERC721Post'
 import EmailPost from 'helpers/posts/EmailPost'
 import PostStore from 'stores/PostStore'
 import SealCredStore from 'stores/SealCredStore'
-import Spinner from 'icons/Spinner'
-import classnames, {
-  alignItems,
-  backgroundColor,
-  borderColor,
-  borderRadius,
-  borderWidth,
-  cursor,
-  display,
-  fontFamily,
-  inset,
-  justifyContent,
-  opacity,
-  outlineColor,
-  outlineStyle,
-  padding,
-  position,
-  space,
-  textAlign,
-  transitionProperty,
-  visibility,
-  width,
-  wordBreak,
-  zIndex,
-} from 'classnames/tailwind'
-import useClickOutside from 'hooks/useClickOutside'
+import SelectDropdown from 'components/SelectDropdown'
 import useContractsOwned from 'hooks/useContractsOwned'
 
-const sharedStyles = classnames(
-  borderRadius('rounded-lg'),
-  borderWidth('border'),
-  borderColor('border-formal-accent-dimmed', 'focus:border-formal-accent'),
-  outlineColor('focus:outline-primary'),
-  outlineStyle('focus:outline'),
-  transitionProperty('transition-colors'),
-  padding('tiny:px-4', 'px-3', 'py-3'),
-  backgroundColor('bg-primary-dark'),
-  alignItems('items-center')
-)
+function SelectedValue({ value }: { value?: ERC721Post | EmailPost }) {
+  return (
+    <>
+      {value ? (
+        value instanceof ERC721Post ? (
+          <ContractSymbol address={value.derivativeContract} />
+        ) : value instanceof EmailPost ? (
+          value.domain
+        ) : (
+          ''
+        )
+      ) : (
+        ''
+      )}
+    </>
+  )
+}
 
-const wrapper = (hasBadges: boolean) =>
-  classnames(
-    position('relative'),
-    fontFamily('font-primary'),
-    zIndex('z-40'),
-    width('w-full'),
-    opacity({ 'opacity-70': !hasBadges })
-  )
-const opener = classnames(
-  display('inline-flex'),
-  justifyContent('justify-between'),
-  width('md:w-80', 'w-full'),
-  space('space-x-2'),
-  textAlign('text-left'),
-  sharedStyles
-)
-const menuWrapper = (open: boolean) =>
-  classnames(
-    position('absolute'),
-    inset('top-14'),
-    width('tiny:w-full', 'w-fit'),
-    opacity(open ? 'opacity-100' : 'opacity-0'),
-    visibility(open ? 'visible' : 'invisible'),
-    transitionProperty('transition-opacity'),
-    space('space-y-1'),
-    sharedStyles
-  )
-const postingAs = classnames(
-  display('tiny:inline', 'hidden'),
-  padding('tiny:pr-1', 'pr-0')
-)
-const menuItem = (current?: boolean) =>
-  classnames(
-    padding('p-2'),
-    cursor('cursor-pointer'),
-    borderRadius('rounded-md'),
-    wordBreak('break-all'),
-    backgroundColor({
-      'bg-primary-dimmed': current,
-      'bg-transparent': !current,
-      'hover:bg-primary-dimmed': current,
-      'hover:bg-primary-background': !current,
-    })
-  )
+function OptionElement({
+  value,
+  label,
+}: {
+  value?: ERC721Post | EmailPost
+  label?: string
+}) {
+  if (!label) return <>Not found</>
+  if (value instanceof ERC721Post) {
+    return <ContractSymbol address={label} />
+  }
+  return <ContractName clearType address={label} />
+}
 
 export function DropDown({ disabled }: { disabled?: boolean }) {
-  const [dropDownOpen, setOpen] = useState(false)
   const { emailLedger, externalERC721Ledger } = useSnapshot(SealCredStore)
   const contractsOwned = useContractsOwned()
   const ownedEmailDerivativeContracts = Object.values(emailLedger).filter(
@@ -106,104 +52,39 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
   ).filter(({ derivativeContract }) =>
     contractsOwned.includes(derivativeContract)
   )
-
   const { currentPost } = useSnapshot(PostStore)
-  const hasBadges =
-    !!ownedEmailDerivativeContracts.length ||
-    !!ownedExternalERC721DerivativeContracts.length
 
-  const ref = useRef() as MutableRef<HTMLDivElement>
-  useClickOutside(ref, () => setOpen(false))
+  const options = [
+    ...ownedEmailDerivativeContracts.map(({ domain, derivativeContract }) => ({
+      label: derivativeContract,
+      value: new EmailPost(domain),
+    })),
+    ...ownedExternalERC721DerivativeContracts.map(
+      ({ originalContract, derivativeContract }) => ({
+        label: derivativeContract,
+        value: new ERC721Post(originalContract, derivativeContract),
+      })
+    ),
+  ]
 
   return (
-    <div className={wrapper(hasBadges)} ref={ref}>
-      <button
-        onClick={() => setOpen(!dropDownOpen)}
-        disabled={!hasBadges || disabled}
-        className={opener}
-      >
-        {hasBadges ? (
-          <>
-            {currentPost ? (
-              <TextareaText dark={disabled}>
-                <span className={postingAs}>Posting as: </span>
-                {currentPost ? (
-                  currentPost instanceof ERC721Post ? (
-                    <ContractSymbol address={currentPost.derivativeContract} />
-                  ) : currentPost instanceof EmailPost ? (
-                    currentPost.domain
-                  ) : (
-                    ''
-                  )
-                ) : (
-                  ''
-                )}
-              </TextareaText>
-            ) : (
-              <TextareaText dark>Select badge</TextareaText>
-            )}
-          </>
-        ) : (
-          <TextareaText dark>No ZK badge in this wallet</TextareaText>
-        )}
-
-        <div className={width('w-5')}>
-          <Arrow pulseDisabled open={dropDownOpen} />
-        </div>
-      </button>
-
-      <div className={menuWrapper(dropDownOpen)}>
-        {ownedEmailDerivativeContracts.map(({ derivativeContract, domain }) => (
-          <p
-            className={menuItem(
-              currentPost instanceof EmailPost && domain === currentPost.domain
-            )}
-            onClick={() => {
-              PostStore.currentPost = new EmailPost(domain)
-              setOpen(false)
-            }}
-          >
-            <ContractName clearType address={derivativeContract} />
-          </p>
-        ))}
-        {ownedExternalERC721DerivativeContracts.map(
-          ({ derivativeContract, originalContract }) => (
-            <p
-              className={menuItem(
-                currentPost instanceof ERC721Post &&
-                  originalContract === currentPost.originalDomain
-              )}
-              onClick={() => {
-                PostStore.currentPost = new ERC721Post(
-                  originalContract,
-                  derivativeContract
-                )
-                setOpen(false)
-              }}
-            >
-              <ContractSymbol address={derivativeContract} />
-            </p>
-          )
-        )}
-      </div>
-    </div>
+    <SelectDropdown<ERC721Post | EmailPost>
+      border
+      disabled={disabled}
+      placeholder="Select badge"
+      emptyText="No ZK badge in this wallet"
+      current={currentPost}
+      options={options}
+      SelectedValue={<SelectedValue value={currentPost} />}
+      OptionElement={OptionElement}
+      onChange={({ value }) => (PostStore.currentPost = value)}
+    />
   )
 }
 
 export default function ({ disabled }: { disabled?: boolean }) {
   return (
-    <Suspense
-      fallback={
-        <div className={wrapper(false)}>
-          <button disabled className={opener}>
-            <TextareaText dark>Fetching badges...</TextareaText>
-            <div className={width('w-5')}>
-              <Spinner />
-            </div>
-          </button>
-        </div>
-      }
-    >
+    <Suspense fallback={<SelectDropdown border loading current="" />}>
       <DropDown disabled={disabled} />
     </Suspense>
   )
