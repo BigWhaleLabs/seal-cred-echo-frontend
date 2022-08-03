@@ -32,7 +32,7 @@ export async function createERC721Post(
   if (!originalContract) throw new Error('Invalid originalContract')
 
   const storage = SCPostStorage__factory.connect(
-    env.VITE_SC_POST_STORAGE_CONTRACT,
+    env.VITE_SC_EXTERNAL_ERC721_POST_STORAGE_CONTRACT,
     provider.getSigner(0)
   )
 
@@ -49,7 +49,7 @@ export async function createEmailPost(
   if (!domain) throw new Error('Invalid symbol')
 
   const storage = SCPostStorage__factory.connect(
-    env.VITE_SC_POST_STORAGE_CONTRACT,
+    env.VITE_SC_EMAIL_POST_STORAGE_CONTRACT,
     provider.getSigner(0)
   )
 

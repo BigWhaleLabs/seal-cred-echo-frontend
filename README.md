@@ -16,7 +16,8 @@
 | `VITE_ETH_RPC`                                    | Ethereum node RPC URI (defaults to @bwl/constants)                            |
 | `VITE_SC_EMAIL_LEDGER_CONTRACT_ADDRESS`           | SealCred Email Ledger contract address (defaults to @bwl/constants)           |
 | `VITE_EXTERNAL_SC_ERC721_LEDGER_CONTRACT_ADDRESS` | External SealCred ERC721 Ledger contract address (defaults to @bwl/constants) |
-| `VITE_SC_POST_STORAGE_CONTRACT`                   | SealCred Posts storage contract                                               |
+| `VITE_SC_EXTERNAL_ERC721_POST_STORAGE_CONTRACT`   | SealCred External-posts storage contract                                      |
+| `VITE_SC_EMAIL_POST_STORAGE_CONTRACT`             | SealCred Email-posts storage contract                                         |
 | `VITE_PAYMASTER_CONTRACT`                         | Paymaster contract                                                            |
 | `VITE_TWITTER_POSTER_URL`                         | Url to Twitter Poster                                                         |
 

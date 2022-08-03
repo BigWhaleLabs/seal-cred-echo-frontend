@@ -109,7 +109,7 @@ function SelectedValueComponent<Data>({
 }: {
   isDisabled: boolean
   placeholder: string
-  currentValue: Data
+  currentValue?: Data
   userComponent?: JSX.Element
 }) {
   return currentValue ? (
@@ -164,7 +164,7 @@ export default function <SelectData>({
         {loading ? (
           <TextareaText dark>Fetching badges...</TextareaText>
         ) : hasOptions ? (
-          <SelectedValueComponent
+          <SelectedValueComponent<SelectData>
             currentValue={current}
             placeholder={placeholder}
             userComponent={SelectedValue}
@@ -190,7 +190,7 @@ export default function <SelectData>({
                 setOpen(false)
               }}
             >
-              {OptionElement ? OptionElement({ label, value }) : label}
+              {OptionElement ? OptionElement({ label, value }) : <>{label}</>}
             </p>
           ))}
       </div>
