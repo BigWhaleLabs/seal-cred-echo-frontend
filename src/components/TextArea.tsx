@@ -21,6 +21,7 @@ import {
   transitionProperty,
   width,
 } from 'classnames/tailwind'
+import { parseError } from 'helpers/handleError'
 import SuffixBlock from 'components/SuffixBlock'
 import TextareaAutosize, {
   TextareaAutosizeProps,
@@ -69,7 +70,7 @@ interface TextAreaProps {
   suffix: string
   onTextChange: (text: string) => void
   disabled?: boolean
-  error?: string
+  error?: unknown
   footer?: string
 }
 
@@ -106,7 +107,7 @@ export default function ({
         </div>
       </div>
       <ErrorText visible={!!error} withExclamation>
-        {error}
+        {parseError(error)}
       </ErrorText>
     </div>
   )
