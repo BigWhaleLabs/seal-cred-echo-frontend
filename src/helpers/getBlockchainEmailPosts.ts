@@ -1,4 +1,4 @@
-import SCPostStorageContract from 'helpers/contracts/SCPostStorageContract'
+import SCPostStorageContract from 'helpers/contracts/SCEmailPostStorageContract'
 
 export default async function () {
   return (await SCPostStorageContract.getAllPosts())
