@@ -101,7 +101,7 @@ const menuItem = (current?: boolean) =>
     })
   )
 
-const SelectedValueComponent = ({
+function SelectedValueComponent<Data>({
   isDisabled,
   placeholder,
   currentValue,
@@ -109,9 +109,9 @@ const SelectedValueComponent = ({
 }: {
   isDisabled: boolean
   placeholder: string
-  currentValue: string
+  currentValue: Data
   userComponent?: JSX.Element
-}) => {
+}) {
   return currentValue ? (
     userComponent || (
       <TextareaText dark={isDisabled}>
@@ -124,7 +124,7 @@ const SelectedValueComponent = ({
   )
 }
 
-export default function <V>({
+export default function <SelectData>({
   border,
   current,
   options,
@@ -136,16 +136,16 @@ export default function <V>({
   OptionElement,
   onChange,
 }: {
-  current?: V
+  current?: SelectData
   border?: boolean
   loading?: boolean
   disabled?: boolean
   emptyText?: string
   placeholder?: string
-  options?: SelectOption<V>[]
+  options?: SelectOption<SelectData>[]
   SelectedValue?: JSX.Element
-  OptionElement?: (optionValue: SelectOption<V>) => JSX.Element
-  onChange?: (selected: SelectOption<V>) => void
+  OptionElement?: (optionValue: SelectOption<SelectData>) => JSX.Element
+  onChange?: (selected: SelectOption<SelectData>) => void
 }) {
   const [dropDownOpen, setOpen] = useState(false)
   const hasOptions = !!options && !!options.length
@@ -190,7 +190,7 @@ export default function <V>({
                 setOpen(false)
               }}
             >
-              {OptionElement ? OptionElement({ label, value }) : label || value}
+              {OptionElement ? OptionElement({ label, value }) : label}
             </p>
           ))}
       </div>
