@@ -49,16 +49,16 @@ const viewBlockchainLink = textColor('text-primary')
 
 export default function ({
   title,
-  tweet,
+  post,
 }: {
-  tweet: PostStatusModel
+  post: PostStatusModel
   title: string
 }) {
-  const loading = tweet.status === PostStatus.pending
+  const loading = post.status === PostStatus.pending
   const redirectTo =
-    tweet.status === PostStatus.published
-      ? `https://twitter.com/SealCredEcho/status/${tweet.statusId}`
-      : `/previous-tweets/blockchain#blockchainTweetId=${tweet.tweetId}`
+    post.status === PostStatus.published
+      ? `https://twitter.com/SealCredEcho/status/${post.statusId}`
+      : `/previous-tweets/blockchain#blockchainTweetId=${post.tweetId}`
 
   return (
     <div className={container(loading)}>

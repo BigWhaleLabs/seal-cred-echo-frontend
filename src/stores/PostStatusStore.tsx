@@ -7,7 +7,7 @@ import PostStatus from 'models/PostStatus'
 class PostStatusStore extends PersistableStore {
   postsStatuses: PostIdAndStatus = {}
 
-  async initFetchTweetList() {
+  async initFetchPostsStatuses() {
     this.postsStatuses = await getPostsFromPoster()
   }
 
@@ -18,6 +18,6 @@ class PostStatusStore extends PersistableStore {
 
 const postStatusStore = proxy(new PostStatusStore()).makePersistent(true)
 
-void postStatusStore.initFetchTweetList()
+void postStatusStore.initFetchPostsStatuses()
 
 export default postStatusStore

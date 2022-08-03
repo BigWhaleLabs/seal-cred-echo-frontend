@@ -92,7 +92,7 @@ function Status({ id }: { id: number }) {
       <LinkText
         extraSmall
         title="status"
-        url={`https://twitter.com/SealCredEcho/status/${tweet.statusId}`}
+        url={`https://twitter.com/SealCredEcho/status/${post.statusId}`}
       >
         Twitter
       </LinkText>

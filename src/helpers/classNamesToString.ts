@@ -4,7 +4,7 @@ type AllowedExtraClassnames =
   | 'no-scrollbar'
   | 'loading-pause'
   | 'blurEffect'
-  | 'blockchainTweets'
+  | 'blockchainPosts'
 
 export default function (
   ...classNames: (AllowedExtraClassnames | TTailwindString | undefined | null)[]

@@ -45,7 +45,7 @@ body {
 .blurEffect {
   position: relative !important;
 }
-.blurEffect + .blockchainTweets {
+.blurEffect + .blockchainPosts {
   display: none;
 }
 
@@ -60,7 +60,7 @@ body {
     backdrop-filter: blur(0.625rem);
     box-shadow: none;
   }
-  .blurEffect + .blockchainTweets {
+  .blurEffect + .blockchainPosts {
     display: block;
   }
 }

@@ -15,7 +15,7 @@ export default function () {
     <PreviousTweetsLayout back>
       {!adultAccepted && <AgeWarning />}
       <div
-        className={classNamesToString('blockchainTweets', space('space-y-4'))}
+        className={classNamesToString('blockchainPosts', space('space-y-4'))}
       >
         <HintCard>
           <BodyText primary>
