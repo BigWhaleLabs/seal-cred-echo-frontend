@@ -11,24 +11,34 @@ import SelectDropdown from 'components/SelectDropdown'
 import classnames, { display, padding } from 'classnames/tailwind'
 import useContractsOwned from 'hooks/useContractsOwned'
 
+type SelectValueType = ERC721Post | EmailPost
+
 const postingAs = classnames(
   display('tiny:inline', 'hidden'),
   padding('tiny:pr-1', 'pr-0')
 )
 
-function SelectedValue({ value }: { value?: ERC721Post | EmailPost }) {
+const SelectedContractName = ({ value }: { value?: SelectValueType }) => {
+  if (!value) return <>{null}</>
+
+  return (
+    <>
+      {value instanceof ERC721Post ? (
+        <ContractSymbol address={value.derivativeContract} />
+      ) : (
+        <>@{value.domain}</>
+      )}
+    </>
+  )
+}
+
+function SelectedValue({ value }: { value?: SelectValueType }) {
   return (
     <>
       {value ? (
         <TextareaText>
           <span className={postingAs}>Posting as: </span>
-          {value instanceof ERC721Post ? (
-            <ContractSymbol address={value.derivativeContract} />
-          ) : value instanceof EmailPost ? (
-            <>@{value.domain}</>
-          ) : (
-            ''
-          )}
+          <SelectedContractName value={value} />
         </TextareaText>
       ) : (
         ''
