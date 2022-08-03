@@ -9,6 +9,13 @@ import removeConsole from 'vite-plugin-remove-console'
 import mkcert from 'vite-plugin-mkcert'
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      http: 'rollup-plugin-node-polyfills/polyfills/http',
+      https: 'rollup-plugin-node-polyfills/polyfills/http',
+      stream: 'rollup-plugin-node-polyfills/polyfills/stream',
+    },
+  },
   server: { https: false },
   plugins: [mkcert, preact(), tsconfigPaths()],
   build: {
