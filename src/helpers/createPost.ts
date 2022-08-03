@@ -1,4 +1,4 @@
-import { PostERC721Structure, PostEmailStructure } from 'models/TweetStructure'
+import { PostERC721Structure, PostEmailStructure } from 'models/PostStructure'
 import { SCPostStorage__factory } from '@big-whale-labs/seal-cred-posts-contract'
 import { Web3Provider } from '@ethersproject/providers'
 import { utils } from 'ethers'

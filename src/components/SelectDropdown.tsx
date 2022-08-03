@@ -101,7 +101,7 @@ const menuItem = (current?: boolean) =>
     })
   )
 
-const SelectedValueComponent = ({
+function SelectedValueComponent<V>({
   isDisabled,
   placeholder,
   currentValue,
@@ -109,9 +109,9 @@ const SelectedValueComponent = ({
 }: {
   isDisabled: boolean
   placeholder: string
-  currentValue: string
+  currentValue?: V
   userComponent?: JSX.Element
-}) => {
+}) {
   return currentValue ? (
     userComponent || (
       <TextareaText dark={isDisabled}>
@@ -164,7 +164,7 @@ export default function <V>({
         {loading ? (
           <TextareaText dark>Fetching badges...</TextareaText>
         ) : hasOptions ? (
-          <SelectedValueComponent
+          <SelectedValueComponent<V>
             currentValue={current}
             placeholder={placeholder}
             userComponent={SelectedValue}
@@ -190,7 +190,11 @@ export default function <V>({
                 setOpen(false)
               }}
             >
-              {OptionElement ? OptionElement({ label, value }) : label || value}
+              {OptionElement ? (
+                OptionElement({ label, value })
+              ) : (
+                <>{label || value}</>
+              )}
             </p>
           ))}
       </div>

@@ -69,7 +69,13 @@ const PostStore = proxy<PostStoreInterface>({
 
         console.log('add', { id, post, derivativeAddress, sender, timestamp })
 
-        await addPost(id.toNumber(), post, derivativeAddress, sender, timestamp)
+        await addEmailPost(
+          id.toNumber(),
+          post,
+          derivativeAddress,
+          sender,
+          timestamp
+        )
       }
     } catch (error) {
       handleError(error)
@@ -112,7 +118,13 @@ const PostStore = proxy<PostStoreInterface>({
           timestamp,
         })
 
-        await addPost(id.toNumber(), post, derivativeAddress, sender, timestamp)
+        await addExternalERC721Post(
+          id.toNumber(),
+          post,
+          derivativeAddress,
+          sender,
+          timestamp
+        )
       }
     } catch (error) {
       handleError(error)
