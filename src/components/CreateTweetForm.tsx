@@ -67,7 +67,7 @@ export default function () {
           maxLength={maxLength}
           suffix={suffix}
           disabled={status.loading}
-          error={status.error?.message}
+          error={status.error}
         />
         <div className={space('space-y-2')}>
           <BodyText>Choose a ZK Badge</BodyText>
