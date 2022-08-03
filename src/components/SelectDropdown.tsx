@@ -101,7 +101,7 @@ const menuItem = (current?: boolean) =>
     })
   )
 
-function SelectedValueComponent<V>({
+function SelectedValueComponent<Data>({
   isDisabled,
   placeholder,
   currentValue,
@@ -109,7 +109,7 @@ function SelectedValueComponent<V>({
 }: {
   isDisabled: boolean
   placeholder: string
-  currentValue?: V
+  currentValue?: Data
   userComponent?: JSX.Element
 }) {
   return currentValue ? (
@@ -124,7 +124,7 @@ function SelectedValueComponent<V>({
   )
 }
 
-export default function <V>({
+export default function <SelectData>({
   border,
   current,
   options,
@@ -136,16 +136,16 @@ export default function <V>({
   OptionElement,
   onChange,
 }: {
-  current?: V
+  current?: SelectData
   border?: boolean
   loading?: boolean
   disabled?: boolean
   emptyText?: string
   placeholder?: string
-  options?: SelectOption<V>[]
+  options?: SelectOption<SelectData>[]
   SelectedValue?: JSX.Element
-  OptionElement?: (optionValue: SelectOption<V>) => JSX.Element
-  onChange?: (selected: SelectOption<V>) => void
+  OptionElement?: (optionValue: SelectOption<SelectData>) => JSX.Element
+  onChange?: (selected: SelectOption<SelectData>) => void
 }) {
   const [dropDownOpen, setOpen] = useState(false)
   const hasOptions = !!options && !!options.length
@@ -164,7 +164,7 @@ export default function <V>({
         {loading ? (
           <TextareaText dark>Fetching badges...</TextareaText>
         ) : hasOptions ? (
-          <SelectedValueComponent<V>
+          <SelectedValueComponent<SelectData>
             currentValue={current}
             placeholder={placeholder}
             userComponent={SelectedValue}
@@ -190,11 +190,7 @@ export default function <V>({
                 setOpen(false)
               }}
             >
-              {OptionElement ? (
-                OptionElement({ label, value })
-              ) : (
-                <>{label || value}</>
-              )}
+              {OptionElement ? OptionElement({ label, value }) : <>{label}</>}
             </p>
           ))}
       </div>

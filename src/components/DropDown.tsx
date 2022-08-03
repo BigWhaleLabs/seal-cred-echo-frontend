@@ -1,4 +1,5 @@
 import { Suspense } from 'preact/compat'
+import { TextareaText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import ContractName from 'components/ContractName'
 import ContractSymbol from 'components/ContractSymbol'
@@ -7,19 +8,38 @@ import EmailPost from 'helpers/posts/EmailPost'
 import PostStore from 'stores/PostStore'
 import SealCredStore from 'stores/SealCredStore'
 import SelectDropdown from 'components/SelectDropdown'
+import classnames, { display, padding } from 'classnames/tailwind'
 import useContractsOwned from 'hooks/useContractsOwned'
 
-function SelectedValue({ value }: { value?: ERC721Post | EmailPost }) {
+type SelectValueType = ERC721Post | EmailPost
+
+const postingAs = classnames(
+  display('tiny:inline', 'hidden'),
+  padding('tiny:pr-1', 'pr-0')
+)
+
+const SelectedContractName = ({ value }: { value?: SelectValueType }) => {
+  if (!value) return <>{null}</>
+
+  return (
+    <>
+      {value instanceof ERC721Post ? (
+        <ContractSymbol address={value.derivativeContract} />
+      ) : (
+        <>@{value.domain}</>
+      )}
+    </>
+  )
+}
+
+function SelectedValue({ value }: { value?: SelectValueType }) {
   return (
     <>
       {value ? (
-        value instanceof ERC721Post ? (
-          <ContractSymbol address={value.derivativeContract} />
-        ) : value instanceof EmailPost ? (
-          value.domain
-        ) : (
-          ''
-        )
+        <TextareaText>
+          <span className={postingAs}>Posting as: </span>
+          <SelectedContractName value={value} />
+        </TextareaText>
       ) : (
         ''
       )}

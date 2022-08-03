@@ -1,6 +1,6 @@
-export interface SelectOption<V> {
+export interface SelectOption<Data> {
   label?: string
-  value: V
+  value: Data
 }
 
 const twitterAccounts: SelectOption<string>[] = [
