@@ -90,23 +90,25 @@ export default function () {
                     PostFormStore.status = {
                       loading: true,
                     }
-                    if (currentPost instanceof EmailPost) {
-                      await EmailProcessingPostsStore.createPost(
-                        text,
-                        currentPost.original
-                      )
-                    }
-                    if (currentPost instanceof NFTPost) {
-                      await NFTProcessingPostsStore.createPost(
-                        text,
-                        currentPost.original
-                      )
-                    }
-                    if (currentPost instanceof ExternalNFTPost) {
-                      await ExternalNFTProcessingPostsStore.createPost(
-                        text,
-                        currentPost.original
-                      )
+                    switch (currentPost.constructor) {
+                      case EmailPost:
+                        await EmailProcessingPostsStore.createPost(
+                          text,
+                          currentPost.original
+                        )
+                        break
+                      case NFTPost:
+                        await NFTProcessingPostsStore.createPost(
+                          text,
+                          currentPost.original
+                        )
+                        break
+                      case ExternalNFTPost:
+                        await ExternalNFTProcessingPostsStore.createPost(
+                          text,
+                          currentPost.original
+                        )
+                        break
                     }
                   } catch (error) {
                     const parsedError =
