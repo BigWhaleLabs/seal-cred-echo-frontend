@@ -55,10 +55,15 @@ function OptionElement({
   label?: string
 }) {
   if (!label) return <>Not found</>
-  if (value instanceof ERC721Post) {
-    return <ContractSymbol address={label} />
-  }
-  return <ContractName clearType address={label} />
+  return (
+    <Suspense fallback={<>Loading...</>}>
+      {value instanceof ERC721Post ? (
+        <ContractSymbol address={label} />
+      ) : (
+        <ContractName clearType address={label} />
+      )}
+    </Suspense>
+  )
 }
 
 export function DropDown({ disabled }: { disabled?: boolean }) {
