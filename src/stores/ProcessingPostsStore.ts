@@ -39,12 +39,14 @@ export class PostProcessingStore {
       const posts = await this.store.posts
 
       const records = posts
-        .filter(
-          (record) =>
-            record.sender === WalletStore.account &&
-            this.statusStore.getPostStatus(record.id) === PostStatus.pending
-        )
-        .map((record) => record.id)
+        ? posts
+            .filter(
+              (record) =>
+                record.sender === WalletStore.account &&
+                this.statusStore.getPostStatus(record.id) === PostStatus.pending
+            )
+            .map((record) => record.id)
+        : []
       this.processingIds[WalletStore.account] = records
     }
   }
