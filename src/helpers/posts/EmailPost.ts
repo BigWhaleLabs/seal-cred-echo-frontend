@@ -1,7 +1,7 @@
 export default class {
-  domain: string
+  original: string
 
-  constructor(domain: string) {
-    this.domain = domain
+  constructor(original: string) {
+    this.original = original
   }
 }

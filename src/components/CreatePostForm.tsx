@@ -44,11 +44,9 @@ export default function () {
 
   const suffix = currentPost
     ? currentPost instanceof EmailPost
-      ? ` @ ${currentPost.domain}`
+      ? ` @ ${currentPost.original}`
       : currentPost instanceof ERC721Post
-      ? ` @ ${
-          savedContractSymbols[currentPost.derivativeContract] ?? 'loading...'
-        }`
+      ? ` @ ${savedContractSymbols[currentPost.derivative] ?? 'loading...'}`
       : ''
     : ''
 
@@ -93,7 +91,7 @@ export default function () {
                     if (currentPost instanceof EmailPost) {
                       await EmailProcessingPostsStore.createPost(
                         text,
-                        currentPost.domain
+                        currentPost.original
                       )
                     }
                     if (currentPost instanceof ERC721Post) {

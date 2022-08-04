@@ -24,9 +24,9 @@ const SelectedContractName = ({ value }: { value?: SelectValueType }) => {
   return (
     <>
       {value instanceof ERC721Post ? (
-        <ContractSymbol address={value.derivativeContract} />
+        <ContractSymbol address={value.derivative} />
       ) : (
-        <>@{value.domain}</>
+        <>@{value.original}</>
       )}
     </>
   )
@@ -65,24 +65,22 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
   const { emailLedger, externalERC721Ledger } = useSnapshot(SealCredStore)
   const contractsOwned = useContractsOwned()
   const ownedEmailDerivativeContracts = Object.values(emailLedger).filter(
-    ({ derivativeContract }) => contractsOwned.includes(derivativeContract)
+    ({ derivative }) => contractsOwned.includes(derivative)
   )
   const ownedExternalERC721DerivativeContracts = Object.values(
     externalERC721Ledger
-  ).filter(({ derivativeContract }) =>
-    contractsOwned.includes(derivativeContract)
-  )
+  ).filter(({ derivative }) => contractsOwned.includes(derivative))
   const { currentPost } = useSnapshot(PostFormStore)
 
   const options = [
-    ...ownedEmailDerivativeContracts.map(({ domain, derivativeContract }) => ({
-      label: derivativeContract,
-      value: new EmailPost(domain),
+    ...ownedEmailDerivativeContracts.map(({ original, derivative }) => ({
+      label: derivative,
+      value: new EmailPost(original),
     })),
     ...ownedExternalERC721DerivativeContracts.map(
-      ({ originalContract, derivativeContract }) => ({
-        label: derivativeContract,
-        value: new ERC721Post(originalContract, derivativeContract),
+      ({ original, derivative }) => ({
+        label: derivative,
+        value: new ERC721Post(original, derivative),
       })
     ),
   ]
