@@ -88,7 +88,7 @@ export default function () {
                 if (isValidForm) {
                   try {
                     PostFormStore.status = {
-                      loading: false,
+                      loading: true,
                     }
                     if (currentPost instanceof EmailPost) {
                       await EmailProcessingPostsStore.createPost(
