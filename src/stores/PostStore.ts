@@ -35,14 +35,7 @@ export class PostStore {
     return Promise.resolve(
       (await this.contract.getAllPosts())
         .map(({ id, post, derivativeAddress, sender, timestamp }) =>
-          getPostRecord(
-            id,
-            post,
-            derivativeAddress,
-            sender,
-            timestamp,
-            this.address
-          )
+          getPostRecord(id, post, derivativeAddress, sender, timestamp)
         )
         .reverse()
     )
@@ -83,14 +76,7 @@ export class PostStore {
     timestamp: BigNumber
   ) {
     console.log('PostStore addPost', this.address)
-    const record = getPostRecord(
-      id,
-      post,
-      derivativeAddress,
-      sender,
-      timestamp,
-      this.address
-    )
+    const record = getPostRecord(id, post, derivativeAddress, sender, timestamp)
     const storage = await this.posts
     if (!storage.find(({ id: postId }) => postId === id.toNumber())) {
       this.posts = Promise.resolve([record, ...storage])

@@ -5,8 +5,7 @@ export default function (
   post: string,
   derivativeAddress: string,
   sender: string,
-  timestamp: BigNumber,
-  contractAddress: string
+  timestamp: BigNumber
 ) {
   return {
     id: id.toNumber(),
@@ -14,6 +13,5 @@ export default function (
     derivativeAddress,
     sender,
     timestamp: timestamp.toNumber(),
-    contractAddress,
   }
 }

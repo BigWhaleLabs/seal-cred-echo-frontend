@@ -4,5 +4,4 @@ export default interface PostModel {
   derivativeAddress: string
   sender: string
   timestamp: number
-  contractAddress: string
 }
