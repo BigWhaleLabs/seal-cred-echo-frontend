@@ -97,13 +97,13 @@ export default function () {
                       )
                     }
                     if (currentPost instanceof NFTPost) {
-                      await ExternalNFTProcessingPostsStore.createPost(
+                      await NFTProcessingPostsStore.createPost(
                         text,
                         currentPost.original
                       )
                     }
                     if (currentPost instanceof ExternalNFTPost) {
-                      await NFTProcessingPostsStore.createPost(
+                      await ExternalNFTProcessingPostsStore.createPost(
                         text,
                         currentPost.original
                       )
