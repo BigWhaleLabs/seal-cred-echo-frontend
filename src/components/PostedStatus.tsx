@@ -22,7 +22,7 @@ export default function ({
       <LinkText
         extraSmall
         title="status"
-        url={`https://twitter.com/SealCredEcho/status/${post.statusId}`}
+        url={`https://twitter.com/SealCredEmail/status/${post.statusId}`}
       >
         Twitter
       </LinkText>
