@@ -56,7 +56,7 @@ function BlockchainPostsListSuspended() {
       post,
       statusStore: ExternalPostStatusStore,
     })),
-  ]
+  ].sort((a, b) => b.post.timestamp - a.post.timestamp)
 
   return (
     <>

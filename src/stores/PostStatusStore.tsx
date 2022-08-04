@@ -29,15 +29,14 @@ export default class PostStatusStore extends PersistableStore {
 
   async updatePostsStatusesByIds(ids: number[]) {
     const result = await getPostsByIdsFromPoster(ids, this.store.address)
-    if (result) {
-      const postsStatuses = {} as PostIdAndStatus
-      for (const post of result) {
-        postsStatuses[post.tweetId] = post
-      }
-      this.postsStatuses = {
-        ...this.postsStatuses,
-        ...postsStatuses,
-      }
+    if (!result) return
+    const postsStatuses = {} as PostIdAndStatus
+    for (const post of result) {
+      postsStatuses[post.tweetId] = post
+    }
+    this.postsStatuses = {
+      ...this.postsStatuses,
+      ...postsStatuses,
     }
   }
 }

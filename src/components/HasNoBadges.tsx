@@ -11,9 +11,7 @@ function HasNoBadgesSuspended() {
   const ownedDerivativeContracts = [
     ...Object.values(emailLedger),
     ...Object.values(externalERC721Ledger),
-  ].filter(({ derivativeContract }) =>
-    contractsOwned.includes(derivativeContract)
-  )
+  ].filter(({ derivative }) => contractsOwned.includes(derivative))
 
   if (ownedDerivativeContracts.length) return null
 
