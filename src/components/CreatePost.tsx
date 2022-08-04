@@ -1,6 +1,5 @@
 import {
   EmailProcessingPostsStore,
-  ExternalProcessingPostsStore,
   PostProcessingStore,
 } from 'stores/ProcessingPostsStore'
 import { margin, space } from 'classnames/tailwind'
@@ -8,10 +7,7 @@ import { useSnapshot } from 'valtio'
 import CreatePostForm from 'components/CreatePostForm'
 import PostProcessing from 'components/PostProcessing'
 import PostStatus from 'models/PostStatus'
-import PostStatusStore, {
-  EmailPostStatusStore,
-  ExternalPostStatusStore,
-} from 'stores/PostStatusStore'
+import PostStatusStore, { EmailPostStatusStore } from 'stores/PostStatusStore'
 import WalletStore from 'stores/WalletStore'
 
 function usePosts(
