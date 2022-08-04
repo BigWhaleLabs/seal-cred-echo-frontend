@@ -1,8 +1,12 @@
 import {
   EmailPostStatusStore,
-  ExternalPostStatusStore,
+  ExternalNFTPostStatusStore,
 } from 'stores/PostStatusStore'
-import { EmailPostStore, ExternalPostStore } from 'stores/PostStore'
+import {
+  EmailPostStore,
+  ExternalNFTPostStore,
+  NFTPostStore,
+} from 'stores/PostStore'
 import { Suspense, useState } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import BlockchainPost from 'components/BlockchainPost'
@@ -45,16 +49,21 @@ function BlockchainPostsListSuspended() {
   const [selectedAddress, setAddress] = useState('')
   useScrollToAnchor(0, true, flashingPost)
   const { posts: emailPosts } = useSnapshot(EmailPostStore)
-  const { posts: externalERC721Posts } = useSnapshot(ExternalPostStore)
+  const { posts: NFTPosts } = useSnapshot(NFTPostStore)
+  const { posts: externalNFTPosts } = useSnapshot(ExternalNFTPostStore)
 
   const posts = [
     ...emailPosts.map((post) => ({
       post,
       statusStore: EmailPostStatusStore,
     })),
-    ...externalERC721Posts.map((post) => ({
+    ...NFTPosts.map((post) => ({
       post,
-      statusStore: ExternalPostStatusStore,
+      statusStore: ExternalNFTPostStatusStore,
+    })),
+    ...externalNFTPosts.map((post) => ({
+      post,
+      statusStore: ExternalNFTPostStatusStore,
     })),
   ].sort((a, b) => b.post.timestamp - a.post.timestamp)
 

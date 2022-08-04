@@ -1,16 +1,18 @@
 import { BodyText, HeaderText } from 'components/Text'
 import {
   EmailProcessingPostsStore,
-  ExternalProcessingPostsStore,
+  ExternalNFTProcessingPostsStore,
+  NFTProcessingPostsStore,
 } from 'stores/ProcessingPostsStore'
 import { useSnapshot } from 'valtio'
 import { useState } from 'preact/hooks'
 import Button from 'components/Button'
 import ContractNameStore from 'stores/ContractNameStore'
 import DropDown from 'components/DropDown'
-import ERC721Post from 'helpers/posts/ERC721Post'
 import EmailPost from 'helpers/posts/EmailPost'
+import ExternalNFTPost from 'helpers/posts/ExternalNFTPost'
 import HasNoBadges from 'components/HasNoBadges'
+import NFTPost from 'helpers/posts/NFTPost'
 import PostFormStore from 'stores/PostFormStore'
 import TextArea from 'components/TextArea'
 import classnames, {
@@ -45,7 +47,7 @@ export default function () {
   const suffix = currentPost
     ? currentPost instanceof EmailPost
       ? ` @ ${currentPost.original}`
-      : currentPost instanceof ERC721Post
+      : currentPost instanceof NFTPost
       ? ` @ ${savedContractSymbols[currentPost.derivative] ?? 'loading...'}`
       : ''
     : ''
@@ -94,8 +96,14 @@ export default function () {
                         currentPost.original
                       )
                     }
-                    if (currentPost instanceof ERC721Post) {
-                      await ExternalProcessingPostsStore.createPost(
+                    if (currentPost instanceof NFTPost) {
+                      await ExternalNFTProcessingPostsStore.createPost(
+                        text,
+                        currentPost.original
+                      )
+                    }
+                    if (currentPost instanceof ExternalNFTPost) {
+                      await NFTProcessingPostsStore.createPost(
                         text,
                         currentPost.original
                       )

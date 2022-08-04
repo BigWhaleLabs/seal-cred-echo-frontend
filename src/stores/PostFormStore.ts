@@ -1,7 +1,8 @@
 import { proxy } from 'valtio'
 import { subscribeKey } from 'valtio/utils'
-import ERC721Post from 'helpers/posts/ERC721Post'
 import EmailPost from 'helpers/posts/EmailPost'
+import ExternalNFTPost from 'helpers/posts/ExternalNFTPost'
+import NFTPost from 'helpers/posts/NFTPost'
 import WalletStore from 'stores/WalletStore'
 
 interface PostStoreInterface {
@@ -10,7 +11,7 @@ interface PostStoreInterface {
     error?: Error
     success?: boolean
   }
-  currentPost?: EmailPost | ERC721Post
+  currentPost?: EmailPost | NFTPost | ExternalNFTPost
 }
 
 const PostFormStore = proxy<PostStoreInterface>({

@@ -1,4 +1,9 @@
-import { EmailPostStore, ExternalPostStore, PostStore } from 'stores/PostStore'
+import {
+  EmailPostStore,
+  ExternalNFTPostStore,
+  NFTPostStore,
+  PostStore,
+} from 'stores/PostStore'
 import { PostIdAndStatus } from 'models/PostStatusModel'
 import { getPostsByIdsFromPoster } from 'helpers/getPostsFromPoster'
 import { getPostsFromPoster } from 'helpers/getPostsFromPoster'
@@ -41,17 +46,25 @@ export default class PostStatusStore extends PersistableStore {
   }
 }
 
-function createPostStatusStore(store: PostStore) {
+async function createPostStatusStore(store: PostStore) {
   const postStatusStore = proxy(new PostStatusStore(store)).makePersistent(true)
 
-  void postStatusStore.fetchPostsStatuses()
+  await postStatusStore.fetchPostsStatuses()
 
-  setInterval(() => {
-    void postStatusStore.fetchPostsStatuses()
+  let locked = false
+  setInterval(async () => {
+    if (!locked) {
+      locked = true
+      await postStatusStore.fetchPostsStatuses()
+      locked = false
+    }
   }, 10000) // poll posts list every 10 seconds
 
   return postStatusStore
 }
 
-export const EmailPostStatusStore = createPostStatusStore(EmailPostStore)
-export const ExternalPostStatusStore = createPostStatusStore(ExternalPostStore)
+export const EmailPostStatusStore = await createPostStatusStore(EmailPostStore)
+export const NFTPostStatusStore = await createPostStatusStore(NFTPostStore)
+export const ExternalNFTPostStatusStore = await createPostStatusStore(
+  ExternalNFTPostStore
+)

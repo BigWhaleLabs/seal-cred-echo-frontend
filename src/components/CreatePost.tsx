@@ -1,6 +1,7 @@
 import {
   EmailProcessingPostsStore,
-  ExternalProcessingPostsStore,
+  ExternalNFTProcessingPostsStore,
+  NFTProcessingPostsStore,
   PostProcessingStore,
 } from 'stores/ProcessingPostsStore'
 import { margin, space } from 'classnames/tailwind'
@@ -10,7 +11,8 @@ import PostProcessing from 'components/PostProcessing'
 import PostStatus from 'models/PostStatus'
 import PostStatusStore, {
   EmailPostStatusStore,
-  ExternalPostStatusStore,
+  ExternalNFTPostStatusStore,
+  NFTPostStatusStore,
 } from 'stores/PostStatusStore'
 import WalletStore from 'stores/WalletStore'
 
@@ -54,13 +56,24 @@ export default function () {
     lastPublishedPost: emailLastPublishedPost,
   } = usePosts(EmailPostStatusStore, EmailProcessingPostsStore)
   const {
-    pendingPosts: externalPendingPosts,
-    lastPublishedPost: externalLastPublishedPost,
-  } = usePosts(ExternalPostStatusStore, ExternalProcessingPostsStore)
+    pendingPosts: NFTPendingPosts,
+    lastPublishedPost: NFTLastPublishedPost,
+  } = usePosts(NFTPostStatusStore, NFTProcessingPostsStore)
+  const {
+    pendingPosts: externalNFTPendingPosts,
+    lastPublishedPost: externalNFTLastPublishedPost,
+  } = usePosts(ExternalNFTPostStatusStore, ExternalNFTProcessingPostsStore)
 
-  const pendingPosts = [...emailPendingPosts, ...externalPendingPosts]
+  const pendingPosts = [
+    ...emailPendingPosts,
+    ...NFTPendingPosts,
+    ...externalNFTPendingPosts,
+  ]
 
-  const lastPublishedPost = emailLastPublishedPost || externalLastPublishedPost
+  const lastPublishedPost =
+    emailLastPublishedPost ||
+    NFTLastPublishedPost ||
+    externalNFTLastPublishedPost
 
   return (
     <div className={margin('mt-6', 'mb-16')}>

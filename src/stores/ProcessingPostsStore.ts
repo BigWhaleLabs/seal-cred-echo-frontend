@@ -1,8 +1,14 @@
 import {
   EmailPostStatusStore,
-  ExternalPostStatusStore,
+  ExternalNFTPostStatusStore,
+  NFTPostStatusStore,
 } from 'stores/PostStatusStore'
-import { EmailPostStore, ExternalPostStore, PostStore } from 'stores/PostStore'
+import {
+  EmailPostStore,
+  ExternalNFTPostStore,
+  NFTPostStore,
+  PostStore,
+} from 'stores/PostStore'
 import { proxy } from 'valtio'
 import { subscribeKey } from 'valtio/utils'
 import PostStatus from 'models/PostStatus'
@@ -89,8 +95,13 @@ function createPostProcessingStore(
     void processingPostsStore.fetchProcessingPosts()
   })
 
-  setInterval(() => {
-    void processingPostsStore.updateStatus()
+  let locked = false
+  setInterval(async () => {
+    if (!locked) {
+      locked = true
+      await processingPostsStore.updateStatus()
+      locked = false
+    }
   }, 10000) // poll posts list every 10 seconds
 
   return processingPostsStore
@@ -100,7 +111,13 @@ export const EmailProcessingPostsStore = createPostProcessingStore(
   EmailPostStore,
   EmailPostStatusStore
 )
-export const ExternalProcessingPostsStore = createPostProcessingStore(
-  ExternalPostStore,
-  ExternalPostStatusStore
+
+export const NFTProcessingPostsStore = createPostProcessingStore(
+  NFTPostStore,
+  NFTPostStatusStore
+)
+
+export const ExternalNFTProcessingPostsStore = createPostProcessingStore(
+  ExternalNFTPostStore,
+  ExternalNFTPostStatusStore
 )
