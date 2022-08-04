@@ -7,10 +7,9 @@ import EmailPost from 'helpers/posts/EmailPost'
 import ExternalNFTPost from 'helpers/posts/ExternalNFTPost'
 import NFTPost from 'helpers/posts/NFTPost'
 import PostFormStore from 'stores/PostFormStore'
-import SealCredStore from 'stores/SealCredStore'
 import SelectDropdown from 'components/SelectDropdown'
 import classnames, { display, padding } from 'classnames/tailwind'
-import useContractsOwned from 'hooks/useContractsOwned'
+import useOptions from 'hooks/useOptions'
 
 type SelectValueType = EmailPost | ExternalNFTPost | NFTPost
 
@@ -69,30 +68,7 @@ function OptionElement({
 
 export function DropDown({ disabled }: { disabled?: boolean }) {
   const { currentPost } = useSnapshot(PostFormStore)
-  const { emailLedger, ERC721Ledger, externalERC721Ledger } =
-    useSnapshot(SealCredStore)
-  const contractsOwned = useContractsOwned()
-
-  const options = [
-    ...Object.values(emailLedger)
-      .filter(({ derivative }) => contractsOwned.includes(derivative))
-      .map(({ original, derivative }) => ({
-        label: derivative,
-        value: new EmailPost(original),
-      })),
-    ...Object.values(ERC721Ledger)
-      .filter(({ derivative }) => contractsOwned.includes(derivative))
-      .map(({ original, derivative }) => ({
-        label: derivative,
-        value: new NFTPost(original, derivative),
-      })),
-    ...Object.values(externalERC721Ledger)
-      .filter(({ derivative }) => contractsOwned.includes(derivative))
-      .map(({ original, derivative }) => ({
-        label: derivative,
-        value: new ExternalNFTPost(original, derivative),
-      })),
-  ]
+  const options = useOptions()
 
   return (
     <SelectDropdown<ExternalNFTPost | NFTPost | EmailPost>

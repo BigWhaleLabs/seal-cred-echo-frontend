@@ -47,7 +47,7 @@ export default function () {
   const suffix = currentPost
     ? currentPost instanceof EmailPost
       ? ` @ ${currentPost.original}`
-      : currentPost instanceof NFTPost
+      : currentPost instanceof NFTPost || currentPost instanceof ExternalNFTPost
       ? ` @ ${savedContractSymbols[currentPost.derivative] ?? 'loading...'}`
       : ''
     : ''
