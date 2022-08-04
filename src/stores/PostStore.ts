@@ -3,7 +3,6 @@ import {
   SCPostStorage,
   SCPostStorage__factory,
 } from '@big-whale-labs/seal-cred-posts-contract'
-import { parsePostSavedLogData } from 'helpers/createPost'
 import { proxy } from 'valtio'
 import PostModel from 'models/PostModel'
 import WalletStore from 'stores/WalletStore'
@@ -11,6 +10,7 @@ import defaultProvider from 'helpers/providers/defaultProvider'
 import env from 'helpers/env'
 import getPostRecord from 'helpers/contracts/getPostRecord'
 import handleError from 'helpers/handleError'
+import parsePostLogData from 'helpers/parsePostLogData'
 
 export class PostStore {
   address: string
@@ -51,7 +51,7 @@ export class PostStore {
 
       return Promise.all(
         result.logs
-          .map(({ data, topics }) => parsePostSavedLogData({ data, topics }))
+          .map(({ data, topics }) => parsePostLogData({ data, topics }))
           .map(({ args }) => args)
           .map(({ id, post, derivativeAddress, sender, timestamp }) =>
             this.addPost(id, post, derivativeAddress, sender, timestamp)
