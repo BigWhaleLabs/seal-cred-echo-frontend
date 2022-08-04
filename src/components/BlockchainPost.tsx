@@ -12,6 +12,7 @@ import ContractSymbol from 'components/ContractSymbol'
 import Delimiter from 'components/Delimiter'
 import EnsAddress from 'components/EnsAddress'
 import PostChips from 'components/PostChips'
+import PostModel from 'models/PostModel'
 import PostStatus from 'models/PostStatus'
 import PostStatusStore from 'stores/PostStatusStore'
 import PostTime from 'components/PostTime'
@@ -80,8 +81,14 @@ export function PostContract({
   )
 }
 
-function Status({ id }: { id: number }) {
-  const { postsStatuses } = useSnapshot(PostStatusStore)
+function Status({
+  id,
+  statusStore,
+}: {
+  id: number
+  statusStore: PostStatusStore
+}) {
+  const { postsStatuses } = useSnapshot(statusStore)
   const post = postsStatuses[id]
 
   if (post?.status !== PostStatus.published) return null
@@ -101,25 +108,19 @@ function Status({ id }: { id: number }) {
 }
 
 export default function ({
-  id,
-  post,
-  derivativeAddress,
-  sender,
-  timestamp,
+  post: { id, post, derivativeAddress, sender, timestamp },
+  statusStore,
   onSelectAddress,
 }: {
-  id: number
-  post: string
-  derivativeAddress: string
-  sender: string
-  timestamp: number
+  post: PostModel
+  statusStore: PostStatusStore
   onSelectAddress: (address: string) => void
 }) {
   return (
     <Card key={id}>
       <div className={container}>
         <div className={postHeader}>
-          <PostChips id={id} />
+          <PostChips id={id} statusStore={statusStore} />
           <PostTime timestamp={timestamp} />
         </div>
         <PostText>{post}</PostText>
@@ -141,7 +142,7 @@ export default function ({
             >
               Etherscan
             </LinkText>
-            <Status id={id} />
+            <Status id={id} statusStore={statusStore} />
           </span>
         </BodyText>
       </div>

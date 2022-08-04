@@ -58,6 +58,10 @@ class WalletStore extends PersistableStore {
     this.walletLoading = false
   }
 
+  get provider() {
+    return provider
+  }
+
   saveEmailPost({ post, domain }: PostEmailStructure) {
     if (!provider) throw new Error('No provider found')
 

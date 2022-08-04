@@ -5,7 +5,7 @@ import ContractName from 'components/ContractName'
 import ContractSymbol from 'components/ContractSymbol'
 import ERC721Post from 'helpers/posts/ERC721Post'
 import EmailPost from 'helpers/posts/EmailPost'
-import PostStore from 'stores/PostStore'
+import PostFormStore from 'stores/PostFormStore'
 import SealCredStore from 'stores/SealCredStore'
 import SelectDropdown from 'components/SelectDropdown'
 import classnames, { display, padding } from 'classnames/tailwind'
@@ -72,7 +72,7 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
   ).filter(({ derivativeContract }) =>
     contractsOwned.includes(derivativeContract)
   )
-  const { currentPost } = useSnapshot(PostStore)
+  const { currentPost } = useSnapshot(PostFormStore)
 
   const options = [
     ...ownedEmailDerivativeContracts.map(({ domain, derivativeContract }) => ({
@@ -97,7 +97,7 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
       options={options}
       SelectedValue={<SelectedValue value={currentPost} />}
       OptionElement={OptionElement}
-      onChange={({ value }) => (PostStore.currentPost = value)}
+      onChange={({ value }) => (PostFormStore.currentPost = value)}
     />
   )
 }

@@ -1,4 +1,8 @@
 import { BodyText, HeaderText } from 'components/Text'
+import {
+  EmailProcessingPostsStore,
+  ExternalProcessingPostsStore,
+} from 'stores/ProcessingPostsStore'
 import { useSnapshot } from 'valtio'
 import { useState } from 'preact/hooks'
 import Button from 'components/Button'
@@ -7,7 +11,7 @@ import DropDown from 'components/DropDown'
 import ERC721Post from 'helpers/posts/ERC721Post'
 import EmailPost from 'helpers/posts/EmailPost'
 import HasNoBadges from 'components/HasNoBadges'
-import PostStore from 'stores/PostStore'
+import PostFormStore from 'stores/PostFormStore'
 import TextArea from 'components/TextArea'
 import classnames, {
   alignItems,
@@ -35,7 +39,7 @@ const dropdownWrapper = classnames(
 
 export default function () {
   const [text, onTextChange] = useState('')
-  const { status, currentPost } = useSnapshot(PostStore)
+  const { status, currentPost } = useSnapshot(PostFormStore)
   const { savedContractSymbols } = useSnapshot(ContractNameStore)
 
   const suffix = currentPost
@@ -83,16 +87,18 @@ export default function () {
               onClick={async () => {
                 if (isValidForm) {
                   if (currentPost instanceof EmailPost) {
-                    await PostStore.createEmailPost({
-                      post: text,
-                      domain: currentPost.domain,
-                    })
-                  } else if (currentPost instanceof ERC721Post) {
-                    await PostStore.createERC721Post({
-                      post: text,
-                      originalContract: currentPost.originalDomain,
-                    })
+                    await EmailProcessingPostsStore.createPost(
+                      text,
+                      currentPost.domain
+                    )
                   }
+                  if (currentPost instanceof ERC721Post) {
+                    await ExternalProcessingPostsStore.createPost(
+                      text,
+                      currentPost.derivativeContract
+                    )
+                  }
+
                   onTextChange('')
                 }
               }}

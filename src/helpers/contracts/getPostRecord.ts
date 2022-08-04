@@ -1,17 +1,19 @@
 import { BigNumber } from 'ethers'
 
 export default function (
-  id: number,
+  id: BigNumber,
   post: string,
   derivativeAddress: string,
   sender: string,
-  timestamp: BigNumber
+  timestamp: BigNumber,
+  contractAddress: string
 ) {
   return {
-    id,
+    id: id.toNumber(),
     post,
     derivativeAddress,
     sender,
     timestamp: timestamp.toNumber(),
+    contractAddress,
   }
 }

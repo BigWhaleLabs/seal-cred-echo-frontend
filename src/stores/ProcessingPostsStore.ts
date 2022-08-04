@@ -1,63 +1,108 @@
-import { PostIdAndStatus } from 'models/PostStatusModel'
-import { getPostsByIdsFromPoster } from 'helpers/getPostsFromPoster'
+import {
+  EmailPostStatusStore,
+  ExternalPostStatusStore,
+} from 'stores/PostStatusStore'
+import { EmailPostStore, ExternalPostStore, PostStore } from 'stores/PostStore'
 import { proxy } from 'valtio'
 import { subscribeKey } from 'valtio/utils'
 import PostStatus from 'models/PostStatus'
 import PostStatusStore from 'stores/PostStatusStore'
-import PostStore from 'stores/PostStore'
 import WalletStore from 'stores/WalletStore'
 
-class ProcessingPostsStore {
-  processingPostIds: { [account: string]: number[] | undefined } = {}
+export class PostProcessingStore {
+  store: PostStore
+  statusStore: PostStatusStore
+  processingIds: { [account: string]: number[] | undefined } = {}
+
+  constructor(store: PostStore, statusStore: PostStatusStore) {
+    this.store = store
+    this.statusStore = statusStore
+
+    this.store.contract.on(
+      this.store.contract.filters.PostSaved(),
+      async (id, post, derivativeAddress, sender, timestamp) => {
+        console.info('Post event', id, post, derivativeAddress)
+        const record = await this.store.addPost(
+          id,
+          post,
+          derivativeAddress,
+          sender,
+          timestamp
+        )
+        this.addPost(record)
+      }
+    )
+  }
 
   async fetchProcessingPosts() {
+    console.log('fetchProcessingPosts', this.store.address)
     if (WalletStore.account) {
-      const blockchablockchainEmailPostsinPosts =
-        await PostStore.blockchainEmailPosts
-      const blockchainExternalERC721Posts =
-        await PostStore.blockchainExternalERC721Posts
-      const blockchainPosts = [
-        ...blockchablockchainEmailPostsinPosts,
-        ...blockchainExternalERC721Posts,
-      ]
-      const records = blockchainPosts
+      const posts = await this.store.posts
+
+      const records = posts
         .filter(
           (record) =>
             record.sender === WalletStore.account &&
-            PostStatusStore.getPostStatus(record.id) === PostStatus.pending
+            this.statusStore.getPostStatus(record.id) === PostStatus.pending
         )
         .map((record) => record.id)
-      this.processingPostIds[WalletStore.account] = records
+      this.processingIds[WalletStore.account] = records
     }
   }
 
-  async updateStatus() {
+  updateStatus() {
+    console.log('updateStatus', this.store.address)
     const account = WalletStore.account
     if (!account) return
-    const posts = this.processingPostIds[account]
-    if (!posts?.length) return
-    const result = await getPostsByIdsFromPoster(posts)
-    if (result) {
-      const postsStatuses = {} as PostIdAndStatus
-      for (const post of result) {
-        postsStatuses[post.tweetId] = post
+    const ids = this.processingIds[account]
+    if (!ids?.length) return
+    return this.statusStore.updatePostsStatusesByIds(ids)
+  }
+
+  async createPost(text: string, original: string) {
+    const [record] = await this.store.createPost(text, original)
+    this.addPost(record)
+  }
+
+  addPost({ id, sender }: { id: number; sender: string }) {
+    const processingIds = this.processingIds[sender]
+    if (this.statusStore.postsStatuses[id])
+      this.statusStore.postsStatuses[id] = {
+        tweetId: id,
+        status: PostStatus.pending,
       }
-      PostStatusStore.postsStatuses = {
-        ...PostStatusStore.postsStatuses,
-        ...postsStatuses,
-      }
+    if (processingIds) {
+      this.processingIds[sender] = [id, ...processingIds]
+      return
     }
+    this.processingIds[sender] = [id]
   }
 }
 
-const processingPostsStore = proxy(new ProcessingPostsStore())
+function createPostProcessingStore(
+  store: PostStore,
+  statusStore: PostStatusStore
+) {
+  const processingPostsStore = proxy(
+    new PostProcessingStore(store, statusStore)
+  )
 
-subscribeKey(WalletStore, 'account', () => {
-  void processingPostsStore.fetchProcessingPosts()
-})
+  subscribeKey(WalletStore, 'account', () => {
+    void processingPostsStore.fetchProcessingPosts()
+  })
 
-setInterval(() => {
-  void processingPostsStore.updateStatus()
-}, 10000) // poll posts list every 10 seconds
+  setInterval(() => {
+    void processingPostsStore.updateStatus()
+  }, 10000) // poll posts list every 10 seconds
 
-export default processingPostsStore
+  return processingPostsStore
+}
+
+export const EmailProcessingPostsStore = createPostProcessingStore(
+  EmailPostStore,
+  EmailPostStatusStore
+)
+export const ExternalProcessingPostsStore = createPostProcessingStore(
+  ExternalPostStore,
+  ExternalPostStatusStore
+)
