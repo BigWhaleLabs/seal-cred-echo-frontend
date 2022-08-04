@@ -58,7 +58,7 @@ function createPostStatusStore(store: PostStore) {
       await postStatusStore.fetchPostsStatuses()
       locked = false
     }
-  }, 10000) // poll posts list every 10 seconds
+  }, 60000) // poll posts list every minute
 
   return postStatusStore
 }
