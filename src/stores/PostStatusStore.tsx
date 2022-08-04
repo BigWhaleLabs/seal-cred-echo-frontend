@@ -46,12 +46,12 @@ export default class PostStatusStore extends PersistableStore {
   }
 }
 
-async function createPostStatusStore(store: PostStore) {
+function createPostStatusStore(store: PostStore) {
   const postStatusStore = proxy(new PostStatusStore(store)).makePersistent(true)
 
-  await postStatusStore.fetchPostsStatuses()
+  let locked = true
+  void postStatusStore.fetchPostsStatuses().then(() => (locked = false))
 
-  let locked = false
   setInterval(async () => {
     if (!locked) {
       locked = true
@@ -63,8 +63,7 @@ async function createPostStatusStore(store: PostStore) {
   return postStatusStore
 }
 
-export const EmailPostStatusStore = await createPostStatusStore(EmailPostStore)
-export const NFTPostStatusStore = await createPostStatusStore(NFTPostStore)
-export const ExternalNFTPostStatusStore = await createPostStatusStore(
-  ExternalNFTPostStore
-)
+export const EmailPostStatusStore = createPostStatusStore(EmailPostStore)
+export const NFTPostStatusStore = createPostStatusStore(NFTPostStore)
+export const ExternalNFTPostStatusStore =
+  createPostStatusStore(ExternalNFTPostStore)
