@@ -56,7 +56,7 @@ export default function () {
   const {
     pendingPosts: externalPendingPosts,
     lastPublishedPost: externalLastPublishedPost,
-  } = usePosts(EmailPostStatusStore, EmailProcessingPostsStore)
+  } = usePosts(ExternalPostStatusStore, ExternalProcessingPostsStore)
 
   const pendingPosts = [...emailPendingPosts, ...externalPendingPosts]
 

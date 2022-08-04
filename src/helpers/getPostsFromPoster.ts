@@ -6,7 +6,7 @@ const baseURL = `${env.VITE_TWITTER_POSTER_URL}/tweets`
 
 export async function getPostsFromPoster(contractAddress: string) {
   const { data } = await axios.get<PostStatusModel[]>(
-    `${baseURL}/?contractAddress=${contractAddress}`
+    `${baseURL}/${contractAddress}`
   )
   return data.reduce((acc, post) => {
     acc[post.tweetId] = post
@@ -19,7 +19,7 @@ export async function getPostsByIdsFromPoster(
   contractAddress: string
 ) {
   const { data } = await axios.post<PostStatusModel[]>(
-    `${baseURL}/list?contractAddress=${contractAddress}`,
+    `${baseURL}/${contractAddress}/list`,
     {
       ids,
     }

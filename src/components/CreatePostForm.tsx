@@ -86,19 +86,29 @@ export default function () {
               title="Tweet"
               onClick={async () => {
                 if (isValidForm) {
-                  if (currentPost instanceof EmailPost) {
-                    await EmailProcessingPostsStore.createPost(
-                      text,
-                      currentPost.domain
-                    )
+                  try {
+                    PostFormStore.status = {
+                      loading: false,
+                    }
+                    if (currentPost instanceof EmailPost) {
+                      await EmailProcessingPostsStore.createPost(
+                        text,
+                        currentPost.domain
+                      )
+                    }
+                    if (currentPost instanceof ERC721Post) {
+                      await ExternalProcessingPostsStore.createPost(
+                        text,
+                        currentPost.original
+                      )
+                    }
+                  } catch (error) {
+                    PostFormStore.status.loading = false
+                    if (error instanceof Error)
+                      PostFormStore.status.error = error
+                  } finally {
+                    PostFormStore.status.loading = false
                   }
-                  if (currentPost instanceof ERC721Post) {
-                    await ExternalProcessingPostsStore.createPost(
-                      text,
-                      currentPost.derivativeContract
-                    )
-                  }
-
                   onTextChange('')
                 }
               }}

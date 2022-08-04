@@ -18,7 +18,6 @@ export class PostStore {
   posts: Promise<PostModel[]>
 
   constructor(address: string) {
-    console.log('address', address)
     this.address = address
     this.contract = this.createContractWithProvider(defaultProvider)
     this.posts = this.fetchBlockchainPosts()
@@ -31,7 +30,6 @@ export class PostStore {
   }
 
   async fetchBlockchainPosts() {
-    console.log('PostStore fetchBlockchainPosts', this.address, this.contract)
     return Promise.resolve(
       (await this.contract.getAllPosts())
         .map(({ id, post, derivativeAddress, sender, timestamp }) =>
@@ -42,7 +40,6 @@ export class PostStore {
   }
 
   async createPost(text: string, original: string) {
-    console.log('PostStore createPost', this.address)
     try {
       if (!WalletStore.provider) throw new Error('No provider found')
       const contract = this.createContractWithProvider(
@@ -75,11 +72,10 @@ export class PostStore {
     sender: string,
     timestamp: BigNumber
   ) {
-    console.log('PostStore addPost', this.address)
     const record = getPostRecord(id, post, derivativeAddress, sender, timestamp)
-    const storage = await this.posts
-    if (!storage.find(({ id: postId }) => postId === id.toNumber())) {
-      this.posts = Promise.resolve([record, ...storage])
+    const posts = await this.posts
+    if (!posts.find(({ id: postId }) => postId === id.toNumber())) {
+      this.posts = Promise.resolve([record, ...posts])
     }
     return record
   }

@@ -1,9 +1,9 @@
 export default class {
-  originalDomain: string
+  original: string
   derivativeContract: string
 
-  constructor(originalDomain: string, derivativeContract: string) {
-    this.originalDomain = originalDomain
+  constructor(original: string, derivativeContract: string) {
+    this.original = original
     this.derivativeContract = derivativeContract
   }
 }

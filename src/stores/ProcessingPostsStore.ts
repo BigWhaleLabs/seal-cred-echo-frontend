@@ -35,7 +35,6 @@ export class PostProcessingStore {
   }
 
   async fetchProcessingPosts() {
-    console.log('fetchProcessingPosts', this.store.address)
     if (WalletStore.account) {
       const posts = await this.store.posts
 
@@ -51,7 +50,6 @@ export class PostProcessingStore {
   }
 
   updateStatus() {
-    console.log('updateStatus', this.store.address)
     const account = WalletStore.account
     if (!account) return
     const ids = this.processingIds[account]

@@ -5,7 +5,6 @@ import EmailPost from 'helpers/posts/EmailPost'
 import WalletStore from 'stores/WalletStore'
 
 interface PostStoreInterface {
-  calculatedMaxLength?: number
   status: {
     loading: boolean
     error?: Error

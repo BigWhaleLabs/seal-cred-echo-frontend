@@ -10,12 +10,16 @@ export default class PostStatusStore extends PersistableStore {
   store: PostStore
   postsStatuses: PostIdAndStatus = {}
 
+  get persistanceName() {
+    return `PostStatusStore_${this.store.address}`
+  }
+
   constructor(store: PostStore) {
     super()
     this.store = store
   }
 
-  async initFetchPostsStatuses() {
+  async fetchPostsStatuses() {
     this.postsStatuses = await getPostsFromPoster(this.store.address)
   }
 
@@ -41,7 +45,11 @@ export default class PostStatusStore extends PersistableStore {
 function createPostStatusStore(store: PostStore) {
   const postStatusStore = proxy(new PostStatusStore(store)).makePersistent(true)
 
-  void postStatusStore.initFetchPostsStatuses()
+  void postStatusStore.fetchPostsStatuses()
+
+  setInterval(() => {
+    void postStatusStore.fetchPostsStatuses()
+  }, 10000) // poll posts list every 10 seconds
 
   return postStatusStore
 }
