@@ -101,7 +101,6 @@ export default function () {
                       )
                     }
                   } catch (error) {
-                    PostFormStore.status.loading = false
                     if (error instanceof Error)
                       PostFormStore.status.error = error
                   } finally {
