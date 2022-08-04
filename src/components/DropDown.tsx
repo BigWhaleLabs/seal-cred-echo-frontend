@@ -3,15 +3,15 @@ import { TextareaText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import ContractName from 'components/ContractName'
 import ContractSymbol from 'components/ContractSymbol'
-import ERC721Post from 'helpers/posts/ERC721Post'
 import EmailPost from 'helpers/posts/EmailPost'
-import PostStore from 'stores/PostStore'
-import SealCredStore from 'stores/SealCredStore'
+import ExternalNFTPost from 'helpers/posts/ExternalNFTPost'
+import NFTPost from 'helpers/posts/NFTPost'
+import PostFormStore from 'stores/PostFormStore'
 import SelectDropdown from 'components/SelectDropdown'
 import classnames, { display, padding } from 'classnames/tailwind'
-import useContractsOwned from 'hooks/useContractsOwned'
+import useOptions from 'hooks/useOptions'
 
-type SelectValueType = ERC721Post | EmailPost
+type SelectValueType = EmailPost | ExternalNFTPost | NFTPost
 
 const postingAs = classnames(
   display('tiny:inline', 'hidden'),
@@ -23,10 +23,10 @@ const SelectedContractName = ({ value }: { value?: SelectValueType }) => {
 
   return (
     <>
-      {value instanceof ERC721Post ? (
-        <ContractSymbol address={value.derivativeContract} />
+      {value instanceof EmailPost ? (
+        <>@{value.original}</>
       ) : (
-        <>@{value.domain}</>
+        <ContractSymbol address={value.derivative} />
       )}
     </>
   )
@@ -51,44 +51,27 @@ function OptionElement({
   value,
   label,
 }: {
-  value?: ERC721Post | EmailPost
+  value?: SelectValueType
   label?: string
 }) {
   if (!label) return <>Not found</>
-  if (value instanceof ERC721Post) {
-    return <ContractSymbol address={label} />
-  }
-  return <ContractName clearType address={label} />
+  return (
+    <Suspense fallback={<>Loading...</>}>
+      {value instanceof EmailPost ? (
+        <ContractName clearType address={label} />
+      ) : (
+        <ContractSymbol address={label} />
+      )}
+    </Suspense>
+  )
 }
 
 export function DropDown({ disabled }: { disabled?: boolean }) {
-  const { emailLedger, externalERC721Ledger } = useSnapshot(SealCredStore)
-  const contractsOwned = useContractsOwned()
-  const ownedEmailDerivativeContracts = Object.values(emailLedger).filter(
-    ({ derivativeContract }) => contractsOwned.includes(derivativeContract)
-  )
-  const ownedExternalERC721DerivativeContracts = Object.values(
-    externalERC721Ledger
-  ).filter(({ derivativeContract }) =>
-    contractsOwned.includes(derivativeContract)
-  )
-  const { currentPost } = useSnapshot(PostStore)
-
-  const options = [
-    ...ownedEmailDerivativeContracts.map(({ domain, derivativeContract }) => ({
-      label: derivativeContract,
-      value: new EmailPost(domain),
-    })),
-    ...ownedExternalERC721DerivativeContracts.map(
-      ({ originalContract, derivativeContract }) => ({
-        label: derivativeContract,
-        value: new ERC721Post(originalContract, derivativeContract),
-      })
-    ),
-  ]
+  const { currentPost } = useSnapshot(PostFormStore)
+  const options = useOptions()
 
   return (
-    <SelectDropdown<ERC721Post | EmailPost>
+    <SelectDropdown<ExternalNFTPost | NFTPost | EmailPost>
       border
       disabled={disabled}
       placeholder="Select badge"
@@ -97,7 +80,7 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
       options={options}
       SelectedValue={<SelectedValue value={currentPost} />}
       OptionElement={OptionElement}
-      onChange={({ value }) => (PostStore.currentPost = value)}
+      onChange={({ value }) => (PostFormStore.currentPost = value)}
     />
   )
 }
