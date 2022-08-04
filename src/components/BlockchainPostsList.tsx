@@ -5,7 +5,8 @@ import {
 import { EmailPostStore, ExternalPostStore } from 'stores/PostStore'
 import { Suspense, useState } from 'preact/compat'
 import { useSnapshot } from 'valtio'
-import BlockchainPost, { PostContract } from 'components/BlockchainPost'
+import BlockchainPost from 'components/BlockchainPost'
+import ContractTitle from 'components/ContractTitle'
 import Cross from 'icons/Cross'
 import TwitterLoading from 'components/TwitterLoading'
 import classnames, {
@@ -34,7 +35,7 @@ function BlockchainPostTag({
 }) {
   return (
     <span className={blockchainPostTagContainer}>
-      <PostContract address={address} />
+      <ContractTitle address={address} />
       <Cross onClick={onClick} />
     </span>
   )

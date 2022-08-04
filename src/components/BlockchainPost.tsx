@@ -1,14 +1,7 @@
-import {
-  BodyText,
-  LinkText,
-  PostText,
-  StatusText,
-  UnderlineTextButton,
-} from 'components/Text'
+import { BodyText, LinkText, PostText, StatusText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
-import ContractName from 'components/ContractName'
-import ContractSymbol from 'components/ContractSymbol'
+import ContractTitle from 'components/ContractTitle'
 import Delimiter from 'components/Delimiter'
 import EnsAddress from 'components/EnsAddress'
 import PostChips from 'components/PostChips'
@@ -16,7 +9,6 @@ import PostModel from 'models/PostModel'
 import PostStatus from 'models/PostStatus'
 import PostStatusStore from 'stores/PostStatusStore'
 import PostTime from 'components/PostTime'
-import SealCredStore from 'stores/SealCredStore'
 import classnames, {
   alignItems,
   display,
@@ -54,30 +46,6 @@ function Sender({ sender }: { sender: string }) {
         <EnsAddress address={sender} truncateSize={13} />
       )}
     </LinkText>
-  )
-}
-
-export function PostContract({
-  address,
-  onClick,
-}: {
-  address: string
-  onClick?: () => void
-}) {
-  const { externalERC721derivativeContracts } = useSnapshot(SealCredStore)
-
-  if (externalERC721derivativeContracts.includes(address)) {
-    return (
-      <UnderlineTextButton onClick={onClick}>
-        <ContractSymbol address={address} />
-      </UnderlineTextButton>
-    )
-  }
-
-  return (
-    <UnderlineTextButton onClick={onClick}>
-      <ContractName clearType truncate address={address} />
-    </UnderlineTextButton>
   )
 }
 
@@ -130,7 +98,7 @@ export default function ({
             <Sender sender={sender} />
             <Delimiter />
 
-            <PostContract
+            <ContractTitle
               address={derivativeAddress}
               onClick={() => onSelectAddress(derivativeAddress)}
             />
