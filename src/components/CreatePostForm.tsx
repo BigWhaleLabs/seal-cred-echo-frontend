@@ -101,8 +101,11 @@ export default function () {
                       )
                     }
                   } catch (error) {
-                    if (error instanceof Error)
-                      PostFormStore.status.error = error
+                    const parsedError =
+                      error instanceof Error
+                        ? error
+                        : new Error('Failed to create post')
+                    PostFormStore.status.error = parsedError
                   } finally {
                     PostFormStore.status.loading = false
                   }

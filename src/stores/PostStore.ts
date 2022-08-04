@@ -31,11 +31,10 @@ export class PostStore {
 
   async fetchBlockchainPosts() {
     return Promise.resolve(
-      (await this.contract.getAllPosts())
-        .map(({ id, post, derivativeAddress, sender, timestamp }) =>
+      (await this.contract.getAllPosts()).map(
+        ({ id, post, derivativeAddress, sender, timestamp }) =>
           getPostRecord(id, post, derivativeAddress, sender, timestamp)
-        )
-        .reverse()
+      )
     )
   }
 
@@ -59,9 +58,7 @@ export class PostStore {
       )
     } catch (error) {
       handleError(error)
-      const parsedError =
-        error instanceof Error ? error : new Error('Failed to create post')
-      throw parsedError
+      throw error
     }
   }
 

@@ -71,10 +71,8 @@ export class PostProcessingStore {
         tweetId: id,
         status: PostStatus.pending,
       }
-    if (processingIds) {
-      this.processingIds[sender] = [id, ...processingIds]
-      return
-    }
+    if (processingIds)
+      return (this.processingIds[sender] = [id, ...processingIds])
     this.processingIds[sender] = [id]
   }
 }
