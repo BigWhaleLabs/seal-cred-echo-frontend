@@ -1,4 +1,11 @@
-import { BodyText, LinkText, PostText, StatusText } from 'components/Text'
+import {
+  BodyText,
+  LinkText,
+  PostText,
+  StatusText,
+  UnderlineTextButton,
+} from 'components/Text'
+import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
 import ContractTitle from 'components/ContractTitle'
@@ -6,9 +13,9 @@ import Delimiter from 'components/Delimiter'
 import EnsAddress from 'components/EnsAddress'
 import PostChips from 'components/PostChips'
 import PostModel from 'models/PostModel'
-import PostStatus from 'models/PostStatus'
 import PostStatusStore from 'stores/PostStatusStore'
 import PostTime from 'components/PostTime'
+import PostedStatus from 'components/PostedStatus'
 import classnames, {
   alignItems,
   display,
@@ -17,6 +24,7 @@ import classnames, {
   space,
 } from 'classnames/tailwind'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
+import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import walletStore from 'stores/WalletStore'
 
 const container = classnames(
@@ -49,32 +57,6 @@ function Sender({ sender }: { sender: string }) {
   )
 }
 
-function Status({
-  id,
-  statusStore,
-}: {
-  id: number
-  statusStore: PostStatusStore
-}) {
-  const { postsStatuses } = useSnapshot(statusStore)
-  const post = postsStatuses[id]
-
-  if (post?.status !== PostStatus.published) return null
-
-  return (
-    <>
-      <Delimiter />
-      <LinkText
-        extraSmall
-        title="status"
-        url={`https://twitter.com/SealCredEcho/status/${post.statusId}`}
-      >
-        Twitter
-      </LinkText>
-    </>
-  )
-}
-
 export default function ({
   post: { id, post, derivativeAddress, sender, timestamp },
   statusStore,
@@ -98,10 +80,19 @@ export default function ({
             <Sender sender={sender} />
             <Delimiter />
 
-            <ContractTitle
-              address={derivativeAddress}
-              onClick={() => onSelectAddress(derivativeAddress)}
-            />
+            <Suspense
+              fallback={
+                <UnderlineTextButton>
+                  {truncateMiddleIfNeeded(derivativeAddress, 23)}
+                </UnderlineTextButton>
+              }
+            >
+              <ContractTitle
+                address={derivativeAddress}
+                onClick={() => onSelectAddress(derivativeAddress)}
+              />
+            </Suspense>
+
             <Delimiter />
             <LinkText
               extraSmall
@@ -110,7 +101,9 @@ export default function ({
             >
               Etherscan
             </LinkText>
-            <Status id={id} statusStore={statusStore} />
+            <Suspense fallback={<></>}>
+              <PostedStatus id={id} statusStore={statusStore} />
+            </Suspense>
           </span>
         </BodyText>
       </div>
