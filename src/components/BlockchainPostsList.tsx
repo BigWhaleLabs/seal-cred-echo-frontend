@@ -1,15 +1,4 @@
-import {
-  EmailPostStatusStore,
-  ExternalNFTPostStatusStore,
-  NFTPostStatusStore,
-} from 'stores/PostStatusStore'
-import {
-  EmailPostStore,
-  ExternalNFTPostStore,
-  NFTPostStore,
-} from 'stores/PostStore'
 import { Suspense, useState } from 'preact/compat'
-import { useSnapshot } from 'valtio'
 import BlockchainPost from 'components/BlockchainPost'
 import ContractTitle from 'components/ContractTitle'
 import Cross from 'icons/Cross'
