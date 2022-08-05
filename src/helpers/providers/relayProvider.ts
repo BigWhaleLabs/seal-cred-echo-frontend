@@ -9,7 +9,7 @@ export default async function (provider: Web3Provider) {
     provider: new WrapBridge(new Eip1193Bridge(provider.getSigner(), provider)),
     config: {
       paymasterAddress: env.VITE_GSN_PAYMASTER_CONTRACT_ADDRESS,
-      preferredRelays: [env.VITE_GSN_RELAY_HUB_CONTRACT_ADDRESS],
+      preferredRelays: [env.VITE_GSN_SC_RELAY],
     },
   }).init()
 }
