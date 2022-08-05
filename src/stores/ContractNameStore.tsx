@@ -1,6 +1,6 @@
 import { ERC721__factory } from '@big-whale-labs/seal-cred-ledger-contract'
+import { RESERVED_CONTRACT_METADATA } from '@big-whale-labs/constants'
 import { proxy } from 'valtio'
-import { reservedContractMetadata } from '@big-whale-labs/constants'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import defaultProvider from 'helpers/providers/defaultProvider'
 
@@ -48,8 +48,9 @@ class ContractNamesStore extends PersistableStore {
   fetchContractName(address: string) {
     if (this.contractNames[address]) return
 
-    if (reservedContractMetadata[address]) {
-      this.savedContractNames[address] = reservedContractMetadata[address].name
+    if (RESERVED_CONTRACT_METADATA[address]) {
+      this.savedContractNames[address] =
+        RESERVED_CONTRACT_METADATA[address].name
       return
     }
     const contract = ERC721__factory.connect(address, defaultProvider)
@@ -65,9 +66,9 @@ class ContractNamesStore extends PersistableStore {
   fetchContractSymbol(address: string) {
     if (this.contractSymbols[address]) return
 
-    if (reservedContractMetadata[address]) {
+    if (RESERVED_CONTRACT_METADATA[address]) {
       this.savedContractSymbols[address] =
-        reservedContractMetadata[address].symbol
+        RESERVED_CONTRACT_METADATA[address].symbol
       return
     }
     const contract = ERC721__factory.connect(address, defaultProvider)
