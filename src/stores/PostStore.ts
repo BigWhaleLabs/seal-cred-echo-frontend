@@ -59,6 +59,7 @@ export class PostStore {
 
       return Promise.all(
         result.logs
+          .filter(({ address }) => address === contract.address)
           .map(({ data, topics }) => parsePostLogData({ data, topics }))
           .map(({ args }) => args)
           .map(({ id, post, derivativeAddress, sender, timestamp }) =>
