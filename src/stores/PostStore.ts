@@ -1,4 +1,5 @@
 import { BigNumber, providers } from 'ethers'
+import { ExternalProvider, Web3Provider } from '@ethersproject/providers'
 import {
   SCPostStorage,
   SCPostStorage__factory,
@@ -11,6 +12,7 @@ import env from 'helpers/env'
 import getPostRecord from 'helpers/contracts/getPostRecord'
 import handleError from 'helpers/handleError'
 import parsePostLogData from 'helpers/parsePostLogData'
+import relayProvider from 'helpers/providers/relayProvider'
 
 export class PostStore {
   address: string
@@ -41,8 +43,15 @@ export class PostStore {
   async createPost(text: string, original: string) {
     try {
       if (!WalletStore.provider) throw new Error('No provider found')
+      if (!WalletStore.account) throw new Error('No account found')
+
+      const ethersProvider = new Web3Provider(
+        (await relayProvider(
+          WalletStore.provider
+        )) as unknown as ExternalProvider
+      )
       const contract = this.createContractWithProvider(
-        WalletStore.provider.getSigner(0)
+        ethersProvider.getSigner(0)
       )
 
       const transaction = await contract.savePost(text, original)
@@ -50,6 +59,7 @@ export class PostStore {
 
       return Promise.all(
         result.logs
+          .filter(({ address }) => address === contract.address)
           .map(({ data, topics }) => parsePostLogData({ data, topics }))
           .map(({ args }) => args)
           .map(({ id, post, derivativeAddress, sender, timestamp }) =>

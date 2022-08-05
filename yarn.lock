@@ -1672,10 +1672,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@big-whale-labs/constants@npm:^0.1.9":
-  version: 0.1.9
-  resolution: "@big-whale-labs/constants@npm:0.1.9"
-  checksum: c74160b481e585ac7d99121306ac7876c05c41e7c443241d47d88eeeebedebb13783f38ea4ac7b431bcef512ed75a1539ebce5f254ab5dfb17bbb651aff3c28d
+"@big-whale-labs/constants@npm:^0.1.15":
+  version: 0.1.15
+  resolution: "@big-whale-labs/constants@npm:0.1.15"
+  checksum: b831c4796d73fd772c81df98e49ab0bc219d3b1d5b3a3b6a6bf00bcd493f7d9616502745f72a4ac911e47578dd21c00f5883d53ed611a917a12501b51a4d9763
   languageName: node
   linkType: hard
 
@@ -1686,10 +1686,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@big-whale-labs/seal-cred-posts-contract@npm:^0.0.9":
-  version: 0.0.9
-  resolution: "@big-whale-labs/seal-cred-posts-contract@npm:0.0.9"
-  checksum: 05ad8bc1ce79c9c31ed8a2497c56a29131a1644fe9661311d226bf66738864c79aa9c43de06a274d29d267970995f4fc589b47e719f96d39815e8a6fecee2083
+"@big-whale-labs/seal-cred-posts-contract@npm:^0.0.10":
+  version: 0.0.10
+  resolution: "@big-whale-labs/seal-cred-posts-contract@npm:0.0.10"
+  checksum: ba41713f9c55e79167968ce084e437395d002d283d23a27001802de692f040897a9757c5aabaacb7d36487b877a5518f85f5fd559fcb347184ff2a43f6bb443b
   languageName: node
   linkType: hard
 
@@ -1930,6 +1930,18 @@ __metadata:
   peerDependencies:
     esbuild: "*"
   checksum: 68a41e2c377724e9cd46ca344ad219d289cc41a8b273d0d89bbc82bd90025b067b28234a865d8862a3f38c2a028ca4c93138dfca4e1e75e617efc314156c1ce0
+  languageName: node
+  linkType: hard
+
+"@esbuild-plugins/node-modules-polyfill@npm:^0.1.4":
+  version: 0.1.4
+  resolution: "@esbuild-plugins/node-modules-polyfill@npm:0.1.4"
+  dependencies:
+    escape-string-regexp: ^4.0.0
+    rollup-plugin-node-polyfills: ^0.2.1
+  peerDependencies:
+    esbuild: "*"
+  checksum: 39ff2a816139d71ebfbb78914c024565b6026da3146776aa10d27ee1330938ce78c7b2aad11c2d7768c7675d0942d1d1690dabfe60fa79e07dbb31cfbe396cec
   languageName: node
   linkType: hard
 
@@ -3134,7 +3146,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-inject@npm:^4.0.4":
+"@rollup/plugin-inject@npm:^4.0.0, @rollup/plugin-inject@npm:^4.0.4":
   version: 4.0.4
   resolution: "@rollup/plugin-inject@npm:4.0.4"
   dependencies:
@@ -15449,6 +15461,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rollup-plugin-polyfill-node@npm:^0.10.2":
+  version: 0.10.2
+  resolution: "rollup-plugin-polyfill-node@npm:0.10.2"
+  dependencies:
+    "@rollup/plugin-inject": ^4.0.0
+  peerDependencies:
+    rollup: ^1.20.0 || ^2.0.0
+  checksum: 10806925ddf17d9a49bea885fa30296dec20ac59c43986c6f1eca892dd260cc75cc2f77b098dbcb8bbf503c10c7aa4d3078f441c1e2384ba475c105273132c99
+  languageName: node
+  linkType: hard
+
 "rollup-plugin-terser@npm:^7.0.0":
   version: 7.0.2
   resolution: "rollup-plugin-terser@npm:7.0.2"
@@ -15703,11 +15726,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "seal-cred-echo-frontend@workspace:."
   dependencies:
-    "@big-whale-labs/constants": ^0.1.9
+    "@big-whale-labs/constants": ^0.1.15
     "@big-whale-labs/seal-cred-ledger-contract": ^0.2.6
-    "@big-whale-labs/seal-cred-posts-contract": ^0.0.9
+    "@big-whale-labs/seal-cred-posts-contract": ^0.0.10
     "@coinbase/wallet-sdk": ^3.4.0
     "@esbuild-plugins/node-globals-polyfill": ^0.1.1
+    "@esbuild-plugins/node-modules-polyfill": ^0.1.4
     "@ethersproject/experimental": ^5.6.3
     "@opengsn/provider": ^3.0.0-beta.1
     "@preact/preset-vite": ^2.3.0
@@ -15744,7 +15768,7 @@ __metadata:
     react-textarea-autosize: ^8.3.4
     react-toastify: ^9.0.7
     react-twitter-widgets: ^1.11.0
-    rollup-plugin-node-polyfills: ^0.2.1
+    rollup-plugin-polyfill-node: ^0.10.2
     rollup-plugin-visualizer: ^5.7.1
     secure-ls: ^1.2.6
     tailwindcss: ^3.1.7
