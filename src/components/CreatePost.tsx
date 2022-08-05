@@ -1,18 +1,30 @@
+import {
+  EmailProcessingPostsStore,
+  ExternalNFTProcessingPostsStore,
+  NFTProcessingPostsStore,
+  PostProcessingStore,
+} from 'stores/ProcessingPostsStore'
 import { margin, space } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import CreatePostForm from 'components/CreatePostForm'
 import PostProcessing from 'components/PostProcessing'
 import PostStatus from 'models/PostStatus'
-import PostStatusStore from 'stores/PostStatusStore'
-import ProcessingPostsStore from 'stores/ProcessingPostsStore'
+import PostStatusStore, {
+  EmailPostStatusStore,
+  ExternalNFTPostStatusStore,
+  NFTPostStatusStore,
+} from 'stores/PostStatusStore'
 import WalletStore from 'stores/WalletStore'
 
-export default function () {
+function usePosts(
+  postStatusStore: PostStatusStore,
+  processingStore: PostProcessingStore
+) {
   const { account } = useSnapshot(WalletStore)
-  const { postsStatuses } = useSnapshot(PostStatusStore)
-  const { processingPostIds } = useSnapshot(ProcessingPostsStore)
+  const { postsStatuses } = useSnapshot(postStatusStore)
+  const { processingIds } = useSnapshot(processingStore)
 
-  const accountProcessingPostIds = account && processingPostIds[account]
+  const accountProcessingPostIds = account && processingIds[account]
   const currentPostsStatuses = { ...postsStatuses }
   const currentPosts = accountProcessingPostIds
     ? accountProcessingPostIds.map(
@@ -31,6 +43,37 @@ export default function () {
   const lastPublishedPost = currentPosts.find(
     (post) => post.status === PostStatus.published
   )
+
+  return {
+    pendingPosts,
+    lastPublishedPost,
+  }
+}
+
+export default function () {
+  const {
+    pendingPosts: emailPendingPosts,
+    lastPublishedPost: emailLastPublishedPost,
+  } = usePosts(EmailPostStatusStore, EmailProcessingPostsStore)
+  const {
+    pendingPosts: NFTPendingPosts,
+    lastPublishedPost: NFTLastPublishedPost,
+  } = usePosts(NFTPostStatusStore, NFTProcessingPostsStore)
+  const {
+    pendingPosts: externalNFTPendingPosts,
+    lastPublishedPost: externalNFTLastPublishedPost,
+  } = usePosts(ExternalNFTPostStatusStore, ExternalNFTProcessingPostsStore)
+
+  const pendingPosts = [
+    ...emailPendingPosts,
+    ...NFTPendingPosts,
+    ...externalNFTPendingPosts,
+  ]
+
+  const lastPublishedPost =
+    emailLastPublishedPost ||
+    NFTLastPublishedPost ||
+    externalNFTLastPublishedPost
 
   return (
     <div className={margin('mt-6', 'mb-16')}>

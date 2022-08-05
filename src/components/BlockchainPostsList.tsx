@@ -1,8 +1,7 @@
 import { Suspense, useState } from 'preact/compat'
-import { useSnapshot } from 'valtio'
-import BlockchainPost, { PostContract } from 'components/BlockchainPost'
+import BlockchainPost from 'components/BlockchainPost'
+import ContractTitle from 'components/ContractTitle'
 import Cross from 'icons/Cross'
-import PostStore from 'stores/PostStore'
 import TwitterLoading from 'components/TwitterLoading'
 import classnames, {
   backgroundColor,
@@ -12,6 +11,7 @@ import classnames, {
   space,
 } from 'classnames/tailwind'
 import flashingPost from 'helpers/flashingPost'
+import usePosts from 'hooks/usePosts'
 import useScrollToAnchor from 'helpers/useScrollToAnchor'
 
 const blockchainPostTagContainer = classnames(
@@ -30,21 +30,16 @@ function BlockchainPostTag({
 }) {
   return (
     <span className={blockchainPostTagContainer}>
-      <PostContract address={address} />
+      <ContractTitle address={address} />
       <Cross onClick={onClick} />
     </span>
   )
 }
 
 function BlockchainPostsListSuspended() {
-  const { blockchainEmailPosts = [], blockchainExternalERC721Posts } =
-    useSnapshot(PostStore)
-  const blockchainPosts = [
-    ...blockchainEmailPosts,
-    ...blockchainExternalERC721Posts,
-  ]
   const [selectedAddress, setAddress] = useState('')
   useScrollToAnchor(0, true, flashingPost)
+  const posts = usePosts()
 
   return (
     <>
@@ -54,19 +49,16 @@ function BlockchainPostsListSuspended() {
           onClick={() => setAddress('')}
         />
       )}
-      {blockchainPosts
+      {posts
         .filter(
-          ({ derivativeAddress }) =>
-            !selectedAddress || selectedAddress === derivativeAddress
+          ({ post }) =>
+            !selectedAddress || selectedAddress === post.derivativeAddress
         )
-        .map(({ id, post, derivativeAddress, sender, timestamp }) => (
+        .map(({ post, statusStore }) => (
           <BlockchainPost
-            key={`${id}-${derivativeAddress}`}
-            id={id}
+            key={`${post.id}-${post.derivativeAddress}`}
             post={post}
-            derivativeAddress={derivativeAddress}
-            sender={sender}
-            timestamp={timestamp}
+            statusStore={statusStore}
             onSelectAddress={setAddress}
           />
         ))}

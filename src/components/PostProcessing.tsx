@@ -57,7 +57,7 @@ export default function ({
   const loading = post.status === PostStatus.pending
   const redirectTo =
     post.status === PostStatus.published
-      ? `https://twitter.com/SealCredEcho/status/${post.statusId}`
+      ? `https://twitter.com/SealCredEmail/status/${post.statusId}`
       : `/previous-tweets/blockchain#blockchainTweetId=${post.tweetId}`
 
   return (

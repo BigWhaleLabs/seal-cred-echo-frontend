@@ -1,6 +1,4 @@
-import { PostERC721Structure, PostEmailStructure } from 'models/PostStructure'
 import { Web3Provider } from '@ethersproject/providers'
-import { createERC721Post, createEmailPost } from 'helpers/createPost'
 import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import env from 'helpers/env'
@@ -58,16 +56,8 @@ class WalletStore extends PersistableStore {
     this.walletLoading = false
   }
 
-  saveEmailPost({ post, domain }: PostEmailStructure) {
-    if (!provider) throw new Error('No provider found')
-
-    return createEmailPost({ post, domain }, provider)
-  }
-
-  saveERC721Post({ post, originalContract }: PostERC721Structure) {
-    if (!provider) throw new Error('No provider found')
-
-    return createERC721Post({ post, originalContract }, provider)
+  get provider() {
+    return provider
   }
 
   private subscribeProvider(provider: Web3Provider) {

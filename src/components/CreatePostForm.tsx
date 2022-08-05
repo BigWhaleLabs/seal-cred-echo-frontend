@@ -1,13 +1,19 @@
 import { BodyText, HeaderText } from 'components/Text'
+import {
+  EmailProcessingPostsStore,
+  ExternalNFTProcessingPostsStore,
+  NFTProcessingPostsStore,
+} from 'stores/ProcessingPostsStore'
 import { useSnapshot } from 'valtio'
 import { useState } from 'preact/hooks'
 import Button from 'components/Button'
 import ContractNameStore from 'stores/ContractNameStore'
 import DropDown from 'components/DropDown'
-import ERC721Post from 'helpers/posts/ERC721Post'
 import EmailPost from 'helpers/posts/EmailPost'
+import ExternalNFTPost from 'helpers/posts/ExternalNFTPost'
 import HasNoBadges from 'components/HasNoBadges'
-import PostStore from 'stores/PostStore'
+import NFTPost from 'helpers/posts/NFTPost'
+import PostFormStore from 'stores/PostFormStore'
 import TextArea from 'components/TextArea'
 import classnames, {
   alignItems,
@@ -35,16 +41,14 @@ const dropdownWrapper = classnames(
 
 export default function () {
   const [text, onTextChange] = useState('')
-  const { status, currentPost } = useSnapshot(PostStore)
+  const { status, currentPost } = useSnapshot(PostFormStore)
   const { savedContractSymbols } = useSnapshot(ContractNameStore)
 
   const suffix = currentPost
     ? currentPost instanceof EmailPost
-      ? ` @ ${currentPost.domain}`
-      : currentPost instanceof ERC721Post
-      ? ` @ ${
-          savedContractSymbols[currentPost.derivativeContract] ?? 'loading...'
-        }`
+      ? ` @ ${currentPost.original}`
+      : currentPost instanceof NFTPost || currentPost instanceof ExternalNFTPost
+      ? ` @ ${savedContractSymbols[currentPost.derivative] ?? 'loading...'}`
       : ''
     : ''
 
@@ -82,16 +86,38 @@ export default function () {
               title="Tweet"
               onClick={async () => {
                 if (isValidForm) {
-                  if (currentPost instanceof EmailPost) {
-                    await PostStore.createEmailPost({
-                      post: text,
-                      domain: currentPost.domain,
-                    })
-                  } else if (currentPost instanceof ERC721Post) {
-                    await PostStore.createERC721Post({
-                      post: text,
-                      originalContract: currentPost.originalDomain,
-                    })
+                  try {
+                    PostFormStore.status = {
+                      loading: true,
+                    }
+                    switch (currentPost.constructor) {
+                      case EmailPost:
+                        await EmailProcessingPostsStore.createPost(
+                          text,
+                          currentPost.original
+                        )
+                        break
+                      case NFTPost:
+                        await NFTProcessingPostsStore.createPost(
+                          text,
+                          currentPost.original
+                        )
+                        break
+                      case ExternalNFTPost:
+                        await ExternalNFTProcessingPostsStore.createPost(
+                          text,
+                          currentPost.original
+                        )
+                        break
+                    }
+                  } catch (error) {
+                    const parsedError =
+                      error instanceof Error
+                        ? error
+                        : new Error('Failed to create post')
+                    PostFormStore.status.error = parsedError
+                  } finally {
+                    PostFormStore.status.loading = false
                   }
                   onTextChange('')
                 }

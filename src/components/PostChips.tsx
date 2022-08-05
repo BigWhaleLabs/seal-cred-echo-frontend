@@ -25,8 +25,14 @@ const statusContainer = (status: PostStatus) =>
     })
   )
 
-export default function ({ id }: { id: number }) {
-  const { postsStatuses } = useSnapshot(PostStatusStore)
+export default function ({
+  id,
+  statusStore,
+}: {
+  id: number
+  statusStore: PostStatusStore
+}) {
+  const { postsStatuses } = useSnapshot(statusStore)
   const post = postsStatuses[id]
   const status = post?.status || PostStatus.pending
 

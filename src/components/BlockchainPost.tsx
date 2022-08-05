@@ -5,17 +5,17 @@ import {
   StatusText,
   UnderlineTextButton,
 } from 'components/Text'
+import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
-import ContractName from 'components/ContractName'
-import ContractSymbol from 'components/ContractSymbol'
+import ContractTitle from 'components/ContractTitle'
 import Delimiter from 'components/Delimiter'
 import EnsAddress from 'components/EnsAddress'
 import PostChips from 'components/PostChips'
-import PostStatus from 'models/PostStatus'
+import PostModel from 'models/PostModel'
 import PostStatusStore from 'stores/PostStatusStore'
 import PostTime from 'components/PostTime'
-import SealCredStore from 'stores/SealCredStore'
+import PostedStatus from 'components/PostedStatus'
 import classnames, {
   alignItems,
   display,
@@ -24,6 +24,7 @@ import classnames, {
   space,
 } from 'classnames/tailwind'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
+import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import walletStore from 'stores/WalletStore'
 
 const container = classnames(
@@ -56,70 +57,20 @@ function Sender({ sender }: { sender: string }) {
   )
 }
 
-export function PostContract({
-  address,
-  onClick,
-}: {
-  address: string
-  onClick?: () => void
-}) {
-  const { externalERC721derivativeContracts } = useSnapshot(SealCredStore)
-
-  if (externalERC721derivativeContracts.includes(address)) {
-    return (
-      <UnderlineTextButton onClick={onClick}>
-        <ContractSymbol address={address} />
-      </UnderlineTextButton>
-    )
-  }
-
-  return (
-    <UnderlineTextButton onClick={onClick}>
-      <ContractName clearType truncate address={address} />
-    </UnderlineTextButton>
-  )
-}
-
-function Status({ id }: { id: number }) {
-  const { postsStatuses } = useSnapshot(PostStatusStore)
-  const post = postsStatuses[id]
-
-  if (post?.status !== PostStatus.published) return null
-
-  return (
-    <>
-      <Delimiter />
-      <LinkText
-        extraSmall
-        title="status"
-        url={`https://twitter.com/SealCredEcho/status/${post.statusId}`}
-      >
-        Twitter
-      </LinkText>
-    </>
-  )
-}
-
 export default function ({
-  id,
-  post,
-  derivativeAddress,
-  sender,
-  timestamp,
+  post: { id, post, derivativeAddress, sender, timestamp },
+  statusStore,
   onSelectAddress,
 }: {
-  id: number
-  post: string
-  derivativeAddress: string
-  sender: string
-  timestamp: number
+  post: PostModel
+  statusStore: PostStatusStore
   onSelectAddress: (address: string) => void
 }) {
   return (
     <Card key={id}>
       <div className={container}>
         <div className={postHeader}>
-          <PostChips id={id} />
+          <PostChips id={id} statusStore={statusStore} />
           <PostTime timestamp={timestamp} />
         </div>
         <PostText>{post}</PostText>
@@ -129,10 +80,19 @@ export default function ({
             <Sender sender={sender} />
             <Delimiter />
 
-            <PostContract
-              address={derivativeAddress}
-              onClick={() => onSelectAddress(derivativeAddress)}
-            />
+            <Suspense
+              fallback={
+                <UnderlineTextButton>
+                  {truncateMiddleIfNeeded(derivativeAddress, 23)}
+                </UnderlineTextButton>
+              }
+            >
+              <ContractTitle
+                address={derivativeAddress}
+                onClick={() => onSelectAddress(derivativeAddress)}
+              />
+            </Suspense>
+
             <Delimiter />
             <LinkText
               extraSmall
@@ -141,7 +101,9 @@ export default function ({
             >
               Etherscan
             </LinkText>
-            <Status id={id} />
+            <Suspense fallback={<></>}>
+              <PostedStatus id={id} statusStore={statusStore} />
+            </Suspense>
           </span>
         </BodyText>
       </div>
