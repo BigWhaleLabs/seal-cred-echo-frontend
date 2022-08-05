@@ -25,10 +25,11 @@
     ]
   },
   "dependencies": {
-    "@big-whale-labs/constants": "^0.1.9",
-    "@big-whale-labs/seal-cred-ledger-contract": "^0.2.5",
-    "@big-whale-labs/seal-cred-posts-contract": "^0.0.9",
+    "@big-whale-labs/constants": "^0.1.14",
+    "@big-whale-labs/seal-cred-ledger-contract": "^0.2.6",
+    "@big-whale-labs/seal-cred-posts-contract": "^0.0.10",
     "@coinbase/wallet-sdk": "^3.4.0",
+    "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
     "@ethersproject/experimental": "^5.6.3",
     "@opengsn/provider": "^3.0.0-beta.1",
     "@types/react-textarea-autosize": "^8.0.0",
@@ -44,6 +45,7 @@
     "react-textarea-autosize": "^8.3.4",
     "react-toastify": "^9.0.7",
     "react-twitter-widgets": "^1.11.0",
+    "rollup-plugin-polyfill-node": "^0.10.2",
     "secure-ls": "^1.2.6",
     "unfetch": "^4.2.0",
     "valtio": "^1.6.3",
