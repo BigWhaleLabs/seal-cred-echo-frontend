@@ -39,5 +39,6 @@ export default cleanEnv(import.meta.env, {
   VITE_GSN_PAYMASTER_CONTRACT_ADDRESS: str({
     default: GSN_PAYMASTER_CONTRACT_ADDRESS,
   }),
+  VITE_GSN_RELAY_MANAGER_ADDRESS: str(),
   VITE_GSN_SC_RELAY: str({ default: GSN_SC_RELAY }),
 })
