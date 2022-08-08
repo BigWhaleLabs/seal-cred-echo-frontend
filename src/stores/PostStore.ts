@@ -41,11 +41,12 @@ export class PostStore {
   }
 
   async createPost(text: string, original: string) {
-    try {
-      if (!WalletStore.provider) throw new Error('No provider found')
-      if (!WalletStore.account) throw new Error('No account found')
+    const walletProvider = WalletStore.provider
+    if (!walletProvider) throw new Error('No provider found')
+    if (!WalletStore.account) throw new Error('No account found')
 
-      const gsnProvider = relayProvider(WalletStore.provider)
+    try {
+      const gsnProvider = relayProvider(walletProvider)
       await gsnProvider.init()
 
       const ethersProvider = new Web3Provider(
@@ -60,7 +61,7 @@ export class PostStore {
 
       const transaction = await contract.savePost(text, original, {
         gasLimit: 2e6,
-        maxFeePerGas: maxFeePerGas,
+        maxFeePerGas,
         maxPriorityFeePerGas: maxFeePerGas,
       })
       const result = await transaction.wait()
