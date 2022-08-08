@@ -1,7 +1,7 @@
 import {
+  ERC721ProcessingPostsStore,
   EmailProcessingPostsStore,
-  ExternalNFTProcessingPostsStore,
-  NFTProcessingPostsStore,
+  ExternalERC721ProcessingPostsStore,
   PostProcessingStore,
 } from 'stores/ProcessingPostsStore'
 import { margin, space } from 'classnames/tailwind'
@@ -10,9 +10,9 @@ import CreatePostForm from 'components/CreatePostForm'
 import PostProcessing from 'components/PostProcessing'
 import PostStatus from 'models/PostStatus'
 import PostStatusStore, {
+  ERC721PostStatusStore,
   EmailPostStatusStore,
-  ExternalNFTPostStatusStore,
-  NFTPostStatusStore,
+  ExternalERC721PostStatusStore,
 } from 'stores/PostStatusStore'
 import WalletStore from 'stores/WalletStore'
 
@@ -56,24 +56,27 @@ export default function () {
     lastPublishedPost: emailLastPublishedPost,
   } = usePosts(EmailPostStatusStore, EmailProcessingPostsStore)
   const {
-    pendingPosts: NFTPendingPosts,
-    lastPublishedPost: NFTLastPublishedPost,
-  } = usePosts(NFTPostStatusStore, NFTProcessingPostsStore)
+    pendingPosts: eRC721PendingPosts,
+    lastPublishedPost: eRC721LastPublishedPost,
+  } = usePosts(ERC721PostStatusStore, ERC721ProcessingPostsStore)
   const {
-    pendingPosts: externalNFTPendingPosts,
-    lastPublishedPost: externalNFTLastPublishedPost,
-  } = usePosts(ExternalNFTPostStatusStore, ExternalNFTProcessingPostsStore)
+    pendingPosts: externalERC721PendingPosts,
+    lastPublishedPost: externalERC721LastPublishedPost,
+  } = usePosts(
+    ExternalERC721PostStatusStore,
+    ExternalERC721ProcessingPostsStore
+  )
 
   const pendingPosts = [
     ...emailPendingPosts,
-    ...NFTPendingPosts,
-    ...externalNFTPendingPosts,
+    ...eRC721PendingPosts,
+    ...externalERC721PendingPosts,
   ]
 
   const lastPublishedPost =
     emailLastPublishedPost ||
-    NFTLastPublishedPost ||
-    externalNFTLastPublishedPost
+    eRC721LastPublishedPost ||
+    externalERC721LastPublishedPost
 
   return (
     <div className={margin('mt-6', 'mb-16')}>

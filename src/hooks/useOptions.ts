@@ -1,6 +1,6 @@
 import { useSnapshot } from 'valtio'
 import EmailPost from 'helpers/posts/EmailPost'
-import ExternalNFTPost from 'helpers/posts/ExternalNFTPost'
+import ExternalERC721Post from 'helpers/posts/ExternalERC721Post'
 import LedgerModel from 'models/LedgerModel'
 import NFTPost from 'helpers/posts/NFTPost'
 import SealCredStore from 'stores/SealCredStore'
@@ -44,7 +44,7 @@ export default function () {
     ...makeOptions(
       externalERC721Ledger,
       contractsOwned,
-      ({ original, derivative }) => new ExternalNFTPost(original, derivative)
+      ({ original, derivative }) => new ExternalERC721Post(original, derivative)
     ),
   ]
 }

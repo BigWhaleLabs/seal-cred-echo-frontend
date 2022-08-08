@@ -1,9 +1,9 @@
 import defaultProvider from 'helpers/providers/defaultProvider'
+import getERC721LedgerContract from 'helpers/contracts/getERC721LedgerContract'
 import getEmailLedgerContract from 'helpers/contracts/getEmailLedgerContract'
-import getExternalNFTLedgerContract from 'helpers/contracts/getExternalNFTLedgerContract'
-import getNFTLedgerContract from 'helpers/contracts/getNFTLedgerContract'
+import getExternalERC721LedgerContract from 'helpers/contracts/getExternalERC721LedgerContract'
 
 export const SCEmailLedgerContract = getEmailLedgerContract(defaultProvider)
-export const SCERC721LedgerContract = getNFTLedgerContract(defaultProvider)
+export const SCERC721LedgerContract = getERC721LedgerContract(defaultProvider)
 export const ExternalSCERC721LedgerContract =
-  getExternalNFTLedgerContract(defaultProvider)
+  getExternalERC721LedgerContract(defaultProvider)

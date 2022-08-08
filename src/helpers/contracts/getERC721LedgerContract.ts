@@ -6,7 +6,7 @@ export default function (
   provider: providers.JsonRpcSigner | providers.Provider
 ) {
   return Ledger__factory.connect(
-    env.VITE_SC_EXTERNAL_NFT_LEDGER_CONTRACT_ADDRESS,
+    env.VITE_SC_ERC721_LEDGER_CONTRACT_ADDRESS,
     provider
   )
 }

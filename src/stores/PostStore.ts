@@ -100,10 +100,10 @@ export const EmailPostStore = proxy(
   new PostStore(env.VITE_SC_EMAIL_POSTS_CONTRACT_ADDRESS)
 )
 
-export const NFTPostStore = proxy(
-  new PostStore(env.VITE_SC_NFT_POSTS_CONTRACT_ADDRESS)
+export const ERC721PostStore = proxy(
+  new PostStore(env.VITE_SC_ERC721_POSTS_CONTRACT_ADDRESS)
 )
 
-export const ExternalNFTPostStore = proxy(
-  new PostStore(env.VITE_SC_EXTERNAL_NFT_POSTS_CONTRACT_ADDRESS)
+export const ExternalERC721PostStore = proxy(
+  new PostStore(env.VITE_SC_EXTERNAL_ERC721_POSTS_CONTRACT_ADDRESS)
 )

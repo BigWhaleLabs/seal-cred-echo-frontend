@@ -4,14 +4,14 @@ import { useSnapshot } from 'valtio'
 import ContractName from 'components/ContractName'
 import ContractSymbol from 'components/ContractSymbol'
 import EmailPost from 'helpers/posts/EmailPost'
-import ExternalNFTPost from 'helpers/posts/ExternalNFTPost'
+import ExternalERC721Post from 'helpers/posts/ExternalERC721Post'
 import NFTPost from 'helpers/posts/NFTPost'
 import PostFormStore from 'stores/PostFormStore'
 import SelectDropdown from 'components/SelectDropdown'
 import classnames, { display, padding } from 'classnames/tailwind'
 import useOptions from 'hooks/useOptions'
 
-type SelectValueType = EmailPost | ExternalNFTPost | NFTPost
+type SelectValueType = EmailPost | ExternalERC721Post | NFTPost
 
 const postingAs = classnames(
   display('tiny:inline', 'hidden'),
@@ -71,7 +71,7 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
   const options = useOptions()
 
   return (
-    <SelectDropdown<ExternalNFTPost | NFTPost | EmailPost>
+    <SelectDropdown<ExternalERC721Post | NFTPost | EmailPost>
       border
       disabled={disabled}
       placeholder="Select badge"

@@ -1,32 +1,32 @@
 import {
+  ERC721PostStatusStore,
   EmailPostStatusStore,
-  ExternalNFTPostStatusStore,
-  NFTPostStatusStore,
+  ExternalERC721PostStatusStore,
 } from 'stores/PostStatusStore'
 import {
+  ERC721PostStore,
   EmailPostStore,
-  ExternalNFTPostStore,
-  NFTPostStore,
+  ExternalERC721PostStore,
 } from 'stores/PostStore'
 import { useSnapshot } from 'valtio'
 
 export default function () {
   const { posts: emailPosts } = useSnapshot(EmailPostStore)
-  const { posts: NFTPosts } = useSnapshot(NFTPostStore)
-  const { posts: externalNFTPosts } = useSnapshot(ExternalNFTPostStore)
+  const { posts: eRC721Posts } = useSnapshot(ERC721PostStore)
+  const { posts: externalERC721Posts } = useSnapshot(ExternalERC721PostStore)
 
   return [
     ...emailPosts.map((post) => ({
       post,
       statusStore: EmailPostStatusStore,
     })),
-    ...NFTPosts.map((post) => ({
+    ...eRC721Posts.map((post) => ({
       post,
-      statusStore: NFTPostStatusStore,
+      statusStore: ERC721PostStatusStore,
     })),
-    ...externalNFTPosts.map((post) => ({
+    ...externalERC721Posts.map((post) => ({
       post,
-      statusStore: ExternalNFTPostStatusStore,
+      statusStore: ExternalERC721PostStatusStore,
     })),
   ].sort((a, b) => b.post.timestamp - a.post.timestamp)
 }

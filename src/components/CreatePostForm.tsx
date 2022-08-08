@@ -1,8 +1,8 @@
 import { BodyText, HeaderText } from 'components/Text'
 import {
+  ERC721ProcessingPostsStore,
   EmailProcessingPostsStore,
-  ExternalNFTProcessingPostsStore,
-  NFTProcessingPostsStore,
+  ExternalERC721ProcessingPostsStore,
 } from 'stores/ProcessingPostsStore'
 import { useSnapshot } from 'valtio'
 import { useState } from 'preact/hooks'
@@ -10,7 +10,7 @@ import Button from 'components/Button'
 import ContractNameStore from 'stores/ContractNameStore'
 import DropDown from 'components/DropDown'
 import EmailPost from 'helpers/posts/EmailPost'
-import ExternalNFTPost from 'helpers/posts/ExternalNFTPost'
+import ExternalERC721Post from 'helpers/posts/ExternalERC721Post'
 import HasNoBadges from 'components/HasNoBadges'
 import NFTPost from 'helpers/posts/NFTPost'
 import PostFormStore from 'stores/PostFormStore'
@@ -47,7 +47,8 @@ export default function () {
   const suffix = currentPost
     ? currentPost instanceof EmailPost
       ? ` @ ${currentPost.original}`
-      : currentPost instanceof NFTPost || currentPost instanceof ExternalNFTPost
+      : currentPost instanceof NFTPost ||
+        currentPost instanceof ExternalERC721Post
       ? ` @ ${savedContractSymbols[currentPost.derivative] ?? 'loading...'}`
       : ''
     : ''
@@ -98,13 +99,13 @@ export default function () {
                         )
                         break
                       case NFTPost:
-                        await NFTProcessingPostsStore.createPost(
+                        await ERC721ProcessingPostsStore.createPost(
                           text,
                           currentPost.original
                         )
                         break
-                      case ExternalNFTPost:
-                        await ExternalNFTProcessingPostsStore.createPost(
+                      case ExternalERC721Post:
+                        await ExternalERC721ProcessingPostsStore.createPost(
                           text,
                           currentPost.original
                         )

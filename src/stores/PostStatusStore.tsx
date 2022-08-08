@@ -1,7 +1,7 @@
 import {
+  ERC721PostStore,
   EmailPostStore,
-  ExternalNFTPostStore,
-  NFTPostStore,
+  ExternalERC721PostStore,
   PostStore,
 } from 'stores/PostStore'
 import { PostIdAndStatus } from 'models/PostStatusModel'
@@ -64,6 +64,7 @@ function createPostStatusStore(store: PostStore) {
 }
 
 export const EmailPostStatusStore = createPostStatusStore(EmailPostStore)
-export const NFTPostStatusStore = createPostStatusStore(NFTPostStore)
-export const ExternalNFTPostStatusStore =
-  createPostStatusStore(ExternalNFTPostStore)
+export const ERC721PostStatusStore = createPostStatusStore(ERC721PostStore)
+export const ExternalERC721PostStatusStore = createPostStatusStore(
+  ExternalERC721PostStore
+)

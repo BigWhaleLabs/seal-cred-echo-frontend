@@ -1,12 +1,12 @@
 import {
+  ERC721PostStatusStore,
   EmailPostStatusStore,
-  ExternalNFTPostStatusStore,
-  NFTPostStatusStore,
+  ExternalERC721PostStatusStore,
 } from 'stores/PostStatusStore'
 import {
+  ERC721PostStore,
   EmailPostStore,
-  ExternalNFTPostStore,
-  NFTPostStore,
+  ExternalERC721PostStore,
   PostStore,
 } from 'stores/PostStore'
 import { proxy } from 'valtio'
@@ -112,12 +112,12 @@ export const EmailProcessingPostsStore = createPostProcessingStore(
   EmailPostStatusStore
 )
 
-export const NFTProcessingPostsStore = createPostProcessingStore(
-  NFTPostStore,
-  NFTPostStatusStore
+export const ERC721ProcessingPostsStore = createPostProcessingStore(
+  ERC721PostStore,
+  ERC721PostStatusStore
 )
 
-export const ExternalNFTProcessingPostsStore = createPostProcessingStore(
-  ExternalNFTPostStore,
-  ExternalNFTPostStatusStore
+export const ExternalERC721ProcessingPostsStore = createPostProcessingStore(
+  ExternalERC721PostStore,
+  ExternalERC721PostStatusStore
 )
