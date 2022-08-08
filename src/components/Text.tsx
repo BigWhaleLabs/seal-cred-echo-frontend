@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'preact/compat'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import {
   TDropShadow,
   TGradientColorStops,
@@ -119,24 +119,34 @@ export function SocialLink({ url, children }: ChildrenProp & { url: string }) {
   )
 }
 
-const footerLink = classnames(
-  fontSize('text-sm'),
-  fontWeight('font-semibold'),
-  textDecoration('no-underline', 'hover:underline'),
-  textColor('text-formal-accent', 'hover:text-accent')
-)
-export function FooterlLink({
+const footerLink = (active?: boolean) =>
+  classnames(
+    fontSize('text-sm'),
+    fontWeight('font-semibold'),
+    textDecoration({ underline: active, 'hover:underline': true }),
+    textColor({ 'text-accent': active, 'hover:text-accent': true }),
+    transitionProperty('transition-colors')
+  )
+export function FooterLink({
   url,
   children,
   internal,
 }: ChildrenProp & { url: string; internal?: boolean }) {
-  return internal ? (
-    <Link to={url} className={footerLink}>
-      {children}
-    </Link>
-  ) : (
+  if (internal)
+    return (
+      <NavLink
+        to={url}
+        className={({ isActive }: { isActive?: boolean }) =>
+          footerLink(isActive)
+        }
+      >
+        {children}
+      </NavLink>
+    )
+
+  return (
     <a
-      className={footerLink}
+      className={footerLink()}
       href={url}
       target="_blank"
       rel="noopener noreferrer"
@@ -237,6 +247,7 @@ export function LinkText({
   bold,
   small,
   extraSmall,
+  internal,
   title,
   children,
   gradientFrom,
@@ -245,11 +256,21 @@ export function LinkText({
   url: string
   small?: boolean
   extraSmall?: boolean
+  internal?: boolean
   bold?: boolean
   title?: string
   gradientFrom?: TGradientColorStops
   gradientTo?: TGradientColorStops
 }) {
+  if (internal)
+    return (
+      <NavLink
+        to={url}
+        className={linkText(small, extraSmall, bold, gradientFrom, gradientTo)}
+      >
+        {children}
+      </NavLink>
+    )
   return (
     <a
       className={linkText(small, extraSmall, bold, gradientFrom, gradientTo)}
