@@ -1,8 +1,8 @@
 import {
   CardParagraph,
   CardSubheader,
-  FooterLink,
   HeaderText,
+  LinkText,
 } from 'components/Text'
 import { space } from 'classnames/tailwind'
 import Card from 'components/Card'
@@ -83,9 +83,9 @@ export default function () {
             <CardSubheader>Your Privacy</CardSubheader>
             <CardParagraph>
               Please read our{' '}
-              <FooterLink internal linkStyles url="/privacy">
+              <LinkText internal url="/privacy">
                 Privacy Policy
-              </FooterLink>
+              </LinkText>
             </CardParagraph>
           </CardSection>
           <CardSection smallPadding>
