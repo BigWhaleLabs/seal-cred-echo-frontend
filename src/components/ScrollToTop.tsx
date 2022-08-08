@@ -5,7 +5,8 @@ import ChildrenProp from 'models/ChildrenProp'
 export default function ({ children }: ChildrenProp) {
   const location = useLocation()
   useEffect(() => {
-    if (['/terms', '/privacy'].includes(location.pathname))
+    const linksNeedsToScroll = ['/terms', '/privacy']
+    if (linksNeedsToScroll.includes(location.pathname))
       window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [location])
 
