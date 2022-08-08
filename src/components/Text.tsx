@@ -432,14 +432,14 @@ export function StatusText({
   return <span className={statusText(color, textRight)}>{children}</span>
 }
 
-const tweetText = classnames(
+const postText = classnames(
   fontFamily('font-primary'),
   fontSize('text-base'),
   lineHeight('leading-6'),
   whitespace('whitespace-pre-wrap')
 )
-export function TweetText({ children }: ChildrenProp) {
-  return <p className={tweetText}>{children}</p>
+export function PostText({ children }: ChildrenProp) {
+  return <p className={postText}>{children}</p>
 }
 
 const suffixText = classnames(
@@ -455,7 +455,7 @@ export function SuffixText({ children }: ChildrenProp) {
 const contractButtonContainer = (clickable?: boolean) =>
   classnames(
     fontSize('text-xs'),
-    textDecoration('underline'),
+    textDecoration('hover:underline'),
     textColor('text-primary'),
     cursor({ 'cursor-pointer': clickable })
   )

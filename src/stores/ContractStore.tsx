@@ -5,9 +5,8 @@ import ContractSynchronizer, {
   ContractSynchronizerSchema,
 } from 'helpers/ContractSynchronizer'
 import PersistableStore from 'stores/persistence/PersistableStore'
-import SealCredStore from 'stores/SealCredStore'
 import WalletStore from 'stores/WalletStore'
-import defaultProvider from 'helpers/defaultProvider'
+import defaultProvider from 'helpers/providers/defaultProvider'
 import transformObjectValues from 'helpers/transformObjectValues'
 
 class ContractsStore extends PersistableStore {
@@ -46,14 +45,8 @@ class ContractsStore extends PersistableStore {
     if (!account) return
     if (!this.currentBlock) this.currentBlock = await this.fetchBlockNumber()
 
-    const emailDerivativeContracts =
-      await SealCredStore.emailDerivativeContracts
-
     if (!this.connectedAccounts[account])
-      this.connectedAccounts[account] = new ContractSynchronizer(
-        account,
-        SealCredStore.firstBlockId
-      )
+      this.connectedAccounts[account] = new ContractSynchronizer(account, 0)
 
     if (
       !this.addressToTokenIds &&
@@ -65,8 +58,7 @@ class ContractsStore extends PersistableStore {
     }
 
     const request = this.connectedAccounts[account].syncAddressToTokenIds(
-      this.currentBlock,
-      emailDerivativeContracts
+      this.currentBlock
     )
 
     this.addressToTokenIds =

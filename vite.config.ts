@@ -4,10 +4,11 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 import { visualizer } from 'rollup-plugin-visualizer'
 import GlobalsPolyfills from '@esbuild-plugins/node-globals-polyfill'
 import inject from '@rollup/plugin-inject'
-import nodePolyfills from 'rollup-plugin-node-polyfills'
+import nodePolyfills from 'rollup-plugin-polyfill-node'
 import removeConsole from 'vite-plugin-remove-console'
 import mkcert from 'vite-plugin-mkcert'
 import { builtinModules } from 'module'
+import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 
 export default defineConfig({
   resolve: {
@@ -30,7 +31,10 @@ export default defineConfig({
         nodePolyfills() as unknown as Plugin,
         inject({
           Buffer: ['buffer', 'Buffer'],
-        }),
+          global: 'global',
+          stream: 'stream',
+          _stream_duplex: 'duplex',
+        }) as unknown as Plugin,
         removeConsole(),
       ],
       external: builtinModules,
@@ -44,7 +48,10 @@ export default defineConfig({
       define: {
         global: 'globalThis',
       },
-      plugins: [GlobalsPolyfills({ buffer: true })],
+      plugins: [
+        GlobalsPolyfills({ buffer: true }),
+        NodeModulesPolyfillPlugin(),
+      ],
     },
   },
   esbuild: {

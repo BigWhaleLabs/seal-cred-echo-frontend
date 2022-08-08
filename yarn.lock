@@ -1672,30 +1672,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@big-whale-labs/constants@npm:^0.1.9":
-  version: 0.1.9
-  resolution: "@big-whale-labs/constants@npm:0.1.9"
-  checksum: c74160b481e585ac7d99121306ac7876c05c41e7c443241d47d88eeeebedebb13783f38ea4ac7b431bcef512ed75a1539ebce5f254ab5dfb17bbb651aff3c28d
+"@big-whale-labs/constants@npm:^0.1.15":
+  version: 0.1.15
+  resolution: "@big-whale-labs/constants@npm:0.1.15"
+  checksum: b831c4796d73fd772c81df98e49ab0bc219d3b1d5b3a3b6a6bf00bcd493f7d9616502745f72a4ac911e47578dd21c00f5883d53ed611a917a12501b51a4d9763
   languageName: node
   linkType: hard
 
-"@big-whale-labs/seal-cred-ledger-contract@npm:^0.2.4":
-  version: 0.2.4
-  resolution: "@big-whale-labs/seal-cred-ledger-contract@npm:0.2.4"
-  dependencies:
-    "@big-whale-labs/constants": ^0.1.9
-    entropy-string: ^4.2.0
-    prompt: ^1.3.0
-  checksum: 904e1876c9dbf99191063d7a24a478fc6d6abf5bae08fc40320f17ddae908684bf8a7ddbe7b92e8a3611353a30e56ea128f70403353faaadd50c1225a85b0633
+"@big-whale-labs/seal-cred-ledger-contract@npm:^0.2.6":
+  version: 0.2.6
+  resolution: "@big-whale-labs/seal-cred-ledger-contract@npm:0.2.6"
+  checksum: b93e75d70ba522fe41fb64b838ff368ce32e58b71eac55b21c3f33887a11fcaf46d55cfbc42c5b79d4653a6833645247dde0e7f094a818d2d3e5064548ea9494
   languageName: node
   linkType: hard
 
-"@big-whale-labs/seal-cred-twitter-contract@npm:^0.0.6":
-  version: 0.0.6
-  resolution: "@big-whale-labs/seal-cred-twitter-contract@npm:0.0.6"
-  dependencies:
-    "@big-whale-labs/constants": ^0.1.9
-  checksum: 1cc07ecde553e63d4f52393eda660eb15a75101e22b7905eb33a25464ea35774f4655f7192cf8488d85a77287dc43d7745263a8ebd6ed4cb0b0068138f4f8c83
+"@big-whale-labs/seal-cred-posts-contract@npm:^0.0.10":
+  version: 0.0.10
+  resolution: "@big-whale-labs/seal-cred-posts-contract@npm:0.0.10"
+  checksum: ba41713f9c55e79167968ce084e437395d002d283d23a27001802de692f040897a9757c5aabaacb7d36487b877a5518f85f5fd559fcb347184ff2a43f6bb443b
   languageName: node
   linkType: hard
 
@@ -1936,6 +1930,18 @@ __metadata:
   peerDependencies:
     esbuild: "*"
   checksum: 68a41e2c377724e9cd46ca344ad219d289cc41a8b273d0d89bbc82bd90025b067b28234a865d8862a3f38c2a028ca4c93138dfca4e1e75e617efc314156c1ce0
+  languageName: node
+  linkType: hard
+
+"@esbuild-plugins/node-modules-polyfill@npm:^0.1.4":
+  version: 0.1.4
+  resolution: "@esbuild-plugins/node-modules-polyfill@npm:0.1.4"
+  dependencies:
+    escape-string-regexp: ^4.0.0
+    rollup-plugin-node-polyfills: ^0.2.1
+  peerDependencies:
+    esbuild: "*"
+  checksum: 39ff2a816139d71ebfbb78914c024565b6026da3146776aa10d27ee1330938ce78c7b2aad11c2d7768c7675d0942d1d1690dabfe60fa79e07dbb31cfbe396cec
   languageName: node
   linkType: hard
 
@@ -3140,7 +3146,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-inject@npm:^4.0.4":
+"@rollup/plugin-inject@npm:^4.0.0, @rollup/plugin-inject@npm:^4.0.4":
   version: 4.0.4
   resolution: "@rollup/plugin-inject@npm:4.0.4"
   dependencies:
@@ -5056,13 +5062,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"async@npm:3.2.3":
-  version: 3.2.3
-  resolution: "async@npm:3.2.3"
-  checksum: c4bee57ab2249af3dc83ca3ef9acfa8e822c0d5e5aa41bae3eaf7f673648343cd64ecd7d26091ffd357f3f044428b17b5f00098494b6cf8b6b3e9681f0636ca1
-  languageName: node
-  linkType: hard
-
 "async@npm:^1.4.2":
   version: 1.5.2
   resolution: "async@npm:1.5.2"
@@ -6347,13 +6346,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colors@npm:1.0.x":
-  version: 1.0.3
-  resolution: "colors@npm:1.0.3"
-  checksum: 234e8d3ab7e4003851cdd6a1f02eaa16dabc502ee5f4dc576ad7959c64b7477b15bd21177bab4055a4c0a66aa3d919753958030445f87c39a253d73b7a3637f5
-  languageName: node
-  linkType: hard
-
 "colors@npm:1.4.0":
   version: 1.4.0
   resolution: "colors@npm:1.4.0"
@@ -7024,13 +7016,6 @@ __metadata:
   dependencies:
     cssom: ~0.3.6
   checksum: 5f05e6fd2e3df0b44695c2f08b9ef38b011862b274e320665176467c0725e44a53e341bc4959a41176e83b66064ab786262e7380fd1cabeae6efee0d255bb4e3
-  languageName: node
-  linkType: hard
-
-"cycle@npm:1.0.x":
-  version: 1.0.3
-  resolution: "cycle@npm:1.0.3"
-  checksum: b9f131094fb832a8c4ba18c6d2dc9c87fc80d3242847a45f0a5f70911b2acab68abc1c25eb23e5155fcf2135a27d8fcc3635556745b03b488c4f360cfbc352df
   languageName: node
   linkType: hard
 
@@ -9165,13 +9150,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eyes@npm:0.1.x":
-  version: 0.1.8
-  resolution: "eyes@npm:0.1.8"
-  checksum: c31703a92bf36ba75ee8d379ee7985c24ee6149f3a6175f44cec7a05b178c38bce9836d3ca48c9acb0329a960ac2c4b2ead4e60cdd4fe6e8c92cad7cd6913687
-  languageName: node
-  linkType: hard
-
 "fake-merkle-patricia-tree@npm:^1.0.1":
   version: 1.0.1
   resolution: "fake-merkle-patricia-tree@npm:1.0.1"
@@ -10929,7 +10907,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"isstream@npm:0.1.x, isstream@npm:~0.1.2":
+"isstream@npm:~0.1.2":
   version: 0.1.2
   resolution: "isstream@npm:0.1.2"
   checksum: 1eb2fe63a729f7bdd8a559ab552c69055f4f48eb5c2f03724430587c6f450783c8f1cd936c1c952d0a927925180fcc892ebd5b174236cf1065d4bd5bdb37e963
@@ -12770,7 +12748,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mute-stream@npm:0.0.8, mute-stream@npm:~0.0.4":
+"mute-stream@npm:0.0.8":
   version: 0.0.8
   resolution: "mute-stream@npm:0.0.8"
   checksum: ff48d251fc3f827e5b1206cda0ffdaec885e56057ee86a3155e1951bc940fd5f33531774b1cc8414d7668c10a8907f863f6561875ee6e8768931a62121a531a1
@@ -14565,19 +14543,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prompt@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "prompt@npm:1.3.0"
-  dependencies:
-    "@colors/colors": 1.5.0
-    async: 3.2.3
-    read: 1.0.x
-    revalidator: 0.1.x
-    winston: 2.x
-  checksum: d2bebb05bfc39a86215011ee9f32660f23d54d373bd450d1193883b66bac817eca6d2267d42374735e3a57209fc52ab152bbe7c6d6d312f0edc6959cbcd0205a
-  languageName: node
-  linkType: hard
-
 "prompts@npm:^2.0.1, prompts@npm:^2.4.2":
   version: 2.4.2
   resolution: "prompts@npm:2.4.2"
@@ -15049,15 +15014,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"read@npm:1.0.x":
-  version: 1.0.7
-  resolution: "read@npm:1.0.7"
-  dependencies:
-    mute-stream: ~0.0.4
-  checksum: 2777c254e5732cac96f5d0a1c0f6b836c89ae23d8febd405b206f6f24d5de1873420f1a0795e0e3721066650d19adf802c7882c4027143ee0acf942a4f34f97b
-  languageName: node
-  linkType: hard
-
 "readable-stream@npm:^1.0.33":
   version: 1.1.14
   resolution: "readable-stream@npm:1.1.14"
@@ -15453,13 +15409,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"revalidator@npm:0.1.x":
-  version: 0.1.8
-  resolution: "revalidator@npm:0.1.8"
-  checksum: 9ac69162ce8fc86f5fa77f37f3ad634d3797ea70eff4faff13619167ebbf3f3ccf2ec115ccd9c3c860658f8859426022d61d2a1e49183db095ba4f0a016905fe
-  languageName: node
-  linkType: hard
-
 "rimraf@npm:^3.0.0, rimraf@npm:^3.0.2":
   version: 3.0.2
   resolution: "rimraf@npm:3.0.2"
@@ -15509,6 +15458,17 @@ __metadata:
   dependencies:
     rollup-plugin-inject: ^3.0.0
   checksum: e84645212c443aca3cfae2ba69f01c6d8c5c250f0bf651416b69a4572b60aae9da7cdd687de3ab9b903f7a1ab96b06b71f0c4927d1b02a37485360d2b563937b
+  languageName: node
+  linkType: hard
+
+"rollup-plugin-polyfill-node@npm:^0.10.2":
+  version: 0.10.2
+  resolution: "rollup-plugin-polyfill-node@npm:0.10.2"
+  dependencies:
+    "@rollup/plugin-inject": ^4.0.0
+  peerDependencies:
+    rollup: ^1.20.0 || ^2.0.0
+  checksum: 10806925ddf17d9a49bea885fa30296dec20ac59c43986c6f1eca892dd260cc75cc2f77b098dbcb8bbf503c10c7aa4d3078f441c1e2384ba475c105273132c99
   languageName: node
   linkType: hard
 
@@ -15766,11 +15726,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "seal-cred-echo-frontend@workspace:."
   dependencies:
-    "@big-whale-labs/constants": ^0.1.9
-    "@big-whale-labs/seal-cred-ledger-contract": ^0.2.4
-    "@big-whale-labs/seal-cred-twitter-contract": ^0.0.6
+    "@big-whale-labs/constants": ^0.1.15
+    "@big-whale-labs/seal-cred-ledger-contract": ^0.2.6
+    "@big-whale-labs/seal-cred-posts-contract": ^0.0.10
     "@coinbase/wallet-sdk": ^3.4.0
     "@esbuild-plugins/node-globals-polyfill": ^0.1.1
+    "@esbuild-plugins/node-modules-polyfill": ^0.1.4
     "@ethersproject/experimental": ^5.6.3
     "@opengsn/provider": ^3.0.0-beta.1
     "@preact/preset-vite": ^2.3.0
@@ -15807,7 +15768,7 @@ __metadata:
     react-textarea-autosize: ^8.3.4
     react-toastify: ^9.0.7
     react-twitter-widgets: ^1.11.0
-    rollup-plugin-node-polyfills: ^0.2.1
+    rollup-plugin-polyfill-node: ^0.10.2
     rollup-plugin-visualizer: ^5.7.1
     secure-ls: ^1.2.6
     tailwindcss: ^3.1.7
@@ -18464,20 +18425,6 @@ __metadata:
     readable-stream: ^3.6.0
     triple-beam: ^1.3.0
   checksum: a56e5678a80b88a73e77ed998fc6e19d0db19c989a356b137ec236782f2bf58ae4511b11c29163f99391fa4dc12102c7bc5738dcb6543f28877fa2819adc3ee9
-  languageName: node
-  linkType: hard
-
-"winston@npm:2.x":
-  version: 2.4.6
-  resolution: "winston@npm:2.4.6"
-  dependencies:
-    async: ^3.2.3
-    colors: 1.0.x
-    cycle: 1.0.x
-    eyes: 0.1.x
-    isstream: 0.1.x
-    stack-trace: 0.0.x
-  checksum: 507ebfde315a8a0bc78ed73f41cc4c499291c23c25c58deab200baf192614af9481d637b463f9853c86a586811c1c5ffe980c33f8a37279f07f8d2409e9eb77b
   languageName: node
   linkType: hard
 

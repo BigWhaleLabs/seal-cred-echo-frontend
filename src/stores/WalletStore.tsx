@@ -1,8 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
-import TweetStructure from 'models/TweetStructure'
-import createTweet from 'helpers/createTweet'
 import env from 'helpers/env'
 import handleError, { ErrorList } from 'helpers/handleError'
 import web3Modal from 'helpers/web3Modal'
@@ -58,13 +56,8 @@ class WalletStore extends PersistableStore {
     this.walletLoading = false
   }
 
-  saveTweet({ tweet, domain }: TweetStructure) {
-    if (!provider) throw new Error('No provider found')
-
-    if (!tweet) throw new Error('Invalid tweet')
-    if (!domain) throw new Error('Invalid domain')
-
-    return createTweet({ tweet, domain }, provider)
+  get provider() {
+    return provider
   }
 
   private subscribeProvider(provider: Web3Provider) {

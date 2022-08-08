@@ -1,10 +1,10 @@
-export interface SelectOption {
+export interface SelectOption<Data> {
   label?: string
-  value: string
+  value: Data
 }
 
-const twitterAccounts: SelectOption[] = [
-  { label: '@SealCredEcho', value: 'SealCredEcho' },
+const twitterAccounts: SelectOption<string>[] = [
+  { label: '@SealCredEmail', value: 'SealCredEmail' },
   { label: '@SealCredNFT', value: 'SealCredNFT' },
 ]
 

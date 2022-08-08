@@ -3,7 +3,7 @@ import { space } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import AgeWarning from 'components/AgeWarning'
 import AppStore from 'stores/AppStore'
-import BlockchainTweetsList from 'components/BlockchainTweetsList'
+import BlockchainPostsList from 'components/BlockchainPostsList'
 import HintCard from 'components/HintCard'
 import PreviousTweetsLayout from 'components/PrevTweetsLayout'
 import classNamesToString from 'helpers/classNamesToString'
@@ -15,7 +15,7 @@ export default function () {
     <PreviousTweetsLayout back>
       {!adultAccepted && <AgeWarning />}
       <div
-        className={classNamesToString('blockchainTweets', space('space-y-4'))}
+        className={classNamesToString('blockchainPosts', space('space-y-4'))}
       >
         <HintCard>
           <BodyText primary>
@@ -24,7 +24,7 @@ export default function () {
           </BodyText>
         </HintCard>
 
-        <BlockchainTweetsList />
+        <BlockchainPostsList />
       </div>
     </PreviousTweetsLayout>
   )

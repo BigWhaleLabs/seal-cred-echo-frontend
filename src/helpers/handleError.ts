@@ -11,9 +11,7 @@ export const ErrorList = {
   clear: '',
 }
 
-export default function (error: unknown) {
-  console.error(error)
-
+export function parseError(error: unknown) {
   let displayedError: string | undefined
 
   if (typeof error === 'string') displayedError = error
@@ -24,5 +22,11 @@ export default function (error: unknown) {
   }
   if (!displayedError) displayedError = ErrorList.unknown
 
-  toast.error(displayedError)
+  return displayedError
+}
+
+export default function (error: unknown) {
+  console.error(error)
+
+  toast.error(parseError(error))
 }
