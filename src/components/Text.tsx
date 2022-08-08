@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'preact/compat'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import {
   TDropShadow,
   TGradientColorStops,
@@ -119,24 +119,44 @@ export function SocialLink({ url, children }: ChildrenProp & { url: string }) {
   )
 }
 
-const footerLink = classnames(
-  fontSize('text-sm'),
-  fontWeight('font-semibold'),
-  textDecoration('no-underline', 'hover:underline'),
-  textColor('text-formal-accent', 'hover:text-accent')
-)
-export function FooterlLink({
+const footerLink = (active?: boolean, linkStyles?: boolean) =>
+  classnames(
+    fontSize({ 'text-sm': !linkStyles }),
+    fontWeight({ 'font-semibold': !linkStyles }),
+    linkStyles
+      ? textDecoration('no-underline')
+      : textDecoration(
+          active ? 'underline' : 'no-underline',
+          'hover:underline'
+        ),
+    textColor(
+      linkStyles
+        ? 'text-primary'
+        : active
+        ? 'text-accent'
+        : 'text-formal-accent',
+      'hover:text-accent'
+    )
+  )
+export function FooterLink({
   url,
   children,
   internal,
-}: ChildrenProp & { url: string; internal?: boolean }) {
+  linkStyles,
+}: ChildrenProp & { url: string; internal?: boolean; linkStyles?: boolean }) {
   return internal ? (
-    <Link to={url} className={footerLink}>
+    <NavLink
+      to={url}
+      className={({ isActive }: { isActive?: boolean }) =>
+        footerLink(isActive, linkStyles)
+      }
+      onClick={() => window.scroll({ top: 0 })}
+    >
       {children}
-    </Link>
+    </NavLink>
   ) : (
     <a
-      className={footerLink}
+      className={footerLink()}
       href={url}
       target="_blank"
       rel="noopener noreferrer"
