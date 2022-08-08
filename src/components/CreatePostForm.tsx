@@ -9,10 +9,10 @@ import { useState } from 'preact/hooks'
 import Button from 'components/Button'
 import ContractNameStore from 'stores/ContractNameStore'
 import DropDown from 'components/DropDown'
+import ERC721Post from 'helpers/posts/ERC721Post'
 import EmailPost from 'helpers/posts/EmailPost'
 import ExternalERC721Post from 'helpers/posts/ExternalERC721Post'
 import HasNoBadges from 'components/HasNoBadges'
-import NFTPost from 'helpers/posts/NFTPost'
 import PostFormStore from 'stores/PostFormStore'
 import TextArea from 'components/TextArea'
 import classnames, {
@@ -47,7 +47,7 @@ export default function () {
   const suffix = currentPost
     ? currentPost instanceof EmailPost
       ? ` @ ${currentPost.original}`
-      : currentPost instanceof NFTPost ||
+      : currentPost instanceof ERC721Post ||
         currentPost instanceof ExternalERC721Post
       ? ` @ ${savedContractSymbols[currentPost.derivative] ?? 'loading...'}`
       : ''
@@ -98,7 +98,7 @@ export default function () {
                           currentPost.original
                         )
                         break
-                      case NFTPost:
+                      case ERC721Post:
                         await ERC721ProcessingPostsStore.createPost(
                           text,
                           currentPost.original

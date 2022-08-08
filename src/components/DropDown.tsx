@@ -3,15 +3,15 @@ import { TextareaText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import ContractName from 'components/ContractName'
 import ContractSymbol from 'components/ContractSymbol'
+import ERC721Post from 'helpers/posts/ERC721Post'
 import EmailPost from 'helpers/posts/EmailPost'
 import ExternalERC721Post from 'helpers/posts/ExternalERC721Post'
-import NFTPost from 'helpers/posts/NFTPost'
 import PostFormStore from 'stores/PostFormStore'
 import SelectDropdown from 'components/SelectDropdown'
 import classnames, { display, padding } from 'classnames/tailwind'
 import useOptions from 'hooks/useOptions'
 
-type SelectValueType = EmailPost | ExternalERC721Post | NFTPost
+type SelectValueType = EmailPost | ExternalERC721Post | ERC721Post
 
 const postingAs = classnames(
   display('tiny:inline', 'hidden'),
@@ -71,7 +71,7 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
   const options = useOptions()
 
   return (
-    <SelectDropdown<ExternalERC721Post | NFTPost | EmailPost>
+    <SelectDropdown<ExternalERC721Post | ERC721Post | EmailPost>
       border
       disabled={disabled}
       placeholder="Select badge"
