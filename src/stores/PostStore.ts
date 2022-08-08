@@ -46,8 +46,7 @@ export class PostStore {
     if (!WalletStore.account) throw new Error('No account found')
 
     try {
-      const gsnProvider = relayProvider(walletProvider)
-      await gsnProvider.init()
+      const gsnProvider = await relayProvider(walletProvider)
 
       const ethersProvider = new Web3Provider(
         gsnProvider as unknown as ExternalProvider
