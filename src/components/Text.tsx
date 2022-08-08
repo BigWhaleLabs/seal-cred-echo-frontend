@@ -123,11 +123,8 @@ const footerLink = (active?: boolean) =>
   classnames(
     fontSize('text-sm'),
     fontWeight('font-semibold'),
-    textDecoration(active ? 'underline' : 'no-underline', 'hover:underline'),
-    textColor(
-      active ? 'text-accent' : 'text-formal-accent',
-      'hover:text-accent'
-    ),
+    textDecoration({ underline: active, 'hover:underline': true }),
+    textColor({ 'text-accent': active, 'hover:text-accent': true }),
     transitionProperty('transition-colors')
   )
 export function FooterLink({
@@ -135,14 +132,19 @@ export function FooterLink({
   children,
   internal,
 }: ChildrenProp & { url: string; internal?: boolean }) {
-  return internal ? (
-    <NavLink
-      to={url}
-      className={({ isActive }: { isActive?: boolean }) => footerLink(isActive)}
-    >
-      {children}
-    </NavLink>
-  ) : (
+  if (internal)
+    return (
+      <NavLink
+        to={url}
+        className={({ isActive }: { isActive?: boolean }) =>
+          footerLink(isActive)
+        }
+      >
+        {children}
+      </NavLink>
+    )
+
+  return (
     <a
       className={footerLink()}
       href={url}
@@ -260,14 +262,16 @@ export function LinkText({
   gradientFrom?: TGradientColorStops
   gradientTo?: TGradientColorStops
 }) {
-  return internal ? (
-    <NavLink
-      to={url}
-      className={linkText(small, extraSmall, bold, gradientFrom, gradientTo)}
-    >
-      {children}
-    </NavLink>
-  ) : (
+  if (internal)
+    return (
+      <NavLink
+        to={url}
+        className={linkText(small, extraSmall, bold, gradientFrom, gradientTo)}
+      >
+        {children}
+      </NavLink>
+    )
+  return (
     <a
       className={linkText(small, extraSmall, bold, gradientFrom, gradientTo)}
       href={url}
