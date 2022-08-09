@@ -35,6 +35,7 @@
     "@opengsn/provider": "^3.0.0-beta.1",
     "@types/react-textarea-autosize": "^8.0.0",
     "@walletconnect/web3-provider": "^1.8.0",
+    "assert-browserify": "^2.0.0",
     "axios": "^0.27.2",
     "dayjs": "^1.11.4",
     "entropy-string": "^4.2.0",
