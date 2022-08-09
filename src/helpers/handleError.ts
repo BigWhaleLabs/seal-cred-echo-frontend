@@ -8,7 +8,25 @@ export const ErrorList = {
   wrongNetwork: (userNetwork: string, contractNetwork: string) =>
     `Looks like you're using ${userNetwork} network, try switching to ${contractNetwork} and connect again`,
   unknown: 'An unknown error occurred, please, contact us',
+  insufficient:
+    'Insufficient funds for the gas transaction. Wait for a little and try again later.',
+  highGasPrice:
+    'The transaction price is too high. Please wait for a little and try again later.',
+  paymasterRejected:
+    'The paymaster couldn\'t run the "relayCall()"  method. Please wait for and try again later.',
   clear: '',
+}
+
+export const checkErrorMessage = (error: Error) => {
+  const readableMessage = error.message.includes('Proposed priority gas fee')
+    ? ErrorList.highGasPrice
+    : error.message.includes('paymaster rejected in DRY-RUN')
+    ? ErrorList.paymasterRejected
+    : error.message.includes('insufficient funds for gas * price + value')
+    ? ErrorList.insufficient
+    : ErrorList.unknown
+
+  return new Error(readableMessage)
 }
 
 export function parseError(error: unknown) {

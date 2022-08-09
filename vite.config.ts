@@ -3,7 +3,6 @@ import preact from '@preact/preset-vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { visualizer } from 'rollup-plugin-visualizer'
 import GlobalsPolyfills from '@esbuild-plugins/node-globals-polyfill'
-import inject from '@rollup/plugin-inject'
 import nodePolyfills from 'rollup-plugin-polyfill-node'
 import removeConsole from 'vite-plugin-remove-console'
 import mkcert from 'vite-plugin-mkcert'
@@ -25,14 +24,6 @@ export default defineConfig({
           brotliSize: true,
         }) as unknown as Plugin,
         nodePolyfills() as unknown as Plugin,
-        inject({
-          assert: 'assert',
-          process: 'process',
-          Buffer: ['buffer', 'Buffer'],
-          global: 'global',
-          stream: 'stream',
-          _stream_duplex: 'duplex',
-        }) as unknown as Plugin,
         removeConsole(),
       ],
     },
