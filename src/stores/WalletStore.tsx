@@ -1,4 +1,4 @@
-import { PersistableStore } from '@big-whale-labs/store-utils'
+import { PersistableStore } from '@big-whale-labs/stores'
 import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
 import env from 'helpers/env'

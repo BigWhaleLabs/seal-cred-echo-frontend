@@ -4,7 +4,7 @@ import {
   ExternalERC721PostStore,
   PostStore,
 } from 'stores/PostStore'
-import { PersistableStore } from '@big-whale-labs/store-utils'
+import { PersistableStore } from '@big-whale-labs/stores'
 import { PostIdAndStatus } from 'models/PostStatusModel'
 import { getPostsByIdsFromPoster } from 'helpers/getPostsFromPoster'
 import { getPostsFromPoster } from 'helpers/getPostsFromPoster'
