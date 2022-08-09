@@ -1,4 +1,4 @@
-import { FooterlLink, SocialLink } from 'components/Text'
+import { FooterLink, SocialLink } from 'components/Text'
 import Delimiter from 'components/Delimiter'
 import Discord from 'icons/Discord'
 import FooterLogo from 'icons/FooterLogo'
@@ -30,21 +30,21 @@ export default function () {
 
   return (
     <div className={footerContainer}>
-      <FooterlLink url="https://blog.bigwhalelabs.com/">
+      <FooterLink url="https://blog.bigwhalelabs.com/">
         <div className={linksContainer}>
           <FooterLogo />
           <span>Blog</span>
         </div>
-      </FooterlLink>
+      </FooterLink>
 
       <Delimiter primary showOn="md" />
-      <FooterlLink internal url="/terms">
+      <FooterLink internal url="/terms">
         Terms of service
-      </FooterlLink>
+      </FooterLink>
       <Delimiter primary showOn="md" />
-      <FooterlLink internal url="/privacy">
+      <FooterLink internal url="/privacy">
         Privacy policy
-      </FooterlLink>
+      </FooterLink>
       {!md && (
         <>
           <Delimiter primary showOn="md" />

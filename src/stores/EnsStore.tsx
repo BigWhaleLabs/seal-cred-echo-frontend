@@ -1,5 +1,5 @@
 import { proxy } from 'valtio'
-import defaultProvider from 'helpers/defaultProvider'
+import defaultProvider from 'helpers/providers/defaultProvider'
 
 interface EnsStoreInterface {
   ensNames: { [address: string]: Promise<string | null> | undefined }

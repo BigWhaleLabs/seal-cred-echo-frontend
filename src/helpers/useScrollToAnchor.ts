@@ -1,5 +1,5 @@
 import { useEffect } from 'preact/hooks'
-import FlashingTweetCallback from 'models/FlashingTweetCallback'
+import FlashingCallback from 'models/FlashingCallback'
 
 export const getHashElement = () =>
   window.location.hash
@@ -10,7 +10,7 @@ export const getHashElement = () =>
 
 export const scrollToHashElement = (
   offset = 0,
-  callback?: FlashingTweetCallback
+  callback?: FlashingCallback
 ) => {
   const elementToScroll = getHashElement()
   if (!elementToScroll) return
@@ -31,7 +31,7 @@ export const scrollToHashElement = (
 export default function useScrollToAnchor(
   offset = 0,
   trigger = true,
-  callback?: FlashingTweetCallback
+  callback?: FlashingCallback
 ) {
   useEffect(() => {
     scrollToHashElement(offset, callback)
