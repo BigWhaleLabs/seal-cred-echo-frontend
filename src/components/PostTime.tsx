@@ -1,11 +1,11 @@
 import { StatusText } from 'components/Text'
 import { useSnapshot } from 'valtio'
-import TimeStore from 'stores/TimeStore'
+import AppStore from 'stores/AppStore'
 import formatDate from 'helpers/formatDate'
 
 export default function ({ timestamp }: { timestamp: number }) {
-  const { current } = useSnapshot(TimeStore)
-  const formatted = formatDate(timestamp, current)
+  const { currentTime } = useSnapshot(AppStore)
+  const formatted = formatDate(timestamp, currentTime)
 
   return <StatusText textRight>{formatted}</StatusText>
 }

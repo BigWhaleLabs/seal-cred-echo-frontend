@@ -1,9 +1,10 @@
-import defaultProvider from 'helpers/providers/defaultProvider'
-import getERC721LedgerContract from 'helpers/contracts/getERC721LedgerContract'
-import getEmailLedgerContract from 'helpers/contracts/getEmailLedgerContract'
-import getExternalERC721LedgerContract from 'helpers/contracts/getExternalERC721LedgerContract'
+import env from 'helpers/env'
+import getSCLedgerContract from 'helpers/contracts/getSCLedgerContract'
 
-export const SCEmailLedgerContract = getEmailLedgerContract(defaultProvider)
-export const SCERC721LedgerContract = getERC721LedgerContract(defaultProvider)
-export const ExternalSCERC721LedgerContract =
-  getExternalERC721LedgerContract(defaultProvider)
+export default {
+  email: getSCLedgerContract(env.VITE_SC_EMAIL_LEDGER_CONTRACT_ADDRESS),
+  ERC721: getSCLedgerContract(env.VITE_SC_ERC721_LEDGER_CONTRACT_ADDRESS),
+  externalERC721: getSCLedgerContract(
+    env.VITE_SC_EXTERNAL_ERC721_LEDGER_CONTRACT_ADDRESS
+  ),
+}

@@ -4,6 +4,10 @@ import PersistableStore from 'stores/persistence/PersistableStore'
 class AppStore extends PersistableStore {
   adultAccepted = false
   currentTwitterAccount = 'SealCredEmail'
+  currentTime = new Date().valueOf()
 }
 
-export default proxy(new AppStore()).makePersistent()
+const appStoreProxy = proxy(new AppStore()).makePersistent(true)
+setInterval(() => (appStoreProxy.currentTime = new Date().valueOf()), 10000)
+
+export default appStoreProxy

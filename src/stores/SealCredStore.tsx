@@ -1,33 +1,32 @@
-import {
-  ExternalSCERC721LedgerContract,
-  SCERC721LedgerContract,
-  SCEmailLedgerContract,
-} from 'helpers/contracts/sealCredContracts'
 import { Ledger } from '@big-whale-labs/seal-cred-ledger-contract'
 import { derive } from 'valtio/utils'
 import { proxy } from 'valtio'
 import LedgerModel from 'models/LedgerModel'
 import getLedger from 'helpers/contracts/getLedger'
 import getLedgerRecord from 'helpers/contracts/getLedgerRecord'
+import sealCredContracts from 'helpers/contracts/sealCredContracts'
+
+// should setup all contracts during one function execution, monoid is preferred
+
+const extractDerivativesFromLedgers = async (state: SealCredStoreType) => {
+  const ledgers = await Promise.all(Object.values(state))
+  const derivatives = Object.values(ledgers).map(
+    (ledger) => ledger['derivative']
+  )
+  return derivatives
+}
 
 interface SealCredStoreType {
-  emailLedger: Promise<LedgerModel>
-  ERC721Ledger: Promise<LedgerModel>
-  externalERC721Ledger: Promise<LedgerModel>
+  [ledgerName: string]: Promise<LedgerModel>
 }
 
 interface ComputedSealCredStoreType {
-  emailDerivativeContracts: Promise<string[]>
-  ERC721derivativeContracts: Promise<string[]>
-  externalERC721derivativeContracts: Promise<string[]>
+  [namedDerivativeContracts: string]: Promise<string[]>
   derivativeContracts: Promise<string[]>
 }
 
-const state = proxy<SealCredStoreType>({
-  emailLedger: getLedger(SCEmailLedgerContract),
-  ERC721Ledger: getLedger(SCERC721LedgerContract),
-  externalERC721Ledger: getLedger(ExternalSCERC721LedgerContract),
-})
+// TODO: promisify all object.values
+const state = proxy<SealCredStoreType>(sealCredContracts)
 
 const SealCredStore = derive<SealCredStoreType, ComputedSealCredStoreType>(
   {
@@ -36,24 +35,20 @@ const SealCredStore = derive<SealCredStoreType, ComputedSealCredStoreType>(
         ({ derivative }) => derivative
       ),
     ERC721derivativeContracts: async (get) =>
-      Object.values(await get(state).externalERC721Ledger).map(
+      Object.values((await get(state).externalERC721Ledger) || {}).map(
         ({ derivative }) => derivative
       ),
     externalERC721derivativeContracts: async (get) =>
-      Object.values(await get(state).externalERC721Ledger).map(
+      Object.values((await get(state).externalERC721Ledger) || {}).map(
         ({ derivative }) => derivative
       ),
-    derivativeContracts: async (get) => [
-      ...Object.values(await get(state).emailLedger).map(
-        ({ derivative }) => derivative
-      ),
-      ...Object.values(await get(state).ERC721Ledger).map(
-        ({ derivative }) => derivative
-      ),
-      ...Object.values(await get(state).externalERC721Ledger).map(
-        ({ derivative }) => derivative
-      ),
-    ],
+    derivativeContracts: async (get) => {
+      return await Promise.all(
+        Object.values(get(state)).map(async (ledger) =>
+          Object.values(await ledger).map(({ derivative }) => derivative)
+        )
+      )
+    },
   },
   { proxy: state }
 )
@@ -79,8 +74,6 @@ function addListeners(contract: Ledger) {
   })
 }
 
-addListeners(SCEmailLedgerContract)
-addListeners(SCERC721LedgerContract)
-addListeners(ExternalSCERC721LedgerContract)
+Object.values(sealCredContracts).forEach((contract) => addListeners(contract))
 
 export default SealCredStore

@@ -31,7 +31,7 @@ const container = classnames(
   space('space-x-4'),
   cursor('cursor-pointer')
 )
-const delimeterContainer = classnames(
+const delimiterContainer = classnames(
   borderWidth('border-0'),
   backgroundColor('bg-primary-dimmed'),
   width('w-px'),
@@ -54,7 +54,7 @@ export default function () {
               <Twitter />
             </SocialLink>
           </div>
-          <hr className={delimeterContainer} />
+          <hr className={delimiterContainer} />
         </>
       )}
       <div
