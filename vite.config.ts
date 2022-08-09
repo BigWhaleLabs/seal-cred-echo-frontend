@@ -12,7 +12,6 @@ import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfil
 export default defineConfig({
   resolve: {
     alias: {
-      crypto: 'crypto-js',
       assert: 'assert-browserify',
     },
   },
