@@ -1,6 +1,6 @@
+import { PersistableStore } from '@big-whale-labs/stores'
 import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
-import PersistableStore from 'stores/persistence/PersistableStore'
 import env from 'helpers/env'
 import handleError, { ErrorList } from 'helpers/handleError'
 import web3Modal from 'helpers/web3Modal'
@@ -90,7 +90,9 @@ class WalletStore extends PersistableStore {
   }
 }
 
-const walletStore = proxy(new WalletStore()).makePersistent(true)
+const walletStore = proxy(new WalletStore()).makePersistent(
+  env.VITE_ENCRYPT_KEY
+)
 
 if (walletStore.cachedProvider) void walletStore.connect()
 

@@ -5,11 +5,12 @@ import {
   PostStore,
 } from 'stores/PostStore'
 import { PostIdAndStatus } from 'models/PostStatusResponse'
+import { PersistableStore } from '@big-whale-labs/stores'
 import { getPostsByIdsFromPoster } from 'helpers/getPostsFromPoster'
 import { getPostsFromPoster } from 'helpers/getPostsFromPoster'
 import { proxy } from 'valtio'
-import PersistableStore from 'stores/persistence/PersistableStore'
 import PostStatus from 'models/PostStatus'
+import env from 'helpers/env'
 
 export default class PostStatusStore extends PersistableStore {
   store: PostStore
@@ -47,7 +48,9 @@ export default class PostStatusStore extends PersistableStore {
 }
 
 function createPostStatusStore(store: PostStore) {
-  const postStatusStore = proxy(new PostStatusStore(store)).makePersistent(true)
+  const postStatusStore = proxy(new PostStatusStore(store)).makePersistent(
+    env.VITE_ENCRYPT_KEY
+  )
 
   let locked = true
   void postStatusStore.fetchPostsStatuses().then(() => (locked = false))

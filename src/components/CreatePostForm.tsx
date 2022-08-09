@@ -4,6 +4,7 @@ import {
   EmailProcessingPostsStore,
   ExternalERC721ProcessingPostsStore,
 } from 'stores/ProcessingPostsStore'
+import { checkErrorMessage } from 'helpers/handleError'
 import { useSnapshot } from 'valtio'
 import { useState } from 'preact/hooks'
 import Button from 'components/Button'
@@ -114,8 +115,9 @@ export default function () {
                   } catch (error) {
                     const parsedError =
                       error instanceof Error
-                        ? error
+                        ? checkErrorMessage(error)
                         : new Error('Failed to create post')
+
                     PostFormStore.status.error = parsedError
                   } finally {
                     PostFormStore.status.loading = false
