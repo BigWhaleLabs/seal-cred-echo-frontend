@@ -1,5 +1,5 @@
+import { PersistableStore } from '@big-whale-labs/store-utils'
 import { proxy } from 'valtio'
-import PersistableStore from 'stores/persistence/PersistableStore'
 
 class AppStore extends PersistableStore {
   adultAccepted = false
