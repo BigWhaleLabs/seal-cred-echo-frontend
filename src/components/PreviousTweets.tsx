@@ -58,10 +58,7 @@ export default function () {
     <PreviousTweetsLayout>
       <div className={tweetCard}>
         {status === 'error' ? (
-          <TwitterError
-            onRefresh={() => setStatus('loading')}
-            text="Couldn’t load Tweets. Try disabling content blockers or refresh the page to try again."
-          />
+          <TwitterError text="Couldn’t load Tweets. Try disabling content blockers or refresh the page to try again." />
         ) : (
           status === 'loading' && (
             <TwitterLoading text="Fetching twitter widget" />
