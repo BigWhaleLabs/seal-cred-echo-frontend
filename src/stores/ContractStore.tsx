@@ -1,12 +1,13 @@
+import { PersistableStore } from '@big-whale-labs/stores'
 import { providers } from 'ethers'
 import { proxy } from 'valtio'
 import { subscribeKey } from 'valtio/utils'
 import ContractSynchronizer, {
   ContractSynchronizerSchema,
 } from 'helpers/ContractSynchronizer'
-import PersistableStore from 'stores/persistence/PersistableStore'
 import WalletStore from 'stores/WalletStore'
 import defaultProvider from 'helpers/providers/defaultProvider'
+import env from 'helpers/env'
 import transformObjectValues from 'helpers/transformObjectValues'
 
 class ContractsStore extends PersistableStore {
@@ -70,7 +71,7 @@ class ContractsStore extends PersistableStore {
 
 export const contractsStore = proxy(
   new ContractsStore(defaultProvider)
-).makePersistent(true)
+).makePersistent(env.VITE_ENCRYPT_KEY)
 
 subscribeKey(WalletStore, 'account', () => {
   void contractsStore.fetchMoreContractsOwned(true)

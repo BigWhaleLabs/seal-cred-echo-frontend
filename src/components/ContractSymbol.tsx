@@ -10,6 +10,7 @@ import classnames, {
   padding,
   wordBreak,
 } from 'classnames/tailwind'
+import defaultProvider from 'helpers/providers/defaultProvider'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 
 const addressText = wordBreak('break-all')
@@ -39,7 +40,8 @@ function ContractSymbolSuspended({
 }: ContractSymbolProps) {
   const { contractSymbols } = useSnapshot(ContractSymbolsStore)
   const contractSymbol = contractSymbols[address]
-  if (!contractSymbol) ContractSymbolsStore.fetchContractSymbol(address)
+  if (!contractSymbol)
+    ContractSymbolsStore.fetchContractSymbol(address, defaultProvider)
 
   let content = contractSymbol || address
 
