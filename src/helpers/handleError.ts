@@ -9,11 +9,10 @@ export const ErrorList = {
     `Looks like you're using ${userNetwork} network, try switching to ${contractNetwork} and connect again`,
   unknown: 'An unknown error occurred, please, contact us',
   insufficient:
-    'Insufficient funds for the gas transaction. Wait for a little and try again later.',
-  highGasPrice:
-    'The transaction price is too high. Please wait for a little and try again later.',
+    'Insufficient funds for the gas transaction. Please, try again later.',
+  highGasPrice: 'The transaction price is too high. Please, try again later.',
   paymasterRejected:
-    'The paymaster couldn\'t run the "relayCall()"  method. Please wait for and try again later.',
+    'The paymaster couldn\'t run the "relayCall()" method. Please, try again later.',
   clear: '',
 }
 
