@@ -75,19 +75,7 @@ export class PostStore {
           )
       )
     } catch (error) {
-      if (
-        error instanceof Error &&
-        (error.message.includes('insufficient funds for gas * price + value') ||
-          error.message.includes('Proposed priority gas fee'))
-      ) {
-        handleError(
-          new Error(
-            'Oops, something went wrong. Please, try again in several minutes.'
-          )
-        )
-      } else {
-        handleError(error)
-      }
+      handleError(error)
       throw error
     }
   }

@@ -114,8 +114,20 @@ export default function () {
                   } catch (error) {
                     const parsedError =
                       error instanceof Error
-                        ? error
+                        ? error.message.includes('Proposed priority gas fee') ||
+                          error.message.includes(
+                            'paymaster rejected in DRY-RUN'
+                          ) ||
+                          error.message.includes(
+                            'insufficient funds for gas * price + value'
+                          ) ||
+                          error.message.includes('Proposed priority gas fee')
+                          ? new Error(
+                              'Oops, something went wrong. Please try again 🥺'
+                            )
+                          : error
                         : new Error('Failed to create post')
+
                     PostFormStore.status.error = parsedError
                   } finally {
                     PostFormStore.status.loading = false
