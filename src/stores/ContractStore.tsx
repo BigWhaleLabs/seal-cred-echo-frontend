@@ -71,7 +71,7 @@ class ContractsStore extends PersistableStore {
 
 export const contractsStore = proxy(
   new ContractsStore(defaultProvider)
-).makePersistent(true, env.VITE_ENCRYPT_KEY)
+).makePersistent(env.VITE_ENCRYPT_KEY)
 
 subscribeKey(WalletStore, 'account', () => {
   void contractsStore.fetchMoreContractsOwned(true)

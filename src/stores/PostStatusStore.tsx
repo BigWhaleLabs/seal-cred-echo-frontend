@@ -49,7 +49,6 @@ export default class PostStatusStore extends PersistableStore {
 
 function createPostStatusStore(store: PostStore) {
   const postStatusStore = proxy(new PostStatusStore(store)).makePersistent(
-    true,
     env.VITE_ENCRYPT_KEY
   )
 
