@@ -6,34 +6,22 @@ import GlobalsPolyfills from '@esbuild-plugins/node-globals-polyfill'
 import inject from '@rollup/plugin-inject'
 import nodePolyfills from 'rollup-plugin-node-polyfills'
 import removeConsole from 'vite-plugin-remove-console'
-import mkcert from 'vite-plugin-mkcert'
-import { builtinModules } from 'module'
 
 export default defineConfig({
-  resolve: {
-    alias: {
-      http: 'rollup-plugin-node-polyfills/polyfills/http',
-      https: 'rollup-plugin-node-polyfills/polyfills/http',
-      stream: 'rollup-plugin-node-polyfills/polyfills/stream',
-      util: 'rollup-plugin-node-polyfills/polyfills/util',
-    },
-  },
-  server: { https: false, port: 3000 },
-  plugins: [mkcert, preact(), tsconfigPaths()],
+  plugins: [preact(), tsconfigPaths()],
   build: {
     rollupOptions: {
       plugins: [
         visualizer({
           gzipSize: true,
           brotliSize: true,
-        }) as unknown as Plugin,
-        nodePolyfills() as unknown as Plugin,
+        }),
+        nodePolyfills(),
         inject({
           Buffer: ['buffer', 'Buffer'],
         }),
         removeConsole(),
-      ],
-      external: builtinModules,
+      ] as unknown[] as Plugin[],
     },
     commonjsOptions: {
       transformMixedEsModules: true,
@@ -47,7 +35,5 @@ export default defineConfig({
       plugins: [GlobalsPolyfills({ buffer: true })],
     },
   },
-  esbuild: {
-    logOverride: { 'this-is-undefined-in-esm': 'silent' },
-  },
+  server: { port: 3000 },
 })
