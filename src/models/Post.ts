@@ -1,4 +1,4 @@
-export default interface PostModel {
+export default interface Post {
   id: number
   post: string
   derivativeAddress: string

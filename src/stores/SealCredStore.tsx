@@ -1,10 +1,9 @@
 import { Ledger } from '@big-whale-labs/seal-cred-ledger-contract'
 import { derive } from 'valtio/utils'
 import { proxy } from 'valtio'
-import LedgerModel from 'models/LedgerModel'
-import getLedger from 'helpers/contracts/getLedger'
-import getLedgerRecord from 'helpers/contracts/getLedgerRecord'
-import sealCredContracts from 'helpers/contracts/sealCredContracts'
+import LedgerModel from 'models/Ledger'
+import getLedger from 'helpers/getLedger'
+import sealCredContracts from 'helpers/contracts'
 
 // should setup all contracts during one function execution, monoid is preferred
 

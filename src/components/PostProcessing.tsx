@@ -1,6 +1,6 @@
 import { LargeText, LinkText, LoadingText } from 'components/Text'
 import { NavLink } from 'react-router-dom'
-import { PostStatusModel } from 'models/PostStatusModel'
+import { PostStatusModel } from 'models/PostStatusResponse'
 import { scrollToHashElement } from 'helpers/useScrollToAnchor'
 import Arrow from 'icons/Arrow'
 import Loading from 'components/Loading'

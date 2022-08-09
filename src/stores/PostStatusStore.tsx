@@ -4,7 +4,7 @@ import {
   ExternalERC721PostStore,
   PostStore,
 } from 'stores/PostStore'
-import { PostIdAndStatus } from 'models/PostStatusModel'
+import { PostIdAndStatus } from 'models/PostStatusResponse'
 import { getPostsByIdsFromPoster } from 'helpers/getPostsFromPoster'
 import { getPostsFromPoster } from 'helpers/getPostsFromPoster'
 import { proxy } from 'valtio'

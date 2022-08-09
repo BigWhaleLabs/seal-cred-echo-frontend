@@ -5,14 +5,29 @@ import {
   SCPostStorage__factory,
 } from '@big-whale-labs/seal-cred-posts-contract'
 import { proxy } from 'valtio'
-import PostModel from 'models/PostModel'
+import PostModel from 'models/Post'
 import WalletStore from 'stores/WalletStore'
 import defaultProvider from 'helpers/providers/defaultProvider'
 import env from 'helpers/env'
-import getPostRecord from 'helpers/contracts/getPostRecord'
 import handleError from 'helpers/handleError'
 import parsePostLogData from 'helpers/parsePostLogData'
 import relayProvider from 'helpers/providers/relayProvider'
+
+export default function getPostRecord(
+  id: BigNumber,
+  post: string,
+  derivativeAddress: string,
+  sender: string,
+  timestamp: BigNumber
+) {
+  return {
+    id: id.toNumber(),
+    post,
+    derivativeAddress,
+    sender,
+    timestamp: timestamp.toNumber(),
+  }
+}
 
 export class PostStore {
   address: string

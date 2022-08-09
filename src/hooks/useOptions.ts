@@ -2,7 +2,7 @@ import { useSnapshot } from 'valtio'
 import ERC721Post from 'helpers/posts/ERC721Post'
 import EmailPost from 'helpers/posts/EmailPost'
 import ExternalERC721Post from 'helpers/posts/ExternalERC721Post'
-import LedgerModel from 'models/LedgerModel'
+import LedgerModel from 'models/Ledger'
 import SealCredStore from 'stores/SealCredStore'
 import useContractsOwned from 'hooks/useContractsOwned'
 
