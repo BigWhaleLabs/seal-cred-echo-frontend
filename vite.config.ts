@@ -7,16 +7,13 @@ import inject from '@rollup/plugin-inject'
 import nodePolyfills from 'rollup-plugin-polyfill-node'
 import removeConsole from 'vite-plugin-remove-console'
 import mkcert from 'vite-plugin-mkcert'
-import { builtinModules } from 'module'
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 
 export default defineConfig({
   resolve: {
     alias: {
-      http: 'rollup-plugin-node-polyfills/polyfills/http',
-      https: 'rollup-plugin-node-polyfills/polyfills/http',
-      stream: 'rollup-plugin-node-polyfills/polyfills/stream',
-      util: 'rollup-plugin-node-polyfills/polyfills/util',
+      crypto: 'crypto-js',
+      assert: 'assert-browserify',
     },
   },
   server: { https: false, port: 3000 },
@@ -30,6 +27,8 @@ export default defineConfig({
         }) as unknown as Plugin,
         nodePolyfills() as unknown as Plugin,
         inject({
+          assert: 'assert',
+          process: 'process',
           Buffer: ['buffer', 'Buffer'],
           global: 'global',
           stream: 'stream',
@@ -37,7 +36,6 @@ export default defineConfig({
         }) as unknown as Plugin,
         removeConsole(),
       ],
-      external: builtinModules,
     },
     commonjsOptions: {
       transformMixedEsModules: true,
