@@ -20,10 +20,10 @@
 
 :root {
   --black-background: #040404;
-  --background-purpose: #12141D;
+  --background-purpose: #12141d;
   --perk-gradient-light: rgba(4, 6, 14, 0.9);
-  --perk-gradient-dark: #04060E;
-  
+  --perk-gradient-dark: #04060e;
+
   --orb: #ffffff;
   --accent: #fed823;
   --accent-hover: #fed950;
@@ -31,9 +31,9 @@
   --secondary: #ff7bed;
   --tertiary: #01feb6;
   --formal-accent: #efecd6;
-  --formal-accent-dimmed: '#efecd680',
-  --light-grey: '#8899A6',
-  --half-grey: '#505050',
+  --formal-accent-dimmed: '#efecd680';
+  --light-grey: '#8899A6';
+  --half-grey: '#505050';
 
   --error: #ff7b83;
   --error-dark: #3e1b1e;
@@ -69,7 +69,11 @@ html {
   background-position: top, top, 0;
   background-image: url('/img/bg-shadows-top.webp'),
     url('/img/bg-shadows-bottom.webp'),
-    conic-gradient(from 90deg at 0.06rem 0.06rem, var(--primary-dark) 90deg, var(--primary-background) 0);
+    conic-gradient(
+      from 90deg at 0.06rem 0.06rem,
+      var(--primary-dark) 90deg,
+      var(--primary-background) 0
+    );
 }
 
 body {
@@ -116,7 +120,9 @@ body {
     background-position: 0;
     background-image: conic-gradient(
       from 90deg at 0.06rem 0.06rem,
-      var(--primary-dark) 90deg, var(--primary-background) 0);
+      var(--primary-dark) 90deg,
+      var(--primary-background) 0
+    );
   }
 }
 
