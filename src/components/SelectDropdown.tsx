@@ -52,7 +52,6 @@ const wrapper = (hasOptions: boolean, hasBorder?: boolean) =>
   classnames(
     position('relative'),
     fontFamily('font-primary'),
-    zIndex('z-40'),
     width(
       hasBorder
         ? { 'w-full': true, 'tiny:w-full': true }
@@ -82,7 +81,8 @@ const menuWrapper = (open: boolean, parentWithBorder?: boolean) =>
     visibility({ invisible: !open }),
     transitionProperty('transition-opacity'),
     space('space-y-1'),
-    sharedStyles(true)
+    sharedStyles(true),
+    zIndex('z-30')
   )
 const postingAs = classnames(
   display('tiny:inline', 'hidden'),
