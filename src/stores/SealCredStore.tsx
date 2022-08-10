@@ -14,11 +14,11 @@ interface SealCredStoreType {
 }
 
 interface ComputedSealCredStoreType {
-  [namedDerivativeContracts: string]: Promise<string[]>
+  [namedDerivativeContract: string]: Promise<string[]>
   derivativeContracts: Promise<string[]>
 }
 
-// TODO: promisify all object.values
+// TODO: setup each contract as a `[name: string]: Promise<string[]>
 const state = proxy<SealCredStoreType>(contracts)
 
 const SealCredStore = derive<SealCredStoreType, ComputedSealCredStoreType>(
