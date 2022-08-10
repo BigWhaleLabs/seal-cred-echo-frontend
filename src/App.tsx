@@ -11,11 +11,11 @@ import HowItWorks from 'components/HowItWorks'
 import Main from 'pages/Main'
 import Navbar from 'components/navbar/Navbar'
 import NotFound from 'pages/NotFound'
-import PreviousTweets from 'components/PreviousTweets'
+// import PreviousTweets from 'components/PreviousTweets'
 import Privacy from 'pages/Privacy'
 import ScrollToTop from 'components/ScrollToTop'
 import Terms from 'pages/Terms'
-import ViewOnBlockchain from 'components/ViewOnBlockchain'
+// import ViewOnBlockchain from 'components/ViewOnBlockchain'
 import classnames, {
   height,
   margin,
