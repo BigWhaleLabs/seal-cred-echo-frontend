@@ -1,35 +1,44 @@
-// import { Ledger } from '@big-whale-labs/seal-cred-ledger-contract'
 import { derive } from 'valtio/utils'
 import { proxy } from 'valtio'
 import LedgerModel from 'models/Ledger'
 import contracts from 'helpers/contracts'
-// import getLedger from 'helpers/getLedger'
+import data from 'helpers/data'
 
-// should setup all contracts during one function execution, monoid is preferred
-// 1. Get all ledgers with their names and contract.connect
-// 2. Setup store
-
+type DeriveGet = <T extends object>(proxyObject: T) => T
+type DeriveStoreType = {
+  [x: string]: (get: DeriveGet) => Promise<string[]>
+}
 interface SealCredStoreType {
   [ledgerName: string]: Promise<LedgerModel>
 }
 
 interface ComputedSealCredStoreType {
   [namedDerivativeContract: string]: Promise<string[]>
-  derivativeContracts: Promise<string[]>
 }
 
-// TODO: setup each contract as a `[name: string]: Promise<string[]>
 const state = proxy<SealCredStoreType>(contracts)
 
-const SealCredStore = derive<SealCredStoreType, ComputedSealCredStoreType>(
-  {
+function constructDerive() {
+  const contractNameToDerivatives: DeriveStoreType = {
     derivativeContracts: async (get) => {
       const ledgers = await Promise.all(Object.values(get(state)))
       const derivatives = []
       for (const ledger of ledgers) derivatives.push(...Object.values(ledger))
       return derivatives
     },
-  },
+  }
+
+  const ledgerNames = Object.keys(data)
+  for (const ledgerName of ledgerNames)
+    contractNameToDerivatives[ledgerName] = async (get) => {
+      return Object.values(await get(state)[ledgerName])
+    }
+
+  return contractNameToDerivatives
+}
+
+const SealCredStore = derive<SealCredStoreType, ComputedSealCredStoreType>(
+  constructDerive(),
   { proxy: state }
 )
 
