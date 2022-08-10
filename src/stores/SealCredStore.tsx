@@ -34,7 +34,7 @@ function constructDerive() {
 
   const ledgerNames = Object.keys(data)
   for (const ledgerName of ledgerNames)
-    contractNameToDerivatives[ledgerName] = async (get) => {
+    contractNameToDerivatives[`get${ledgerName}Derivatives`] = async (get) => {
       return Object.values(await get(state)[ledgerName])
     }
 
