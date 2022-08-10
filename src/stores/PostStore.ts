@@ -4,11 +4,10 @@ import {
   SCPostStorage,
   SCPostStorage__factory,
 } from '@big-whale-labs/seal-cred-posts-contract'
-import { proxy } from 'valtio'
+import { ledgerNames } from 'helpers/data'
 import PostModel from 'models/Post'
 import WalletStore from 'stores/WalletStore'
 import defaultProvider from 'helpers/providers/defaultProvider'
-import env from 'helpers/env'
 import handleError from 'helpers/handleError'
 import parsePostLogData from 'helpers/parsePostLogData'
 import relayProvider from 'helpers/providers/relayProvider'
@@ -111,14 +110,12 @@ export class PostStore {
   }
 }
 
-export const EmailPostStore = proxy(
-  new PostStore(env.VITE_SC_EMAIL_POSTS_CONTRACT_ADDRESS)
-)
+function createPostStores() {
+  const postStores: { [ledgerName: string]: PostStore } = {}
+  for (const ledgerName of ledgerNames)
+    postStores[ledgerName] = new PostStore(ledgerName)
 
-export const ERC721PostStore = proxy(
-  new PostStore(env.VITE_SC_ERC721_POSTS_CONTRACT_ADDRESS)
-)
+  return postStores
+}
 
-export const ExternalERC721PostStore = proxy(
-  new PostStore(env.VITE_SC_EXTERNAL_ERC721_POSTS_CONTRACT_ADDRESS)
-)
+export const postStores = createPostStores()

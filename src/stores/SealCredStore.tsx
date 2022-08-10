@@ -1,7 +1,6 @@
 import { derive } from 'valtio/utils'
 import { proxy } from 'valtio'
-import LedgerModel from 'models/Ledger'
-import contracts from 'helpers/contracts'
+import Ledger from 'models/Ledger'
 import data from 'helpers/data'
 
 type DeriveGet = <T extends object>(proxyObject: T) => T
@@ -9,14 +8,19 @@ type DeriveStoreType = {
   [x: string]: (get: DeriveGet) => Promise<string[]>
 }
 interface SealCredStoreType {
-  [ledgerName: string]: Promise<LedgerModel>
+  [ledgerName: string]: Promise<Ledger>
 }
 
 interface ComputedSealCredStoreType {
   [namedDerivativeContract: string]: Promise<string[]>
 }
 
-const state = proxy<SealCredStoreType>(contracts)
+const dataToStorage: SealCredStoreType = {}
+Object.keys(data).map((ledgerName) => {
+  dataToStorage[ledgerName] = new Promise(() => data[ledgerName].ledger)
+})
+
+const state = proxy<SealCredStoreType>(dataToStorage)
 
 function constructDerive() {
   const contractNameToDerivatives: DeriveStoreType = {
@@ -42,27 +46,30 @@ const SealCredStore = derive<SealCredStoreType, ComputedSealCredStoreType>(
   { proxy: state }
 )
 
-// function addListeners(contract: Ledger) {
-//   contract.on(
-//     contract.filters.CreateDerivative(),
-//     async (original, derivative) => {
-//       console.info('CreateDerivative event', original, derivative)
-//       const ledger = await SealCredStore['Email']
-//       if (!ledger[original]) {
-//         ledger[original] = derivative
-//         SealCredStore.emailLedger = Promise.resolve({
-//           ...ledger,
-//         })
-//       }
-//     }
-//   )
-//   contract.on(contract.filters.DeleteOriginal(), async (original) => {
-//     console.info('DeleteOriginal event', original)
-//     const ledger = await SealCredStore.emailLedger
-//     delete ledger[original]
-//   })
-// }
+function addListeners() {
+  Object.keys(data).forEach((ledgerName) => {
+    const contract = data[ledgerName].ledger
+    contract.on(
+      contract.filters.CreateDerivative(),
+      async (original, derivative) => {
+        console.info('CreateDerivative event', original, derivative)
+        const ledger = await SealCredStore[ledgerName]
+        if (!ledger[original]) {
+          ledger[original] = derivative
+          SealCredStore.emailLedger = Promise.resolve({
+            ...ledger,
+          })
+        }
+      }
+    )
+    contract.on(contract.filters.DeleteOriginal(), async (original) => {
+      console.info('DeleteOriginal event', original)
+      const ledger = await SealCredStore[ledgerName]
+      delete ledger[original]
+    })
+  })
+}
 
-// setup contract listeners
+addListeners()
 
 export default SealCredStore

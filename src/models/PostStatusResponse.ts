@@ -5,3 +5,7 @@ export default interface PostStatusResponse {
   status: PostStatus
   statusId?: number
 }
+
+export interface PostIdAndStatus {
+  [id: number]: PostStatusResponse
+}

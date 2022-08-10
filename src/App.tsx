@@ -16,6 +16,7 @@ import Privacy from 'pages/Privacy'
 import ScrollToTop from 'components/ScrollToTop'
 import Terms from 'pages/Terms'
 // import ViewOnBlockchain from 'components/ViewOnBlockchain'
+import PreviousTweets from 'components/PreviousTweets'
 import classnames, {
   height,
   margin,
@@ -49,14 +50,14 @@ export default function () {
                   </Main>
                 }
               />
-              {/* <Route
+              <Route
                 path="/previous-tweets"
                 element={
                   <Main>
                     <PreviousTweets />
                   </Main>
                 }
-              /> */}
+              />
               {/* <Route
                 path="/previous-tweets/blockchain"
                 element={
