@@ -8,7 +8,7 @@ import { PersistableStore } from '@big-whale-labs/stores'
 import { PostIdAndStatus } from 'models/PostStatusModel'
 import { getPostsByIdsFromPoster } from 'helpers/getPostsFromPoster'
 import { getPostsFromPoster } from 'helpers/getPostsFromPoster'
-import { proxy } from 'valtio'
+import { proxy, ref } from 'valtio'
 import PostStatus from 'models/PostStatus'
 import env from 'helpers/env'
 
@@ -16,13 +16,18 @@ export default class PostStatusStore extends PersistableStore {
   store: PostStore
   postsStatuses: PostIdAndStatus = {}
 
+  replacer = (key: string, value: unknown) => {
+    const disallowList = ['store']
+    return disallowList.includes(key) ? undefined : value
+  }
+
   get persistanceName() {
     return `PostStatusStore_${this.store.address}`
   }
 
   constructor(store: PostStore) {
     super()
-    this.store = store
+    this.store = ref(store)
   }
 
   async fetchPostsStatuses() {
