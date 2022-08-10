@@ -11,7 +11,6 @@ import classnames, {
   space,
   textAlign,
 } from 'classnames/tailwind'
-import walletStore from 'stores/WalletStore'
 
 const connectBlockWrapper = classnames(
   display('flex'),
@@ -30,7 +29,7 @@ const headerTextWrapper = classnames(
 )
 
 export default function () {
-  const { walletLoading } = useSnapshot(WalletStore)
+  const { walletLoading, needNetworkChange } = useSnapshot(WalletStore)
 
   return (
     <div className={connectBlockWrapper}>
@@ -49,10 +48,10 @@ export default function () {
         type="primary"
         loading={walletLoading}
         onClick={async () => {
-          await walletStore.connect(true)
+          await WalletStore.connect(true)
         }}
       >
-        Connect wallet
+        {needNetworkChange ? 'Change network' : 'Connect wallet'}
       </Button>
     </div>
   )
