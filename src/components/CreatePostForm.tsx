@@ -1,18 +1,11 @@
 import { BodyText, HeaderText } from 'components/Text'
-import {
-  ERC721ProcessingPostsStore,
-  EmailProcessingPostsStore,
-  ExternalERC721ProcessingPostsStore,
-} from 'stores/ProcessingPostsStore'
 import { checkErrorMessage } from 'helpers/handleError'
+import { processingPostStores } from 'stores/ProcessingPostsStore'
 import { useSnapshot } from 'valtio'
 import { useState } from 'preact/hooks'
 import Button from 'components/Button'
 import ContractNameStore from 'stores/ContractNameStore'
 import DropDown from 'components/DropDown'
-import ERC721Post from 'helpers/posts/ERC721Post'
-import EmailPost from 'helpers/posts/EmailPost'
-import ExternalERC721Post from 'helpers/posts/ExternalERC721Post'
 import HasNoBadges from 'components/HasNoBadges'
 import PostFormStore from 'stores/PostFormStore'
 import TextArea from 'components/TextArea'
@@ -45,14 +38,11 @@ export default function () {
   const { status, currentPost } = useSnapshot(PostFormStore)
   const { savedContractSymbols } = useSnapshot(ContractNameStore)
 
-  const suffix = currentPost
-    ? currentPost instanceof EmailPost
-      ? ` @ ${currentPost.original}`
-      : currentPost instanceof ERC721Post ||
-        currentPost instanceof ExternalERC721Post
-      ? ` @ ${savedContractSymbols[currentPost.derivative] ?? 'loading...'}`
-      : ''
-    : ''
+  if (!currentPost) return null
+
+  const suffix = ` @ ${
+    savedContractSymbols[currentPost.derivative] ?? 'loading...'
+  }`
 
   const { md } = useBreakpoints()
 
@@ -92,26 +82,11 @@ export default function () {
                     PostFormStore.status = {
                       loading: true,
                     }
-                    switch (currentPost.constructor) {
-                      case EmailPost:
-                        await EmailProcessingPostsStore.createPost(
-                          text,
-                          currentPost.original
-                        )
-                        break
-                      case ERC721Post:
-                        await ERC721ProcessingPostsStore.createPost(
-                          text,
-                          currentPost.original
-                        )
-                        break
-                      case ExternalERC721Post:
-                        await ExternalERC721ProcessingPostsStore.createPost(
-                          text,
-                          currentPost.original
-                        )
-                        break
-                    }
+                    // TODO: need to find ledger by post and pass it into `processingPostStores[ledgerName]`
+                    await processingPostStores[currentPost.original].createPost(
+                      text,
+                      currentPost.original
+                    )
                   } catch (error) {
                     const parsedError =
                       error instanceof Error

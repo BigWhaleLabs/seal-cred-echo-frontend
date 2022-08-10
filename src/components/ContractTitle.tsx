@@ -11,11 +11,11 @@ export default function ({
   address: string
   onClick?: () => void
 }) {
-  const { emailDerivativeContracts } = useSnapshot(SealCredStore)
+  const { EmailDerivativeContracts } = useSnapshot(SealCredStore)
 
   return (
     <UnderlineTextButton onClick={onClick}>
-      {emailDerivativeContracts.includes(address) ? (
+      {EmailDerivativeContracts.includes(address) ? (
         <ContractName clearType truncate address={address} />
       ) : (
         <ContractSymbol address={address} />

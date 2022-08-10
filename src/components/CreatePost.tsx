@@ -1,15 +1,18 @@
+import {
+  PostProcessingStore,
+  processingPostStores,
+} from 'stores/ProcessingPostsStore'
 import { margin, space } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import CreatePostForm from 'components/CreatePostForm'
 import PostProcessing from 'components/PostProcessing'
 import PostStatus from 'models/PostStatus'
 import PostStatusStore from 'stores/PostStatusStore'
-import ProcessingPostsStore from 'stores/ProcessingPostsStore'
 import WalletStore from 'stores/WalletStore'
 
 function usePosts(
   postStatusStore: PostStatusStore,
-  processingStore: ProcessingPostsStore
+  processingStore: PostProcessingStore
 ) {
   const { account } = useSnapshot(WalletStore)
   const { postsStatuses } = useSnapshot(postStatusStore)
@@ -41,42 +44,34 @@ function usePosts(
   }
 }
 
+type Post = {
+  tweetId: number
+  status: PostStatus
+  statusId?: number | undefined
+}
+
 export default function () {
-  const {
-    pendingPosts: emailPendingPosts,
-    lastPublishedPost: emailLastPublishedPost,
-  } = usePosts(EmailPostStatusStore, EmailProcessingPostsStore)
-  const {
-    pendingPosts: eRC721PendingPosts,
-    lastPublishedPost: eRC721LastPublishedPost,
-  } = usePosts(ERC721PostStatusStore, ERC721ProcessingPostsStore)
-  const {
-    pendingPosts: externalERC721PendingPosts,
-    lastPublishedPost: externalERC721LastPublishedPost,
-  } = usePosts(
-    ExternalERC721PostStatusStore,
-    ExternalERC721ProcessingPostsStore
-  )
+  const renderedPendingPosts: Post[] = []
+  const renderedLastPublishedPosts: Post[] = []
+  Object.values(processingPostStores).forEach((processingStore) => {
+    const { pendingPosts, lastPublishedPost } = usePosts(
+      processingStore.statusStore,
+      processingStore
+    )
+    pendingPosts && renderedPendingPosts.push(...pendingPosts)
+    lastPublishedPost && renderedLastPublishedPosts.push(lastPublishedPost)
+  })
 
-  const pendingPosts = [
-    ...emailPendingPosts,
-    ...eRC721PendingPosts,
-    ...externalERC721PendingPosts,
-  ]
-
-  const lastPublishedPost =
-    emailLastPublishedPost ||
-    eRC721LastPublishedPost ||
-    externalERC721LastPublishedPost
+  const lastPublishedPost = renderedLastPublishedPosts[0]
 
   return (
     <div className={margin('mt-6', 'mb-16')}>
       <div className={space('space-y-6', 'md:space-y-12')}>
-        {pendingPosts.length > 0 ? (
+        {renderedPendingPosts.length > 0 ? (
           <PostProcessing
-            post={pendingPosts[0]}
+            post={renderedPendingPosts[0]}
             title={
-              pendingPosts.length > 1
+              renderedPendingPosts.length > 1
                 ? 'Your tweets are processing'
                 : 'Your tweet is processing'
             }

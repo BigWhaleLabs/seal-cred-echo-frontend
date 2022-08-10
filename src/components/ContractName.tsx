@@ -47,10 +47,8 @@ function ContractNameSuspended({
   if (!contractName)
     ContractNamesStore.fetchContractName(address, defaultProvider)
 
-  if (clearType) {
-    if (contractName && emailDerivativeContracts.includes(address))
-      contractName = contractName.replace(' email', '')
-  }
+  if (clearType && contractName && emailDerivativeContracts.includes(address))
+    contractName = contractName.replace(' email', '')
 
   let content = contractName || address
 

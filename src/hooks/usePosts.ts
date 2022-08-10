@@ -1,33 +1,20 @@
-// import {
-//   ERC721PostStatusStore,
-//   EmailPostStatusStore,
-//   ExternalERC721PostStatusStore,
-// } from 'stores/PostStatusStore'
-// import {
-//   ERC721PostStore,
-//   EmailPostStore,
-//   ExternalERC721PostStore,
-// } from 'stores/PostStore'
-// import { useSnapshot } from 'valtio'
+/* eslint-disable valtio/state-snapshot-rule */
+import { postStores } from 'stores/PostStore'
+import { useSnapshot } from 'valtio'
+import PostModel from 'models/Post'
 
-// export default function () {
-//   const { posts: emailPosts } = useSnapshot(EmailPostStore)
-//   const { posts: eRC721Posts } = useSnapshot(ERC721PostStore)
-//   const { posts: externalERC721Posts } = useSnapshot(ExternalERC721PostStore)
+import PostStatusStore, { postStatusStores } from 'stores/PostStatusStore'
+export default function () {
+  const allPosts: { post: PostModel; statusStore: PostStatusStore }[] = []
 
-//   return [
-//     ...emailPosts.map((post) => ({
-//       post,
-//       statusStore: EmailPostStatusStore,
-//     })),
-//     ...eRC721Posts.map((post) => ({
-//       post,
-//       statusStore: ERC721PostStatusStore,
-//     })),
-//     ...externalERC721Posts.map((post) => ({
-//       post,
-//       statusStore: ExternalERC721PostStatusStore,
-//     })),
-//   ].sort((a, b) => b.post.timestamp - a.post.timestamp)
-// }
-export default false
+  Object.keys(postStores).map((ledgerName) => {
+    const postStore = postStores[ledgerName]
+    const { posts } = useSnapshot(postStore)
+    // TODO: probably breaks valtio
+    posts.forEach((post) => {
+      allPosts.push({ post, statusStore: postStatusStores[ledgerName] })
+    })
+  })
+
+  return allPosts.sort((a, b) => b.post.timestamp - a.post.timestamp)
+}

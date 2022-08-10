@@ -7,7 +7,6 @@ import ContractSymbol from 'components/ContractSymbol'
 import PostFormStore from 'stores/PostFormStore'
 import SelectDropdown from 'components/SelectDropdown'
 import classnames, { display, padding } from 'classnames/tailwind'
-import useOptions from 'hooks/useOptions'
 
 // Should infer from data.names
 type SelectValueType = 'Email' | 'EternalERC721' | 'ERC721'
@@ -22,7 +21,7 @@ const SelectedContractName = ({ value }: { value?: SelectValueType }) => {
 
   return (
     <>
-      {value instanceof EmailPost ? (
+      {value === 'Email' ? (
         <>@{value.original}</>
       ) : (
         <ContractSymbol address={value.derivative} />
@@ -56,7 +55,7 @@ function OptionElement({
   if (!label) return <>Not found</>
   return (
     <Suspense fallback={<>Loading...</>}>
-      {value instanceof EmailPost ? (
+      {value === 'Email' ? (
         <ContractName clearType address={label} />
       ) : (
         <ContractSymbol address={label} />

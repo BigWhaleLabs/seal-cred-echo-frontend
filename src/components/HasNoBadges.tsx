@@ -6,14 +6,11 @@ import SealCredStore from 'stores/SealCredStore'
 import useContractsOwned from 'hooks/useContractsOwned'
 
 function HasNoBadgesSuspended() {
-  const { emailLedger, ERC721Ledger, externalERC721Ledger } =
-    useSnapshot(SealCredStore)
+  const { derivativeContracts } = useSnapshot(SealCredStore)
   const contractsOwned = useContractsOwned()
-  const ownedDerivativeContracts = [
-    ...Object.values(emailLedger),
-    ...Object.values(ERC721Ledger),
-    ...Object.values(externalERC721Ledger),
-  ].filter(({ derivative }) => contractsOwned.includes(derivative))
+  const ownedDerivativeContracts = derivativeContracts.filter((derivative) =>
+    contractsOwned.includes(derivative)
+  )
 
   if (ownedDerivativeContracts.length) return null
 

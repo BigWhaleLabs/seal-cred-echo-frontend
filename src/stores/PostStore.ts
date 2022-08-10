@@ -32,7 +32,6 @@ export class PostStore {
   address: string
   contract: SCPostStorage
   posts: Promise<PostModel[]>
-
   constructor(address: string) {
     this.address = address
     this.contract = this.createContractWithProvider(defaultProvider)
