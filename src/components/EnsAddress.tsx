@@ -19,28 +19,25 @@ function EnsAddressSuspended({
   if (!ensName) EnsStore.fetchEnsName(address)
 
   return (
-    <>
+    <span>
       {truncate
         ? truncateMiddleIfNeeded(ensName || address, truncateSize)
-        : ensName || truncateMiddleIfNeeded(address, truncateSize)}
-    </>
+        : ensName && ensName !== null
+        ? ensName
+        : truncateMiddleIfNeeded(address, truncateSize)}
+    </span>
   )
 }
 
 export default memo<EnsAddressProps>(({ address, truncateSize }) => {
   const { md, lg } = useBreakpoints()
   const currentTruncateSize = truncateSize ?? md ? (lg ? 25 : 17) : 11
+  const truncatedAddress = !lg
+    ? truncateMiddleIfNeeded(address, currentTruncateSize)
+    : truncateMiddleIfNeeded(address, currentTruncateSize)
 
   return (
-    <Suspense
-      fallback={
-        <>
-          {!lg
-            ? truncateMiddleIfNeeded(address, currentTruncateSize)
-            : truncateMiddleIfNeeded(address, currentTruncateSize)}
-        </>
-      }
-    >
+    <Suspense fallback={<span>{truncatedAddress}</span>}>
       <EnsAddressSuspended
         address={address}
         truncateSize={currentTruncateSize}
