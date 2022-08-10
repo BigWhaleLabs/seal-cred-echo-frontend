@@ -15,9 +15,11 @@ import classnames, {
   fontFamily,
   inset,
   justifyContent,
+  maxHeight,
   opacity,
   outlineColor,
   outlineStyle,
+  overflow,
   padding,
   position,
   space,
@@ -77,6 +79,7 @@ const menuWrapper = (open: boolean, parentWithBorder?: boolean) =>
         ? { 'tiny:w-full': true, 'w-fit': true }
         : { 'sm:w-72': true, 'w-44': true }
     ),
+    overflow('overflow-hidden'),
     opacity({ 'opacity-0': !open }),
     visibility({ invisible: !open }),
     transitionProperty('transition-opacity'),
@@ -84,6 +87,10 @@ const menuWrapper = (open: boolean, parentWithBorder?: boolean) =>
     sharedStyles(true),
     zIndex('z-30')
   )
+const menuWrapperInner = classnames(
+  overflow('overflow-y-auto'),
+  maxHeight('max-h-60')
+)
 const postingAs = classnames(
   display('tiny:inline', 'hidden'),
   padding('tiny:pr-1', 'pr-0')
@@ -179,20 +186,22 @@ export default function <SelectData>({
       </button>
 
       <div className={menuWrapper(dropDownOpen, border)}>
-        {options &&
-          options.map(({ label, value }) => (
-            <p
-              className={menuItem(label === current || value === current)}
-              onClick={() => {
-                if (value === current) return
-                if (onChange) onChange({ label, value })
+        <div className={menuWrapperInner}>
+          {options &&
+            options.map(({ label, value }) => (
+              <p
+                className={menuItem(label === current || value === current)}
+                onClick={() => {
+                  if (value === current) return
+                  if (onChange) onChange({ label, value })
 
-                setOpen(false)
-              }}
-            >
-              {OptionElement ? OptionElement({ label, value }) : <>{label}</>}
-            </p>
-          ))}
+                  setOpen(false)
+                }}
+              >
+                {OptionElement ? OptionElement({ label, value }) : <>{label}</>}
+              </p>
+            ))}
+        </div>
       </div>
     </div>
   )
