@@ -1,6 +1,5 @@
-import { PostStore } from 'stores/PostStore'
-import { postStores } from 'stores/PostStore'
-import { proxy } from 'valtio'
+import { PostStore, postStores } from 'stores/PostStore'
+import { proxy, ref } from 'valtio'
 import { subscribeKey } from 'valtio/utils'
 import PostStatus from 'models/PostStatus'
 import PostStatusStore from 'stores/PostStatusStore'
@@ -12,8 +11,8 @@ export class PostProcessingStore {
   processingIds: { [account: string]: number[] | undefined } = {}
 
   constructor(store: PostStore, statusStore: PostStatusStore) {
-    this.store = store
-    this.statusStore = statusStore
+    this.store = ref(store)
+    this.statusStore = ref(statusStore)
 
     this.store.contract.on(
       this.store.contract.filters.PostSaved(),

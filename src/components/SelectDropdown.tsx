@@ -4,6 +4,7 @@ import { SelectOption } from 'models/SelectOption'
 import { TextareaText } from 'components/Text'
 import Arrow from 'icons/Arrow'
 import Spinner from 'icons/Spinner'
+import checkIsObject from 'helpers/checkIsObject'
 import classnames, {
   alignItems,
   backgroundColor,
@@ -15,9 +16,11 @@ import classnames, {
   fontFamily,
   inset,
   justifyContent,
+  maxHeight,
   opacity,
   outlineColor,
   outlineStyle,
+  overflow,
   padding,
   position,
   space,
@@ -52,7 +55,6 @@ const wrapper = (hasOptions: boolean, hasBorder?: boolean) =>
   classnames(
     position('relative'),
     fontFamily('font-primary'),
-    zIndex('z-40'),
     width(
       hasBorder
         ? { 'w-full': true, 'tiny:w-full': true }
@@ -78,12 +80,18 @@ const menuWrapper = (open: boolean, parentWithBorder?: boolean) =>
         ? { 'tiny:w-full': true, 'w-fit': true }
         : { 'sm:w-72': true, 'w-44': true }
     ),
+    overflow('overflow-hidden'),
     opacity({ 'opacity-0': !open }),
     visibility({ invisible: !open }),
     transitionProperty('transition-opacity'),
     space('space-y-1'),
-    sharedStyles(true)
+    sharedStyles(true),
+    zIndex('z-30')
   )
+const menuWrapperInner = classnames(
+  overflow('overflow-y-auto'),
+  maxHeight('max-h-60')
+)
 const postingAs = classnames(
   display('tiny:inline', 'hidden'),
   padding('tiny:pr-1', 'pr-0')
@@ -91,7 +99,7 @@ const postingAs = classnames(
 const menuItem = (current?: boolean) =>
   classnames(
     padding('p-2'),
-    cursor({ 'cursor-pointer': !current }),
+    cursor(current ? 'cursor-default' : 'cursor-pointer'),
     borderRadius('rounded-md'),
     wordBreak('break-all'),
     textColor({ 'text-formal-accent-semi-transparent': current }),
@@ -100,6 +108,16 @@ const menuItem = (current?: boolean) =>
       'active:bg-primary-dimmed': !current,
     })
   )
+
+function compareObjects<SelectData>({
+  current,
+  value,
+}: {
+  current?: SelectData
+  value: SelectData
+}): boolean {
+  return JSON.stringify(current) === JSON.stringify(value)
+}
 
 function SelectedValueComponent<Data>({
   isDisabled,
@@ -153,6 +171,11 @@ export default function <SelectData>({
 
   const ref = useRef() as MutableRef<HTMLDivElement>
   useClickOutside(ref, () => setOpen(false))
+  const isCurrentObject = checkIsObject(current)
+  const isCurrentSelected = ({ label, value }: SelectOption<SelectData>) =>
+    isCurrentObject
+      ? compareObjects({ current, value })
+      : label === current || value === current
 
   return (
     <div className={wrapper(hasOptions, border)} ref={ref}>
@@ -179,20 +202,22 @@ export default function <SelectData>({
       </button>
 
       <div className={menuWrapper(dropDownOpen, border)}>
-        {options &&
-          options.map(({ label, value }) => (
-            <p
-              className={menuItem(label === current || value === current)}
-              onClick={() => {
-                if (value === current) return
-                if (onChange) onChange({ label, value })
+        <div className={menuWrapperInner}>
+          {options &&
+            options.map(({ label, value }) => (
+              <p
+                className={menuItem(isCurrentSelected({ label, value }))}
+                onClick={() => {
+                  if (isCurrentSelected({ label, value })) return
+                  if (onChange) onChange({ label, value })
 
-                setOpen(false)
-              }}
-            >
-              {OptionElement ? OptionElement({ label, value }) : <>{label}</>}
-            </p>
-          ))}
+                  setOpen(false)
+                }}
+              >
+                {OptionElement ? OptionElement({ label, value }) : <>{label}</>}
+              </p>
+            ))}
+        </div>
       </div>
     </div>
   )

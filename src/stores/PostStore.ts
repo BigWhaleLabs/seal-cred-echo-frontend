@@ -65,17 +65,11 @@ export class PostStore {
         gsnProvider as unknown as ExternalProvider
       )
 
-      const { maxFeePerGas } = await gsnProvider.calculateGasFees()
-
       const contract = this.createContractWithProvider(
         ethersProvider.getSigner(0)
       )
 
-      const transaction = await contract.savePost(text, original, {
-        gasLimit: 2e6,
-        maxFeePerGas,
-        maxPriorityFeePerGas: maxFeePerGas,
-      })
+      const transaction = await contract.savePost(text, original)
       const result = await transaction.wait()
 
       return Promise.all(

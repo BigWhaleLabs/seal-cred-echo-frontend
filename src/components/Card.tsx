@@ -35,7 +35,7 @@ const cardContainer = (small?: boolean, alert?: boolean) => {
     width('w-auto'),
     space('space-y-4'),
     wordBreak('break-words'),
-    zIndex('z-30')
+    zIndex('z-20')
   )
 }
 

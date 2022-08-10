@@ -69,7 +69,7 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
   const options = useOptions()
 
   return (
-    <SelectDropdown<ExternalERC721Post | ERC721Post | EmailPost>
+    <SelectDropdown<SelectValueType>
       border
       disabled={disabled}
       placeholder="Select badge"
