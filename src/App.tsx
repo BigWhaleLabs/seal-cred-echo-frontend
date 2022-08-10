@@ -49,22 +49,22 @@ export default function () {
                   </Main>
                 }
               />
-              <Route
+              {/* <Route
                 path="/previous-tweets"
                 element={
                   <Main>
                     <PreviousTweets />
                   </Main>
                 }
-              />
-              <Route
+              /> */}
+              {/* <Route
                 path="/previous-tweets/blockchain"
                 element={
                   <Main>
                     <ViewOnBlockchain />
                   </Main>
                 }
-              />
+              /> */}
               <Route
                 path="/deep-dive"
                 element={

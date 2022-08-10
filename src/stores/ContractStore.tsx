@@ -17,14 +17,15 @@ class ContractsStore extends PersistableStore {
 
   provider: providers.Provider
 
+  disallowList = ['addressToTokenIds']
+
   constructor(provider: providers.Provider) {
     super()
     this.provider = provider
   }
 
   replacer = (key: string, value: unknown) => {
-    const disallowList = ['addressToTokenIds']
-    return disallowList.includes(key) ? undefined : value
+    return this.disallowList.includes(key) ? undefined : value
   }
 
   reviver = (key: string, value: unknown) => {
