@@ -62,7 +62,7 @@ function createPostStatusStore(store: PostStore) {
       await postStatusStore.fetchPostsStatuses()
       locked = false
     }
-  }, 60000) // poll posts list every minute
+  }, 60 * 1000) // poll posts list every minute
 
   return postStatusStore
 }
