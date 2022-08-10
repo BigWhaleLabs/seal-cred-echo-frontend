@@ -32,6 +32,7 @@ import classnames, {
   zIndex,
 } from 'classnames/tailwind'
 import useClickOutside from 'hooks/useClickOutside'
+import verifyIsObject from 'helpers/verifyIsObject'
 
 const sharedStyles = (border?: boolean) =>
   classnames(
@@ -98,7 +99,7 @@ const postingAs = classnames(
 const menuItem = (current?: boolean) =>
   classnames(
     padding('p-2'),
-    cursor({ 'cursor-pointer': !current }),
+    cursor(current ? 'cursor-default' : 'cursor-pointer'),
     borderRadius('rounded-md'),
     wordBreak('break-all'),
     textColor({ 'text-formal-accent-semi-transparent': current }),
@@ -107,6 +108,16 @@ const menuItem = (current?: boolean) =>
       'active:bg-primary-dimmed': !current,
     })
   )
+
+function compareObjects<SelectData>({
+  current,
+  value,
+}: {
+  current?: SelectData
+  value: SelectData
+}): boolean {
+  return JSON.stringify(current) === JSON.stringify(value)
+}
 
 function SelectedValueComponent<Data>({
   isDisabled,
@@ -160,6 +171,7 @@ export default function <SelectData>({
 
   const ref = useRef() as MutableRef<HTMLDivElement>
   useClickOutside(ref, () => setOpen(false))
+  const isCurrentAnObject = verifyIsObject(current)
 
   return (
     <div className={wrapper(hasOptions, border)} ref={ref}>
@@ -190,9 +202,18 @@ export default function <SelectData>({
           {options &&
             options.map(({ label, value }) => (
               <p
-                className={menuItem(label === current || value === current)}
+                className={menuItem(
+                  isCurrentAnObject
+                    ? compareObjects({ current, value })
+                    : label === current || value === current
+                )}
                 onClick={() => {
-                  if (value === current) return
+                  if (
+                    isCurrentAnObject
+                      ? compareObjects({ current, value })
+                      : value === current
+                  )
+                    return
                   if (onChange) onChange({ label, value })
 
                   setOpen(false)
