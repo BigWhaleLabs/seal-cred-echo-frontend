@@ -4,6 +4,7 @@ import { SelectOption } from 'models/SelectOption'
 import { TextareaText } from 'components/Text'
 import Arrow from 'icons/Arrow'
 import Spinner from 'icons/Spinner'
+import checkIsObject from 'helpers/checkIsObject'
 import classnames, {
   alignItems,
   backgroundColor,
@@ -32,7 +33,6 @@ import classnames, {
   zIndex,
 } from 'classnames/tailwind'
 import useClickOutside from 'hooks/useClickOutside'
-import verifyIsObject from 'helpers/verifyIsObject'
 
 const sharedStyles = (border?: boolean) =>
   classnames(
@@ -171,7 +171,11 @@ export default function <SelectData>({
 
   const ref = useRef() as MutableRef<HTMLDivElement>
   useClickOutside(ref, () => setOpen(false))
-  const isCurrentAnObject = verifyIsObject(current)
+  const isCurrentObject = checkIsObject(current)
+  const isCurrentSelected = ({ label, value }: SelectOption<SelectData>) =>
+    isCurrentObject
+      ? compareObjects({ current, value })
+      : label === current || value === current
 
   return (
     <div className={wrapper(hasOptions, border)} ref={ref}>
@@ -202,18 +206,9 @@ export default function <SelectData>({
           {options &&
             options.map(({ label, value }) => (
               <p
-                className={menuItem(
-                  isCurrentAnObject
-                    ? compareObjects({ current, value })
-                    : label === current || value === current
-                )}
+                className={menuItem(isCurrentSelected({ label, value }))}
                 onClick={() => {
-                  if (
-                    isCurrentAnObject
-                      ? compareObjects({ current, value })
-                      : value === current
-                  )
-                    return
+                  if (isCurrentSelected({ label, value })) return
                   if (onChange) onChange({ label, value })
 
                   setOpen(false)
