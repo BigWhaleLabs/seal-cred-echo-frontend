@@ -23,7 +23,7 @@ class ContractsStore extends PersistableStore {
   }
 
   replacer = (key: string, value: unknown) => {
-    const disallowList = ['addressToTokenIds']
+    const disallowList = ['provider', 'addressToTokenIds']
     return disallowList.includes(key) ? undefined : value
   }
 

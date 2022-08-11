@@ -1,4 +1,4 @@
-import { PersistableStore } from '@big-whale-labs/stores'
+// import { PersistableStore } from '@big-whale-labs/stores'
 import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
 import { serializeError } from 'eth-rpc-errors'
@@ -10,7 +10,7 @@ import web3Modal from 'helpers/web3Modal'
 
 let provider: Web3Provider
 
-class WalletStore extends PersistableStore {
+class WalletStore {
   account?: string
   walletLoading = false
   needNetworkChange = false
@@ -19,7 +19,12 @@ class WalletStore extends PersistableStore {
   }
 
   replacer = (key: string, value: unknown) => {
-    const disallowList = ['account', 'walletLoading']
+    const disallowList = [
+      'account',
+      'cachedProvider',
+      'provider',
+      'walletLoading',
+    ]
     return disallowList.includes(key) ? undefined : value
   }
 
@@ -121,9 +126,10 @@ class WalletStore extends PersistableStore {
   }
 }
 
-const walletStore = proxy(new WalletStore()).makePersistent(
-  env.VITE_ENCRYPT_KEY
-)
+const walletStore = proxy(new WalletStore())
+// .makePersistent(
+//   env.VITE_ENCRYPT_KEY
+// )
 
 if (walletStore.cachedProvider) void walletStore.connect()
 
