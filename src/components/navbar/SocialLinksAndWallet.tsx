@@ -1,37 +1,26 @@
-import { AccentText, SocialLink } from 'components/Text'
+import { AccentText } from 'components/Text'
+import { displayOnMdAndLarger } from 'helpers/visibilityClassnames'
 import { useSnapshot } from 'valtio'
-import Discord from 'icons/Discord'
+import Delimiter from 'components/Delimiter'
 import EnsAddress from 'components/EnsAddress'
 import SealWallet from 'icons/SealWallet'
-import Twitter from 'icons/Twitter'
+import SocialLinks from 'components/SocialLinks'
 import WalletStore from 'stores/WalletStore'
 import classnames, {
   alignItems,
-  backgroundColor,
-  borderWidth,
   cursor,
   display,
   gap,
-  height,
   lineHeight,
   textAlign,
   width,
 } from 'classnames/tailwind'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
 
-const displayOnMdAndLarger = display('hidden', 'md:flex')
 const container = classnames(
   display('flex'),
   alignItems('items-center'),
   gap('gap-x-4')
-)
-const socialLinkContainer = classnames(container, displayOnMdAndLarger)
-const delimeterContainer = classnames(
-  borderWidth('border-0'),
-  backgroundColor('bg-primary-dimmed'),
-  width('w-px'),
-  height('h-4'),
-  displayOnMdAndLarger
 )
 const walletContainer = classnames(container, cursor('cursor-pointer'))
 const walletAccount = classnames(
@@ -45,15 +34,10 @@ export default function () {
 
   return (
     <div className={container}>
-      <div className={socialLinkContainer}>
-        <SocialLink url="https://discord.gg/NHk96pPZUV">
-          <Discord />
-        </SocialLink>
-        <SocialLink url="https://twitter.com/bigwhalelabs">
-          <Twitter />
-        </SocialLink>
+      <div className={displayOnMdAndLarger}>
+        <SocialLinks />
+        <Delimiter primary />
       </div>
-      <hr className={delimeterContainer} />
       <div
         className={walletContainer}
         onClick={async () => {

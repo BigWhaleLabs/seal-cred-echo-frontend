@@ -10,11 +10,13 @@ import classnames, {
   position,
   space,
   transitionProperty,
+  zIndex,
 } from 'classnames/tailwind'
 import useScrolledFromTop from 'hooks/useScrolledFromTop'
 
 const navbar = (backgroundVisible?: boolean) =>
   classnames(
+    zIndex('z-50'),
     position('sticky'),
     inset('top-0'),
     display('flex'),
