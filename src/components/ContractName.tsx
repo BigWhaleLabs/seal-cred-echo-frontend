@@ -41,13 +41,13 @@ function ContractNameSuspended({
   truncate,
   clearType,
 }: ContractNameProps) {
-  const { emailDerivativeContracts = [] } = useSnapshot(SealCredStore)
+  const { EmailDerivativeContracts = [] } = useSnapshot(SealCredStore)
   const { contractNames } = useSnapshot(ContractNamesStore)
   let contractName = contractNames[address]
   if (!contractName)
     ContractNamesStore.fetchContractName(address, defaultProvider)
 
-  if (clearType && contractName && emailDerivativeContracts.includes(address))
+  if (clearType && contractName && EmailDerivativeContracts.includes(address))
     contractName = contractName.replace(' email', '')
 
   let content = contractName || address

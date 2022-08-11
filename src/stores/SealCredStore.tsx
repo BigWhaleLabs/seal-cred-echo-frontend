@@ -56,7 +56,7 @@ function addListeners() {
         const ledger = await SealCredStore[ledgerName]
         if (!ledger[original]) {
           ledger[original] = derivative
-          SealCredStore.emailLedger = Promise.resolve({
+          SealCredStore[ledgerName] = Promise.resolve({
             ...ledger,
           })
         }
