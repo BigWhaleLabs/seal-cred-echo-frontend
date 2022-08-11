@@ -36,8 +36,8 @@ export default function () {
     <div className={container}>
       <div className={displayOnMdAndLarger}>
         <SocialLinks />
-        <Delimiter primary />
       </div>
+      <Delimiter primary className={displayOnMdAndLarger} />
       <div
         className={walletContainer}
         onClick={async () => {
