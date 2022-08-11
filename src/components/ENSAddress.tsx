@@ -1,35 +1,35 @@
 import { Suspense, memo } from 'react'
 import { useSnapshot } from 'valtio'
-import EnsStore from 'stores/EnsStore'
+import ENSStore from 'stores/ENSStore'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import useBreakpoints from 'hooks/useBreakpoints'
 
-interface EnsAddressProps {
+interface ENSAddressProps {
   address: string
   truncateSize?: number
 }
 
-function EnsAddressSuspended({
+function ENSAddressSuspended({
   address,
   truncate,
   truncateSize,
-}: EnsAddressProps & { truncate?: boolean; truncateSize: number }) {
-  const { ensNames } = useSnapshot(EnsStore)
-  const ensName = ensNames[address]
-  if (!ensName) EnsStore.fetchEnsName(address)
+}: ENSAddressProps & { truncate?: boolean; truncateSize: number }) {
+  const { eNSNames } = useSnapshot(ENSStore)
+  const eNSName = eNSNames[address]
+  if (!eNSName) ENSStore.fetchENSName(address)
 
   return (
     <span>
       {truncate
-        ? truncateMiddleIfNeeded(ensName || address, truncateSize)
-        : ensName && ensName !== null
-        ? ensName
+        ? truncateMiddleIfNeeded(eNSName || address, truncateSize)
+        : eNSName && eNSName !== null
+        ? eNSName
         : truncateMiddleIfNeeded(address, truncateSize)}
     </span>
   )
 }
 
-export default memo<EnsAddressProps>(({ address, truncateSize }) => {
+export default memo<ENSAddressProps>(({ address, truncateSize }) => {
   const { md, lg } = useBreakpoints()
   const currentTruncateSize = truncateSize ?? md ? (lg ? 25 : 17) : 11
   const truncatedAddress = !lg
@@ -38,7 +38,7 @@ export default memo<EnsAddressProps>(({ address, truncateSize }) => {
 
   return (
     <Suspense fallback={<span>{truncatedAddress}</span>}>
-      <EnsAddressSuspended
+      <ENSAddressSuspended
         address={address}
         truncateSize={currentTruncateSize}
         truncate={!lg}

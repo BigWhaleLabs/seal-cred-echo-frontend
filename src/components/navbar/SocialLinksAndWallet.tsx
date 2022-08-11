@@ -2,7 +2,7 @@ import { AccentText } from 'components/Text'
 import { displayOnMdAndLarger } from 'helpers/visibilityClassnames'
 import { useSnapshot } from 'valtio'
 import Delimiter from 'components/Delimiter'
-import EnsAddress from 'components/EnsAddress'
+import ENSAddress from 'components/ENSAddress'
 import SealWallet from 'icons/SealWallet'
 import SocialLinks from 'components/SocialLinks'
 import WalletStore from 'stores/WalletStore'
@@ -52,7 +52,7 @@ export default function () {
           <AccentText
             color={account ? 'text-accent' : 'text-primary-semi-dimmed'}
           >
-            {account ? <EnsAddress address={account} /> : 'No wallet connected'}
+            {account ? <ENSAddress address={account} /> : 'No wallet connected'}
           </AccentText>
         </div>
         <div className={width('w-fit')}>
