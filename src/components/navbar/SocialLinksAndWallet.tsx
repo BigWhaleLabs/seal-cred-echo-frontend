@@ -11,64 +11,54 @@ import classnames, {
   borderWidth,
   cursor,
   display,
+  gap,
   height,
   lineHeight,
-  space,
   textAlign,
   width,
 } from 'classnames/tailwind'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
-import useBreakpoints from 'hooks/useBreakpoints'
 
+const displayOnMdAndLarger = display('hidden', 'md:flex')
+const container = classnames(
+  display('flex'),
+  alignItems('items-center'),
+  gap('gap-x-4')
+)
+const socialLinkContainer = classnames(container, displayOnMdAndLarger)
+const delimeterContainer = classnames(
+  borderWidth('border-0'),
+  backgroundColor('bg-primary-dimmed'),
+  width('w-px'),
+  height('h-4'),
+  displayOnMdAndLarger
+)
+const walletContainer = classnames(container, cursor('cursor-pointer'))
 const walletAccount = classnames(
   textAlign('text-right'),
   lineHeight('leading-5'),
   display('sm:flex', 'hidden')
 )
-const container = classnames(
-  display('inline-flex'),
-  alignItems('items-center'),
-  space('space-x-4'),
-  cursor('cursor-pointer')
-)
-const delimeterContainer = classnames(
-  borderWidth('border-0'),
-  backgroundColor('bg-primary-dimmed'),
-  width('w-px'),
-  height('h-4')
-)
 
 export default function () {
   const { account } = useSnapshot(WalletStore)
-  const { md } = useBreakpoints()
 
   return (
     <div className={container}>
-      {md && (
-        <>
-          <div className={container}>
-            <SocialLink url="https://discord.gg/NHk96pPZUV">
-              <Discord />
-            </SocialLink>
-            <SocialLink url="https://twitter.com/bigwhalelabs">
-              <Twitter />
-            </SocialLink>
-          </div>
-          <hr className={delimeterContainer} />
-        </>
-      )}
+      <div className={socialLinkContainer}>
+        <SocialLink url="https://discord.gg/NHk96pPZUV">
+          <Discord />
+        </SocialLink>
+        <SocialLink url="https://twitter.com/bigwhalelabs">
+          <Twitter />
+        </SocialLink>
+      </div>
+      <hr className={delimeterContainer} />
       <div
-        className={container}
+        className={walletContainer}
         onClick={async () => {
           if (account) {
-            const newWindow = window.open(
-              getEtherscanAddressUrl(account),
-              '_blank'
-            )
-            if (newWindow) {
-              newWindow?.focus()
-              newWindow.opener = null
-            }
+            window.open(getEtherscanAddressUrl(account), '_blank')
           } else {
             await WalletStore.connect(true)
           }

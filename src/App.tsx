@@ -31,52 +31,28 @@ const body = classnames(
   padding('pb-5'),
   margin('mx-auto', 'md:mb-16')
 )
-
+const mainContainer = margin('mx-5', 'md:mx-auto')
 export default function () {
   return (
     <Router>
       <Navbar />
       <div className={body}>
         <ScrollToTop>
-          <div className={margin('mx-5', 'md:mx-auto')}>
-            <Routes>
-              <Route index element={<Navigate replace to="/how-it-works" />} />
-              <Route
-                path="/how-it-works"
-                element={
-                  <Main>
-                    <HowItWorks />
-                  </Main>
-                }
-              />
-              <Route
-                path="/previous-tweets"
-                element={
-                  <Main>
-                    <PreviousTweets />
-                  </Main>
-                }
-              />
-              <Route
-                path="/previous-tweets/blockchain"
-                element={
-                  <Main>
-                    <ViewOnBlockchain />
-                  </Main>
-                }
-              />
-              <Route
-                path="/deep-dive"
-                element={
-                  <Main>
-                    <DeepDive />
-                  </Main>
-                }
-              />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+          <div className={mainContainer}>
+            <Main>
+              <Routes>
+                <Route index element={<HowItWorks />} />
+                <Route path="/previous-tweets" element={<PreviousTweets />} />
+                <Route
+                  path="/previous-tweets/blockchain"
+                  element={<ViewOnBlockchain />}
+                />
+                <Route path="/deep-dive" element={<DeepDive />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Main>
           </div>
         </ScrollToTop>
       </div>
