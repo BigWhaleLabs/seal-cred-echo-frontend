@@ -1,5 +1,4 @@
 import { LoadingText } from 'components/Text'
-import Button from 'components/Button'
 import classnames, {
   alignItems,
   display,
@@ -20,19 +19,10 @@ const loadingClass = classnames(
   textAlign('text-center')
 )
 
-export default function ({
-  text,
-  onRefresh,
-}: {
-  text: string
-  onRefresh: () => void
-}) {
+export default function ({ text }: { text: string }) {
   return (
     <div className={loadingClass}>
       <LoadingText>{text}</LoadingText>
-      <Button small type="primary" onClick={onRefresh}>
-        Refresh
-      </Button>
     </div>
   )
 }

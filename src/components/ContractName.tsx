@@ -11,6 +11,7 @@ import classnames, {
   padding,
   wordBreak,
 } from 'classnames/tailwind'
+import defaultProvider from 'helpers/providers/defaultProvider'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 
 const addressText = wordBreak('break-all')
@@ -43,7 +44,8 @@ function ContractNameSuspended({
   const { emailDerivativeContracts = [] } = useSnapshot(SealCredStore)
   const { contractNames } = useSnapshot(ContractNamesStore)
   let contractName = contractNames[address]
-  if (!contractName) ContractNamesStore.fetchContractName(address)
+  if (!contractName)
+    ContractNamesStore.fetchContractName(address, defaultProvider)
 
   if (clearType) {
     if (contractName && emailDerivativeContracts.includes(address))

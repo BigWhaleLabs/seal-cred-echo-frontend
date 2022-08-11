@@ -3,11 +3,16 @@ import preact from '@preact/preset-vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { visualizer } from 'rollup-plugin-visualizer'
 import GlobalsPolyfills from '@esbuild-plugins/node-globals-polyfill'
-import inject from '@rollup/plugin-inject'
-import nodePolyfills from 'rollup-plugin-node-polyfills'
+import nodePolyfills from 'rollup-plugin-polyfill-node'
 import removeConsole from 'vite-plugin-remove-console'
+import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      assert: 'assert-browserify',
+    },
+  },
   plugins: [preact(), tsconfigPaths()],
   build: {
     rollupOptions: {
@@ -17,9 +22,6 @@ export default defineConfig({
           brotliSize: true,
         }),
         nodePolyfills(),
-        inject({
-          Buffer: ['buffer', 'Buffer'],
-        }),
         removeConsole(),
       ] as unknown[] as Plugin[],
     },
@@ -32,8 +34,10 @@ export default defineConfig({
       define: {
         global: 'globalThis',
       },
-      plugins: [GlobalsPolyfills({ buffer: true })],
+      plugins: [
+        GlobalsPolyfills({ buffer: true }),
+        NodeModulesPolyfillPlugin(),
+      ],
     },
   },
-  server: { port: 3000 },
 })

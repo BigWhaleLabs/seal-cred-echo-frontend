@@ -1,12 +1,12 @@
 import { useSnapshot } from 'valtio'
 import ConnectWalletBlock from 'components/ConnectWalletBlock'
-import CreateTweet from 'components/CreateTweet'
+import CreatePost from 'components/CreatePost'
 import WalletStore from 'stores/WalletStore'
 
 export default function () {
   const { account } = useSnapshot(WalletStore)
 
-  if (account) return <CreateTweet />
+  if (account) return <CreatePost />
 
   return <ConnectWalletBlock />
 }
