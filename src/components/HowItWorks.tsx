@@ -16,6 +16,7 @@ import classnames, {
   justifyContent,
   space,
 } from 'classnames/tailwind'
+import data from 'data'
 
 const blockContainer = classnames(
   display('flex'),
@@ -31,25 +32,23 @@ export default function () {
         <HeaderText>What is this?</HeaderText>
         <CardParagraph>
           With SealCred’s ZK Badges, you can prove you own an{' '}
-          <AccentText color="text-secondary">NFT</AccentText>,{' '}
-          <AccentText color="text-secondary">email</AccentText>, or{' '}
-          <AccentText color="text-secondary">
-            asset amount (coming soon)
-          </AccentText>{' '}
-          without revealing your identity.
+          <AccentText color="text-secondary">NFT</AccentText> or an{' '}
+          <AccentText color="text-secondary">email</AccentText> without
+          revealing your identity.
         </CardParagraph>
         <CardParagraph>
           This means you can speak as an NFT holder, spill the tea about your
           place of employment, or just share your thoughts on Twitter without
-          anyone (even us!) from knowing it’s you. All tweets are posted to{' '}
-          <LinkText url="https://twitter.com/SealCredNFT">
-            @SealCredNFT
-          </LinkText>{' '}
-          for all NFT posts and{' '}
-          <LinkText url="https://twitter.com/SealCredEmail">
-            @SealCredEmail
-          </LinkText>{' '}
-          for email posts.
+          anyone (even us!) knowing it’s you. All tweets are posted to{' '}
+          {Object.values(data).map(({ twitter }, i, array) => (
+            <span key={twitter}>
+              {i > 0 ? (i < array.length - 1 ? ', ' : ' or ') : ''}
+              <LinkText url={`https://twitter.com/${twitter}`}>
+                @{twitter}
+              </LinkText>
+            </span>
+          ))}{' '}
+          respectively.
         </CardParagraph>
         <CardParagraph>
           <LinkText url="https://sealcred.xyz/app">
@@ -64,27 +63,27 @@ export default function () {
         <HintCard>
           <OrderedList>
             <ListItem>
-              Mint your ZK Badge (
+              Mint a ZK Badge (
               <LinkText url="https://sealcred.xyz/app">here</LinkText>
               ).
             </ListItem>
-            <ListItem>Connect your anonymous wallet to this page.</ListItem>
-            <ListItem>Create your message.</ListItem>
+            <ListItem>Connect the anonymous wallet to this page.</ListItem>
+            <ListItem>Post your message.</ListItem>
           </OrderedList>
         </HintCard>
         <CardSubheader>A few things to consider</CardSubheader>
         <HintCard>
           <OrderedList>
             <ListItem>
-              Hashtags (or @) of the place you work will be generated on the
-              tweet.
+              The email or NFT symbol will be appended to the end of the tweet.
             </ListItem>
             <ListItem>
-              Extreme profanity will be filtered by our cute little Sealbots to
+              Extreme profanity will be filtered by our cute little SealBots to
               be compliant with Twitter rules.
             </ListItem>
             <ListItem>
-              Your message will be posted here as well as tweeted.
+              Your message will be posted here (on the blockchain) right away as
+              well as tweeted after passing the moderation.
             </ListItem>
           </OrderedList>
         </HintCard>

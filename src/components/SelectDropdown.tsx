@@ -1,6 +1,5 @@
 import { JSX } from 'preact/jsx-runtime'
 import { MutableRef, useRef, useState } from 'preact/hooks'
-import { SelectOption } from 'models/SelectOption'
 import { TextareaText } from 'components/Text'
 import Arrow from 'icons/Arrow'
 import Spinner from 'icons/Spinner'
@@ -33,6 +32,11 @@ import classnames, {
   zIndex,
 } from 'classnames/tailwind'
 import useClickOutside from 'hooks/useClickOutside'
+
+export interface SelectOption<Data> {
+  label?: string
+  value: Data
+}
 
 const sharedStyles = (border?: boolean) =>
   classnames(

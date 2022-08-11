@@ -11,6 +11,7 @@ import classnames, {
   display,
   flexDirection,
   height,
+  padding,
   width,
 } from 'classnames/tailwind'
 
@@ -23,7 +24,11 @@ const tweetCard = classnames(
   borderWidth('border-b', 'last:border-b-0')
 )
 const tweetWidget = (loading?: boolean) =>
-  classnames(display(loading ? 'hidden' : 'block'), height('h-full'))
+  classnames(
+    display(loading ? 'hidden' : 'block'),
+    height('h-full'),
+    padding('pb-4')
+  )
 
 const prepareFrame = (frame: HTMLIFrameElement) => {
   if (!frame.contentDocument) return

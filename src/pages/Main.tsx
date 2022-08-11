@@ -8,7 +8,7 @@ export default function ({ children }: ChildrenProp) {
     <>
       {/* <WalletOrTweet /> */}
       <TabBar>
-        <NavTabLink to="/how-it-works" label="How this works" />
+        <NavTabLink to="/" label="How this works" />
         <NavTabLink to="/previous-tweets" label="Previous Tweets" />
         <NavTabLink to="/deep-dive" label="Deep Dive" />
       </TabBar>
