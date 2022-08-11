@@ -15,6 +15,8 @@ function usePosts(
   processingStore: PostProcessingStore
 ) {
   const { account } = useSnapshot(WalletStore)
+  // TODO: can't use snapshot here because getting the store nested in store
+  // probably will cause render errors
   const { postsStatuses } = postStatusStore
   const { processingIds } = useSnapshot(processingStore)
 
