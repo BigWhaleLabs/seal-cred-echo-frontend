@@ -15,15 +15,15 @@ function ENSAddressSuspended({
   truncateSize,
 }: ENSAddressProps & { truncate?: boolean; truncateSize: number }) {
   const { eNSNames } = useSnapshot(ENSStore)
-  const ensName = eNSNames[address]
-  if (!ensName) ENSStore.fetchENSName(address)
+  const eNSName = eNSNames[address]
+  if (!eNSName) ENSStore.fetchENSName(address)
 
   return (
     <span>
       {truncate
-        ? truncateMiddleIfNeeded(ensName || address, truncateSize)
-        : ensName && ensName !== null
-        ? ensName
+        ? truncateMiddleIfNeeded(eNSName || address, truncateSize)
+        : eNSName && eNSName !== null
+        ? eNSName
         : truncateMiddleIfNeeded(address, truncateSize)}
     </span>
   )
