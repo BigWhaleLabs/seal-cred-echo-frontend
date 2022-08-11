@@ -1,7 +1,7 @@
 import { Suspense, memo } from 'react'
 import { useSnapshot } from 'valtio'
 import { utils } from 'ethers'
-import ContractSymbolsStore from 'stores/ContractNameStore'
+import ContractSymbolsStore from 'stores/ContractMetadataStore'
 import classNamesToString from 'helpers/classNamesToString'
 import classnames, {
   display,

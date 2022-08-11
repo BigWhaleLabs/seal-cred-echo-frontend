@@ -8,7 +8,7 @@ import { checkErrorMessage } from 'helpers/handleError'
 import { useSnapshot } from 'valtio'
 import { useState } from 'preact/hooks'
 import Button from 'components/Button'
-import ContractNameStore from 'stores/ContractNameStore'
+import ContractMetadataStore from 'stores/ContractMetadataStore'
 import DropDown from 'components/DropDown'
 import ERC721Post from 'helpers/posts/ERC721Post'
 import EmailPost from 'helpers/posts/EmailPost'
@@ -43,7 +43,7 @@ const dropdownWrapper = classnames(
 export default function () {
   const [text, onTextChange] = useState('')
   const { status, currentPost } = useSnapshot(PostFormStore)
-  const { savedContractSymbols } = useSnapshot(ContractNameStore)
+  const { savedContractSymbols } = useSnapshot(ContractMetadataStore)
 
   const suffix = currentPost
     ? currentPost instanceof EmailPost
