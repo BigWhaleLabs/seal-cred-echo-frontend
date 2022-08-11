@@ -22,7 +22,7 @@ import classnames, {
   transitionProperty,
   width,
 } from 'classnames/tailwind'
-import twitterAccounts from 'models/SelectOption'
+import data from 'data'
 
 const prevTweets = classnames(
   width('w-full'),
@@ -97,7 +97,10 @@ export default function ({
               </BodyText>
               <SelectDropdown
                 current={currentTwitterAccount}
-                options={twitterAccounts}
+                options={Object.values(data).map(({ twitter }) => ({
+                  label: `@${twitter}`,
+                  value: twitter,
+                }))}
                 SelectedValue={
                   <SelectedOption currentAccount={currentTwitterAccount} />
                 }
