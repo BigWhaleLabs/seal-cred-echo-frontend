@@ -53,12 +53,13 @@ function addListeners() {
       async (original, derivative) => {
         console.info('CreateDerivative event', original, derivative)
         const ledger = await SealCredStore[ledgerName]
-        if (!ledger[original]) {
-          ledger[original] = derivative
-          SealCredStore[ledgerName] = Promise.resolve({
-            ...ledger,
-          })
-        }
+
+        if (ledger[original]) return
+
+        ledger[original] = derivative
+        SealCredStore[ledgerName] = Promise.resolve({
+          ...ledger,
+        })
       }
     )
     contract.on(contract.filters.DeleteOriginal(), async (original) => {
