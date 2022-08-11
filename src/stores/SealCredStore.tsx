@@ -1,7 +1,7 @@
 import { derive } from 'valtio/utils'
 import { proxy } from 'valtio'
 import Ledger from 'models/Ledger'
-import data from 'helpers/data'
+import data, { ledgerNames } from 'helpers/data'
 
 type DeriveGet = <T extends object>(proxyObject: T) => T
 type DeriveStoreType = {
@@ -32,7 +32,6 @@ function constructDerive() {
     },
   }
 
-  const ledgerNames = Object.keys(data)
   for (const ledgerName of ledgerNames)
     contractNameToDerivatives[`get${ledgerName}Derivatives`] = async (get) => {
       return Object.values(await get(state)[ledgerName])
