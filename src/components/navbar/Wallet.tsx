@@ -1,7 +1,7 @@
 import { AccentText, SocialLink } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import Discord from 'icons/Discord'
-import EnsAddress from 'components/EnsAddress'
+import ENSAddress from 'components/ENSAddress'
 import SealWallet from 'icons/SealWallet'
 import Twitter from 'icons/Twitter'
 import WalletStore from 'stores/WalletStore'
@@ -78,7 +78,7 @@ export default function () {
           <AccentText
             color={account ? 'text-accent' : 'text-primary-semi-dimmed'}
           >
-            {account ? <EnsAddress address={account} /> : 'No wallet connected'}
+            {account ? <ENSAddress address={account} /> : 'No wallet connected'}
           </AccentText>
         </div>
         <div className={width('w-fit')}>

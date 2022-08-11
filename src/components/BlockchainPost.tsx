@@ -10,7 +10,7 @@ import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
 import ContractTitle from 'components/ContractTitle'
 import Delimiter from 'components/Delimiter'
-import EnsAddress from 'components/EnsAddress'
+import ENSAddress from 'components/ENSAddress'
 import PostChips from 'components/PostChips'
 import PostModel from 'models/PostModel'
 import PostStatusStore from 'stores/PostStatusStore'
@@ -51,7 +51,7 @@ function Sender({ sender }: { sender: string }) {
       {sender === account ? (
         'you'
       ) : (
-        <EnsAddress address={sender} truncateSize={13} />
+        <ENSAddress address={sender} truncateSize={13} />
       )}
     </LinkText>
   )
