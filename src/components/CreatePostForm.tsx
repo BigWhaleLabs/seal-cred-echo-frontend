@@ -43,12 +43,9 @@ export default function () {
   const { status, currentPost } = useSnapshot(PostFormStore)
   const { savedContractSymbols } = useSnapshot(ContractNameStore)
 
-  if (!currentPost) return null
-
-  const suffix = ` @ ${
-    savedContractSymbols[getDerivativeFromLedgerWithName(currentPost)] ??
-    'loading...'
-  }`
+  const suffix = currentPost
+    ? `@${savedContractSymbols[getDerivativeFromLedgerWithName(currentPost)]}`
+    : 'loading...'
 
   const { md } = useBreakpoints()
 

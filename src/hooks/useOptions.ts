@@ -9,14 +9,13 @@ function makeOptions(ledger: Ledger, ledgerName: string, addresses: string[]) {
     .filter((derivative) => addresses.includes(derivative))
     .map((original) => ({
       label: ledger[original],
-      value: { ledgerName: ledger },
+      value: { [ledgerName]: ledger },
     }))
 }
 
 export default function () {
   // TODO: lets hope using state is valid
   const stores = useSnapshot(state)
-  console.log(stores)
   const contractsOwned = useContractsOwned()
 
   const options: SelectOption<LedgerWithName>[] = []
