@@ -20,7 +20,7 @@ Object.keys(data).map((ledgerName) => {
   dataToStorage[ledgerName] = new Promise(() => data[ledgerName].ledger)
 })
 
-const state = proxy<SealCredStoreType>(dataToStorage)
+export const state = proxy<SealCredStoreType>(dataToStorage)
 
 function constructDerive() {
   const contractNameToDerivatives: DeriveStoreType = {

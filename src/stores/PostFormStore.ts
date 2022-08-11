@@ -1,3 +1,4 @@
+import { LedgerWithName } from 'models/Ledger'
 import { proxy } from 'valtio'
 import { subscribeKey } from 'valtio/utils'
 import WalletStore from 'stores/WalletStore'
@@ -8,10 +9,7 @@ interface PostStoreInterface {
     error?: Error
     success?: boolean
   }
-  currentPost?: {
-    original: string
-    derivative: string
-  }
+  currentPost?: LedgerWithName
 }
 
 const PostFormStore = proxy<PostStoreInterface>({

@@ -1,36 +1,38 @@
+import { LedgerWithName } from 'models/Ledger'
 import { Suspense } from 'preact/compat'
 import { TextareaText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import ContractName from 'components/ContractName'
 import ContractSymbol from 'components/ContractSymbol'
-
 import PostFormStore from 'stores/PostFormStore'
 import SelectDropdown from 'components/SelectDropdown'
 import classnames, { display, padding } from 'classnames/tailwind'
-
-// Should infer from data.names
-type SelectValueType = 'Email' | 'EternalERC721' | 'ERC721'
+import useOptions from 'hooks/useOptions'
 
 const postingAs = classnames(
   display('tiny:inline', 'hidden'),
   padding('tiny:pr-1', 'pr-0')
 )
 
-const SelectedContractName = ({ value }: { value?: SelectValueType }) => {
+function getDerivativeFromLedgerWithName(ledger: LedgerWithName) {
+  return Object.values(Object.values(ledger)[0])[0]
+}
+
+const SelectedContractName = ({ value }: { value?: LedgerWithName }) => {
   if (!value) return <>{null}</>
 
   return (
     <>
-      {value === 'Email' ? (
+      {value['Email'] ? (
         <>@{value.original}</>
       ) : (
-        <ContractSymbol address={value.derivative} />
+        <ContractSymbol address={getDerivativeFromLedgerWithName(value)} />
       )}
     </>
   )
 }
 
-function SelectedValue({ value }: { value?: SelectValueType }) {
+function SelectedValue({ value }: { value?: LedgerWithName }) {
   return (
     <>
       {value ? (
@@ -49,13 +51,13 @@ function OptionElement({
   value,
   label,
 }: {
-  value?: SelectValueType
+  value?: LedgerWithName
   label?: string
 }) {
-  if (!label) return <>Not found</>
+  if (!label || !value) return <>Not found</>
   return (
     <Suspense fallback={<>Loading...</>}>
-      {value === 'Email' ? (
+      {value['Email'] ? (
         <ContractName clearType address={label} />
       ) : (
         <ContractSymbol address={label} />
@@ -69,7 +71,7 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
   const options = useOptions()
 
   return (
-    <SelectDropdown<SelectValueType>
+    <SelectDropdown<LedgerWithName>
       border
       disabled={disabled}
       placeholder="Select badge"
