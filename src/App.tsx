@@ -15,7 +15,6 @@ import classnames, {
   display,
   flexDirection,
   gap,
-  justifyContent,
   margin,
   minHeight,
   width,
@@ -24,13 +23,12 @@ import classnames, {
 const pageContainer = classnames(
   display('flex'),
   flexDirection('flex-col'),
-  justifyContent('justify-between'),
   minHeight('min-h-screen')
 )
 const bodyContainer = classnames(
   width('md:w-body'),
   gap('gap-y-4'),
-  margin('mx-auto')
+  margin('mx-auto', 'mb-auto')
 )
 export default function () {
   return (
