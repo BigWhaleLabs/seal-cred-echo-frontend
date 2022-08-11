@@ -2,12 +2,23 @@ import {
   Ledger,
   Ledger__factory,
 } from '@big-whale-labs/seal-cred-ledger-contract'
+import { LedgerWithName } from 'models/Ledger'
 import {
   SCPostStorage,
   SCPostStorage__factory,
 } from '@big-whale-labs/seal-cred-posts-contract'
 import defaultProvider from 'helpers/providers/defaultProvider'
 import env from 'helpers/env'
+
+export function getDerivativeFromLedgerWithName(ledger: LedgerWithName) {
+  return Object.values(Object.values(ledger)[0])[0]
+}
+export function getLedgerNameFromLedgerWithName(ledger: LedgerWithName) {
+  return Object.keys(ledger)[0]
+}
+export function getOriginalFromLedgerWithName(ledger: LedgerWithName) {
+  return Object.keys(Object.values(ledger)[0])[0]
+}
 
 export interface DataType {
   [ledgerName: string]: {

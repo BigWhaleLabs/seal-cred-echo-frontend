@@ -1,5 +1,10 @@
 import { BodyText, HeaderText } from 'components/Text'
 import { checkErrorMessage } from 'helpers/handleError'
+import {
+  getDerivativeFromLedgerWithName,
+  getLedgerNameFromLedgerWithName,
+  getOriginalFromLedgerWithName,
+} from 'helpers/data'
 import { processingPostStores } from 'stores/ProcessingPostsStore'
 import { useSnapshot } from 'valtio'
 import { useState } from 'preact/hooks'
@@ -41,7 +46,8 @@ export default function () {
   if (!currentPost) return null
 
   const suffix = ` @ ${
-    savedContractSymbols[currentPost.derivative] ?? 'loading...'
+    savedContractSymbols[getDerivativeFromLedgerWithName(currentPost)] ??
+    'loading...'
   }`
 
   const { md } = useBreakpoints()
@@ -82,10 +88,11 @@ export default function () {
                     PostFormStore.status = {
                       loading: true,
                     }
-                    // TODO: need to find ledger by post and pass it into `processingPostStores[ledgerName]`
-                    await processingPostStores[currentPost.original].createPost(
+                    await processingPostStores[
+                      getLedgerNameFromLedgerWithName(currentPost)
+                    ].createPost(
                       text,
-                      currentPost.original
+                      getOriginalFromLedgerWithName(currentPost)
                     )
                   } catch (error) {
                     const parsedError =

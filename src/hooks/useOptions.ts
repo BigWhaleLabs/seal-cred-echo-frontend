@@ -1,25 +1,15 @@
+import { SelectOption } from 'models/SelectOption'
 import { state } from 'stores/SealCredStore'
 import { useSnapshot } from 'valtio'
-import Ledger from 'models/Ledger'
-import PostConstructor from 'helpers/PostConstructor'
+import Ledger, { LedgerWithName } from 'models/Ledger'
 import useContractsOwned from 'hooks/useContractsOwned'
 
-function makeOptions<T>(
-  ledgerRecord: Ledger,
-  addresses: string[],
-  createValue: ({
-    original,
-    derivative,
-  }: {
-    original: string
-    derivative: string
-  }) => T
-) {
-  return Object.keys(ledgerRecord)
-    .filter((original) => addresses.includes(ledgerRecord[original]))
+function makeOptions(ledger: Ledger, ledgerName: string, addresses: string[]) {
+  return Object.keys(ledger)
+    .filter((derivative) => addresses.includes(derivative))
     .map((original) => ({
-      label: ledgerRecord[original],
-      value: createValue({ original, derivative: ledgerRecord[original] }),
+      label: ledger[original],
+      value: { ledgerName: ledger },
     }))
 }
 
@@ -29,17 +19,11 @@ export default function () {
   console.log(stores)
   const contractsOwned = useContractsOwned()
 
-  const options: {
-    label: string
-    value: { original: string; derivative: string }
-  }[] = []
+  const options: SelectOption<LedgerWithName>[] = []
 
-  Object.values(stores).forEach((ledger) => {
-    makeOptions(
-      ledger,
-      contractsOwned,
-      ({ original, derivative }) => new PostConstructor(original, derivative)
-    )
+  Object.keys(stores).forEach((ledgerName) => {
+    // eslint-disable-next-line valtio/state-snapshot-rule
+    options.push(...makeOptions(stores[ledgerName], ledgerName, contractsOwned))
   })
 
   return options

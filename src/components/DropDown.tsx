@@ -1,6 +1,7 @@
 import { LedgerWithName } from 'models/Ledger'
 import { Suspense } from 'preact/compat'
 import { TextareaText } from 'components/Text'
+import { getDerivativeFromLedgerWithName } from 'helpers/data'
 import { useSnapshot } from 'valtio'
 import ContractName from 'components/ContractName'
 import ContractSymbol from 'components/ContractSymbol'
@@ -13,10 +14,6 @@ const postingAs = classnames(
   display('tiny:inline', 'hidden'),
   padding('tiny:pr-1', 'pr-0')
 )
-
-function getDerivativeFromLedgerWithName(ledger: LedgerWithName) {
-  return Object.values(Object.values(ledger)[0])[0]
-}
 
 const SelectedContractName = ({ value }: { value?: LedgerWithName }) => {
   if (!value) return <>{null}</>

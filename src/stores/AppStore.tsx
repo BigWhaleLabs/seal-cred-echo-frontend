@@ -8,7 +8,8 @@ class AppStore extends PersistableStore {
   currentTime = new Date().valueOf()
 }
 
-const appStoreProxy = proxy(new AppStore()).makePersistent()
+const appStoreProxy = proxy(new AppStore())
+// .makePersistent()
 setInterval(() => (appStoreProxy.currentTime = new Date().valueOf()), 10 * 1000)
 
 export default appStoreProxy

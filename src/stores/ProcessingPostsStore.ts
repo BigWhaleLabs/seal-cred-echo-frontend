@@ -31,20 +31,19 @@ export class PostProcessingStore {
   }
 
   async fetchProcessingPosts() {
-    if (WalletStore.account) {
-      const posts = await this.store.posts
+    if (!WalletStore.account) return
+    const posts = await this.store.posts
 
-      const records = posts
-        ? posts
-            .filter(
-              (record) =>
-                record.sender === WalletStore.account &&
-                this.statusStore.getPostStatus(record.id) === PostStatus.pending
-            )
-            .map((record) => record.id)
-        : []
-      this.processingIds[WalletStore.account] = records
-    }
+    const records = posts
+      ? posts
+          .filter(
+            (record) =>
+              record.sender === WalletStore.account &&
+              this.statusStore.getPostStatus(record.id) === PostStatus.pending
+          )
+          .map((record) => record.id)
+      : []
+    this.processingIds[WalletStore.account] = records
   }
 
   updateStatus() {
