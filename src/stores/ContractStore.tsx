@@ -1,5 +1,5 @@
 import { PersistableStore } from '@big-whale-labs/stores'
-import { providers } from 'ethers'
+import { Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
 import { subscribeKey } from 'valtio/utils'
 import ContractSynchronizer, {
@@ -15,11 +15,11 @@ class ContractsStore extends PersistableStore {
   currentBlock?: number
   addressToTokenIds?: Promise<{ [address: string]: string[] } | undefined>
 
-  provider: providers.Provider
+  provider: Provider
 
   disallowList = ['addressToTokenIds']
 
-  constructor(provider: providers.Provider) {
+  constructor(provider: Provider) {
     super()
     this.provider = provider
   }

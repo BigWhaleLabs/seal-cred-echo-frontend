@@ -1,5 +1,10 @@
-import { BigNumber, providers } from 'ethers'
-import { ExternalProvider, Web3Provider } from '@ethersproject/providers'
+import { BigNumber } from 'ethers'
+import {
+  ExternalProvider,
+  JsonRpcSigner,
+  Provider,
+  Web3Provider,
+} from '@ethersproject/providers'
 import {
   SCPostStorage,
   SCPostStorage__factory,
@@ -38,9 +43,7 @@ export class PostStore {
     this.posts = this.fetchBlockchainPosts()
   }
 
-  createContractWithProvider(
-    provider: providers.JsonRpcSigner | providers.Provider
-  ) {
+  createContractWithProvider(provider: JsonRpcSigner | Provider) {
     return SCPostStorage__factory.connect(this.address, provider)
   }
 
