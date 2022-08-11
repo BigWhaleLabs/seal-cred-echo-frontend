@@ -106,7 +106,7 @@ export class PostStore {
 function createPostStores() {
   const postStores: { [ledgerName: string]: PostStore } = {}
   Object.keys(data).forEach((ledgerName) => {
-    postStores[ledgerName] = new PostStore(data[ledgerName].ledger.address)
+    postStores[ledgerName] = new PostStore(data[ledgerName].postStorage.address)
   })
 
   return postStores
