@@ -33,8 +33,8 @@ const bodyContainer = classnames(
 export default function () {
   return (
     <Router>
-      <div className={pageContainer}>
-        <ScrollToTop>
+      <ScrollToTop>
+        <div className={pageContainer}>
           <Navbar />
           <div className={bodyContainer}>
             <Main>
@@ -53,8 +53,8 @@ export default function () {
             </Main>
           </div>
           <Footer />
-        </ScrollToTop>
-      </div>
+        </div>
+      </ScrollToTop>
       <ToastContainer position="bottom-right" theme="dark" />
     </Router>
   )
