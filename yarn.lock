@@ -1713,9 +1713,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coinbase/wallet-sdk@npm:^3.4.0":
-  version: 3.4.0
-  resolution: "@coinbase/wallet-sdk@npm:3.4.0"
+"@coinbase/wallet-sdk@npm:^3.4.1":
+  version: 3.4.1
+  resolution: "@coinbase/wallet-sdk@npm:3.4.1"
   dependencies:
     "@metamask/safe-event-emitter": 2.0.0
     bind-decorator: ^1.0.11
@@ -1733,7 +1733,7 @@ __metadata:
     sha.js: ^2.4.11
     stream-browserify: ^3.0.0
     util: ^0.12.4
-  checksum: a283ce20582ecf6b1e45da0c48df9fa338be785a4ab9d8deabc4312c6628010f56ac76c758bb200ef6d0a38f5c6d4102551c078afc0f066caa103ba54b7fd1d9
+  checksum: db57c7671e68218349290dddd08c007d82de2d14b23a358d40fad3776838f4deb516b6f1ffe2bcdaf12bc875a9f4593e1d3d25a396901cc627450dbb6427ae3b
   languageName: node
   linkType: hard
 
@@ -3615,10 +3615,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.6.5":
-  version: 18.6.5
-  resolution: "@types/node@npm:18.6.5"
-  checksum: e3e66c9a84b94010a57c1b9dac882c08484278d74f9d120dbe6a3e45d00740d178bd1d34a5deee28197c94b9f4359153b637bab9b305328e865027e9987a0f3d
+"@types/node@npm:^18.7.1":
+  version: 18.7.1
+  resolution: "@types/node@npm:18.7.1"
+  checksum: f1e2b701b107f97be01da4c46845cd23bcdcb2865f9abbb2847546d09587e726ea207daca6f0d1e72196875ef8c62feeeff5f1c1f2070445acd6d1a61d815c7c
   languageName: node
   linkType: hard
 
@@ -14318,10 +14318,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"preact@npm:^10.10.1":
-  version: 10.10.1
-  resolution: "preact@npm:10.10.1"
-  checksum: a79a196770064eb4d5a533e5b407f5eb842e47ea143bd4687e436ad3faf634efd4fda1185fab7b8c687a0889f1dea61349f1a01d6d6dfe1db3e0f4361f65c1d3
+"preact@npm:^10.10.2":
+  version: 10.10.2
+  resolution: "preact@npm:10.10.2"
+  checksum: 3e994205eb75ce7c79f45bfd86b297645937f926c06fa2a541bf87a5ae168dd6c9f0945af29986065877623d58d1977aff073e4378683994fabee0edbb165c24
   languageName: node
   linkType: hard
 
@@ -15655,7 +15655,7 @@ __metadata:
     "@big-whale-labs/seal-cred-ledger-contract": ^0.2.6
     "@big-whale-labs/seal-cred-posts-contract": ^0.0.11
     "@big-whale-labs/stores": ^0.1.10
-    "@coinbase/wallet-sdk": ^3.4.0
+    "@coinbase/wallet-sdk": ^3.4.1
     "@esbuild-plugins/node-globals-polyfill": ^0.1.1
     "@esbuild-plugins/node-modules-polyfill": ^0.1.4
     "@ethersproject/experimental": ^5.6.3
@@ -15663,7 +15663,7 @@ __metadata:
     "@preact/preset-vite": ^2.3.0
     "@rollup/plugin-inject": ^4.0.4
     "@types/entropy-string": ^4.2.0
-    "@types/node": ^18.6.5
+    "@types/node": ^18.7.1
     "@types/react-textarea-autosize": ^8.0.0
     "@typescript-eslint/eslint-plugin": ^5.33.0
     "@typescript-eslint/parser": ^5.33.0
@@ -15688,7 +15688,7 @@ __metadata:
     eth-rpc-errors: ^4.0.3
     ethers: ^5.6.9
     postcss: ^8.4.16
-    preact: ^10.10.1
+    preact: ^10.10.2
     prettier: ^2.7.1
     react-router-dom: ^6.3.0
     react-scripts: ^5.0.1
