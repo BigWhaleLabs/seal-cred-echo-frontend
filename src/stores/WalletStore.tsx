@@ -19,7 +19,12 @@ class WalletStore extends PersistableStore {
   }
 
   replacer = (key: string, value: unknown) => {
-    const disallowList = ['account', 'walletLoading']
+    const disallowList = [
+      'account',
+      'cachedProvider',
+      'provider',
+      'walletLoading',
+    ]
     return disallowList.includes(key) ? undefined : value
   }
 
