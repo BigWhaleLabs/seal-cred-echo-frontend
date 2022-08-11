@@ -96,9 +96,9 @@ export class PostStore {
   ) {
     const record = getPostRecord(id, post, derivativeAddress, sender, timestamp)
     const posts = await this.posts
-    if (!posts.find(({ id: postId }) => postId === id.toNumber())) {
+    if (!posts.find(({ id: postId }) => postId === id.toNumber()))
       this.posts = Promise.resolve([record, ...posts])
-    }
+
     return record
   }
 }
