@@ -1,9 +1,4 @@
-import {
-  Navigate,
-  Route,
-  BrowserRouter as Router,
-  Routes,
-} from 'react-router-dom'
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import DeepDive from 'components/DeepDive'
 import Footer from 'components/Footer'
@@ -17,70 +12,49 @@ import ScrollToTop from 'components/ScrollToTop'
 import Terms from 'pages/Terms'
 import ViewOnBlockchain from 'components/ViewOnBlockchain'
 import classnames, {
-  height,
+  display,
+  flexDirection,
+  gap,
   margin,
-  padding,
-  space,
+  minHeight,
   width,
 } from 'classnames/tailwind'
 
-const body = classnames(
-  width('md:w-body', 'w-screen'),
-  height('h-fit'),
-  space('space-y-4'),
-  padding('pb-5'),
-  margin('mx-auto', 'md:mb-16')
+const pageContainer = classnames(
+  display('flex'),
+  flexDirection('flex-col'),
+  minHeight('min-h-screen')
 )
-
+const bodyContainer = classnames(
+  width('md:w-body'),
+  gap('gap-y-4'),
+  margin('mx-auto', 'mb-auto')
+)
 export default function () {
   return (
     <Router>
-      <Navbar />
-      <div className={body}>
-        <ScrollToTop>
-          <div className={margin('mx-5', 'md:mx-auto')}>
-            <Routes>
-              <Route index element={<Navigate replace to="/how-it-works" />} />
-              <Route
-                path="/how-it-works"
-                element={
-                  <Main>
-                    <HowItWorks />
-                  </Main>
-                }
-              />
-              <Route
-                path="/previous-tweets"
-                element={
-                  <Main>
-                    <PreviousTweets />
-                  </Main>
-                }
-              />
-              <Route
-                path="/previous-tweets/blockchain"
-                element={
-                  <Main>
-                    <ViewOnBlockchain />
-                  </Main>
-                }
-              />
-              <Route
-                path="/deep-dive"
-                element={
-                  <Main>
-                    <DeepDive />
-                  </Main>
-                }
-              />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+      <ScrollToTop>
+        <div className={pageContainer}>
+          <Navbar />
+          <div className={bodyContainer}>
+            <Main>
+              <Routes>
+                <Route index element={<HowItWorks />} />
+                <Route path="/previous-tweets" element={<PreviousTweets />} />
+                <Route
+                  path="/previous-tweets/blockchain"
+                  element={<ViewOnBlockchain />}
+                />
+                <Route path="/deep-dive" element={<DeepDive />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Main>
           </div>
-        </ScrollToTop>
-      </div>
-      <Footer />
+          <Footer />
+        </div>
+      </ScrollToTop>
       <ToastContainer position="bottom-right" theme="dark" />
     </Router>
   )

@@ -1,8 +1,11 @@
-import { FooterLink, SocialLink } from 'components/Text'
+import { FooterLink } from 'components/Text'
+import {
+  displayOnMdAndLarger,
+  displayOnSmAndSmaller,
+} from 'helpers/visibilityClassnames'
 import Delimiter from 'components/Delimiter'
-import Discord from 'icons/Discord'
 import FooterLogo from 'icons/FooterLogo'
-import Twitter from 'icons/Twitter'
+import SocialLinks from 'components/SocialLinks'
 import classnames, {
   alignItems,
   display,
@@ -10,7 +13,6 @@ import classnames, {
   padding,
   space,
 } from 'classnames/tailwind'
-import useBreakpoints from 'hooks/useBreakpoints'
 
 const commonClasses = classnames(display('flex'), alignItems('items-center'))
 const footerContainer = classnames(
@@ -19,45 +21,32 @@ const footerContainer = classnames(
   padding('py-8', 'px-4', 'lg:px-25'),
   space('space-y-4', 'md:space-x-4', 'md:space-y-0')
 )
-const linksContainer = classnames(
+const blogContainer = classnames(
   commonClasses,
   flexDirection('flex-row'),
   space('space-x-4')
 )
 
 export default function () {
-  const { md } = useBreakpoints()
-
   return (
     <div className={footerContainer}>
       <FooterLink url="https://blog.bigwhalelabs.com/">
-        <div className={linksContainer}>
+        <div className={blogContainer}>
           <FooterLogo />
           <span>Blog</span>
         </div>
       </FooterLink>
-
-      <Delimiter primary showOn="md" />
+      <Delimiter primary className={displayOnMdAndLarger} />
       <FooterLink internal url="/terms">
         Terms of service
       </FooterLink>
-      <Delimiter primary showOn="md" />
+      <Delimiter primary className={displayOnMdAndLarger} />
       <FooterLink internal url="/privacy">
         Privacy policy
       </FooterLink>
-      {!md && (
-        <>
-          <Delimiter primary showOn="md" />
-          <div className={linksContainer}>
-            <SocialLink url="https://discord.gg/NHk96pPZUV">
-              <Discord />
-            </SocialLink>
-            <SocialLink url="https://twitter.com/bigwhalelabs">
-              <Twitter />
-            </SocialLink>
-          </div>
-        </>
-      )}
+      <span className={displayOnSmAndSmaller}>
+        <SocialLinks />
+      </span>
     </div>
   )
 }

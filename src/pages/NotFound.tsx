@@ -5,12 +5,13 @@ import Button from 'components/Button'
 import Card from 'components/Card'
 import CardSection from 'components/CardSection'
 
+const container = space('space-y-4')
 export default function () {
   const navigate = useNavigate()
 
   return (
     <Card>
-      <div className={space('space-y-4')}>
+      <div className={container}>
         <HeaderText>
           <AccentText color="text-accent">404</AccentText>
         </HeaderText>

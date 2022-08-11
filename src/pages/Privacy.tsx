@@ -8,12 +8,13 @@ import { space } from 'classnames/tailwind'
 import Card from 'components/Card'
 import CardSection from 'components/CardSection'
 
+const verticalSpace = space('space-y-4')
 export default function () {
   return (
     <Card>
-      <div className={space('space-y-4')}>
+      <div className={verticalSpace}>
         <HeaderText>Privacy policy</HeaderText>
-        <div className={space('space-y-4')}>
+        <div className={verticalSpace}>
           <CardSection smallPadding>
             <CardParagraph>
               Project operates the website listed at echo.sealcred.xyz, which

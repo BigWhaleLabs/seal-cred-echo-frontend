@@ -33,13 +33,14 @@ export default function () {
               want. We do not store your data on our servers, and our
               repositories are fully public (
               <LinkText url="https://github.com/BigWhaleLabs">
-                See here
+                see here
               </LinkText>
               ). If you want to communicate to us directly, or follow along with
               updates,{' '}
               <LinkText url="https://discord.gg/NHk96pPZUV">
-                join our Discord.
+                join our Discord
               </LinkText>
+              .
             </CardParagraph>
           </CardSection>
           <CardSection>
