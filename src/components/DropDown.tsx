@@ -32,11 +32,17 @@ const SelectedContractName = ({ value }: { value?: SelectValueType }) => {
   )
 }
 
-function SelectedValue({ value }: { value?: SelectValueType }) {
+function SelectedValue({
+  disabled,
+  value,
+}: {
+  disabled?: boolean
+  value?: SelectValueType
+}) {
   return (
     <>
       {value ? (
-        <TextareaText>
+        <TextareaText dark={disabled}>
           <span className={postingAs}>Posting as: </span>
           <SelectedContractName value={value} />
         </TextareaText>
@@ -78,7 +84,7 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
       emptyText="No ZK badge in this wallet"
       current={currentPost}
       options={options}
-      SelectedValue={<SelectedValue value={currentPost} />}
+      SelectedValue={<SelectedValue disabled={disabled} value={currentPost} />}
       OptionElement={OptionElement}
       onChange={({ value }) => (PostFormStore.currentPost = value)}
     />
