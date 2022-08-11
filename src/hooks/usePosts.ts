@@ -1,16 +1,13 @@
-/* eslint-disable valtio/state-snapshot-rule */
 import { postStores } from 'stores/PostStore'
-import { useSnapshot } from 'valtio'
 import PostModel from 'models/Post'
-
 import PostStatusStore, { postStatusStores } from 'stores/PostStatusStore'
+
 export default function () {
   const allPosts: { post: PostModel; statusStore: PostStatusStore }[] = []
 
-  Object.keys(postStores).map((ledgerName) => {
+  Object.keys(postStores).map(async (ledgerName) => {
     const postStore = postStores[ledgerName]
-    const { posts } = useSnapshot(postStore)
-    // TODO: probably breaks valtio
+    const posts = await postStore.posts
     posts.forEach((post) => {
       allPosts.push({ post, statusStore: postStatusStores[ledgerName] })
     })

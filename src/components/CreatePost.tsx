@@ -15,7 +15,7 @@ function usePosts(
   processingStore: PostProcessingStore
 ) {
   const { account } = useSnapshot(WalletStore)
-  const { postsStatuses } = useSnapshot(postStatusStore)
+  const { postsStatuses } = postStatusStore
   const { processingIds } = useSnapshot(processingStore)
 
   const accountProcessingPostIds = account && processingIds[account]

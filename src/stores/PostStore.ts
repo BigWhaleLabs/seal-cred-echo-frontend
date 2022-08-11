@@ -4,9 +4,9 @@ import {
   SCPostStorage,
   SCPostStorage__factory,
 } from '@big-whale-labs/seal-cred-posts-contract'
-import { ledgerNames } from 'helpers/data'
 import PostModel from 'models/Post'
 import WalletStore from 'stores/WalletStore'
+import data from 'helpers/data'
 import defaultProvider from 'helpers/providers/defaultProvider'
 import handleError from 'helpers/handleError'
 import parsePostLogData from 'helpers/parsePostLogData'
@@ -105,8 +105,9 @@ export class PostStore {
 
 function createPostStores() {
   const postStores: { [ledgerName: string]: PostStore } = {}
-  for (const ledgerName of ledgerNames)
-    postStores[ledgerName] = new PostStore(ledgerName)
+  Object.keys(data).forEach((ledgerName) => {
+    postStores[ledgerName] = new PostStore(data[ledgerName].ledger.address)
+  })
 
   return postStores
 }
