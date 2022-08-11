@@ -103,10 +103,10 @@ const postingAs = classnames(
 const menuItem = (current?: boolean) =>
   classnames(
     padding('p-2'),
-    cursor(current ? 'cursor-default' : 'cursor-pointer'),
+    cursor('cursor-pointer'),
     borderRadius('rounded-md'),
     wordBreak('break-all'),
-    textColor({ 'text-formal-accent-semi-transparent': current }),
+    textColor({ 'text-primary': current }),
     backgroundColor({
       'hover:bg-primary-background': !current,
       'active:bg-primary-dimmed': !current,
@@ -212,9 +212,7 @@ export default function <SelectData>({
               <p
                 className={menuItem(isCurrentSelected({ label, value }))}
                 onClick={() => {
-                  if (isCurrentSelected({ label, value })) return
                   if (onChange) onChange({ label, value })
-
                   setOpen(false)
                 }}
               >
