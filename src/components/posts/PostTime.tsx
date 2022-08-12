@@ -1,9 +1,10 @@
+import { BigNumber } from 'ethers'
 import { StatusText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import TimeStore from 'stores/TimeStore'
 import formatDate from 'helpers/formatDate'
 
-export default function ({ timestamp }: { timestamp: number }) {
+export default function ({ timestamp }: { timestamp: BigNumber }) {
   const { current } = useSnapshot(TimeStore)
   const formatted = formatDate(timestamp, current)
 

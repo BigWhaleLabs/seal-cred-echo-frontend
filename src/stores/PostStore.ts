@@ -1,5 +1,5 @@
 import { PersistableStore } from '@big-whale-labs/stores'
-import { PostStruct } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
+import { PostStructOutput } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
 import { proxy } from 'valtio'
 import PostStatus from 'models/PostStatus'
 import env from 'helpers/env'
@@ -7,9 +7,6 @@ import getPostStatuses from 'helpers/getPostStatuses'
 import postStorageContracts from 'helpers/postStorageContracts'
 
 class PostStore extends PersistableStore {
-  postStorages = {} as {
-    [name: string]: Promise<PostStruct[]>
-  }
   idsToStatuses = {} as {
     [name: string]: {
       [postId: number]:
@@ -23,20 +20,37 @@ class PostStore extends PersistableStore {
         | undefined
     }
   }
+  requestedPostStorages = {} as {
+    [name: string]: Promise<PostStructOutput[]>
+  }
+  savedPostStorages = {} as {
+    [name: string]: PostStructOutput[]
+  }
+
+  get postStorages() {
+    return {
+      ...this.savedPostStorages,
+      ...this.requestedPostStorages,
+    }
+  }
+
+  fetchPostsByName(name: string) {
+    if (this.postStorages[name]) return
+
+    if (postStorageContracts[name])
+      this.requestedPostStorages[name] = Promise.resolve([])
+
+    this.requestedPostStorages[name] = postStorageContracts[name]
+      .getAllPosts()
+      .then((result) => (this.savedPostStorages[name] = result))
+      .catch(() => {
+        return []
+      })
+  }
 
   private disallowList = ['postStorages', 'checkingStatuses']
   replacer = (key: string, value: unknown) => {
     return this.disallowList.includes(key) ? undefined : value
-  }
-
-  constructor() {
-    super()
-    Object.keys(postStorageContracts).reduce((prev, key) => {
-      return {
-        ...prev,
-        [key]: postStorageContracts[key].getAllPosts(),
-      }
-    }, {})
   }
 
   checkingStatuses = false
@@ -50,14 +64,14 @@ class PostStore extends PersistableStore {
         const idsNotChecked = [] as number[]
         const posts = await postStoragePromise
         for (const post of posts) {
-          const postId = Number(await post.id)
+          const postId = Number(post.id)
           if (!this.idsToStatuses[postId]) {
             idsNotChecked.push(postId)
           }
         }
         const pendingIdsToRecheck = [] as number[]
         for (const [postId, retrievedStatusPromise] of Object.entries(
-          this.idsToStatuses[name]
+          this.idsToStatuses[name] || {}
         )) {
           const retrievedStatus = await retrievedStatusPromise
           if (!retrievedStatus) {
@@ -105,11 +119,14 @@ for (const [name, postStorageContract] of Object.entries(
         derivativeAddress,
         sender,
         timestamp,
-      })
+      } as PostStructOutput)
     }
   )
 }
 
-setInterval(() => postStore.checkStatuses(), 15 * 1000)
+setInterval(() => {
+  console.log('fetch')
+  void postStore.checkStatuses()
+}, 15 * 1000)
 
 export default postStore

@@ -1,6 +1,6 @@
 import { Suspense, useState } from 'preact/compat'
-import BlockchainPost from 'components/BlockchainPost'
-import ContractTitle from 'components/ContractTitle'
+import BlockchainPost from 'components/posts/BlockchainPost'
+import ContractTitle from 'components/posts/ContractTitle'
 import Cross from 'icons/Cross'
 import TwitterLoading from 'components/TwitterLoading'
 import classnames, {
@@ -41,6 +41,8 @@ function BlockchainPostsListSuspended() {
   useScrollToAnchor(0, true, flashingPost)
   const posts = usePosts()
 
+  console.log(posts)
+
   return (
     <>
       {selectedAddress && (
@@ -51,14 +53,13 @@ function BlockchainPostsListSuspended() {
       )}
       {posts
         .filter(
-          ({ post }) =>
-            !selectedAddress || selectedAddress === post.derivativeAddress
+          ({ derivativeAddress }) =>
+            !selectedAddress || selectedAddress === derivativeAddress
         )
-        .map(({ post, statusStore }) => (
+        .map((post) => (
           <BlockchainPost
             key={`${post.id}-${post.derivativeAddress}`}
             post={post}
-            statusStore={statusStore}
             onSelectAddress={setAddress}
           />
         ))}

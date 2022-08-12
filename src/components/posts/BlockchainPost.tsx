@@ -5,17 +5,16 @@ import {
   StatusText,
   UnderlineTextButton,
 } from 'components/Text'
+import { PostStructOutput } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
 import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
-import ContractTitle from 'components/ContractTitle'
+import ContractTitle from 'components/posts/ContractTitle'
 import Delimiter from 'components/Delimiter'
 import ENSAddress from 'components/ENSAddress'
-import PostChips from 'components/PostChips'
-import PostModel from 'models/PostModel'
-import PostStatusStore from 'stores/PostStatusStore'
-import PostTime from 'components/PostTime'
-import PostedStatus from 'components/PostedStatus'
+import PostTime from 'components/posts/PostTime'
+import Status from 'components/posts/Status'
+import TwitterLink from 'components/posts/TwitterLink'
 import classnames, {
   alignItems,
   display,
@@ -59,18 +58,16 @@ function Sender({ sender }: { sender: string }) {
 
 export default function ({
   post: { id, post, derivativeAddress, sender, timestamp },
-  statusStore,
   onSelectAddress,
 }: {
-  post: PostModel
-  statusStore: PostStatusStore
+  post: PostStructOutput
   onSelectAddress: (address: string) => void
 }) {
   return (
     <Card key={id}>
       <div className={container}>
         <div className={postHeader}>
-          <PostChips id={id} statusStore={statusStore} />
+          <Status id={id} />
           <PostTime timestamp={timestamp} />
         </div>
         <PostText>{post}</PostText>
@@ -101,9 +98,7 @@ export default function ({
             >
               Etherscan
             </LinkText>
-            <Suspense fallback={<></>}>
-              <PostedStatus id={id} statusStore={statusStore} />
-            </Suspense>
+            <TwitterLink id={id} />
           </span>
         </BodyText>
       </div>

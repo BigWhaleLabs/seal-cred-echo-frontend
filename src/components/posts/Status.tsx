@@ -1,7 +1,8 @@
+import { BigNumber } from 'ethers'
 import { StatusText } from 'components/Text'
+import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import PostStatus from 'models/PostStatus'
-import PostStatusStore from 'stores/PostStatusStore'
 import PostStatusText from 'models/PostStatusText'
 import classnames, {
   alignItems,
@@ -10,6 +11,8 @@ import classnames, {
   display,
   padding,
 } from 'classnames/tailwind'
+import postStore from 'stores/PostStore'
+import usePostStorageKey from 'hooks/usePostStorageKey'
 
 const statusContainer = (status: PostStatus) =>
   classnames(
@@ -25,16 +28,15 @@ const statusContainer = (status: PostStatus) =>
     })
   )
 
-export default function ({
-  id,
-  statusStore,
-}: {
-  id: number
-  statusStore: PostStatusStore
-}) {
-  const { postsStatuses } = useSnapshot(statusStore)
-  const post = postsStatuses[id]
-  const status = post?.status || PostStatus.pending
+function Status({ id }: { id: BigNumber }) {
+  const storageKey = usePostStorageKey()
+  const { idsToStatuses } = useSnapshot(postStore)
+
+  const status =
+    (storageKey &&
+      idsToStatuses[storageKey] &&
+      idsToStatuses[storageKey][id.toNumber()]?.status) ||
+    PostStatus.pending
 
   return (
     <a href={`#blockchainTweetId=${id}`} className={statusContainer(status)}>
@@ -42,5 +44,19 @@ export default function ({
         {PostStatusText[status]}
       </StatusText>
     </a>
+  )
+}
+
+export default function ({ id }: { id: BigNumber }) {
+  return (
+    <Suspense
+      fallback={
+        <StatusText color={status === PostStatus.rejected ? 'dark' : 'default'}>
+          {PostStatus.pending}
+        </StatusText>
+      }
+    >
+      <Status id={id} />
+    </Suspense>
   )
 }
