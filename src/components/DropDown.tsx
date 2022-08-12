@@ -1,35 +1,27 @@
 import { Suspense } from 'preact/compat'
 import { TextareaText } from 'components/Text'
 import { useSnapshot } from 'valtio'
-import ContractName from 'components/ContractName'
 import ContractSymbol from 'components/ContractSymbol'
-import ERC721Post from 'helpers/posts/ERC721Post'
-import EmailPost from 'helpers/posts/EmailPost'
-import ExternalERC721Post from 'helpers/posts/ExternalERC721Post'
 import PostFormStore from 'stores/PostFormStore'
 import SelectDropdown from 'components/SelectDropdown'
 import classnames, { display, padding } from 'classnames/tailwind'
 import useOptions from 'hooks/useOptions'
-
-type SelectValueType = EmailPost | ExternalERC721Post | ERC721Post
 
 const postingAs = classnames(
   display('tiny:inline', 'hidden'),
   padding('tiny:pr-1', 'pr-0')
 )
 
-const SelectedContractName = ({ value }: { value?: SelectValueType }) => {
+type SelectValue = { original: string; derivative: string }
+
+interface DropDownProps {
+  disabled?: boolean
+}
+
+const SelectedContractName = ({ value }: { value?: SelectValue }) => {
   if (!value) return <>{null}</>
 
-  return (
-    <>
-      {value instanceof EmailPost ? (
-        <>@{value.original}</>
-      ) : (
-        <ContractSymbol address={value.derivative} />
-      )}
-    </>
-  )
+  return <ContractSymbol address={value.derivative} />
 }
 
 function SelectedValue({
@@ -37,7 +29,7 @@ function SelectedValue({
   value,
 }: {
   disabled?: boolean
-  value?: SelectValueType
+  value?: SelectValue
 }) {
   return (
     <>
@@ -53,31 +45,21 @@ function SelectedValue({
   )
 }
 
-function OptionElement({
-  value,
-  label,
-}: {
-  value?: SelectValueType
-  label?: string
-}) {
+function OptionElement({ label }: { label?: string }) {
   if (!label) return <>Not found</>
   return (
     <Suspense fallback={<>Loading...</>}>
-      {value instanceof EmailPost ? (
-        <ContractName clearType address={label} />
-      ) : (
-        <ContractSymbol address={label} />
-      )}
+      <ContractSymbol address={label} />
     </Suspense>
   )
 }
 
-export function DropDown({ disabled }: { disabled?: boolean }) {
+export function DropDown({ disabled }: DropDownProps) {
   const { currentPost } = useSnapshot(PostFormStore)
   const options = useOptions()
 
   return (
-    <SelectDropdown<SelectValueType>
+    <SelectDropdown<SelectValue>
       border
       disabled={disabled}
       placeholder="Select badge"
@@ -91,7 +73,7 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
   )
 }
 
-export default function ({ disabled }: { disabled?: boolean }) {
+export default function ({ disabled }: DropDownProps) {
   return (
     <Suspense fallback={<SelectDropdown border loading current="" />}>
       <DropDown disabled={disabled} />

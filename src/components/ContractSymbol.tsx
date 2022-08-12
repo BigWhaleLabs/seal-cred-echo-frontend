@@ -23,6 +23,7 @@ const badgeNameWrapper = classnames(
 
 interface ContractSymbolProps {
   address: string
+  symbol?: string
   truncate?: boolean
   hyphens?: boolean
 }
@@ -57,14 +58,25 @@ function ContractSymbolSuspended({
   )
 }
 
-export default memo<ContractSymbolProps>(({ address, truncate, ...rest }) => (
-  <Suspense
-    fallback={
-      <span className={addressText}>
-        {truncate ? truncateMiddleIfNeeded(address, 17) : address}
-      </span>
-    }
-  >
-    <ContractSymbolSuspended address={address} truncate={truncate} {...rest} />
-  </Suspense>
-))
+export default memo<ContractSymbolProps>(
+  ({ address, truncate, symbol, hyphens, ...rest }) => {
+    if (symbol) return <span>{hyphens ? wrappedWord(symbol) : symbol}</span>
+
+    return (
+      <Suspense
+        fallback={
+          <span className={addressText}>
+            {truncate ? truncateMiddleIfNeeded(address, 17) : address}
+          </span>
+        }
+      >
+        <ContractSymbolSuspended
+          address={address}
+          truncate={truncate}
+          symbol={symbol}
+          {...rest}
+        />
+      </Suspense>
+    )
+  }
+)

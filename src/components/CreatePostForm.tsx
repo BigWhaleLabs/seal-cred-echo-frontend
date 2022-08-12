@@ -39,9 +39,9 @@ export default function () {
   } = useSnapshot(PostFormStore)
   const { savedContractSymbols } = useSnapshot(ContractMetadataStore)
 
-  const suffix = currentPost
-    ? ` @ ${savedContractSymbols[currentPost.derivative] ?? 'loading...'}`
-    : ''
+  const contractSymbol =
+    currentPost && savedContractSymbols[currentPost.derivative]
+  const suffix = ` @ ${contractSymbol ?? 'loading...'}`
 
   const onTextChange = (newText: string) => (PostFormStore.text = newText)
 
