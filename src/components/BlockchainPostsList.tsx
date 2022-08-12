@@ -11,7 +11,6 @@ import classnames, {
   space,
 } from 'classnames/tailwind'
 import flashingPost from 'helpers/flashingPost'
-import usePosts from 'hooks/usePosts'
 import useScrollToAnchor from 'helpers/useScrollToAnchor'
 
 const blockchainPostTagContainer = classnames(
@@ -39,7 +38,6 @@ function BlockchainPostTag({
 function BlockchainPostsListSuspended() {
   const [selectedAddress, setAddress] = useState('')
   useScrollToAnchor(0, true, flashingPost)
-  const posts = usePosts()
 
   return (
     <>
@@ -49,6 +47,7 @@ function BlockchainPostsListSuspended() {
           onClick={() => setAddress('')}
         />
       )}
+      // post has .derivativeAddress .id, posts.statusStore
       {posts
         .filter(
           ({ post }) =>

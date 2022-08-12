@@ -11,10 +11,10 @@ interface SealCredStoreType {
 }
 
 const SealCredStore = proxy<SealCredStoreType>({
-  ledgers: Object.keys(ledgerContracts).reduce((prev, key) => {
+  ledgers: Object.keys(ledgerContracts).reduce((prev, name) => {
     return {
       ...prev,
-      [key]: getLedger(ledgerContracts[key]),
+      [name]: getLedger(ledgerContracts[name]),
     }
   }, {}),
 })

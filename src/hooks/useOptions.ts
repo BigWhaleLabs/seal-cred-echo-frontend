@@ -8,7 +8,7 @@
 
 // function makeOptions<T>(
 //   ledgerRecord: LedgerModel,
-//   adddresses: string[],
+//   addresses: string[],
 //   createValue: ({
 //     original,
 //     derivative,
@@ -18,7 +18,7 @@
 //   }) => T
 // ) {
 //   return Object.values(ledgerRecord)
-//     .filter(({ derivative }) => adddresses.includes(derivative))
+//     .filter(({ derivative }) => addresses.includes(derivative))
 //     .map(({ original, derivative }) => ({
 //       label: derivative,
 //       value: createValue({ original, derivative }),

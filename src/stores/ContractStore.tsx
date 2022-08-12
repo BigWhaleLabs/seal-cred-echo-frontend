@@ -28,12 +28,12 @@ class ContractsStore extends PersistableStore {
   }
 
   reviver = (key: string, value: unknown) => {
-    if (key === 'connectedAccounts') {
+    if (key === 'connectedAccounts')
       return transformObjectValues(
         value as { [account: string]: ContractSynchronizerSchema },
         ContractSynchronizer.fromJSON
       )
-    }
+
     return value
   }
 

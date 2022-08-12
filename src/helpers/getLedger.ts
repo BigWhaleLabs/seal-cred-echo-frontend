@@ -7,7 +7,7 @@ import Ledger from 'models/Ledger'
 export default async function getLedger(ledgerContract: LedgerContract) {
   const eventsFilter = ledgerContract.filters.CreateDerivative()
   const events = await ledgerContract.queryFilter(eventsFilter)
-  const ledger = {} as Ledger
+  const ledger: Ledger = {}
   const originalToDerivative: { [address: string]: string } = {}
 
   for (const event of events) {

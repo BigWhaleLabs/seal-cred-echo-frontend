@@ -31,10 +31,10 @@ class PostStore extends PersistableStore {
 
   constructor() {
     super()
-    Object.keys(postStorageContracts).reduce((prev, key) => {
+    Object.keys(postStorageContracts).reduce((prev, name) => {
       return {
         ...prev,
-        [key]: postStorageContracts[key].getAllPosts(),
+        [name]: postStorageContracts[name].getAllPosts(),
       }
     }, {})
   }
@@ -47,25 +47,21 @@ class PostStore extends PersistableStore {
       for (const [name, postStoragePromise] of Object.entries(
         this.postStorages
       )) {
-        const idsNotChecked = [] as number[]
+        const idsNotChecked: number[] = []
         const posts = await postStoragePromise
         for (const post of posts) {
           const postId = Number(await post.id)
-          if (!this.idsToStatuses[postId]) {
-            idsNotChecked.push(postId)
-          }
+          if (!this.idsToStatuses[postId]) idsNotChecked.push(postId)
         }
         const pendingIdsToRecheck = [] as number[]
         for (const [postId, retrievedStatusPromise] of Object.entries(
           this.idsToStatuses[name]
         )) {
           const retrievedStatus = await retrievedStatusPromise
-          if (!retrievedStatus) {
-            continue
-          }
-          if (retrievedStatus.status === PostStatus.pending) {
+          if (!retrievedStatus) continue
+
+          if (retrievedStatus.status === PostStatus.pending)
             pendingIdsToRecheck.push(Number(postId))
-          }
         }
         const idsToCheck = [...idsNotChecked, ...pendingIdsToRecheck]
         const statusCheckPromise = getPostStatuses(idsToCheck, name)

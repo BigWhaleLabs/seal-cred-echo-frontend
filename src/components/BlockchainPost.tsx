@@ -12,8 +12,6 @@ import ContractTitle from 'components/ContractTitle'
 import Delimiter from 'components/Delimiter'
 import ENSAddress from 'components/ENSAddress'
 import PostChips from 'components/PostChips'
-import PostModel from 'models/PostModel'
-import PostStatusStore from 'stores/PostStatusStore'
 import PostTime from 'components/PostTime'
 import PostedStatus from 'components/PostedStatus'
 import classnames, {
@@ -62,7 +60,13 @@ export default function ({
   statusStore,
   onSelectAddress,
 }: {
-  post: PostModel
+  post: {
+    id: number
+    post: string
+    derivativeAddress: string
+    sender: string
+    timestamp: number
+  }
   statusStore: PostStatusStore
   onSelectAddress: (address: string) => void
 }) {
