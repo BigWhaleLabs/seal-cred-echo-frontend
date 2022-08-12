@@ -40,14 +40,14 @@ export default function () {
             <Main>
               <Routes>
                 <Route index element={<HowItWorks />} />
-                <Route path="/previous-tweets" element={<PreviousTweets />} />
+                {/* <Route path="/previous-tweets" element={<PreviousTweets />} />
                 <Route
                   path="/previous-tweets/blockchain"
                   element={<ViewOnBlockchain />}
                 />
                 <Route path="/deep-dive" element={<DeepDive />} />
                 <Route path="/terms" element={<Terms />} />
-                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/privacy" element={<Privacy />} /> */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Main>

@@ -1,6 +1,6 @@
 import { LargeText, LinkText, LoadingText } from 'components/Text'
 import { NavLink } from 'react-router-dom'
-import { PostStatusModel } from 'models/PostStatusModel'
+import { PostStructWithStatuses } from 'stores/PostStore'
 import { scrollToHashElement } from 'helpers/useScrollToAnchor'
 import Arrow from 'icons/Arrow'
 import Loading from 'components/Loading'
@@ -51,14 +51,14 @@ export default function ({
   title,
   post,
 }: {
-  post: PostStatusModel
+  post: PostStructWithStatuses
   title: string
 }) {
-  const loading = post.status === PostStatus.pending
+  const loading = post.state.status === PostStatus.pending
   const redirectTo =
-    post.status === PostStatus.published
-      ? `https://twitter.com/SealCredEmail/status/${post.statusId}`
-      : `/previous-tweets/blockchain#blockchainTweetId=${post.tweetId}`
+    post.state.status === PostStatus.published
+      ? `https://twitter.com/SealCredEmail/status/${post.state.statusId}`
+      : `/previous-tweets/blockchain#blockchainTweetId=${post.id}`
 
   return (
     <div className={container(loading)}>

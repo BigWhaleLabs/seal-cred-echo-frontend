@@ -1,12 +1,12 @@
 import ChildrenProp from 'models/ChildrenProp'
 import NavTabLink from 'components/NavTabLink'
 import TabBar from 'components/TabBar'
-// import WalletOrTweet from 'componentcs/WalletOrTweet'
+import WalletOrTweet from 'components/WalletOrTweet'
 
 export default function ({ children }: ChildrenProp) {
   return (
     <>
-      {/* <WalletOrTweet /> */}
+      <WalletOrTweet />
       <TabBar>
         <NavTabLink to="/" label="How this works" />
         <NavTabLink to="/previous-tweets" label="Previous Tweets" />

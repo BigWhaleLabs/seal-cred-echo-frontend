@@ -1,9 +1,5 @@
 import { BodyText, HeaderText } from 'components/Text'
-import {
-  ERC721ProcessingPostsStore,
-  EmailProcessingPostsStore,
-  ExternalERC721ProcessingPostsStore,
-} from 'stores/ProcessingPostsStore'
+
 import { checkErrorMessage } from 'helpers/handleError'
 import { useSnapshot } from 'valtio'
 import { useState } from 'preact/hooks'
@@ -14,7 +10,6 @@ import ERC721Post from 'helpers/posts/ERC721Post'
 import EmailPost from 'helpers/posts/EmailPost'
 import ExternalERC721Post from 'helpers/posts/ExternalERC721Post'
 import HasNoBadges from 'components/HasNoBadges'
-import PostFormStore from 'stores/PostFormStore'
 import TextArea from 'components/TextArea'
 import classnames, {
   alignItems,

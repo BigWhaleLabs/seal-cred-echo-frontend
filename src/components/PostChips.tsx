@@ -1,7 +1,6 @@
 import { StatusText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import PostStatus from 'models/PostStatus'
-import PostStatusStore from 'stores/PostStatusStore'
 import PostStatusText from 'models/PostStatusText'
 import classnames, {
   alignItems,

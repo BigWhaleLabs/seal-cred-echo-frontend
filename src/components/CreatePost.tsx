@@ -1,82 +1,28 @@
-import {
-  ERC721ProcessingPostsStore,
-  EmailProcessingPostsStore,
-  ExternalERC721ProcessingPostsStore,
-  PostProcessingStore,
-} from 'stores/ProcessingPostsStore'
 import { margin, space } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import CreatePostForm from 'components/CreatePostForm'
 import PostProcessing from 'components/PostProcessing'
 import PostStatus from 'models/PostStatus'
-import PostStatusStore, {
-  ERC721PostStatusStore,
-  EmailPostStatusStore,
-  ExternalERC721PostStatusStore,
-} from 'stores/PostStatusStore'
-import WalletStore from 'stores/WalletStore'
+import data from 'data'
+import postStore, { PostStructWithStatuses } from 'stores/PostStore'
 
-function usePosts(
-  postStatusStore: PostStatusStore,
-  processingStore: PostProcessingStore
-) {
-  const { account } = useSnapshot(WalletStore)
-  const { postsStatuses } = useSnapshot(postStatusStore)
-  const { processingIds } = useSnapshot(processingStore)
+function getPendingPosts(storageName: string) {
+  const postList = useSnapshot(postStore.postStorages)[storageName]
+  if (!postList) return []
 
-  const accountProcessingPostIds = account && processingIds[account]
-  const currentPostsStatuses = { ...postsStatuses }
-  const currentPosts = accountProcessingPostIds
-    ? accountProcessingPostIds.map(
-        (tweetId) =>
-          currentPostsStatuses[tweetId] || {
-            tweetId,
-            status: PostStatus.pending,
-          }
-      )
-    : []
-
-  const pendingPosts = currentPosts.filter(
-    (post) => post.status === PostStatus.pending
-  )
-
-  const lastPublishedPost = currentPosts.find(
-    (post) => post.status === PostStatus.published
-  )
-
-  return {
-    pendingPosts,
-    lastPublishedPost,
-  }
+  return postList.filter((post) => {
+    post.state.status === PostStatus.pending
+  })
 }
 
 export default function () {
-  const {
-    pendingPosts: emailPendingPosts,
-    lastPublishedPost: emailLastPublishedPost,
-  } = usePosts(EmailPostStatusStore, EmailProcessingPostsStore)
-  const {
-    pendingPosts: eRC721PendingPosts,
-    lastPublishedPost: eRC721LastPublishedPost,
-  } = usePosts(ERC721PostStatusStore, ERC721ProcessingPostsStore)
-  const {
-    pendingPosts: externalERC721PendingPosts,
-    lastPublishedPost: externalERC721LastPublishedPost,
-  } = usePosts(
-    ExternalERC721PostStatusStore,
-    ExternalERC721ProcessingPostsStore
-  )
+  const pendingPosts: PostStructWithStatuses[] = []
+  Object.keys(data).forEach((storageName) => {
+    pendingPosts.push(...getPendingPosts(storageName))
+  })
+  let lastPublishedPost: PostStructWithStatuses | undefined
 
-  const pendingPosts = [
-    ...emailPendingPosts,
-    ...eRC721PendingPosts,
-    ...externalERC721PendingPosts,
-  ]
-
-  const lastPublishedPost =
-    emailLastPublishedPost ||
-    eRC721LastPublishedPost ||
-    externalERC721LastPublishedPost
+  // TODO: put current user pending posts at the top
 
   return (
     <div className={margin('mt-6', 'mb-16')}>
@@ -95,7 +41,7 @@ export default function () {
             <PostProcessing post={lastPublishedPost} title="Tweet successful" />
           )
         )}
-        <CreatePostForm />
+        {/* <CreatePostForm /> */}
       </div>
     </div>
   )

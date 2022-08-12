@@ -6,22 +6,16 @@ import env from 'helpers/env'
 import getPostStatuses from 'helpers/getPostStatuses'
 import postStorageContracts from 'helpers/postStorageContracts'
 
+export interface PostStructWithStatuses extends PostStruct {
+  state: {
+    status: PostStatus
+    statusId?: number
+  }
+}
+
 class PostStore extends PersistableStore {
   postStorages = {} as {
-    [name: string]: Promise<PostStruct[]>
-  }
-  idsToStatuses = {} as {
-    [name: string]: {
-      [postId: number]:
-        | Promise<
-            | {
-                status: PostStatus
-                statusId?: number
-              }
-            | undefined
-          >
-        | undefined
-    }
+    [name: string]: Promise<PostStructWithStatuses[]>
   }
 
   private disallowList = ['postStorages', 'checkingStatuses']
@@ -48,36 +42,28 @@ class PostStore extends PersistableStore {
         this.postStorages
       )) {
         const idsNotChecked: number[] = []
-        const posts = await postStoragePromise
-        for (const post of posts) {
-          const postId = Number(await post.id)
-          if (!this.idsToStatuses[postId]) idsNotChecked.push(postId)
-        }
         const pendingIdsToRecheck = [] as number[]
-        for (const [postId, retrievedStatusPromise] of Object.entries(
-          this.idsToStatuses[name]
-        )) {
-          const retrievedStatus = await retrievedStatusPromise
-          if (!retrievedStatus) continue
+        const posts = await postStoragePromise
+        for (const { id, state } of posts) {
+          const postId = Number(await id)
 
-          if (retrievedStatus.status === PostStatus.pending)
-            pendingIdsToRecheck.push(Number(postId))
+          if (state.status === PostStatus.pending)
+            pendingIdsToRecheck.push(postId)
         }
         const idsToCheck = [...idsNotChecked, ...pendingIdsToRecheck]
         const statusCheckPromise = getPostStatuses(idsToCheck, name)
         for (const postId of idsToCheck) {
-          this.idsToStatuses[name][postId] = statusCheckPromise.then(
-            (statuses) => {
-              const status = statuses[postId]
-              if (!status) return undefined
-              return {
-                status: status.status,
-                statusId: status.statusId,
-              }
+          void statusCheckPromise.then((statuses) => {
+            const status = statuses[postId]
+            if (!status) return
+            posts[postId].state = {
+              status: status.status,
+              statusId: status.statusId,
             }
-          )
+          })
         }
       }
+      console.log(this)
     } catch (error) {
       console.error(error)
     } finally {
@@ -101,6 +87,7 @@ for (const [name, postStorageContract] of Object.entries(
         derivativeAddress,
         sender,
         timestamp,
+        state: { status: PostStatus.pending },
       })
     }
   )
