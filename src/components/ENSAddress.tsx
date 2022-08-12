@@ -1,8 +1,8 @@
 import { Suspense, memo } from 'react'
+import { display } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import ENSStore from 'stores/ENSStore'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
-import useBreakpoints from 'hooks/useBreakpoints'
 
 interface ENSAddressProps {
   address: string
@@ -29,20 +29,34 @@ function ENSAddressSuspended({
   )
 }
 
-export default memo<ENSAddressProps>(({ address, truncateSize }) => {
-  const { md, lg } = useBreakpoints()
-  const currentTruncateSize = truncateSize ?? md ? (lg ? 25 : 17) : 11
-  const truncatedAddress = !lg
-    ? truncateMiddleIfNeeded(address, currentTruncateSize)
-    : truncateMiddleIfNeeded(address, currentTruncateSize)
-
+function ENSAddress({ address, truncateSize }: ENSAddressProps) {
   return (
-    <Suspense fallback={<span>{truncatedAddress}</span>}>
+    <Suspense
+      fallback={
+        <span>{truncateMiddleIfNeeded(address, truncateSize || 11)}</span>
+      }
+    >
       <ENSAddressSuspended
         address={address}
-        truncateSize={currentTruncateSize}
-        truncate={!lg}
+        truncateSize={truncateSize || 11}
+        truncate
       />
     </Suspense>
+  )
+}
+
+export default memo<ENSAddressProps>(({ address, truncateSize }) => {
+  return (
+    <span>
+      <span className={display('block', 'md:hidden')}>
+        <ENSAddress address={address} truncateSize={truncateSize || 11} />
+      </span>
+      <span className={display('hidden', 'md:block', 'lg:hidden')}>
+        <ENSAddress address={address} truncateSize={truncateSize || 17} />
+      </span>
+      <span className={display('hidden', 'lg:block')}>
+        <ENSAddress address={address} truncateSize={truncateSize || 25} />
+      </span>
+    </span>
   )
 })

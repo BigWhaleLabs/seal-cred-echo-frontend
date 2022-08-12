@@ -5,6 +5,7 @@ type AllowedExtraClassnames =
   | 'loading-pause'
   | 'blurEffect'
   | 'blockchainPosts'
+  | 'xs:text-3xl'
 
 export default function (
   ...classNames: (AllowedExtraClassnames | TTailwindString | undefined | null)[]

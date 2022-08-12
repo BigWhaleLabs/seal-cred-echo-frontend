@@ -25,7 +25,6 @@ import classnames, {
   margin,
   space,
 } from 'classnames/tailwind'
-import useBreakpoints from 'hooks/useBreakpoints'
 
 const bottomContainer = classnames(
   display('flex'),
@@ -53,8 +52,6 @@ export default function () {
       ? ` @ ${savedContractSymbols[currentPost.derivative] ?? 'loading...'}`
       : ''
     : ''
-
-  const { md } = useBreakpoints()
 
   const maxLength = 280 - suffix.length
 
@@ -123,7 +120,6 @@ export default function () {
                   onTextChange('')
                 }
               }}
-              fullWidth={!md}
               center
             >
               Tweet

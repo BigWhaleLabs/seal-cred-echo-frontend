@@ -1,5 +1,5 @@
 import { useSnapshot } from 'valtio'
-import ContractsStore from 'stores/ContractStore'
+import ContractsStore from 'stores/ContractsStore'
 
 export default function () {
   const { addressToTokenIds } = useSnapshot(ContractsStore)

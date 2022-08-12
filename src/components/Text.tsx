@@ -29,7 +29,7 @@ import {
 } from 'classnames/tailwind'
 import ChildrenProp from 'models/ChildrenProp'
 import ExclamationInCircle from 'icons/ExclamationInCircle'
-import useBreakpoints from 'hooks/useBreakpoints'
+import classNamesToString from 'helpers/classNamesToString'
 
 const tabBarText = classnames(
   fontFamily('font-primary'),
@@ -334,11 +334,11 @@ export function BodyText({
   )
 }
 
-const headerText = (accent = false, extraLeading = false, xs = false) =>
+const headerText = (accent = false, extraLeading = false) =>
   classnames(
     fontFamily('font-primary'),
     fontWeight('font-bold'),
-    fontSize(xs ? 'text-2xl' : 'text-3xl', 'sm:text-4xl'),
+    fontSize('text-2xl', 'sm:text-4xl'),
     textColor(accent ? 'text-accent' : 'text-formal-accent'),
     extraLeading
       ? lineHeight('leading-9', 'sm:leading-10', 'md:leading-11')
@@ -352,8 +352,16 @@ export function HeaderText({
   accent?: boolean
   extraLeading?: boolean
 }) {
-  const { xs } = useBreakpoints()
-  return <h1 className={headerText(accent, extraLeading, xs)}>{children}</h1>
+  return (
+    <h1
+      className={classNamesToString(
+        headerText(accent, extraLeading),
+        'xs:text-3xl'
+      )}
+    >
+      {children}
+    </h1>
+  )
 }
 
 const largeText = classnames(

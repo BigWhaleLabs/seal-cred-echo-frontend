@@ -6,6 +6,9 @@ module.exports = {
       primary: ['"Space Grotesk"', 'sans-serif'],
     },
     extend: {
+      screens: {
+        xs: '17.4rem',
+      },
       keyframes: {
         'pulse-horizontal': {
           '0%, 100%': { transform: 'translateX(0.5rem)' },
