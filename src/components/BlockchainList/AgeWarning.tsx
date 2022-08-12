@@ -1,6 +1,5 @@
 import { LargeText } from 'components/Text'
 import { useNavigate } from 'react-router-dom'
-import AppStore from 'stores/AppStore'
 import Button from 'components/Button'
 import Card from 'components/Card'
 import SealLogo from 'icons/SealLogo'
@@ -46,7 +45,7 @@ const warningCardBottom = classnames(
   space('space-y-4', 'sm:space-x-4', 'sm:space-y-0')
 )
 
-export default function () {
+export default function ({ onAccept }: { onAccept: () => void }) {
   const navigate = useNavigate()
 
   return (
@@ -64,14 +63,16 @@ export default function () {
               small
               gradientFont
               type="secondary"
-              onClick={() => navigate('/previous-tweets')}
+              onClick={() => navigate('/tweets')}
             >
               I'm under 18
             </Button>
             <Button
               small
               type="primary"
-              onClick={() => (AppStore.adultAccepted = true)}
+              onClick={() => {
+                onAccept()
+              }}
             >
               Yes, I'm at least 18
             </Button>

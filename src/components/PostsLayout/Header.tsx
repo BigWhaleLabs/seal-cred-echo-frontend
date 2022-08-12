@@ -1,9 +1,9 @@
 import { BodyText } from 'components/Text'
 import { NavLink } from 'react-router-dom'
 import { useSnapshot } from 'valtio'
-import AppStore from 'stores/AppStore'
 import BackToTweetsButton from 'components/PostsLayout/BackToTweetsButton'
 import Dropdown from 'components/Dropdown'
+import TwitterAccountStore from 'stores/TwitterAccountStore'
 import classnames, {
   alignItems,
   display,
@@ -33,7 +33,7 @@ const link = classnames(
   lineHeight('leading-5')
 )
 export default function ({ blockchainPosts }: { blockchainPosts?: boolean }) {
-  const { currentTwitterAccount } = useSnapshot(AppStore)
+  const { currentTwitterAccount } = useSnapshot(TwitterAccountStore)
   return (
     <div className={container}>
       {blockchainPosts ? (
@@ -49,7 +49,7 @@ export default function ({ blockchainPosts }: { blockchainPosts?: boolean }) {
                 value: twitter,
               }))}
               onChange={(value) => {
-                AppStore.currentTwitterAccount = value
+                TwitterAccountStore.currentTwitterAccount = value
               }}
             />
           </div>

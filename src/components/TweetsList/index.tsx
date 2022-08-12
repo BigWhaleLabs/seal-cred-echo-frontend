@@ -1,10 +1,10 @@
 import { Timeline } from 'react-twitter-widgets'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
-import AppStore from 'stores/AppStore'
+import ListLoading from 'components/ListLoading'
 import PostsLayout from 'components/PostsLayout'
-import TwitterError from 'components/TwitterError'
-import TwitterLoading from 'components/TwitterLoading'
+import TwitterAccountStore from 'stores/TwitterAccountStore'
+import TwitterError from 'components/TweetsList/TwitterError'
 import classnames, {
   backgroundColor,
   borderWidth,
@@ -44,7 +44,7 @@ export default function () {
   const [status, setStatus] = useState<'content' | 'error' | 'loading'>(
     'loading'
   )
-  const { currentTwitterAccount } = useSnapshot(AppStore)
+  const { currentTwitterAccount } = useSnapshot(TwitterAccountStore)
 
   const ref = useRef<HTMLDivElement>(null)
 
@@ -65,9 +65,7 @@ export default function () {
         {status === 'error' ? (
           <TwitterError text="Couldn’t load Tweets. Try disabling content blockers or refresh the page to try again." />
         ) : (
-          status === 'loading' && (
-            <TwitterLoading text="Fetching twitter widget" />
-          )
+          status === 'loading' && <ListLoading text="Fetching twitter widget" />
         )}
         <div
           id="twitter_timeline"
