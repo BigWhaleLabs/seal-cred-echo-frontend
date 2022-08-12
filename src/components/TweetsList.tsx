@@ -2,7 +2,7 @@ import { Timeline } from 'react-twitter-widgets'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import AppStore from 'stores/AppStore'
-import PreviousTweetsLayout from 'components/PrevTweetsLayout'
+import PostsLayout from 'components/PostsLayout'
 import TwitterError from 'components/TwitterError'
 import TwitterLoading from 'components/TwitterLoading'
 import classnames, {
@@ -60,7 +60,7 @@ export default function () {
   }, [currentTwitterAccount])
 
   return (
-    <PreviousTweetsLayout>
+    <PostsLayout>
       <div className={tweetCard}>
         {status === 'error' ? (
           <TwitterError text="Couldn’t load Tweets. Try disabling content blockers or refresh the page to try again." />
@@ -103,6 +103,6 @@ export default function () {
           />
         </div>
       </div>
-    </PreviousTweetsLayout>
+    </PostsLayout>
   )
 }

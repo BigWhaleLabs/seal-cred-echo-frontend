@@ -33,7 +33,7 @@ import classNamesToString from 'helpers/classNamesToString'
 
 const tabBarText = classnames(
   fontFamily('font-primary'),
-  fontSize('tiny:text-lg', 'text-base'),
+  fontSize('xs:text-lg', 'text-base'),
   lineHeight('!leading-11'),
   fontWeight('font-bold'),
   transitionProperty('transition-colors'),
@@ -338,7 +338,7 @@ const headerText = (accent = false, extraLeading = false) =>
   classnames(
     fontFamily('font-primary'),
     fontWeight('font-bold'),
-    fontSize('text-2xl', 'sm:text-4xl'),
+    fontSize('text-2xl', 'xs:text-3xl', 'sm:text-4xl'),
     textColor(accent ? 'text-accent' : 'text-formal-accent'),
     extraLeading
       ? lineHeight('leading-9', 'sm:leading-10', 'md:leading-11')
@@ -352,22 +352,13 @@ export function HeaderText({
   accent?: boolean
   extraLeading?: boolean
 }) {
-  return (
-    <h1
-      className={classNamesToString(
-        headerText(accent, extraLeading),
-        'xs:text-3xl'
-      )}
-    >
-      {children}
-    </h1>
-  )
+  return <h1 className={headerText(accent, extraLeading)}>{children}</h1>
 }
 
 const largeText = classnames(
   fontFamily('font-primary'),
   fontWeight('font-bold'),
-  fontSize('text-xl', 'tiny:text-2xl'),
+  fontSize('text-xl', 'xs:text-2xl'),
   textAlign('text-center')
 )
 export function LargeText({ children }: ChildrenProp) {
@@ -375,7 +366,7 @@ export function LargeText({ children }: ChildrenProp) {
 }
 
 const loadingText = classnames(
-  fontSize('text-xs', 'tiny:text-sm'),
+  fontSize('text-xs', 'xs:text-sm'),
   lineHeight('!leading-5'),
   textAlign('text-center')
 )

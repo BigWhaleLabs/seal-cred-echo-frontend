@@ -14,7 +14,7 @@ const wrapper = classnames(
   alignItems('items-center'),
   justifyContent('justify-start'),
   overflow('overflow-x-auto'),
-  space('tiny:space-x-8', 'space-x-6')
+  space('xs:space-x-8', 'space-x-6')
 )
 
 export default function ({ children }: ChildrenProp) {

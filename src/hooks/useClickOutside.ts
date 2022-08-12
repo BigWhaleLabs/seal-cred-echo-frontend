@@ -1,15 +1,17 @@
-import { MutableRef } from 'preact/hooks'
-import { useEffect } from 'react'
+import { RefObject, useEffect } from 'react'
 
-export default function (
-  ref: MutableRef<HTMLDivElement>,
-  callback: () => void
-) {
+export default function (ref: RefObject<HTMLDivElement>, callback: () => void) {
   useEffect(() => {
-    function handleClickOutside(event: Event) {
-      if (ref.current && !ref.current.contains(event.target as Node)) callback()
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        event.target &&
+        event.target instanceof Node &&
+        ref.current?.contains(event.target)
+      ) {
+        return
+      }
+      callback()
     }
-
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [ref, callback])

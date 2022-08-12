@@ -1,5 +1,5 @@
-import Logo from 'components/navbar/Logo'
-import SocialLinksAndWallet from 'components/navbar/SocialLinksAndWallet'
+import Logo from 'components/Navbar/Logo'
+import SocialLinksAndWallet from 'components/Navbar/SocialLinksAndWallet'
 import classnames, {
   alignItems,
   backgroundColor,

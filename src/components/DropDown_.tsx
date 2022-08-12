@@ -7,15 +7,15 @@ import ERC721Post from 'helpers/posts/ERC721Post'
 import EmailPost from 'helpers/posts/EmailPost'
 import ExternalERC721Post from 'helpers/posts/ExternalERC721Post'
 import PostFormStore from 'stores/PostFormStore'
-import SelectDropdown from 'components/SelectDropdown'
+import SelectDropdown from 'components/Dropdown'
 import classnames, { display, padding } from 'classnames/tailwind'
 import useOptions from 'hooks/useOptions'
 
 type SelectValueType = EmailPost | ExternalERC721Post | ERC721Post
 
 const postingAs = classnames(
-  display('tiny:inline', 'hidden'),
-  padding('tiny:pr-1', 'pr-0')
+  display('xs:inline', 'hidden'),
+  padding('xs:pr-1', 'pr-0')
 )
 
 const SelectedContractName = ({ value }: { value?: SelectValueType }) => {

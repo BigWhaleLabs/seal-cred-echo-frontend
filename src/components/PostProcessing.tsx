@@ -58,7 +58,7 @@ export default function ({
   const redirectTo =
     post.status === PostStatus.published
       ? `https://twitter.com/SealCredEmail/status/${post.statusId}`
-      : `/previous-tweets/blockchain#blockchainTweetId=${post.tweetId}`
+      : `/tweets/blockchain#blockchainTweetId=${post.tweetId}`
 
   return (
     <div className={container(loading)}>

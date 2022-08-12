@@ -5,14 +5,14 @@ import AgeWarning from 'components/AgeWarning'
 import AppStore from 'stores/AppStore'
 import BlockchainPostsList from 'components/BlockchainPostsList'
 import HintCard from 'components/HintCard'
-import PreviousTweetsLayout from 'components/PrevTweetsLayout'
+import PreviousTweetsLayout from 'components/PostsLayout'
 import classNamesToString from 'helpers/classNamesToString'
 
 export default function () {
   const { adultAccepted } = useSnapshot(AppStore)
 
   return (
-    <PreviousTweetsLayout back>
+    <PreviousTweetsLayout blockchainPosts>
       {!adultAccepted && <AgeWarning />}
       <div
         className={classNamesToString('blockchainPosts', space('space-y-4'))}
