@@ -104,9 +104,9 @@ export default function ({
                 SelectedValue={
                   <SelectedOption currentAccount={currentTwitterAccount} />
                 }
-                onChange={({ value }) =>
-                  (AppStore.currentTwitterAccount = value)
-                }
+                onChange={({ value }) => {
+                  AppStore.currentTwitterAccount = value
+                }}
               />
             </div>
             <NavLink to="blockchain" className={navLinkPrimary}>

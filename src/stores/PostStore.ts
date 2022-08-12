@@ -1,12 +1,10 @@
-import { PersistableStore } from '@big-whale-labs/stores'
 import { PostStructOutput } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
 import { proxy } from 'valtio'
 import PostStatus from 'models/PostStatus'
-import env from 'helpers/env'
 import getPostStatuses from 'helpers/getPostStatuses'
 import postStorageContracts from 'helpers/postStorageContracts'
 
-class PostStore extends PersistableStore {
+class PostStore {
   idsToStatuses = {} as {
     [name: string]: {
       [postId: number]:
@@ -42,13 +40,29 @@ class PostStore extends PersistableStore {
 
     this.requestedPostStorages[name] = postStorageContracts[name]
       .getAllPosts()
-      .then((result) => (this.savedPostStorages[name] = result))
-      .catch(() => {
-        return []
+      .then((result) => {
+        const transformed = result.map(
+          ([id, post, derivativeAddress, sender, timestamp]) =>
+            ({
+              id,
+              post,
+              derivativeAddress,
+              sender,
+              timestamp,
+            } as PostStructOutput)
+        )
+        this.savedPostStorages[name] = transformed
+        return transformed
       })
+      .catch(() => [])
   }
 
-  private disallowList = ['postStorages', 'checkingStatuses']
+  private disallowList = [
+    'requestedPostStorages',
+    'savedPostStorages',
+    'postStorages',
+    'checkingStatuses',
+  ]
   replacer = (key: string, value: unknown) => {
     return this.disallowList.includes(key) ? undefined : value
   }
@@ -104,7 +118,7 @@ class PostStore extends PersistableStore {
   }
 }
 
-const postStore = proxy(new PostStore()).makePersistent(env.VITE_ENCRYPT_KEY)
+const postStore = proxy(new PostStore()) // .makePersistent(env.VITE_ENCRYPT_KEY)
 
 for (const [name, postStorageContract] of Object.entries(
   postStorageContracts
@@ -124,9 +138,6 @@ for (const [name, postStorageContract] of Object.entries(
   )
 }
 
-setInterval(() => {
-  console.log('fetch')
-  void postStore.checkStatuses()
-}, 15 * 1000)
+// setInterval(() => postStore.checkStatuses(), 15 * 1000)
 
 export default postStore

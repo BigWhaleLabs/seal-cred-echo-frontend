@@ -41,8 +41,6 @@ function BlockchainPostsListSuspended() {
   useScrollToAnchor(0, true, flashingPost)
   const posts = usePosts()
 
-  console.log(posts)
-
   return (
     <>
       {selectedAddress && (

@@ -1,19 +1,19 @@
 import { BodyText } from 'components/Text'
 import { space } from 'classnames/tailwind'
-import { useSnapshot } from 'valtio'
-import AgeWarning from 'components/AgeWarning'
-import AppStore from 'stores/AppStore'
+// import { useSnapshot } from 'valtio'
+// import AgeWarning from 'components/AgeWarning'
+// import AppStore from 'stores/AppStore'
 import BlockchainPostsList from 'components/posts/BlockchainPostsList'
 import HintCard from 'components/HintCard'
 import PreviousTweetsLayout from 'components/PrevTweetsLayout'
 import classNamesToString from 'helpers/classNamesToString'
 
 export default function () {
-  const { adultAccepted } = useSnapshot(AppStore)
+  // const { adultAccepted } = useSnapshot(AppStore)
 
   return (
     <PreviousTweetsLayout back>
-      {!adultAccepted && <AgeWarning />}
+      {/* {!adultAccepted && <AgeWarning />} */}
       <div
         className={classNamesToString('blockchainPosts', space('space-y-4'))}
       >

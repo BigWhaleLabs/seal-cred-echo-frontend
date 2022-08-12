@@ -71,7 +71,9 @@ export default function () {
             <Button
               small
               type="primary"
-              onClick={() => (AppStore.adultAccepted = true)}
+              onClick={() => {
+                AppStore.adultAccepted = true
+              }}
             >
               Yes, I'm at least 18
             </Button>
