@@ -84,7 +84,7 @@ export function DropDown({ disabled }: { disabled?: boolean }) {
       emptyText="No ZK badge in this wallet"
       current={currentPost}
       options={options}
-      SelectedValue={<SelectedValue disabled={disabled} value={currentPost} />}
+      selectedValue={<SelectedValue disabled={disabled} value={currentPost} />}
       OptionElement={OptionElement}
       onChange={({ value }) => (PostFormStore.currentPost = value)}
     />

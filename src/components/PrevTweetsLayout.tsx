@@ -101,12 +101,12 @@ export default function ({
                   label: `@${twitter}`,
                   value: twitter,
                 }))}
-                SelectedValue={
+                selectedValue={
                   <SelectedOption currentAccount={currentTwitterAccount} />
                 }
-                onChange={({ value }) =>
-                  (AppStore.currentTwitterAccount = value)
-                }
+                onChange={({ value }) => {
+                  AppStore.currentTwitterAccount = value
+                }}
               />
             </div>
             <NavLink to="blockchain" className={navLinkPrimary}>

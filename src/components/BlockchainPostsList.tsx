@@ -11,7 +11,7 @@ import classnames, {
   space,
 } from 'classnames/tailwind'
 import flashingPost from 'helpers/flashingPost'
-import usePosts from 'hooks/usePosts'
+// import usePosts from 'hooks/usePosts'
 import useScrollToAnchor from 'helpers/useScrollToAnchor'
 
 const blockchainPostTagContainer = classnames(
@@ -39,37 +39,37 @@ function BlockchainPostTag({
 function BlockchainPostsListSuspended() {
   const [selectedAddress, setAddress] = useState('')
   useScrollToAnchor(0, true, flashingPost)
-  const posts = usePosts()
+  // const posts = usePosts()
 
-  return (
-    <>
-      {selectedAddress && (
-        <BlockchainPostTag
-          address={selectedAddress}
-          onClick={() => setAddress('')}
-        />
-      )}
-      {posts
-        .filter(
-          ({ post }) =>
-            !selectedAddress || selectedAddress === post.derivativeAddress
-        )
-        .map(({ post, statusStore }) => (
-          <BlockchainPost
-            key={`${post.id}-${post.derivativeAddress}`}
-            post={post}
-            statusStore={statusStore}
-            onSelectAddress={setAddress}
-          />
-        ))}
-    </>
-  )
+  // return (
+  //   <>
+  //     {selectedAddress && (
+  //       <BlockchainPostTag
+  //         address={selectedAddress}
+  //         onClick={() => setAddress('')}
+  //       />
+  //     )}
+  //     {posts
+  //       .filter(
+  //         ({ post }) =>
+  //           !selectedAddress || selectedAddress === post.derivativeAddress
+  //       )
+  //       .map(({ post, statusStore }) => (
+  //         <BlockchainPost
+  //           key={`${post.id}-${post.derivativeAddress}`}
+  //           post={post}
+  //           statusStore={statusStore}
+  //           onSelectAddress={setAddress}
+  //         />
+  //       ))}
+  //   </>
+  // )
 }
 
 export default function () {
   return (
     <Suspense fallback={<TwitterLoading text="Fetching blockchain posts..." />}>
-      <BlockchainPostsListSuspended />
+      {/* <BlockchainPostsListSuspended /> */}
     </Suspense>
   )
 }

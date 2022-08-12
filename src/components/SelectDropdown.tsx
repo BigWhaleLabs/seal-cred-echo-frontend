@@ -154,7 +154,7 @@ export default function <SelectData>({
   disabled,
   emptyText = 'Nothing to select',
   placeholder = 'Select option',
-  SelectedValue,
+  selectedValue,
   OptionElement,
   onChange,
 }: {
@@ -165,7 +165,7 @@ export default function <SelectData>({
   emptyText?: string
   placeholder?: string
   options?: SelectOption<SelectData>[]
-  SelectedValue?: JSX.Element
+  selectedValue?: JSX.Element
   OptionElement?: (optionValue: SelectOption<SelectData>) => JSX.Element
   onChange?: (selected: SelectOption<SelectData>) => void
 }) {
@@ -194,7 +194,7 @@ export default function <SelectData>({
           <SelectedValueComponent<SelectData>
             currentValue={current}
             placeholder={placeholder}
-            userComponent={SelectedValue}
+            userComponent={selectedValue}
             isDisabled={unavailable}
           />
         ) : (
