@@ -1,5 +1,9 @@
 import { useEffect } from 'preact/hooks'
-import FlashingCallback from 'models/FlashingCallback'
+
+type FlashingCallback = (
+  elementToScroll?: HTMLAnchorElement,
+  elementPosition?: number
+) => void
 
 export const getHashElement = () =>
   window.location.hash

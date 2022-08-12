@@ -1,103 +1,115 @@
-import { BigNumber, providers } from 'ethers'
-import { ExternalProvider, Web3Provider } from '@ethersproject/providers'
-import {
-  SCPostStorage,
-  SCPostStorage__factory,
-} from '@big-whale-labs/seal-cred-posts-contract'
+import { PersistableStore } from '@big-whale-labs/stores'
+import { PostStruct } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
 import { proxy } from 'valtio'
-import PostModel from 'models/PostModel'
-import WalletStore from 'stores/WalletStore'
-import defaultProvider from 'helpers/providers/defaultProvider'
+import PostStatus from 'models/PostStatus'
 import env from 'helpers/env'
-import getPostRecord from 'helpers/contracts/getPostRecord'
-import handleError from 'helpers/handleError'
-import parsePostLogData from 'helpers/parsePostLogData'
-import relayProvider from 'helpers/providers/relayProvider'
+import getPostStatuses from 'helpers/getPostStatuses'
+import postStorageContracts from 'helpers/postStorageContracts'
 
-export class PostStore {
-  address: string
-  contract: SCPostStorage
-  posts: Promise<PostModel[]>
-
-  constructor(address: string) {
-    this.address = address
-    this.contract = this.createContractWithProvider(defaultProvider)
-    this.posts = this.fetchBlockchainPosts()
+class PostStore extends PersistableStore {
+  postStorages = {} as {
+    [name: string]: Promise<PostStruct[]>
+  }
+  idsToStatuses = {} as {
+    [name: string]: {
+      [postId: number]:
+        | Promise<
+            | {
+                status: PostStatus
+                statusId?: number
+              }
+            | undefined
+          >
+        | undefined
+    }
   }
 
-  createContractWithProvider(
-    provider: providers.JsonRpcSigner | providers.Provider
-  ) {
-    return SCPostStorage__factory.connect(this.address, provider)
+  private disallowList = ['postStorages', 'checkingStatuses']
+  replacer = (key: string, value: unknown) => {
+    return this.disallowList.includes(key) ? undefined : value
   }
 
-  async fetchBlockchainPosts() {
-    return Promise.resolve(
-      (await this.contract.getAllPosts()).map(
-        ({ id, post, derivativeAddress, sender, timestamp }) =>
-          getPostRecord(id, post, derivativeAddress, sender, timestamp)
-      )
-    )
+  constructor() {
+    super()
+    Object.keys(postStorageContracts).reduce((prev, key) => {
+      return {
+        ...prev,
+        [key]: postStorageContracts[key].getAllPosts(),
+      }
+    }, {})
   }
 
-  async createPost(text: string, original: string) {
-    const walletProvider = WalletStore.provider
-    if (!walletProvider) throw new Error('No provider found')
-    if (!WalletStore.account) throw new Error('No account found')
-
+  checkingStatuses = false
+  async checkStatuses() {
+    if (this.checkingStatuses) return
+    this.checkingStatuses = true
     try {
-      const gsnProvider = await relayProvider(walletProvider)
-
-      const ethersProvider = new Web3Provider(
-        gsnProvider as unknown as ExternalProvider
-      )
-
-      const contract = this.createContractWithProvider(
-        ethersProvider.getSigner(0)
-      )
-
-      const transaction = await contract.savePost(text, original)
-      const result = await transaction.wait()
-
-      return Promise.all(
-        result.logs
-          .filter(({ address }) => address === contract.address)
-          .map(({ data, topics }) => parsePostLogData({ data, topics }))
-          .map(({ args }) => args)
-          .map(({ id, post, derivativeAddress, sender, timestamp }) =>
-            this.addPost(id, post, derivativeAddress, sender, timestamp)
+      for (const [name, postStoragePromise] of Object.entries(
+        this.postStorages
+      )) {
+        const idsNotChecked = [] as number[]
+        const posts = await postStoragePromise
+        for (const post of posts) {
+          const postId = Number(await post.id)
+          if (!this.idsToStatuses[postId]) {
+            idsNotChecked.push(postId)
+          }
+        }
+        const pendingIdsToRecheck = [] as number[]
+        for (const [postId, retrievedStatusPromise] of Object.entries(
+          this.idsToStatuses[name]
+        )) {
+          const retrievedStatus = await retrievedStatusPromise
+          if (!retrievedStatus) {
+            continue
+          }
+          if (retrievedStatus.status === PostStatus.pending) {
+            pendingIdsToRecheck.push(Number(postId))
+          }
+        }
+        const idsToCheck = [...idsNotChecked, ...pendingIdsToRecheck]
+        const statusCheckPromise = getPostStatuses(idsToCheck, name)
+        for (const postId of idsToCheck) {
+          this.idsToStatuses[name][postId] = statusCheckPromise.then(
+            (statuses) => {
+              const status = statuses[postId]
+              if (!status) return undefined
+              return {
+                status: status.status,
+                statusId: status.statusId,
+              }
+            }
           )
-      )
+        }
+      }
     } catch (error) {
-      handleError(error)
-      throw error
+      console.error(error)
+    } finally {
+      this.checkingStatuses = false
     }
-  }
-
-  async addPost(
-    id: BigNumber,
-    post: string,
-    derivativeAddress: string,
-    sender: string,
-    timestamp: BigNumber
-  ) {
-    const record = getPostRecord(id, post, derivativeAddress, sender, timestamp)
-    const posts = await this.posts
-    if (!posts.find(({ id: postId }) => postId === id.toNumber())) {
-      this.posts = Promise.resolve([record, ...posts])
-    }
-    return record
   }
 }
 
-export const EmailPostStore = proxy(
-  new PostStore(env.VITE_SC_EMAIL_POSTS_CONTRACT_ADDRESS)
-)
+const postStore = proxy(new PostStore()).makePersistent(env.VITE_ENCRYPT_KEY)
 
-export const ERC721PostStore = proxy(
-  new PostStore(env.VITE_SC_ERC721_POSTS_CONTRACT_ADDRESS)
-)
+for (const [name, postStorageContract] of Object.entries(
+  postStorageContracts
+)) {
+  postStorageContract.on(
+    postStorageContract.filters.PostSaved(),
+    async (id, post, derivativeAddress, sender, timestamp) => {
+      const postStorage = await postStore.postStorages[name]
+      postStorage.push({
+        id,
+        post,
+        derivativeAddress,
+        sender,
+        timestamp,
+      })
+    }
+  )
+}
 
-export const ExternalERC721PostStore = proxy(
-  new PostStore(env.VITE_SC_EXTERNAL_ERC721_POSTS_CONTRACT_ADDRESS)
-)
+setInterval(() => postStore.checkStatuses(), 15 * 1000)
+
+export default postStore
