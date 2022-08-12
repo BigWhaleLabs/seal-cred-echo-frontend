@@ -73,7 +73,6 @@ export default memo<ContractSymbolProps>(
         <ContractSymbolSuspended
           address={address}
           truncate={truncate}
-          symbol={symbol}
           {...rest}
         />
       </Suspense>
