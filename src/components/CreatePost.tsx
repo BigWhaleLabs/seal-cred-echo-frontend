@@ -1,48 +1,35 @@
-import {
-  ERC721ProcessingPostsStore,
-  EmailProcessingPostsStore,
-  ExternalERC721ProcessingPostsStore,
-  PostProcessingStore,
-} from 'stores/ProcessingPostsStore'
+import { PostStruct } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
 import { margin, space } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import CreatePostForm from 'components/CreatePostForm'
 import PostProcessing from 'components/PostProcessing'
 import PostStatus from 'models/PostStatus'
-import PostStatusStore, {
-  ERC721PostStatusStore,
-  EmailPostStatusStore,
-  ExternalERC721PostStatusStore,
-} from 'stores/PostStatusStore'
 import WalletStore from 'stores/WalletStore'
+import data from 'data'
+import postStore from 'stores/PostStore'
 
-function usePosts(
-  postStatusStore: PostStatusStore,
-  processingStore: PostProcessingStore
-) {
-  const { account } = useSnapshot(WalletStore)
-  const { postsStatuses } = useSnapshot(postStatusStore)
-  const { processingIds } = useSnapshot(processingStore)
+function getPosts() {
+  const pendingPosts: PostStruct[] = []
+  let lastPublishedPost: PostStruct | undefined = undefined
 
-  const accountProcessingPostIds = account && processingIds[account]
-  const currentPostsStatuses = { ...postsStatuses }
-  const currentPosts = accountProcessingPostIds
-    ? accountProcessingPostIds.map(
-        (tweetId) =>
-          currentPostsStatuses[tweetId] || {
-            tweetId,
-            status: PostStatus.pending,
-          }
-      )
-    : []
+  Object.keys(data).forEach((contractName) => {
+    const posts = useSnapshot(postStore.postStorages)[contractName]
 
-  const pendingPosts = currentPosts.filter(
-    (post) => post.status === PostStatus.pending
-  )
+    posts.forEach((post) => {
+      const status = useSnapshot(postStore.idsToStatuses)[contractName][
+        Number(post.id)
+      ]
+      if (!status) return
 
-  const lastPublishedPost = currentPosts.find(
-    (post) => post.status === PostStatus.published
-  )
+      const isPostSender = post.sender === WalletStore.account
+
+      if (isPostSender && status.status === PostStatus.pending)
+        return pendingPosts.push(post)
+
+      if (isPostSender && status.status === PostStatus.published)
+        lastPublishedPost = post
+    })
+  })
 
   return {
     pendingPosts,
@@ -51,32 +38,7 @@ function usePosts(
 }
 
 export default function () {
-  const {
-    pendingPosts: emailPendingPosts,
-    lastPublishedPost: emailLastPublishedPost,
-  } = usePosts(EmailPostStatusStore, EmailProcessingPostsStore)
-  const {
-    pendingPosts: eRC721PendingPosts,
-    lastPublishedPost: eRC721LastPublishedPost,
-  } = usePosts(ERC721PostStatusStore, ERC721ProcessingPostsStore)
-  const {
-    pendingPosts: externalERC721PendingPosts,
-    lastPublishedPost: externalERC721LastPublishedPost,
-  } = usePosts(
-    ExternalERC721PostStatusStore,
-    ExternalERC721ProcessingPostsStore
-  )
-
-  const pendingPosts = [
-    ...emailPendingPosts,
-    ...eRC721PendingPosts,
-    ...externalERC721PendingPosts,
-  ]
-
-  const lastPublishedPost =
-    emailLastPublishedPost ||
-    eRC721LastPublishedPost ||
-    externalERC721LastPublishedPost
+  const { pendingPosts, lastPublishedPost } = getPosts()
 
   return (
     <div className={margin('mt-6', 'mb-16')}>
