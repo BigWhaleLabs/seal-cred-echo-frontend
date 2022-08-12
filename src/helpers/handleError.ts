@@ -8,27 +8,18 @@ export const ErrorList = {
   wrongNetwork: (userNetwork: string, contractNetwork: string) =>
     `Looks like you're using ${userNetwork} network, try switching to ${contractNetwork} and connect again`,
   unknown: 'An unknown error occurred, please, contact us',
-  insufficient:
-    'Insufficient funds for the gas transaction. Please, try again later.',
-  highGasPrice: 'The transaction price is too high. Please, try again later.',
-  paymasterRejected:
-    'The paymaster couldn\'t run the "relayCall()" method. Please, try again later.',
-  clear: '',
+  failedPost: 'Failed to create post',
 }
 
-export const checkErrorMessage = (error: Error) => {
-  const readableMessage = error.message.includes('Proposed priority gas fee')
-    ? ErrorList.highGasPrice
-    : error.message.includes('paymaster rejected in DRY-RUN')
-    ? ErrorList.paymasterRejected
-    : error.message.includes('insufficient funds for gas * price + value')
-    ? ErrorList.insufficient
-    : ErrorList.unknown
-
-  return new Error(readableMessage)
+function transformRelayErrorMessage(message: string) {
+  // Removes stack trace information
+  return message
+    .split('stack')
+    .filter((_, i) => i % 2 === 0)
+    .join('\n')
 }
 
-export function parseError(error: unknown) {
+export function parseError(error: unknown, defaultMessage = ErrorList.unknown) {
   let displayedError: string | undefined
 
   if (typeof error === 'string') displayedError = error
@@ -37,9 +28,11 @@ export function parseError(error: unknown) {
   if (message) {
     displayedError = parseRevertReason(message) ?? message
   }
-  if (!displayedError) displayedError = ErrorList.unknown
 
-  return displayedError
+  if (/^Failed to relay call/.test(message))
+    displayedError = transformRelayErrorMessage(message)
+
+  return displayedError ?? defaultMessage
 }
 
 export default function (error: unknown) {
