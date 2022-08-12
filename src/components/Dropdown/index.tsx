@@ -27,14 +27,14 @@ const button = classnames(
   width('w-full'),
   gap('gap-x-2')
 )
-export default function ({
+export default function <T>({
   currentValue,
   options,
   onChange,
 }: {
-  currentValue: string
-  options: Option[]
-  onChange: (selectedValue: string) => void
+  currentValue: T
+  options: Option<T>[]
+  onChange: (selectedValue: T) => void
 }) {
   // State
   const [open, setOpen] = useState(false)

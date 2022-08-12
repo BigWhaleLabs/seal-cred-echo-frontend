@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import ListLoading from 'components/ListLoading'
 import PostsLayout from 'components/PostsLayout'
-import TwitterAccountStore from 'stores/TwitterAccountStore'
+import SelectedTypeStore from 'stores/SelectedTypeStore'
 import TwitterError from 'components/TweetsList/TwitterError'
 import classnames, {
   backgroundColor,
@@ -14,6 +14,7 @@ import classnames, {
   padding,
   width,
 } from 'classnames/tailwind'
+import data from 'data'
 
 const tweetCard = classnames(
   display('flex'),
@@ -44,7 +45,7 @@ export default function () {
   const [status, setStatus] = useState<'content' | 'error' | 'loading'>(
     'loading'
   )
-  const { currentTwitterAccount } = useSnapshot(TwitterAccountStore)
+  const { selectedType } = useSnapshot(SelectedTypeStore)
 
   const ref = useRef<HTMLDivElement>(null)
 
@@ -57,7 +58,7 @@ export default function () {
 
   useEffect(() => {
     setStatus('loading')
-  }, [currentTwitterAccount])
+  }, [selectedType])
 
   return (
     <PostsLayout>
@@ -75,7 +76,7 @@ export default function () {
           <Timeline
             dataSource={{
               sourceType: 'profile',
-              screenName: currentTwitterAccount,
+              screenName: data[selectedType].twitter,
             }}
             options={{
               theme: 'dark',

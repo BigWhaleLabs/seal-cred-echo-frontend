@@ -29,7 +29,6 @@ import {
 } from 'classnames/tailwind'
 import ChildrenProp from 'models/ChildrenProp'
 import ExclamationInCircle from 'icons/ExclamationInCircle'
-import classNamesToString from 'helpers/classNamesToString'
 
 const tabBarText = classnames(
   fontFamily('font-primary'),
