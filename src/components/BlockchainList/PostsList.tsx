@@ -7,10 +7,10 @@ import PostStore from 'stores/PostStore'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
 
 function BlockchainPostsListSuspended() {
-  const { postStorages } = useSnapshot(PostStore)
   const { selectedType } = useSnapshot(SelectedTypeStore)
+  const { postStorages } = useSnapshot(PostStore)
   const posts = postStorages[selectedType]
-  console.log(posts)
+  console.log('Rendering PostsList for', selectedType)
 
   return (
     <>

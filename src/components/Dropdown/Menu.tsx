@@ -50,16 +50,16 @@ const menuItem = (selected?: boolean) =>
     backgroundColor('hover:bg-primary-background')
   )
 
-export default function ({
+export default function <T>({
   open,
   options,
   selected,
   onSelect,
 }: {
   open: boolean
-  options: Option[]
-  selected?: Option
-  onSelect: (option: Option) => void
+  options: Option<T>[]
+  selected?: Option<T>
+  onSelect: (option: Option<T>) => void
 }) {
   return (
     <div className={container(open)}>
