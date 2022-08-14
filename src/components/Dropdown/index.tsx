@@ -29,10 +29,12 @@ const button = classnames(
 )
 export default function <T>({
   currentValue,
+  placeholder,
   options,
   onChange,
 }: {
-  currentValue: T
+  currentValue?: T
+  placeholder?: string
   options: Option<T>[]
   onChange: (selectedValue: T) => void
 }) {
@@ -46,7 +48,7 @@ export default function <T>({
     <div className={container}>
       <button onClick={() => setOpen(!open)} className={button}>
         <TextareaText>
-          {options.find((o) => o.value === currentValue)?.label}
+          {options.find((o) => o.value === currentValue)?.label || placeholder}
         </TextareaText>
         <div className={width('w-5')}>
           <Arrow pulseDisabled open={open} />

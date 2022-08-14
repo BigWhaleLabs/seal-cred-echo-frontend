@@ -1,8 +1,8 @@
 import { HeaderText } from 'components/Text'
 import { useSnapshot } from 'valtio'
+import BottomPart from 'components/CreatePost/BottomPart'
 import NoBadgesMessage from 'components/CreatePost/NoBadgesMessage'
 import PostFormStore from 'stores/PostFormStore'
-import SelectAsset from 'components/CreatePost/SelectAsset'
 import TextArea from 'components/TextArea'
 import classnames, { display, flexDirection, gap } from 'classnames/tailwind'
 
@@ -11,7 +11,11 @@ const container = classnames(
   flexDirection('flex-col'),
   gap('gap-y-6')
 )
-const formContainer = gap('gap-y-4')
+const formContainer = classnames(
+  display('flex'),
+  flexDirection('flex-col'),
+  gap('gap-y-4')
+)
 export default function () {
   const { text, selectedAddress } = useSnapshot(PostFormStore, { sync: true })
 
@@ -37,7 +41,7 @@ export default function () {
           suffix={suffix}
           disabled={!selectedAddress}
         />
-        <SelectAsset />
+        <BottomPart />
       </div>
     </div>
   )

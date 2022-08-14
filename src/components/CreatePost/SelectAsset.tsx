@@ -1,74 +1,36 @@
-// const bottomContainer = classnames(
-//   display('flex'),
-//   justifyContent('justify-between'),
-//   alignItems('items-center'),
-//   flexWrap('flex-wrap')
-// )
+import { Suspense } from 'preact/compat'
+import { useSnapshot } from 'valtio'
+import Dropdown from 'components/Dropdown'
+import PostFormStore from 'stores/PostFormStore'
+import SelectAssetLoading from 'components/CreatePost/SelectAssetLoading'
+import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
+import useContractSymbols from 'hooks/useContractSymbols'
+import useDerivativeAddressesOwned from 'hooks/useDerivativeAddressesOwned'
 
-import { BodyText } from 'components/Text'
+export function SelectAssetSuspended() {
+  const derivativeAddressesOwned = useDerivativeAddressesOwned()
+  const symbolMap = useContractSymbols(derivativeAddressesOwned)
+  const { selectedAddress } = useSnapshot(PostFormStore)
 
-// const dropdownWrapper = classnames(
-//   margin('md:mb-0', 'mb-4'),
-//   display('flex'),
-//   flexGrow('grow', 'md:grow-0')
-// )
+  return (
+    <Dropdown
+      currentValue={selectedAddress}
+      placeholder="Select an asset..."
+      options={derivativeAddressesOwned.map((address) => ({
+        value: address,
+        label: symbolMap[address] || truncateMiddleIfNeeded(address, 8),
+      }))}
+      onChange={(selectedValue) => {
+        PostFormStore.selectedAddress = selectedValue
+      }}
+    />
+  )
+}
 
 export default function () {
   return (
-    <BodyText>Noice</BodyText>
-    // <div className={space('space-y-2')}>
-    //   <BodyText>Choose a ZK Badge</BodyText>
-    //   <div className={bottomContainer}>
-    //     <div className={dropdownWrapper}>
-    //       <DropDown disabled={status.loading} />
-    //     </div>
-    //     <Button
-    //       type="primary"
-    //       loading={status.loading}
-    //       disabled={!isValidForm}
-    //       title="Tweet"
-    //       onClick={async () => {
-    //         if (isValidForm) {
-    //           try {
-    //             PostFormStore.status = {
-    //               loading: true,
-    //             }
-    //             switch (currentPost.constructor) {
-    //               case EmailPost:
-    //                 await EmailProcessingPostsStore.createPost(
-    //                   text,
-    //                   currentPost.original
-    //                 )
-    //                 break
-    //               case ERC721Post:
-    //                 await ERC721ProcessingPostsStore.createPost(
-    //                   text,
-    //                   currentPost.original
-    //                 )
-    //                 break
-    //               case ExternalERC721Post:
-    //                 await ExternalERC721ProcessingPostsStore.createPost(
-    //                   text,
-    //                   currentPost.original
-    //                 )
-    //                 break
-    //             }
-    //           } catch (error) {
-    //             PostFormStore.status.error = parseError(
-    //               error,
-    //               ErrorList.failedPost
-    //             )
-    //           } finally {
-    //             PostFormStore.status.loading = false
-    //           }
-    //           onTextChange('')
-    //         }
-    //       }}
-    //       center
-    //     >
-    //       Tweet
-    //     </Button>
-    //   </div>
-    // </div>
+    <Suspense fallback={<SelectAssetLoading />}>
+      <SelectAssetSuspended />
+    </Suspense>
   )
 }

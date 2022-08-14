@@ -12,7 +12,6 @@ export default function ({ children }: ChildrenProp) {
         <NavTabLink to="/tweets" label="Previous Tweets" />
         <NavTabLink to="/deep-dive" label="Deep Dive" />
       </TabBar>
-
       {children}
     </>
   )
