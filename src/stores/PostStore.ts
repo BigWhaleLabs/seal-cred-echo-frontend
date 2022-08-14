@@ -100,6 +100,14 @@ for (const [name, postStorageContract] of Object.entries(
   postStorageContract.on(
     postStorageContract.filters.PostSaved(),
     async (id, post, derivativeAddress, sender, timestamp) => {
+      console.log(
+        'PostSaved event',
+        id,
+        post,
+        derivativeAddress,
+        sender,
+        timestamp
+      )
       const postStorage = await postStore.postStorages[name]
       postStorage.push({
         id,
