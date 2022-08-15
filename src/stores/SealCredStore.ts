@@ -1,4 +1,3 @@
-import { Derivative__factory } from '@big-whale-labs/seal-cred-ledger-contract'
 import { proxy } from 'valtio'
 import Ledger from 'models/Ledger'
 import getLedger from 'helpers/getLedger'
@@ -24,10 +23,10 @@ for (const [name, ledgerContract] of Object.entries(ledgerContracts)) {
     ledgerContract.filters.CreateDerivative(),
     async (original, derivative) => {
       const ledger = await SealCredStore.ledgers[name]
-      ledger[original] = Derivative__factory.connect(
+      ledger[original] = {
+        original,
         derivative,
-        ledgerContract.provider
-      )
+      }
     }
   )
   ledgerContract.on(

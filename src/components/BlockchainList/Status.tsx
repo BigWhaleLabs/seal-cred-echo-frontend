@@ -27,6 +27,16 @@ const statusContainer = (status: PostStatus) =>
     })
   )
 
+function StatusBadge({ id, status }: { id: number; status: PostStatus }) {
+  return (
+    <a href={`#blockchainTweetId=${id}`} className={statusContainer(status)}>
+      <StatusText color={status === PostStatus.rejected ? 'dark' : 'default'}>
+        {PostStatusText[status]}
+      </StatusText>
+    </a>
+  )
+}
+
 function Status({ id }: { id: number }) {
   const { selectedType } = useSnapshot(SelectedTypeStore)
   const { idsToStatuses } = useSnapshot(postStore)
@@ -37,24 +47,12 @@ function Status({ id }: { id: number }) {
       idsToStatuses[selectedType][id]?.status) ||
     PostStatus.pending
 
-  return (
-    <a href={`#blockchainTweetId=${id}`} className={statusContainer(status)}>
-      <StatusText color={status === PostStatus.rejected ? 'dark' : 'default'}>
-        {PostStatusText[status]}
-      </StatusText>
-    </a>
-  )
+  return <StatusBadge status={status} id={id} />
 }
 
 export default function ({ id }: { id: number }) {
   return (
-    <Suspense
-      fallback={
-        <StatusText color={status === PostStatus.rejected ? 'dark' : 'default'}>
-          {PostStatus.pending}
-        </StatusText>
-      }
-    >
+    <Suspense fallback={<StatusBadge status={PostStatus.pending} id={id} />}>
       <Status id={id} />
     </Suspense>
   )

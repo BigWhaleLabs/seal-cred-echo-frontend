@@ -1,6 +1,6 @@
 import env from 'helpers/env'
 
-const data = {
+export default {
   Email: {
     ledger: env.VITE_SC_EMAIL_LEDGER_CONTRACT_ADDRESS,
     postStorage: env.VITE_SC_EMAIL_POSTS_CONTRACT_ADDRESS,
@@ -16,12 +16,4 @@ const data = {
     postStorage: env.VITE_SC_EXTERNAL_ERC721_POSTS_CONTRACT_ADDRESS,
     twitter: 'SealCredNFT',
   },
-} as {
-  [store: string]: {
-    ledger: string
-    postStorage: string
-    twitter: string
-  }
 }
-
-export default data

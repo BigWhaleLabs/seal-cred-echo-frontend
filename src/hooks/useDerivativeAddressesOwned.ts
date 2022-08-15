@@ -1,21 +1,25 @@
-// import { useSnapshot } from 'valtio'
-// import ContractsStore from 'stores/ContractsStore'
-// import SealCredStore from 'stores/SealCredStore'
-// import data from 'data'
+import { devtools } from 'valtio/utils'
+import { useSnapshot } from 'valtio'
+import ContractsStore from 'stores/ContractsStore'
+import SealCredStore from 'stores/SealCredStore'
+import data from 'data'
+
+devtools(SealCredStore)
 
 export default function () {
-  // const { addressToTokenIds } = useSnapshot(ContractsStore)
-  // const { ledgers } = useSnapshot(SealCredStore)
+  const { addressToTokenIds } = useSnapshot(ContractsStore)
+  const { ledgers } = useSnapshot(SealCredStore)
 
-  // const derivativesAddressesOwned = [] as string[]
-  // for (const key in data) {
-  //   const ledger = ledgers[key]
-  //   for (const derivative of Object.values(ledger)) {
-  //     if (addressToTokenIds?.[derivative.address]) {
-  //       derivativesAddressesOwned.push(derivative.address)
-  //     }
-  //   }
-  // }
+  const derivativesAddressesOwned = [] as string[]
+  for (const key in data) {
+    const ledger = ledgers[key]
+    if (!ledger) continue
+    for (const { derivative } of Object.values(ledger)) {
+      if (addressToTokenIds?.[derivative]) {
+        derivativesAddressesOwned.push(derivative)
+      }
+    }
+  }
 
-  return [] // derivativesAddressesOwned
+  return derivativesAddressesOwned
 }
