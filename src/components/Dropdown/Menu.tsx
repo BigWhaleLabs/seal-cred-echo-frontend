@@ -1,16 +1,11 @@
+import ItemContainer from 'components/Dropdown/ItemContainer'
 import Option from 'components/Dropdown/Option'
 import classnames, {
-  alignItems,
   backgroundColor,
-  borderColor,
   borderRadius,
-  borderWidth,
   cursor,
-  gap,
   inset,
   opacity,
-  outlineColor,
-  outlineStyle,
   padding,
   position,
   textColor,
@@ -21,24 +16,15 @@ import classnames, {
   zIndex,
 } from 'classnames/tailwind'
 
-const container = (open: boolean) =>
+const container = (closed: boolean) =>
   classnames(
-    borderRadius('rounded-lg'),
-    borderWidth('border'),
-    borderColor('border-formal-accent-dimmed', 'focus:border-formal-accent'),
-    alignItems('items-center'),
     position('absolute'),
-    inset('top-9'),
-    width('sm:w-72', 'w-44'),
-    opacity({ 'opacity-0': !open }),
-    visibility({ invisible: !open }),
-    gap('gap-y-1'),
+    inset('top-16'),
+    width('sm:w-80', 'w-44'),
+    opacity({ 'opacity-0': closed }),
+    visibility({ invisible: closed }),
     zIndex('z-40'),
-    outlineColor('focus:outline-primary'),
-    outlineStyle('focus:outline'),
-    transitionProperty('transition-all'),
-    padding('p-3'),
-    backgroundColor('bg-primary-dark')
+    transitionProperty('transition-all')
   )
 const menuItem = (selected?: boolean) =>
   classnames(
@@ -63,18 +49,20 @@ export default function <T>({
   onSelect: (option: Option<T>) => void
 }) {
   return (
-    <div className={container(open)}>
-      {options.map((option) => (
-        <p
-          key={option.value}
-          className={menuItem(option.value === selected?.value)}
-          onClick={() => {
-            onSelect(option)
-          }}
-        >
-          {option.label}
-        </p>
-      ))}
+    <div className={container(!open)}>
+      <ItemContainer>
+        {options.map((option) => (
+          <p
+            key={option.value}
+            className={menuItem(option.value === selected?.value)}
+            onClick={() => {
+              onSelect(option)
+            }}
+          >
+            {option.label}
+          </p>
+        ))}
+      </ItemContainer>
     </div>
   )
 }

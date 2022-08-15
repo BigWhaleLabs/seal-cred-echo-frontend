@@ -27,6 +27,7 @@ export function SelectAssetSuspended() {
       onChange={(selectedValue) => {
         DropDownStore.selectedAddress = selectedValue
       }}
+      wrapSelected
     />
   )
 }

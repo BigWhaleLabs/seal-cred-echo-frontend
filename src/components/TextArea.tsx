@@ -43,7 +43,7 @@ const innerWrapper = (isValid?: boolean) =>
     justifyContent('justify-between'),
     borderWidth('border'),
     borderColor(
-      isValid ? 'border-error' : 'border-formal-accent-dimmed',
+      isValid ? 'border-formal-accent-dimmed' : 'border-error',
       'focus-within:border-formal-accent'
     ),
     outlineColor('focus-within:outline-primary'),
@@ -88,7 +88,7 @@ export default function ({
   return (
     <div className={textWithErrorWrapper}>
       <div className={containerWithFooter}>
-        <div className={innerWrapper(!isValid)}>
+        <div className={innerWrapper(isValid)}>
           <TextareaText dark={disabled}>
             <TextareaAutosize
               className={classNamesToString('no-scrollbar', textBox)}

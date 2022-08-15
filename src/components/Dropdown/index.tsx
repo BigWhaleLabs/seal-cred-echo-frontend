@@ -1,13 +1,12 @@
-import { TextareaText } from 'components/Text'
 import { createRef } from 'preact'
 import { useState } from 'preact/hooks'
 import Arrow from 'icons/Arrow'
+import ItemContainer from 'components/Dropdown/ItemContainer'
 import Menu from 'components/Dropdown/Menu'
 import Option from 'components/Dropdown/Option'
 import classnames, {
   alignItems,
   display,
-  fontFamily,
   gap,
   justifyContent,
   position,
@@ -15,11 +14,6 @@ import classnames, {
 } from 'classnames/tailwind'
 import useClickOutside from 'hooks/useClickOutside'
 
-const container = classnames(
-  position('relative'),
-  fontFamily('font-primary'),
-  width('w-fit')
-)
 const button = classnames(
   display('flex'),
   justifyContent('justify-between'),
@@ -27,40 +21,47 @@ const button = classnames(
   width('w-full'),
   gap('gap-x-2')
 )
+
 export default function <T>({
   currentValue,
   placeholder,
   options,
   onChange,
+  wrapSelected = false,
 }: {
   currentValue?: T
   placeholder?: string
   options: Option<T>[]
   onChange: (selectedValue: T) => void
+  wrapSelected?: boolean
 }) {
-  // State
   const [open, setOpen] = useState(false)
-  // Click outside
   const ref = createRef<HTMLDivElement>()
+
   useClickOutside(ref, () => setOpen(false))
-  // Render
+
+  const selectedOption = options.find((o) => o.value === currentValue)
+
+  const selectedElement = (
+    <button onClick={() => options.length && setOpen(!open)} className={button}>
+      {selectedOption?.label || placeholder}
+      <div className={width('w-5')}>
+        <Arrow pulseDisabled open={open} />
+      </div>
+    </button>
+  )
+
   return (
-    <div className={container} ref={ref}>
-      <button
-        onClick={() => (options.length ? setOpen(!open) : undefined)}
-        className={button}
-      >
-        <TextareaText>
-          {options.find((o) => o.value === currentValue)?.label || placeholder}
-        </TextareaText>
-        <div className={width('w-5')}>
-          <Arrow pulseDisabled open={open} />
-        </div>
-      </button>
+    <div className={position('relative')} ref={ref}>
+      {wrapSelected ? (
+        <ItemContainer>{selectedElement}</ItemContainer>
+      ) : (
+        selectedElement
+      )}
       <Menu
         open={open}
         options={options}
-        selected={options.find((o) => o.value === currentValue)}
+        selected={selectedOption}
         onSelect={(option) => {
           onChange(option.value)
           setOpen(false)
