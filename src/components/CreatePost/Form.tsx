@@ -1,9 +1,10 @@
 import { HeaderText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import BottomPart from 'components/CreatePost/BottomPart'
+import DropDownStore from 'stores/DropDownStore'
 import NoBadgesMessage from 'components/CreatePost/NoBadgesMessage'
-import PostFormStore from 'stores/PostFormStore'
 import TextArea from 'components/TextArea'
+import TextStore from 'stores/TextStore'
 import classnames, { display, flexDirection, gap } from 'classnames/tailwind'
 
 const container = classnames(
@@ -17,7 +18,8 @@ const formContainer = classnames(
   gap('gap-y-4')
 )
 export default function () {
-  const { text, selectedAddress } = useSnapshot(PostFormStore, { sync: true })
+  const { text } = useSnapshot(TextStore, { sync: true })
+  const { selectedAddress } = useSnapshot(DropDownStore)
 
   const suffix = selectedAddress ? '' : ''
   const maxLength = 280 - suffix.length
@@ -34,7 +36,9 @@ export default function () {
               ? 'Share you anonymous message...'
               : 'Select the asset to post as first!'
           }
-          onTextChange={(newText) => () => (PostFormStore.text = newText)}
+          onTextChange={(newText) => {
+            TextStore.text = newText
+          }}
           maxLength={maxLength}
           suffix={suffix}
           disabled={!selectedAddress}
