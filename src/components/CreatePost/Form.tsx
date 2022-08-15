@@ -22,8 +22,6 @@ export default function () {
   const suffix = selectedAddress ? '' : ''
   const maxLength = 280 - suffix.length
 
-  const onTextChange = (newText: string) => (PostFormStore.text = newText)
-
   return (
     <div className={container}>
       <HeaderText>Create an anonymous tweet</HeaderText>
@@ -36,7 +34,7 @@ export default function () {
               ? 'Share you anonymous message...'
               : 'Select the asset to post as first!'
           }
-          onTextChange={(newText) => onTextChange(newText)}
+          onTextChange={(newText) => () => (PostFormStore.text = newText)}
           maxLength={maxLength}
           suffix={suffix}
           disabled={!selectedAddress}
