@@ -6,9 +6,9 @@ import data from 'data'
 import defaultProvider from 'helpers/providers/defaultProvider'
 
 export default Object.entries(data).reduce(
-  (prev, [name, { ledger }]) => ({
+  (prev, [name, { postStorage }]) => ({
     ...prev,
-    [name]: SCPostStorage__factory.connect(ledger, defaultProvider),
+    [name]: SCPostStorage__factory.connect(postStorage, defaultProvider),
   }),
   {}
 ) as { [name: string]: SCPostStorage }
