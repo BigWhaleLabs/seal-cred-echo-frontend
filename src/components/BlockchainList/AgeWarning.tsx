@@ -25,7 +25,7 @@ const container = classnames(
   inset('inset-0'),
   padding('py-16'),
   margin('!mt-0'),
-  zIndex('z-40')
+  zIndex('z-30')
 )
 const overlay = classnames(
   position('absolute'),
