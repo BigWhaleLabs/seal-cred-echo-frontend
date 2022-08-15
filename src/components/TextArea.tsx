@@ -93,9 +93,9 @@ export default function ({
             <TextareaAutosize
               className={classNamesToString('no-scrollbar', textBox)}
               value={text}
-              onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
+              onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
                 onTextChange(event.currentTarget.value)
-              }
+              }}
               disabled={disabled}
               maxLength={maxLength}
               minRows={5}

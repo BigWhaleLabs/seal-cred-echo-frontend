@@ -15,6 +15,7 @@ import classnames, {
   position,
   textColor,
   transitionProperty,
+  visibility,
   width,
   wordBreak,
   zIndex,
@@ -25,18 +26,17 @@ const container = (open: boolean) =>
     borderRadius('rounded-lg'),
     borderWidth('border'),
     borderColor('border-formal-accent-dimmed', 'focus:border-formal-accent'),
-    transitionProperty('transition-colors'),
     alignItems('items-center'),
     position('absolute'),
     inset('top-9'),
     width('sm:w-72', 'w-44'),
     opacity({ 'opacity-0': !open }),
+    visibility({ invisible: !open }),
     gap('gap-y-1'),
-    zIndex('z-30'),
-    transitionProperty('transition-opacity'),
+    zIndex('z-40'),
     outlineColor('focus:outline-primary'),
     outlineStyle('focus:outline'),
-    transitionProperty('transition-colors'),
+    transitionProperty('transition-all'),
     padding('p-3'),
     backgroundColor('bg-primary-dark')
   )
@@ -47,7 +47,8 @@ const menuItem = (selected?: boolean) =>
     borderRadius('rounded-md'),
     wordBreak('break-all'),
     textColor({ 'text-primary': selected }),
-    backgroundColor('hover:bg-primary-background')
+    backgroundColor('hover:bg-primary-background'),
+    transitionProperty('transition-colors')
   )
 
 export default function <T>({
