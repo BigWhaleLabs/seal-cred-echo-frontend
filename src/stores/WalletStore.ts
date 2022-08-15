@@ -13,6 +13,7 @@ let provider: Web3Provider
 class WalletStore extends PersistableStore {
   account?: string
   walletLoading = false
+  mintLoading = false
   needNetworkChange = false
   walletsToNotifiedOfBeingDoxxed = {} as {
     [address: string]: boolean
@@ -23,6 +24,7 @@ class WalletStore extends PersistableStore {
       'account',
       'cachedProvider',
       'provider',
+      'mintLoading',
       'walletLoading',
     ]
     return disallowList.includes(key) ? undefined : value

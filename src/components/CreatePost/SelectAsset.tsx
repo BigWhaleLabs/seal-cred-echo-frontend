@@ -3,6 +3,7 @@ import { useSnapshot } from 'valtio'
 import DropDownStore from 'stores/DropDownStore'
 import Dropdown from 'components/Dropdown'
 import SelectAssetLoading from 'components/CreatePost/SelectAssetLoading'
+import WalletStore from 'stores/WalletStore'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import useContractSymbols from 'hooks/useContractSymbols'
 import useDerivativeAddressesOwned from 'hooks/useDerivativeAddressesOwned'
@@ -10,10 +11,12 @@ import useDerivativeAddressesOwned from 'hooks/useDerivativeAddressesOwned'
 export function SelectAssetSuspended() {
   const derivativeAddressesOwned = useDerivativeAddressesOwned()
   const symbolMap = useContractSymbols(derivativeAddressesOwned)
+  const { mintLoading } = useSnapshot(WalletStore)
   const { selectedAddress } = useSnapshot(DropDownStore)
 
   return (
     <Dropdown
+      disabled={mintLoading}
       currentValue={selectedAddress}
       placeholder={
         derivativeAddressesOwned.length

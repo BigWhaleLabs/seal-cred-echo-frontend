@@ -1,6 +1,11 @@
 import { BodyText } from 'components/Text'
+import { useSnapshot } from 'valtio'
 import Button from 'components/Button'
+import DropDownStore from 'stores/DropDownStore'
+import PostStore from 'stores/PostStore'
 import SelectAsset from 'components/CreatePost/SelectAsset'
+import TextStore from 'stores/TextStore'
+import WalletStore from 'stores/WalletStore'
 import classnames, {
   alignItems,
   display,
@@ -9,6 +14,7 @@ import classnames, {
   gap,
   justifyContent,
 } from 'classnames/tailwind'
+import handleError from 'helpers/handleError'
 
 const container = classnames(
   display('flex'),
@@ -22,6 +28,10 @@ const bottomContainer = classnames(
   flexWrap('flex-wrap')
 )
 export default function () {
+  const { mintLoading } = useSnapshot(WalletStore)
+  const { selectedAddress } = useSnapshot(DropDownStore)
+  const { text } = useSnapshot(TextStore)
+
   return (
     <div className={container}>
       <BodyText>Choose a ZK Badge</BodyText>
@@ -30,8 +40,23 @@ export default function () {
         <Button
           type="primary"
           title="Tweet"
-          onClick={() => {
-            console.log('Tweet!')
+          disabled={!selectedAddress || !text}
+          loading={mintLoading}
+          onClick={async () => {
+            WalletStore.mintLoading = true
+            try {
+              const result = await PostStore.savePost({
+                text: text,
+                derivativeAddress: selectedAddress,
+              })
+              // TODO: handle result to posts list
+              console.log(result)
+              TextStore.text = ''
+            } catch (error) {
+              handleError(error)
+            } finally {
+              WalletStore.mintLoading = false
+            }
           }}
         >
           Tweet!

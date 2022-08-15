@@ -2,7 +2,9 @@ import { PersistableStore } from '@big-whale-labs/stores'
 import { PostStruct } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
 import { proxy } from 'valtio'
 import PostStatus from 'models/PostStatus'
+import WalletStore from 'stores/WalletStore'
 import env from 'helpers/env'
+import getContractOriginalAndType from 'helpers/getContractOriginalAndType'
 import getPostStatuses from 'helpers/getPostStatuses'
 import postStorageContracts from 'helpers/postStorageContracts'
 import safeGetPostsFromContract from 'helpers/safeGetPostsFromContract'
@@ -33,9 +35,28 @@ class PostStore extends PersistableStore {
     }
   }
 
-  private disallowList = ['postStorages', 'checkingStatuses']
+  private disallowList = ['postStorages', 'checkingStatuses', 'savePost']
   replacer = (key: string, value: unknown) => {
     return this.disallowList.includes(key) ? undefined : value
+  }
+
+  async savePost({
+    text,
+    derivativeAddress,
+  }: {
+    text: string
+    derivativeAddress: string
+  }) {
+    const { type, originalAddress } = await getContractOriginalAndType(
+      derivativeAddress
+    )
+
+    const contract = (await postStorageContracts[type]).connect(
+      WalletStore.provider.getSigner(0)
+    )
+
+    const transaction = await contract.savePost(text, originalAddress)
+    return await transaction.wait()
   }
 
   checkingStatuses = false
