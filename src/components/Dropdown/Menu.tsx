@@ -33,7 +33,7 @@ const container = (open: boolean) =>
     opacity({ 'opacity-0': !open }),
     visibility({ invisible: !open }),
     gap('gap-y-1'),
-    zIndex('z-30'),
+    zIndex('z-40'),
     outlineColor('focus:outline-primary'),
     outlineStyle('focus:outline'),
     transitionProperty('transition-all'),
