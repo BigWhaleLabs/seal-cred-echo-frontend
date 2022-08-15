@@ -1,16 +1,16 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+import BlockchainList from 'components/BlockchainList'
 import DeepDive from 'components/DeepDive'
 import Footer from 'components/Footer'
 import HowItWorks from 'components/HowItWorks'
 import Main from 'pages/Main'
-import Navbar from 'components/navbar/Navbar'
+import Navbar from 'components/Navbar'
 import NotFound from 'pages/NotFound'
-import PreviousTweets from 'components/PreviousTweets'
 import Privacy from 'pages/Privacy'
 import ScrollToTop from 'components/ScrollToTop'
 import Terms from 'pages/Terms'
-import ViewOnBlockchain from 'components/ViewOnBlockchain'
+import TweetsList from 'components/TweetsList'
 import classnames, {
   display,
   flexDirection,
@@ -40,11 +40,8 @@ export default function () {
             <Main>
               <Routes>
                 <Route index element={<HowItWorks />} />
-                <Route path="/previous-tweets" element={<PreviousTweets />} />
-                <Route
-                  path="/previous-tweets/blockchain"
-                  element={<ViewOnBlockchain />}
-                />
+                <Route path="/tweets" element={<TweetsList />} />
+                <Route path="/tweets/blockchain" element={<BlockchainList />} />
                 <Route path="/deep-dive" element={<DeepDive />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />

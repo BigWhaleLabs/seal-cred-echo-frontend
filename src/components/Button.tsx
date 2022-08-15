@@ -36,7 +36,6 @@ import Spinner from 'icons/Spinner'
 
 const commonClasses = (
   type?: ButtonType,
-  fullWidth?: boolean,
   center?: boolean,
   available?: boolean,
   small?: boolean
@@ -59,7 +58,7 @@ const commonClasses = (
       'hover:shadow-lg': available,
       'active:shadow-button-active': available,
     }),
-    width(fullWidth ? 'w-full' : 'w-fit'),
+    width('w-fit'),
     textAlign(center ? 'text-center' : undefined),
     fontSize(small ? 'text-sm' : 'text-lg'),
     lineHeight(small ? 'leading-5' : 'leading-7'),
@@ -74,14 +73,13 @@ const commonClasses = (
   )
 
 const button = ({
-  fullWidth,
   center,
   type,
   available,
   small,
 }: ButtonProps & { available?: boolean }) =>
   classnames(
-    commonClasses(type, fullWidth, center, available, small),
+    commonClasses(type, center, available, small),
     colorClasses(available, type)
   )
 
@@ -132,7 +130,6 @@ const textGradient = (available?: boolean) =>
   )
 
 interface ButtonProps {
-  fullWidth?: boolean
   type?: ButtonType
   center?: boolean
   disabled?: boolean
@@ -146,7 +143,6 @@ type ButtonType = 'primary' | 'secondary' | 'default'
 
 export default function ({
   type = 'default',
-  fullWidth,
   center,
   small,
   withArrow,
@@ -164,7 +160,6 @@ export default function ({
     <button
       className={button({
         type,
-        fullWidth,
         center,
         available,
         small,

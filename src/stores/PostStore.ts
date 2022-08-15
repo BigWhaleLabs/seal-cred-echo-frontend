@@ -3,6 +3,7 @@ import { proxy } from 'valtio'
 import PostStatus from 'models/PostStatus'
 import getPostStatuses from 'helpers/getPostStatuses'
 import postStorageContracts from 'helpers/postStorageContracts'
+import safeGetPostsFromContract from 'helpers/safeGetPostsFromContract'
 
 class PostStore {
   idsToStatuses = {} as {
@@ -38,21 +39,12 @@ class PostStore {
     if (postStorageContracts[name])
       this.requestedPostStorages[name] = Promise.resolve([])
 
-    this.requestedPostStorages[name] = postStorageContracts[name]
-      .getAllPosts()
+    this.requestedPostStorages[name] = safeGetPostsFromContract(
+      postStorageContracts[name]
+    )
       .then((result) => {
-        const transformed = result.map(
-          ([id, post, derivativeAddress, sender, timestamp]) =>
-            ({
-              id,
-              post,
-              derivativeAddress,
-              sender,
-              timestamp,
-            } as PostStructOutput)
-        )
-        this.savedPostStorages[name] = transformed
-        return transformed
+        this.savedPostStorages[name] = result
+        return result
       })
       .catch(() => [])
   }
@@ -96,6 +88,9 @@ class PostStore {
           }
         }
         const idsToCheck = [...idsNotChecked, ...pendingIdsToRecheck]
+        if (!idsToCheck.length) {
+          continue
+        }
         const statusCheckPromise = getPostStatuses(idsToCheck, name)
         for (const postId of idsToCheck) {
           this.idsToStatuses[name][postId] = statusCheckPromise.then(
@@ -126,6 +121,14 @@ for (const [name, postStorageContract] of Object.entries(
   postStorageContract.on(
     postStorageContract.filters.PostSaved(),
     async (id, post, derivativeAddress, sender, timestamp) => {
+      console.log(
+        'PostSaved event',
+        id,
+        post,
+        derivativeAddress,
+        sender,
+        timestamp
+      )
       const postStorage = await postStore.postStorages[name]
       postStorage.push({
         id,
@@ -138,6 +141,7 @@ for (const [name, postStorageContract] of Object.entries(
   )
 }
 
+// void postStore.checkStatuses()
 // setInterval(() => postStore.checkStatuses(), 15 * 1000)
 
 export default postStore
