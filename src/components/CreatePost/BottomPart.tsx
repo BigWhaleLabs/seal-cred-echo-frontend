@@ -53,6 +53,7 @@ export default function () {
               console.log(result)
               TextStore.text = ''
             } catch (error) {
+              console.error('Save post error', error)
               handleError(error)
             } finally {
               WalletStore.mintLoading = false

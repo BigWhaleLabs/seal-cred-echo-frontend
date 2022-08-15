@@ -47,22 +47,16 @@ class PostStore extends PersistableStore {
     text: string
     derivativeAddress: string
   }) {
-    try {
-      const userSignature = WalletStore.getUserSignature()
-      if (!userSignature) throw new Error('No user signature')
+    const userSignature = WalletStore.getUserSignature()
+    if (!userSignature) throw new Error('No user signature')
 
-      const { ledgerType, original } = await getOriginalFromDerivative(
-        derivativeAddress
-      )
+    const { ledgerType, original } = await getOriginalFromDerivative(
+      derivativeAddress
+    )
 
-      const contract = postStorageContracts[ledgerType].connect(userSignature)
-
-      const transaction = await contract.savePost(text, original)
-      return await transaction.wait()
-    } catch (error) {
-      console.error('Saving post error', error)
-      throw error
-    }
+    const contract = postStorageContracts[ledgerType].connect(userSignature)
+    const transaction = await contract.savePost(text, original)
+    return transaction.wait()
   }
 
   checkingStatuses = false
