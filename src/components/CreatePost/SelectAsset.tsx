@@ -15,7 +15,11 @@ export function SelectAssetSuspended() {
   return (
     <Dropdown
       currentValue={selectedAddress}
-      placeholder="Select an asset..."
+      placeholder={
+        derivativeAddressesOwned.length
+          ? 'Select an asset...'
+          : 'No ZK badges in this wallet'
+      }
       options={derivativeAddressesOwned.map((address) => ({
         value: address,
         label: symbolMap[address] || truncateMiddleIfNeeded(address, 8),
