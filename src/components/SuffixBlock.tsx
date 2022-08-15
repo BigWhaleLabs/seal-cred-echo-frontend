@@ -30,9 +30,7 @@ export default function ({
 }) {
   return (
     <div className={footerBox}>
-      <div>
-        <SuffixText>{suffix}</SuffixText>
-      </div>
+      <SuffixText>{suffix}</SuffixText>
       <Counter max={maxCount} value={text.length} />
     </div>
   )
