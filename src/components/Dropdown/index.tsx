@@ -45,8 +45,11 @@ export default function <T>({
   useClickOutside(ref, () => setOpen(false))
   // Render
   return (
-    <div className={container}>
-      <button onClick={() => setOpen(!open)} className={button}>
+    <div className={container} ref={ref}>
+      <button
+        onClick={() => (options.length ? setOpen(!open) : undefined)}
+        className={button}
+      >
         <TextareaText>
           {options.find((o) => o.value === currentValue)?.label || placeholder}
         </TextareaText>
