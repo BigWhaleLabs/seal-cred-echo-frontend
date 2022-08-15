@@ -98,6 +98,10 @@ class WalletStore extends PersistableStore {
     return provider
   }
 
+  getUserSignature() {
+    return this.provider.getSigner(0)
+  }
+
   private subscribeProvider(provider: Web3Provider) {
     if (!provider.on) return
 

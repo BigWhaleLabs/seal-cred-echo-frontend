@@ -4,7 +4,7 @@ import { proxy } from 'valtio'
 import PostStatus from 'models/PostStatus'
 import WalletStore from 'stores/WalletStore'
 import env from 'helpers/env'
-import getContractOriginalAndType from 'helpers/getContractOriginalAndType'
+import getOriginalFromDerivative from 'helpers/getOriginalFromDerivative'
 import getPostStatuses from 'helpers/getPostStatuses'
 import postStorageContracts from 'helpers/postStorageContracts'
 import safeGetPostsFromContract from 'helpers/safeGetPostsFromContract'
@@ -47,16 +47,22 @@ class PostStore extends PersistableStore {
     text: string
     derivativeAddress: string
   }) {
-    const { type, originalAddress } = await getContractOriginalAndType(
-      derivativeAddress
-    )
+    try {
+      const userSignature = WalletStore.getUserSignature()
+      if (!userSignature) throw new Error('No user signature')
 
-    const contract = (await postStorageContracts[type]).connect(
-      WalletStore.provider.getSigner(0)
-    )
+      const { ledgerType, original } = await getOriginalFromDerivative(
+        derivativeAddress
+      )
 
-    const transaction = await contract.savePost(text, originalAddress)
-    return await transaction.wait()
+      const contract = postStorageContracts[ledgerType].connect(userSignature)
+
+      const transaction = await contract.savePost(text, original)
+      return await transaction.wait()
+    } catch (error) {
+      console.error('Saving post error', error)
+      throw error
+    }
   }
 
   checkingStatuses = false

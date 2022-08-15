@@ -3,6 +3,7 @@ import BottomPart from 'components/CreatePost/BottomPart'
 import DropDownStore from 'stores/DropDownStore'
 import TextArea from 'components/TextArea'
 import TextStore from 'stores/TextStore'
+import WalletStore from 'stores/WalletStore'
 import classnames, { display, flexDirection, gap } from 'classnames/tailwind'
 
 const formContainer = classnames(
@@ -13,6 +14,7 @@ const formContainer = classnames(
 export default function () {
   const { text } = useSnapshot(TextStore, { sync: true })
   const { selectedAddress } = useSnapshot(DropDownStore)
+  const { mintLoading } = useSnapshot(WalletStore)
 
   const suffix = selectedAddress ? '' : ''
   const maxLength = 280 - suffix.length
@@ -31,7 +33,7 @@ export default function () {
         }}
         maxLength={maxLength}
         suffix={suffix}
-        disabled={!selectedAddress}
+        disabled={!selectedAddress || mintLoading}
       />
       <BottomPart />
     </div>

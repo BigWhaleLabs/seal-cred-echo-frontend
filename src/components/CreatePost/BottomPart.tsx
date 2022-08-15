@@ -46,7 +46,7 @@ export default function () {
             WalletStore.mintLoading = true
             try {
               const result = await PostStore.savePost({
-                text: text,
+                text,
                 derivativeAddress: selectedAddress,
               })
               // TODO: handle result to posts list
