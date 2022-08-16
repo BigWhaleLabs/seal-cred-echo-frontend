@@ -9,9 +9,9 @@ import classnames, {
   alignItems,
   display,
   flexDirection,
-  flexWrap,
   gap,
   justifyContent,
+  width,
 } from 'classnames/tailwind'
 import handleError, { ErrorList } from 'helpers/handleError'
 import postStore from 'stores/PostStore'
@@ -19,13 +19,15 @@ import postStore from 'stores/PostStore'
 const container = classnames(
   display('flex'),
   flexDirection('flex-col'),
-  gap('gap-y-4')
+  gap('gap-y-2')
 )
 const bottomContainer = classnames(
   display('flex'),
   justifyContent('justify-between'),
+  width('w-full'),
   alignItems('items-center'),
-  flexWrap('flex-wrap')
+  gap('gap-y-4'),
+  flexDirection('md:flex-row', 'flex-col')
 )
 
 export default function () {
@@ -105,6 +107,8 @@ export default function () {
                 setLoading(false)
               }
             }}
+            fullWidthOnMobile
+            center
           >
             Tweet!
           </Button>

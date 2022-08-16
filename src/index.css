@@ -150,6 +150,28 @@ body {
   border: 4px solid transparent;
 }
 
+.dots-loading::after {
+  animation: dots 3s linear infinite;
+  content: '';
+}
+
+@keyframes dots {
+  0%,
+  20% {
+    content: '.';
+  }
+  40% {
+    content: '..';
+  }
+  60% {
+    content: '...';
+  }
+  90%,
+  100% {
+    content: '';
+  }
+}
+
 /* Wallet select menu for dark and light theme */
 .web3modal-modal-lightbox {
   z-index: 100 !important;

@@ -35,6 +35,7 @@ export function SelectAssetSuspended({
       onChange={(selectedValue) => {
         onSelect(selectedValue)
       }}
+      forZkBadges
     />
   )
 }

@@ -1,5 +1,18 @@
-import { BodyText } from 'components/Text'
+import { fontFamily } from 'classnames/tailwind'
+import ItemContainer from 'components/Dropdown/ItemContainer'
+import classNamesToString from 'helpers/classNamesToString'
 
 export default function () {
-  return <BodyText>Loading assets...</BodyText>
+  return (
+    <ItemContainer withPadding forZkBadges>
+      <p
+        className={classNamesToString(
+          fontFamily('font-primary'),
+          'dots-loading'
+        )}
+      >
+        Loading assets
+      </p>
+    </ItemContainer>
+  )
 }

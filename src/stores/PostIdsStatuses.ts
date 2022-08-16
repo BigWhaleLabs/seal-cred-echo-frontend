@@ -1,22 +1,9 @@
-import { proxy } from 'valtio'
 import { proxyMap, subscribeKey } from 'valtio/utils'
 import PostStatus from 'models/PostStatus'
 import PostStore from 'stores/PostStore'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
 import data from 'data'
 import getPostStatuses from 'helpers/getPostStatuses'
-
-// const postStatusStore = proxy({
-//   checkingStatuses: false,
-//   idsToStatuses: {} as {
-//     [postId: number]:
-//       | {
-//           status: PostStatus
-//           statusId?: number
-//         }
-//       | undefined
-//   },
-// })
 
 const postStatusStore = proxyMap<
   number,
