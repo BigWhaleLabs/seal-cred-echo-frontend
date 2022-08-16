@@ -39,7 +39,7 @@ function SuspendedSuffix({
   const derivativeAddressesOwned = useDerivativeAddressesOwned()
   const symbolMap = useContractSymbols(derivativeAddressesOwned)
 
-  const suffix = ` ${
+  const suffix = `@ ${
     symbolMap[currentAddress] || truncateMiddleIfNeeded(currentAddress, 8)
   }`
 
