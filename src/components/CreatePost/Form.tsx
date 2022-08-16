@@ -12,7 +12,7 @@ import classnames, {
   gap,
   justifyContent,
 } from 'classnames/tailwind'
-import handleError from 'helpers/handleError'
+import handleError, { ErrorList } from 'helpers/handleError'
 
 const container = classnames(
   display('flex'),
@@ -30,9 +30,12 @@ export default function () {
   const [loading, setLoading] = useState(false)
   const [text, setText] = useState('')
   const [selectedAddress, setSelectedAddress] = useState('')
+  const [error, setError] = useState<unknown>(null)
+  // suffix sets from SuffixBlock when found
+  const [suffix, setSuffix] = useState('')
 
-  const suffix = selectedAddress ? '' : ''
   const maxLength = 280 - suffix.length
+  const postInvalid = text.length > maxLength
 
   return (
     <div className={container}>
@@ -46,9 +49,11 @@ export default function () {
         onTextChange={(newText) => {
           setText(newText)
         }}
+        setSuffix={setSuffix}
         maxLength={maxLength}
-        suffix={suffix}
+        currentAddress={selectedAddress}
         disabled={!selectedAddress || loading}
+        error={error}
       />
       <div className={container}>
         <BodyText>Choose a ZK Badge</BodyText>
@@ -63,20 +68,23 @@ export default function () {
           <Button
             type="primary"
             title="Tweet"
-            disabled={!selectedAddress || !text}
+            disabled={!selectedAddress || !text || postInvalid}
             loading={loading}
             onClick={async () => {
               setLoading(true)
+              setError(null)
               try {
+                const submitText = text + suffix
                 const result = await WalletStore.createPost({
-                  text,
+                  text: submitText,
                   derivativeAddress: selectedAddress,
                 })
                 // TODO: handle result to posts list
                 console.log(result)
                 setText('')
               } catch (error) {
-                handleError(error)
+                setError(error)
+                handleError(new Error(ErrorList.failedPost))
               } finally {
                 setLoading(false)
               }
