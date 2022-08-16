@@ -19,7 +19,10 @@ import classnames, {
 const container = (closed: boolean, forZkBadges?: boolean) =>
   classnames(
     position('absolute'),
-    inset(forZkBadges ? 'top-16' : 'top-8'),
+    inset(
+      forZkBadges ? 'top-16' : { 'top-8': true, '-left-8': true },
+      'xs:left-0'
+    ),
     opacity({ 'opacity-0': closed }),
     visibility({ invisible: closed }),
     zIndex('z-40'),

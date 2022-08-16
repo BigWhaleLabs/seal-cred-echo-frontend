@@ -21,7 +21,7 @@ module.exports = {
         rotate: 'rotate linear 3.5s infinite',
       },
       inset: {
-        '-2': '-0.5rem',
+        '-8': '-2rem',
       },
       colors: {
         black: {
