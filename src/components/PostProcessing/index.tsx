@@ -1,3 +1,4 @@
+import Loading from 'components/Loading'
 import ProcessHeader from 'components/PostProcessing/ProcessHeader'
 import ViewTweetButton from 'components/PostProcessing/ViewTweetButton'
 import classnames, {
@@ -30,6 +31,7 @@ export default function ({ tweetUrl, pending }: PostProcessingProps) {
   return (
     <div className={container(pending)}>
       <ProcessHeader pending={pending} />
+      {pending && <Loading />}
       <ViewTweetButton url={tweetUrl} pending={pending} />
     </div>
   )
