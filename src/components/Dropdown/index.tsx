@@ -11,6 +11,7 @@ import classnames, {
   justifyContent,
   padding,
   position,
+  textColor,
   width,
 } from 'classnames/tailwind'
 import useClickOutside from 'hooks/useClickOutside'
@@ -24,6 +25,9 @@ const button = (forZkBadges?: boolean) =>
     gap('gap-x-2'),
     padding({ 'p-3': forZkBadges })
   )
+
+const container = (forZkBadges?: boolean) =>
+  classnames(position('relative'), width('md:w-fit', { 'w-full': forZkBadges }))
 
 export default function <T>({
   currentValue,
@@ -58,11 +62,11 @@ export default function <T>({
   )
 
   return (
-    <div className={position('relative')} ref={ref}>
+    <div className={container(forZkBadges)} ref={ref}>
       {forZkBadges ? (
         <ItemContainer forZkBadges>{selectedElement}</ItemContainer>
       ) : (
-        selectedElement
+        <span className={textColor('text-primary')}>{selectedElement}</span>
       )}
       <Menu
         open={open}

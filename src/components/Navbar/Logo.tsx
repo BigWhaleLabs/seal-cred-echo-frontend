@@ -19,7 +19,7 @@ const container = classnames(
   space('space-x-4')
 )
 const logoTextContainer = classnames(
-  display('flex'),
+  display('sm:flex', 'hidden'),
   flexDirection('flex-col'),
   space('space-y-1')
 )

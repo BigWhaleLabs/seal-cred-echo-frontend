@@ -5,7 +5,6 @@ import classnames, {
   alignItems,
   display,
   flexDirection,
-  flexWrap,
   gap,
   justifyContent,
   width,
@@ -21,8 +20,8 @@ const bottomContainer = classnames(
   justifyContent('justify-between'),
   width('w-full'),
   alignItems('items-center'),
-  flexWrap('flex-wrap'),
-  gap('gap-y-4')
+  gap('gap-y-4'),
+  flexDirection('md:flex-row', 'flex-col')
 )
 
 export default function () {
@@ -37,6 +36,8 @@ export default function () {
           onClick={() => {
             console.log('Tweet!')
           }}
+          fullWidthOnMobile
+          center
         >
           Tweet!
         </Button>

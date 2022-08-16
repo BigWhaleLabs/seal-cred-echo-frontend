@@ -17,7 +17,11 @@ import classnames, {
 
 export const boxStyles = (withPadding?: boolean, forZkBadges?: boolean) =>
   classnames(
-    width({ 'md:w-96': forZkBadges }, 'w-52'),
+    width({
+      'md:w-96': forZkBadges,
+      'w-full': forZkBadges,
+      'w-52': !forZkBadges,
+    }),
     borderRadius('rounded-lg'),
     borderWidth('border'),
     borderColor('border-formal-accent-dimmed', 'focus:border-formal-accent'),
