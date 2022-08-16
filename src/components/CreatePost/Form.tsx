@@ -76,7 +76,6 @@ export default function () {
                 console.log(result)
                 setText('')
               } catch (error) {
-                console.error('Save post error', error)
                 handleError(error)
               } finally {
                 setLoading(false)
