@@ -31,6 +31,7 @@ const walletAccount = classnames(
 
 export default function () {
   const { account } = useSnapshot(WalletStore)
+  const connected = !!account
 
   return (
     <div className={container}>
@@ -41,7 +42,7 @@ export default function () {
       <div
         className={walletContainer}
         onClick={async () => {
-          if (account) {
+          if (connected) {
             window.open(getEtherscanAddressUrl(account), '_blank')
           } else {
             await WalletStore.connect(true)
@@ -50,17 +51,21 @@ export default function () {
       >
         <div className={walletAccount}>
           <AccentText
-            color={account ? 'text-accent' : 'text-primary-semi-dimmed'}
+            color={connected ? 'text-accent' : 'text-primary-semi-dimmed'}
           >
-            {account ? <ENSAddress address={account} /> : 'No wallet connected'}
+            {connected ? (
+              <ENSAddress address={account} />
+            ) : (
+              'No wallet connected'
+            )}
           </AccentText>
         </div>
         <div className={width('w-fit')}>
           <div className={classnames(display('sm:flex', 'hidden'))}>
-            <SealWallet connected={!!account} />
+            <SealWallet connected={connected} />
           </div>
           <div className={classnames(display('sm:hidden', 'flex'))}>
-            <SmallSealWallet connected={!!account} />
+            <SmallSealWallet connected={connected} />
           </div>
         </div>
       </div>
