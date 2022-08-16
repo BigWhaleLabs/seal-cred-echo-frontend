@@ -1,20 +1,40 @@
-import { useSnapshot } from 'valtio'
-import BottomPart from 'components/CreatePost/BottomPart'
-import DropDownStore from 'stores/DropDownStore'
+import { BodyText } from 'components/Text'
+import { useState } from 'preact/hooks'
+import Button from 'components/Button'
+import SelectAsset from 'components/CreatePost/SelectAsset'
 import TextArea from 'components/TextArea'
-import TextStore from 'stores/TextStore'
 import WalletStore from 'stores/WalletStore'
-import classnames, { display, flexDirection, gap } from 'classnames/tailwind'
+import classnames, {
+  alignItems,
+  display,
+  flexDirection,
+  flexWrap,
+  gap,
+  justifyContent,
+} from 'classnames/tailwind'
+import handleError from 'helpers/handleError'
 
 const formContainer = classnames(
   display('flex'),
   flexDirection('flex-col'),
   gap('gap-y-4')
 )
+const container = classnames(
+  display('flex'),
+  flexDirection('flex-col'),
+  gap('gap-y-4')
+)
+const bottomContainer = classnames(
+  display('flex'),
+  justifyContent('justify-between'),
+  alignItems('items-center'),
+  flexWrap('flex-wrap')
+)
+
 export default function () {
-  const { text } = useSnapshot(TextStore, { sync: true })
-  const { selectedAddress } = useSnapshot(DropDownStore)
-  const { mintLoading } = useSnapshot(WalletStore)
+  const [loading, setLoading] = useState(false)
+  const [text, setText] = useState('')
+  const [selectedAddress, setSelectedAddress] = useState('')
 
   const suffix = selectedAddress ? '' : ''
   const maxLength = 280 - suffix.length
@@ -29,13 +49,49 @@ export default function () {
             : 'Select the asset to post as first!'
         }
         onTextChange={(newText) => {
-          TextStore.text = newText
+          setText(newText)
         }}
         maxLength={maxLength}
         suffix={suffix}
-        disabled={!selectedAddress || mintLoading}
+        disabled={!selectedAddress || loading}
       />
-      <BottomPart />
+      <div className={container}>
+        <BodyText>Choose a ZK Badge</BodyText>
+        <div className={bottomContainer}>
+          <SelectAsset
+            disabled={loading}
+            selectedAddress={selectedAddress}
+            onSelect={(address) => {
+              setSelectedAddress(address)
+            }}
+          />
+          <Button
+            type="primary"
+            title="Tweet"
+            disabled={!selectedAddress || !text}
+            loading={loading}
+            onClick={async () => {
+              setLoading(true)
+              try {
+                const result = await WalletStore.createPost({
+                  text,
+                  derivativeAddress: selectedAddress,
+                })
+                // TODO: handle result to posts list
+                console.log(result)
+                setText('')
+              } catch (error) {
+                console.error('Save post error', error)
+                handleError(error)
+              } finally {
+                setLoading(false)
+              }
+            }}
+          >
+            Tweet!
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }

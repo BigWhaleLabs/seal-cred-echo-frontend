@@ -2,7 +2,7 @@ import SealCredStore from 'stores/SealCredStore'
 import data from 'data'
 
 export default async function (derivativeAddress: string) {
-  const ledgers = await SealCredStore.ledgers
+  const ledgers = SealCredStore.ledgers
 
   const typeWithOriginal = {} as {
     ledgerType: string
@@ -10,13 +10,12 @@ export default async function (derivativeAddress: string) {
   }
   for (const ledgerType in data) {
     const ledger = await ledgers[ledgerType]
-    Object.entries(ledger).find(([original, derivative]) => {
-      if (derivativeAddress === derivative.address) {
-        typeWithOriginal.original = original
-        typeWithOriginal.ledgerType = ledgerType
-      }
-    })
-    if (Object.values(typeWithOriginal).length > 0) continue
+    for await (const [original, derivative] of Object.entries(ledger)) {
+      if (derivative.address !== derivativeAddress) continue
+
+      typeWithOriginal.original = original
+      typeWithOriginal.ledgerType = ledgerType
+    }
   }
 
   return typeWithOriginal

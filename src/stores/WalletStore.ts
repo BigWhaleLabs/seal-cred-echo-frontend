@@ -1,11 +1,14 @@
+import { ExternalProvider, Web3Provider } from '@ethersproject/providers'
 import { PersistableStore } from '@big-whale-labs/stores'
-import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
 import { serializeError } from 'eth-rpc-errors'
 import chainForWallet from 'helpers/chainForWallet'
 import env from 'helpers/env'
+import getOriginalFromDerivative from 'helpers/getOriginalFromDerivative'
 import handleError, { ErrorList } from 'helpers/handleError'
 import networkChainIdToName from 'models/networkChainIdToName'
+import postStorageContracts from 'helpers/postStorageContracts'
+import relayProvider from 'helpers/providers/relayProvider'
 import web3Modal from 'helpers/web3Modal'
 
 let provider: Web3Provider
@@ -13,7 +16,6 @@ let provider: Web3Provider
 class WalletStore extends PersistableStore {
   account?: string
   walletLoading = false
-  mintLoading = false
   needNetworkChange = false
   walletsToNotifiedOfBeingDoxxed = {} as {
     [address: string]: boolean
@@ -24,7 +26,6 @@ class WalletStore extends PersistableStore {
       'account',
       'cachedProvider',
       'provider',
-      'mintLoading',
       'walletLoading',
     ]
     return disallowList.includes(key) ? undefined : value
@@ -98,8 +99,30 @@ class WalletStore extends PersistableStore {
     return provider
   }
 
-  getUserSignature() {
-    return this.provider.getSigner(0)
+  async createPost({
+    text,
+    derivativeAddress,
+  }: {
+    text: string
+    derivativeAddress: string
+  }) {
+    if (!provider) throw new Error('No provider found')
+
+    const gsnProvider = await relayProvider(provider)
+
+    const ethersProvider = new Web3Provider(
+      gsnProvider as unknown as ExternalProvider
+    )
+
+    const { ledgerType, original } = await getOriginalFromDerivative(
+      derivativeAddress
+    )
+
+    const contract = postStorageContracts[ledgerType].connect(
+      ethersProvider.getSigner(0)
+    )
+    const transaction = await contract.savePost(text, original)
+    return transaction.wait()
   }
 
   private subscribeProvider(provider: Web3Provider) {

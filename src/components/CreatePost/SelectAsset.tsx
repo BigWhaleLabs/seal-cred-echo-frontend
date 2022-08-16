@@ -1,22 +1,25 @@
 import { Suspense } from 'preact/compat'
-import { useSnapshot } from 'valtio'
-import DropDownStore from 'stores/DropDownStore'
 import Dropdown from 'components/Dropdown'
 import SelectAssetLoading from 'components/CreatePost/SelectAssetLoading'
-import WalletStore from 'stores/WalletStore'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import useContractSymbols from 'hooks/useContractSymbols'
 import useDerivativeAddressesOwned from 'hooks/useDerivativeAddressesOwned'
 
-export function SelectAssetSuspended() {
+export function SelectAssetSuspended({
+  disabled,
+  selectedAddress,
+  onSelect,
+}: {
+  disabled: boolean
+  selectedAddress: string
+  onSelect: (address: string) => void
+}) {
   const derivativeAddressesOwned = useDerivativeAddressesOwned()
   const symbolMap = useContractSymbols(derivativeAddressesOwned)
-  const { mintLoading } = useSnapshot(WalletStore)
-  const { selectedAddress } = useSnapshot(DropDownStore)
 
   return (
     <Dropdown
-      disabled={mintLoading}
+      disabled={disabled}
       currentValue={selectedAddress}
       placeholder={
         derivativeAddressesOwned.length
@@ -28,16 +31,28 @@ export function SelectAssetSuspended() {
         label: symbolMap[address] || truncateMiddleIfNeeded(address, 8),
       }))}
       onChange={(selectedValue) => {
-        DropDownStore.selectedAddress = selectedValue
+        onSelect(selectedValue)
       }}
     />
   )
 }
 
-export default function () {
+export default function ({
+  disabled,
+  selectedAddress,
+  onSelect,
+}: {
+  disabled: boolean
+  selectedAddress: string
+  onSelect: (address: string) => void
+}) {
   return (
     <Suspense fallback={<SelectAssetLoading />}>
-      <SelectAssetSuspended />
+      <SelectAssetSuspended
+        disabled={disabled}
+        selectedAddress={selectedAddress}
+        onSelect={onSelect}
+      />
     </Suspense>
   )
 }
