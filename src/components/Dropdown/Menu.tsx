@@ -11,6 +11,7 @@ import classnames, {
   textColor,
   transitionProperty,
   visibility,
+  width,
   wordBreak,
   zIndex,
 } from 'classnames/tailwind'
@@ -22,7 +23,8 @@ const container = (closed: boolean, forZkBadges?: boolean) =>
     opacity({ 'opacity-0': closed }),
     visibility({ invisible: closed }),
     zIndex('z-40'),
-    transitionProperty('transition-all')
+    transitionProperty('transition-all'),
+    width('w-full')
   )
 const menuItem = (selected?: boolean) =>
   classnames(
