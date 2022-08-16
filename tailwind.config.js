@@ -78,6 +78,7 @@ module.exports = {
         body: '35rem',
       },
       maxWidth: {
+        'processing-content': '28rem',
         alert: '33rem',
       },
       maxHeight: {

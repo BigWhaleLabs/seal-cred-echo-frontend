@@ -20,11 +20,13 @@ const innerContainer = classnames(
 
 export default function () {
   return (
-    <div className={container}>
-      <div className={innerContainer}>
-        <HeaderText>Create an anonymous tweet</HeaderText>
-        <NoBadgesMessage />
-        <Form />
+    <div className={gap('gap-y-6', 'sm:gap-y-12')}>
+      <div className={container}>
+        <div className={innerContainer}>
+          <HeaderText>Create an anonymous tweet</HeaderText>
+          <NoBadgesMessage />
+          <Form />
+        </div>
       </div>
     </div>
   )
