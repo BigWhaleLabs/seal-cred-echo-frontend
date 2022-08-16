@@ -1,4 +1,5 @@
 import { BodyText } from 'components/Text'
+import { PostStructOutput } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
 import { useState } from 'preact/hooks'
 import Button from 'components/Button'
 import SelectAsset from 'components/CreatePost/SelectAsset'
@@ -13,6 +14,7 @@ import classnames, {
   justifyContent,
 } from 'classnames/tailwind'
 import handleError, { ErrorList } from 'helpers/handleError'
+import postStore from 'stores/PostStore'
 
 const container = classnames(
   display('flex'),
@@ -75,12 +77,26 @@ export default function () {
               setError(null)
               try {
                 const submitText = text + suffix
+
                 const result = await WalletStore.createPost({
                   text: submitText,
                   derivativeAddress: selectedAddress,
                 })
-                // TODO: handle result to posts list
-                console.log(result)
+
+                const posts = await postStore.posts
+
+                for (const data of result) {
+                  const { id, post, derivativeAddress, sender, timestamp } =
+                    data
+
+                  posts.unshift({
+                    id,
+                    post,
+                    derivativeAddress,
+                    sender,
+                    timestamp,
+                  } as PostStructOutput)
+                }
                 setText('')
               } catch (error) {
                 setError(error)

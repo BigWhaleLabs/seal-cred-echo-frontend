@@ -2,17 +2,10 @@ import { LinkText } from 'components/Text'
 import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Delimiter from 'components/Delimiter'
-import SelectedTypeStore from 'stores/SelectedTypeStore'
-import postStore from 'stores/PostStore'
+import postStore from 'stores/PostIdsStatuses'
 
 function TwitterLink({ id }: { id: number }) {
-  const { selectedType } = useSnapshot(SelectedTypeStore)
-  const { idsToStatuses } = useSnapshot(postStore)
-
-  const statusId =
-    selectedType &&
-    idsToStatuses[selectedType] &&
-    idsToStatuses[selectedType][id]?.statusId
+  const statusId = useSnapshot(postStore).get(id)?.statusId
 
   if (!statusId) return null
 

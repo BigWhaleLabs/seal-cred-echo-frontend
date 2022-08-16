@@ -1,26 +1,12 @@
 import { Suspense } from 'preact/compat'
-import { space } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import BlockchainPost from 'components/BlockchainList/BlockchainPost'
 import ListLoading from 'components/ListLoading'
 import NoPosts from 'components/BlockchainList/NoPosts'
 import PostStore from 'stores/PostStore'
-import SelectedTypeStore from 'stores/SelectedTypeStore'
-
-function usePosts() {
-  const { selectedType } = useSnapshot(SelectedTypeStore)
-  const { postStorages } = useSnapshot(PostStore)
-
-  if (!postStorages[selectedType]) {
-    PostStore.fetchPostsByName(selectedType)
-    return []
-  }
-
-  return [...postStorages[selectedType]]
-}
 
 function BlockchainPostsListSuspended() {
-  const posts = usePosts()
+  const { posts } = useSnapshot(PostStore)
 
   return (
     <>

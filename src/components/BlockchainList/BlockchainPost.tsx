@@ -6,11 +6,9 @@ import {
   UnderlineTextButton,
 } from 'components/Text'
 import { Suspense } from 'preact/compat'
-import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
 import ContractTitle from 'components/BlockchainList/ContractTitle'
 import Delimiter from 'components/Delimiter'
-import ENSAddress from 'components/ENSAddress'
 import PostTime from 'components/BlockchainList/PostTime'
 import Status from 'components/BlockchainList/Status'
 import TwitterLink from 'components/BlockchainList/TwitterLink'
@@ -23,7 +21,6 @@ import classnames, {
 } from 'classnames/tailwind'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
-import walletStore from 'stores/WalletStore'
 
 const container = classnames(
   display('flex'),
@@ -43,14 +40,9 @@ const postBottom = classnames(
 )
 
 function Sender({ sender }: { sender: string }) {
-  const { account } = useSnapshot(walletStore)
   return (
     <LinkText extraSmall title={sender} url={getEtherscanAddressUrl(sender)}>
-      {sender === account ? (
-        'you'
-      ) : (
-        <ENSAddress address={sender} truncateSize={13} />
-      )}
+      {truncateMiddleIfNeeded(sender, 13)}
     </LinkText>
   )
 }

@@ -5,7 +5,6 @@ import useDerivativeAddressesOwned from 'hooks/useDerivativeAddressesOwned'
 
 function NoBadgesMessageSuspended() {
   const derivativeAddressesOwned = useDerivativeAddressesOwned()
-  console.log('derivativeAddressesOwned', derivativeAddressesOwned)
 
   return derivativeAddressesOwned.length ? null : (
     <Button type="primary" title="Create a ZK Badge to Tweet">

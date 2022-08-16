@@ -1,10 +1,7 @@
-import { devtools } from 'valtio/utils'
 import { useSnapshot } from 'valtio'
 import ContractsStore from 'stores/ContractsStore'
 import SealCredStore from 'stores/SealCredStore'
 import data from 'data'
-
-devtools(SealCredStore)
 
 export default function () {
   const { addressToTokenIds } = useSnapshot(ContractsStore)

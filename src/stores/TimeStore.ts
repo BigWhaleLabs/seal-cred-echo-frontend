@@ -4,6 +4,6 @@ const TimeStore = proxy({
   current: new Date().valueOf(),
 })
 
-// setInterval(() => (TimeStore.current = new Date().valueOf()), 10000)
+setInterval(() => (TimeStore.current = new Date().valueOf()), 10000)
 
 export default TimeStore

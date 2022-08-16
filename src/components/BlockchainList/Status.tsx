@@ -1,9 +1,9 @@
 import { StatusText } from 'components/Text'
 import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
+import PostIdsStatuses from 'stores/PostIdsStatuses'
 import PostStatus from 'models/PostStatus'
 import PostStatusText from 'models/PostStatusText'
-import SelectedTypeStore from 'stores/SelectedTypeStore'
 import classnames, {
   alignItems,
   backgroundColor,
@@ -11,7 +11,6 @@ import classnames, {
   display,
   padding,
 } from 'classnames/tailwind'
-import postStore from 'stores/PostStore'
 
 const statusContainer = (status: PostStatus) =>
   classnames(
@@ -38,14 +37,8 @@ function StatusBadge({ id, status }: { id: number; status: PostStatus }) {
 }
 
 function Status({ id }: { id: number }) {
-  const { selectedType } = useSnapshot(SelectedTypeStore)
-  const { idsToStatuses } = useSnapshot(postStore)
-
   const status =
-    (selectedType &&
-      idsToStatuses[selectedType] &&
-      idsToStatuses[selectedType][id]?.status) ||
-    PostStatus.pending
+    useSnapshot(PostIdsStatuses).get(id)?.status || PostStatus.pending
 
   return <StatusBadge status={status} id={id} />
 }
