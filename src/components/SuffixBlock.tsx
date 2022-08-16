@@ -27,25 +27,25 @@ interface SuffixProps {
   maxCount: number
   currentAddress: string
   text: string
-  setMaxLength: StateUpdater<number>
+  setSuffix: StateUpdater<string>
 }
 
 function SuspendedSuffix({
   maxCount,
   currentAddress,
   text,
-  setMaxLength,
+  setSuffix,
 }: SuffixProps) {
   const derivativeAddressesOwned = useDerivativeAddressesOwned()
   const symbolMap = useContractSymbols(derivativeAddressesOwned)
 
   const suffix = currentAddress
-    ? `@ ${
+    ? ` @ ${
         symbolMap[currentAddress] || truncateMiddleIfNeeded(currentAddress, 8)
       }`
     : ''
 
-  setMaxLength(280 - suffix.length)
+  setSuffix(suffix)
 
   return (
     <div className={footerBox}>
@@ -59,7 +59,7 @@ export default function ({
   currentAddress,
   maxCount,
   text,
-  setMaxLength,
+  setSuffix,
 }: SuffixProps) {
   return (
     <Suspense fallback={<SuffixText>{currentAddress}</SuffixText>}>
@@ -67,7 +67,7 @@ export default function ({
         currentAddress={currentAddress}
         maxCount={maxCount}
         text={text}
-        setMaxLength={setMaxLength}
+        setSuffix={setSuffix}
       />
     </Suspense>
   )

@@ -31,6 +31,11 @@ export default function () {
   const [text, setText] = useState('')
   const [selectedAddress, setSelectedAddress] = useState('')
   const [error, setError] = useState<unknown>(null)
+  // suffix sets from SuffixBlock when found
+  const [suffix, setSuffix] = useState('')
+
+  const maxLength = 280 - suffix.length
+  const postInvalid = text.length > maxLength
 
   return (
     <div className={container}>
@@ -44,6 +49,8 @@ export default function () {
         onTextChange={(newText) => {
           setText(newText)
         }}
+        setSuffix={setSuffix}
+        maxLength={maxLength}
         currentAddress={selectedAddress}
         disabled={!selectedAddress || loading}
         error={error}
@@ -61,14 +68,15 @@ export default function () {
           <Button
             type="primary"
             title="Tweet"
-            disabled={!selectedAddress || !text}
+            disabled={!selectedAddress || !text || postInvalid}
             loading={loading}
             onClick={async () => {
               setLoading(true)
               setError(null)
               try {
+                const submitText = text + suffix
                 const result = await WalletStore.createPost({
-                  text,
+                  text: submitText,
                   derivativeAddress: selectedAddress,
                 })
                 // TODO: handle result to posts list

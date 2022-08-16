@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'preact/compat'
+import { ChangeEvent, StateUpdater } from 'preact/compat'
 import { ErrorText, TextareaText } from 'components/Text'
 import {
   alignItems,
@@ -68,6 +68,8 @@ interface TextAreaProps {
   text: string
   currentAddress: string
   onTextChange: (text: string) => void
+  setSuffix: StateUpdater<string>
+  maxLength: number
   disabled?: boolean
   error?: unknown
   footer?: string
@@ -79,10 +81,10 @@ export default function ({
   disabled,
   error,
   currentAddress,
+  maxLength,
+  setSuffix,
   ...restProps
 }: TextAreaProps & TextareaAutosizeProps) {
-  // Max length is recalculated in SuffixBlock component
-  const [maxLength, setMaxLength] = useState(280)
   const isValid = !error && text.length <= maxLength
 
   return (
@@ -107,7 +109,7 @@ export default function ({
             maxCount={maxLength}
             text={text}
             currentAddress={currentAddress}
-            setMaxLength={setMaxLength}
+            setSuffix={setSuffix}
           />
         </div>
       </div>
