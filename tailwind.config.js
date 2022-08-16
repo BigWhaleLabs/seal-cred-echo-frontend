@@ -20,6 +20,9 @@ module.exports = {
         'pulse-horizontal': 'pulse-horizontal 2s ease-in-out infinite',
         rotate: 'rotate linear 3.5s infinite',
       },
+      inset: {
+        '-2': '-0.5rem',
+      },
       colors: {
         black: {
           background: 'var(--black-background)',
