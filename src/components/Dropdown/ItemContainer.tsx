@@ -15,9 +15,9 @@ import classnames, {
   width,
 } from 'classnames/tailwind'
 
-export const boxStyles = (withPadding?: boolean) =>
+export const boxStyles = (withPadding?: boolean, forZkBadges?: boolean) =>
   classnames(
-    width('md:w-96', 'w-52'),
+    width({ 'md:w-96': forZkBadges }, 'w-52'),
     borderRadius('rounded-lg'),
     borderWidth('border'),
     borderColor('border-formal-accent-dimmed', 'focus:border-formal-accent'),
@@ -35,6 +35,7 @@ export const boxStyles = (withPadding?: boolean) =>
 export default function ({
   children,
   withPadding,
-}: ChildrenProp & { withPadding?: boolean }) {
-  return <div className={boxStyles(withPadding)}>{children}</div>
+  forZkBadges,
+}: ChildrenProp & { withPadding?: boolean; forZkBadges?: boolean }) {
+  return <div className={boxStyles(withPadding, forZkBadges)}>{children}</div>
 }

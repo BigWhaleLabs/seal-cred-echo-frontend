@@ -29,13 +29,13 @@ export default function <T>({
   placeholder,
   options,
   onChange,
-  wrapButtonInBox = false,
+  forZkBadges,
 }: {
   currentValue?: T
   placeholder?: string
   options: Option<T>[]
   onChange: (selectedValue: T) => void
-  wrapButtonInBox?: boolean
+  forZkBadges?: boolean
 }) {
   const [open, setOpen] = useState(false)
   const ref = createRef<HTMLDivElement>()
@@ -55,8 +55,8 @@ export default function <T>({
 
   return (
     <div className={position('relative')} ref={ref}>
-      {wrapButtonInBox ? (
-        <ItemContainer>{selectedElement}</ItemContainer>
+      {forZkBadges ? (
+        <ItemContainer forZkBadges>{selectedElement}</ItemContainer>
       ) : (
         selectedElement
       )}
@@ -68,6 +68,7 @@ export default function <T>({
           onChange(option.value)
           setOpen(false)
         }}
+        forZkBadges={forZkBadges}
       />
     </div>
   )

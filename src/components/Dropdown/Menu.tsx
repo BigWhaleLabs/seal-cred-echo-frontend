@@ -15,10 +15,10 @@ import classnames, {
   zIndex,
 } from 'classnames/tailwind'
 
-const container = (closed: boolean) =>
+const container = (closed: boolean, forZkBadges?: boolean) =>
   classnames(
     position('absolute'),
-    inset('top-14'),
+    inset(forZkBadges ? 'top-16' : 'top-11'),
     opacity({ 'opacity-0': closed }),
     visibility({ invisible: closed }),
     zIndex('z-40'),
@@ -40,15 +40,17 @@ export default function <T>({
   options,
   selected,
   onSelect,
+  forZkBadges,
 }: {
   open: boolean
   options: Option<T>[]
   selected?: Option<T>
   onSelect: (option: Option<T>) => void
+  forZkBadges?: boolean
 }) {
   return (
-    <div className={container(!open)}>
-      <ItemContainer withPadding>
+    <div className={container(!open, forZkBadges)}>
+      <ItemContainer withPadding forZkBadges={forZkBadges}>
         {options.map((option) => (
           <p
             key={option.value}

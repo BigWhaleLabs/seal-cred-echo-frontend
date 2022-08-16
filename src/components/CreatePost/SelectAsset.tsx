@@ -27,7 +27,7 @@ export function SelectAssetSuspended() {
       onChange={(selectedValue) => {
         DropDownStore.selectedAddress = selectedValue
       }}
-      wrapButtonInBox
+      forZkBadges={true}
     />
   )
 }
