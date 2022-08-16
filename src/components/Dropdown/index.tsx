@@ -11,6 +11,7 @@ import classnames, {
   justifyContent,
   padding,
   position,
+  textColor,
   width,
 } from 'classnames/tailwind'
 import useClickOutside from 'hooks/useClickOutside'
@@ -58,7 +59,9 @@ export default function <T>({
       {forZkBadges ? (
         <ItemContainer forZkBadges>{selectedElement}</ItemContainer>
       ) : (
-        selectedElement
+        <span className={classnames(textColor('text-primary'))}>
+          {selectedElement}
+        </span>
       )}
       <Menu
         open={open}
