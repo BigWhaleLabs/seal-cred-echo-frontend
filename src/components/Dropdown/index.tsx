@@ -9,6 +9,7 @@ import classnames, {
   display,
   gap,
   justifyContent,
+  padding,
   position,
   width,
 } from 'classnames/tailwind'
@@ -19,7 +20,8 @@ const button = classnames(
   justifyContent('justify-between'),
   alignItems('items-center'),
   width('w-full'),
-  gap('gap-x-2')
+  gap('gap-x-2'),
+  padding('p-3')
 )
 
 export default function <T>({

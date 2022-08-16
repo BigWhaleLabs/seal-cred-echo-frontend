@@ -4,7 +4,7 @@ import classNamesToString from 'helpers/classNamesToString'
 
 export default function () {
   return (
-    <ItemContainer>
+    <ItemContainer withPadding>
       <p
         className={classNamesToString(
           fontFamily('font-primary'),
