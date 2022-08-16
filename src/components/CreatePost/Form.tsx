@@ -14,11 +14,6 @@ import classnames, {
 } from 'classnames/tailwind'
 import handleError from 'helpers/handleError'
 
-const formContainer = classnames(
-  display('flex'),
-  flexDirection('flex-col'),
-  gap('gap-y-4')
-)
 const container = classnames(
   display('flex'),
   flexDirection('flex-col'),
@@ -40,7 +35,7 @@ export default function () {
   const maxLength = 280 - suffix.length
 
   return (
-    <div className={formContainer}>
+    <div className={container}>
       <TextArea
         text={text}
         placeholder={
