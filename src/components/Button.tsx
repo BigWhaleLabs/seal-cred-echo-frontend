@@ -59,7 +59,7 @@ const commonClasses = (
       'hover:shadow-lg': available,
       'active:shadow-button-active': available,
     }),
-    width('sm:w-fit', { 'w-full': fullWidthOnMobile }),
+    width('md:w-fit', { 'w-full': fullWidthOnMobile }),
     textAlign(center ? 'text-center' : undefined),
     fontSize(small ? 'text-sm' : 'text-lg'),
     lineHeight(small ? 'leading-5' : 'leading-7'),

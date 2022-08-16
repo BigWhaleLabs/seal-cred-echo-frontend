@@ -7361,6 +7361,7 @@ export type TMaxWidth =
   | 'max-w-screen-lg'
   | 'max-w-screen-xl'
   | 'max-w-screen-2xl'
+  | 'max-w-processing-content'
   | 'max-w-alert'
   | 'max-w-screen-xxs'
   | 'max-w-screen-xs'
@@ -7434,6 +7435,7 @@ export type TMinHeight =
   | 'min-h-max'
   | 'min-h-fit'
   | 'min-h-text-input'
+  | 'min-h-tab-content'
 
 export type TMaxHeight =
   | 'max-h-0'

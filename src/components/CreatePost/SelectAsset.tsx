@@ -1,19 +1,27 @@
 import { Suspense } from 'preact/compat'
-import { useSnapshot } from 'valtio'
-import DropDownStore from 'stores/DropDownStore'
 import Dropdown from 'components/Dropdown'
 import SelectAssetLoading from 'components/CreatePost/SelectAssetLoading'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import useContractSymbols from 'hooks/useContractSymbols'
 import useDerivativeAddressesOwned from 'hooks/useDerivativeAddressesOwned'
 
-export function SelectAssetSuspended() {
+interface SelectAssetProps {
+  disabled: boolean
+  selectedAddress: string
+  onSelect: (address: string) => void
+}
+
+export function SelectAssetSuspended({
+  disabled,
+  selectedAddress,
+  onSelect,
+}: SelectAssetProps) {
   const derivativeAddressesOwned = useDerivativeAddressesOwned()
   const symbolMap = useContractSymbols(derivativeAddressesOwned)
-  const { selectedAddress } = useSnapshot(DropDownStore)
 
   return (
     <Dropdown
+      disabled={disabled}
       currentValue={selectedAddress}
       placeholder={
         derivativeAddressesOwned.length
@@ -25,17 +33,25 @@ export function SelectAssetSuspended() {
         label: symbolMap[address] || truncateMiddleIfNeeded(address, 8),
       }))}
       onChange={(selectedValue) => {
-        DropDownStore.selectedAddress = selectedValue
+        onSelect(selectedValue)
       }}
       forZkBadges
     />
   )
 }
 
-export default function () {
+export default function ({
+  disabled,
+  selectedAddress,
+  onSelect,
+}: SelectAssetProps) {
   return (
     <Suspense fallback={<SelectAssetLoading />}>
-      <SelectAssetSuspended />
+      <SelectAssetSuspended
+        disabled={disabled}
+        selectedAddress={selectedAddress}
+        onSelect={onSelect}
+      />
     </Suspense>
   )
 }

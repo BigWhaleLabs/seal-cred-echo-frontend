@@ -33,7 +33,7 @@ class PostStore extends PersistableStore {
     }
   }
 
-  private disallowList = ['postStorages', 'checkingStatuses']
+  private disallowList = ['postStorages', 'checkingStatuses', 'savePost']
   replacer = (key: string, value: unknown) => {
     return this.disallowList.includes(key) ? undefined : value
   }

@@ -30,12 +30,14 @@ const container = (forZkBadges?: boolean) =>
   classnames(position('relative'), width('md:w-fit', { 'w-full': forZkBadges }))
 
 export default function <T>({
+  disabled,
   currentValue,
   placeholder,
   options,
   onChange,
   forZkBadges,
 }: {
+  disabled?: boolean
   currentValue?: T
   placeholder?: string
   options: Option<T>[]
