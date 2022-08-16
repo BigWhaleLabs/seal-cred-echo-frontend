@@ -6,6 +6,7 @@ import classnames, {
   flexDirection,
   gap,
   margin,
+  space,
 } from 'classnames/tailwind'
 
 const container = classnames(
@@ -20,11 +21,13 @@ const innerContainer = classnames(
 
 export default function () {
   return (
-    <div className={container}>
-      <div className={innerContainer}>
-        <HeaderText>Create an anonymous tweet</HeaderText>
-        <NoBadgesMessage />
-        <Form />
+    <div className={space('space-y-6', 'sm:space-y-12')}>
+      <div className={container}>
+        <div className={innerContainer}>
+          <HeaderText>Create an anonymous tweet</HeaderText>
+          <NoBadgesMessage />
+          <Form />
+        </div>
       </div>
     </div>
   )
