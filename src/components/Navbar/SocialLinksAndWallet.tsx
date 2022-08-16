@@ -4,6 +4,7 @@ import { useSnapshot } from 'valtio'
 import Delimiter from 'components/Delimiter'
 import ENSAddress from 'components/ENSAddress'
 import SealWallet from 'icons/SealWallet'
+import SmallSealWallet from 'icons/SmallSealWallet'
 import SocialLinks from 'components/SocialLinks'
 import WalletStore from 'stores/WalletStore'
 import classnames, {
@@ -25,8 +26,7 @@ const container = classnames(
 const walletContainer = classnames(container, cursor('cursor-pointer'))
 const walletAccount = classnames(
   textAlign('text-right'),
-  lineHeight('leading-5'),
-  display('sm:flex', 'hidden')
+  lineHeight('leading-5')
 )
 
 export default function () {
@@ -56,7 +56,12 @@ export default function () {
           </AccentText>
         </div>
         <div className={width('w-fit')}>
-          <SealWallet connected={!!account} />
+          <div className={classnames(display('sm:flex', 'hidden'))}>
+            <SealWallet connected={!!account} />
+          </div>
+          <div className={classnames(display('sm:hidden', 'flex'))}>
+            <SmallSealWallet connected={!!account} />
+          </div>
         </div>
       </div>
     </div>
