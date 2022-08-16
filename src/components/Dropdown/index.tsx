@@ -24,6 +24,8 @@ const button = classnames(
   gap('gap-x-2'),
   padding('p-3')
 )
+const container = (forZkBadges?: boolean) =>
+  classnames(position('relative'), width('md:w-fit', { 'w-full': forZkBadges }))
 
 export default function <T>({
   currentValue,
@@ -55,7 +57,7 @@ export default function <T>({
   )
 
   return (
-    <div className={position('relative')} ref={ref}>
+    <div className={container(forZkBadges)} ref={ref}>
       {forZkBadges ? (
         <ItemContainer forZkBadges>{selectedElement}</ItemContainer>
       ) : (
