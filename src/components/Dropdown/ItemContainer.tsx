@@ -17,7 +17,7 @@ import classnames, {
 
 export const boxStyles = (withPadding?: boolean) =>
   classnames(
-    width('md:w-80', 'w-52'),
+    width('md:w-96', 'w-52'),
     borderRadius('rounded-lg'),
     borderWidth('border'),
     borderColor('border-formal-accent-dimmed', 'focus:border-formal-accent'),

@@ -11,7 +11,6 @@ import classnames, {
   textColor,
   transitionProperty,
   visibility,
-  width,
   wordBreak,
   zIndex,
 } from 'classnames/tailwind'
@@ -20,7 +19,6 @@ const container = (closed: boolean) =>
   classnames(
     position('absolute'),
     inset('top-14'),
-    width('sm:w-80', 'w-44'),
     opacity({ 'opacity-0': closed }),
     visibility({ invisible: closed }),
     zIndex('z-40'),
