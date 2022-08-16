@@ -5,6 +5,7 @@ type AllowedExtraClassnames =
   | 'loading-pause'
   | 'blurEffect'
   | 'blockchainPosts'
+  | 'dots-loading'
 
 export default function (
   ...classNames: (AllowedExtraClassnames | TTailwindString | undefined | null)[]

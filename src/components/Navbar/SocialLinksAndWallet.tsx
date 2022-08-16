@@ -4,6 +4,7 @@ import { useSnapshot } from 'valtio'
 import Delimiter from 'components/Delimiter'
 import ENSAddress from 'components/ENSAddress'
 import SealWallet from 'icons/SealWallet'
+import SmallSealWallet from 'icons/SmallSealWallet'
 import SocialLinks from 'components/SocialLinks'
 import WalletStore from 'stores/WalletStore'
 import classnames, {
@@ -25,12 +26,12 @@ const container = classnames(
 const walletContainer = classnames(container, cursor('cursor-pointer'))
 const walletAccount = classnames(
   textAlign('text-right'),
-  lineHeight('leading-5'),
-  display('sm:flex', 'hidden')
+  lineHeight('leading-5')
 )
 
 export default function () {
   const { account } = useSnapshot(WalletStore)
+  const connected = !!account
 
   return (
     <div className={container}>
@@ -41,7 +42,7 @@ export default function () {
       <div
         className={walletContainer}
         onClick={async () => {
-          if (account) {
+          if (connected) {
             window.open(getEtherscanAddressUrl(account), '_blank')
           } else {
             await WalletStore.connect(true)
@@ -50,13 +51,22 @@ export default function () {
       >
         <div className={walletAccount}>
           <AccentText
-            color={account ? 'text-accent' : 'text-primary-semi-dimmed'}
+            color={connected ? 'text-accent' : 'text-primary-semi-dimmed'}
           >
-            {account ? <ENSAddress address={account} /> : 'No wallet connected'}
+            {connected ? (
+              <ENSAddress address={account} />
+            ) : (
+              'No wallet connected'
+            )}
           </AccentText>
         </div>
         <div className={width('w-fit')}>
-          <SealWallet connected={!!account} />
+          <div className={display('sm:flex', 'hidden')}>
+            <SealWallet connected={connected} />
+          </div>
+          <div className={display('sm:hidden', 'flex')}>
+            <SmallSealWallet connected={connected} />
+          </div>
         </div>
       </div>
     </div>

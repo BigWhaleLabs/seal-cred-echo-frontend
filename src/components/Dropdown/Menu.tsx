@@ -1,16 +1,11 @@
+import ItemContainer from 'components/Dropdown/ItemContainer'
 import Option from 'components/Dropdown/Option'
 import classnames, {
-  alignItems,
   backgroundColor,
-  borderColor,
   borderRadius,
-  borderWidth,
   cursor,
-  gap,
   inset,
   opacity,
-  outlineColor,
-  outlineStyle,
   padding,
   position,
   textColor,
@@ -21,24 +16,18 @@ import classnames, {
   zIndex,
 } from 'classnames/tailwind'
 
-const container = (open: boolean) =>
+const container = (closed: boolean, forZkBadges?: boolean) =>
   classnames(
-    borderRadius('rounded-lg'),
-    borderWidth('border'),
-    borderColor('border-formal-accent-dimmed', 'focus:border-formal-accent'),
-    alignItems('items-center'),
     position('absolute'),
-    inset('top-9'),
-    width('sm:w-72', 'w-44'),
-    opacity({ 'opacity-0': !open }),
-    visibility({ invisible: !open }),
-    gap('gap-y-1'),
+    inset(
+      forZkBadges ? 'top-16' : { 'top-8': true, '-left-8': true },
+      'xs:left-0'
+    ),
+    opacity({ 'opacity-0': closed }),
+    visibility({ invisible: closed }),
     zIndex('z-40'),
-    outlineColor('focus:outline-primary'),
-    outlineStyle('focus:outline'),
     transitionProperty('transition-all'),
-    padding('p-3'),
-    backgroundColor('bg-primary-dark')
+    width('w-full')
   )
 const menuItem = (selected?: boolean) =>
   classnames(
@@ -56,25 +45,29 @@ export default function <T>({
   options,
   selected,
   onSelect,
+  forZkBadges,
 }: {
   open: boolean
   options: Option<T>[]
   selected?: Option<T>
   onSelect: (option: Option<T>) => void
+  forZkBadges?: boolean
 }) {
   return (
-    <div className={container(open)}>
-      {options.map((option) => (
-        <p
-          key={option.value}
-          className={menuItem(option.value === selected?.value)}
-          onClick={() => {
-            onSelect(option)
-          }}
-        >
-          {option.label}
-        </p>
-      ))}
+    <div className={container(!open, forZkBadges)}>
+      <ItemContainer withPadding forZkBadges={forZkBadges}>
+        {options.map((option) => (
+          <p
+            key={option.value}
+            className={menuItem(option.value === selected?.value)}
+            onClick={() => {
+              onSelect(option)
+            }}
+          >
+            {option.label}
+          </p>
+        ))}
+      </ItemContainer>
     </div>
   )
 }

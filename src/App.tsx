@@ -28,7 +28,7 @@ const pageContainer = classnames(
 const bodyContainer = classnames(
   width('md:w-body'),
   gap('gap-y-4'),
-  margin('mx-auto', 'mb-auto')
+  margin('md:mx-auto', 'mx-4', 'mb-auto')
 )
 export default function () {
   return (

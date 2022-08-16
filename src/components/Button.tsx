@@ -38,7 +38,8 @@ const commonClasses = (
   type?: ButtonType,
   center?: boolean,
   available?: boolean,
-  small?: boolean
+  small?: boolean,
+  fullWidthOnMobile?: boolean
 ) =>
   classnames(
     display('flex'),
@@ -58,7 +59,7 @@ const commonClasses = (
       'hover:shadow-lg': available,
       'active:shadow-button-active': available,
     }),
-    width('w-fit'),
+    width('md:w-fit', { 'w-full': fullWidthOnMobile }),
     textAlign(center ? 'text-center' : undefined),
     fontSize(small ? 'text-sm' : 'text-lg'),
     lineHeight(small ? 'leading-5' : 'leading-7'),
@@ -77,9 +78,10 @@ const button = ({
   type,
   available,
   small,
+  fullWidthOnMobile,
 }: ButtonProps & { available?: boolean }) =>
   classnames(
-    commonClasses(type, center, available, small),
+    commonClasses(type, center, available, small, fullWidthOnMobile),
     colorClasses(available, type)
   )
 
@@ -138,6 +140,7 @@ interface ButtonProps {
   withArrow?: boolean
   gradientFont?: boolean
   loadingOverflow?: boolean
+  fullWidthOnMobile?: boolean
 }
 type ButtonType = 'primary' | 'secondary' | 'default'
 
@@ -151,6 +154,7 @@ export default function ({
   children,
   gradientFont,
   loadingOverflow,
+  fullWidthOnMobile,
   ...rest
 }: Omit<React.HTMLAttributes<HTMLButtonElement>, 'loading'> & ButtonProps) {
   const showContent = !loadingOverflow || !loading
@@ -163,6 +167,7 @@ export default function ({
         center,
         available,
         small,
+        fullWidthOnMobile,
       })}
       disabled={!available}
       {...rest}

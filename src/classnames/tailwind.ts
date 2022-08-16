@@ -7190,6 +7190,13 @@ export type TInset =
   | 'right-full'
   | 'bottom-full'
   | 'left-full'
+  | '-inset-8'
+  | '-inset-x-8'
+  | '-inset-y-8'
+  | '-top-8'
+  | '-right-8'
+  | '-bottom-8'
+  | '-left-8'
 
 export type TZIndex =
   | 'z-0'
