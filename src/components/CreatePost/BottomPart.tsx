@@ -22,7 +22,8 @@ const bottomContainer = classnames(
   width('w-full'),
   alignItems('items-center'),
   flexWrap('flex-wrap'),
-  gap('gap-y-4')
+  gap('gap-y-4'),
+  flexDirection('sm:flex-row', 'flex-col')
 )
 
 export default function () {
