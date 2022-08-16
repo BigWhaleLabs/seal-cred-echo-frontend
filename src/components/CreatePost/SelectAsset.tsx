@@ -5,15 +5,17 @@ import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import useContractSymbols from 'hooks/useContractSymbols'
 import useDerivativeAddressesOwned from 'hooks/useDerivativeAddressesOwned'
 
+interface SelectAssetProps {
+  disabled: boolean
+  selectedAddress: string
+  onSelect: (address: string) => void
+}
+
 export function SelectAssetSuspended({
   disabled,
   selectedAddress,
   onSelect,
-}: {
-  disabled: boolean
-  selectedAddress: string
-  onSelect: (address: string) => void
-}) {
+}: SelectAssetProps) {
   const derivativeAddressesOwned = useDerivativeAddressesOwned()
   const symbolMap = useContractSymbols(derivativeAddressesOwned)
 
@@ -41,11 +43,7 @@ export default function ({
   disabled,
   selectedAddress,
   onSelect,
-}: {
-  disabled: boolean
-  selectedAddress: string
-  onSelect: (address: string) => void
-}) {
+}: SelectAssetProps) {
   return (
     <Suspense fallback={<SelectAssetLoading />}>
       <SelectAssetSuspended
