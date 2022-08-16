@@ -28,11 +28,13 @@ const button = classnames(
   gap('gap-x-2')
 )
 export default function <T>({
+  disabled,
   currentValue,
   placeholder,
   options,
   onChange,
 }: {
+  disabled?: boolean
   currentValue?: T
   placeholder?: string
   options: Option<T>[]
@@ -47,6 +49,7 @@ export default function <T>({
   return (
     <div className={container} ref={ref}>
       <button
+        disabled={disabled}
         onClick={() => (options.length ? setOpen(!open) : undefined)}
         className={button}
       >
