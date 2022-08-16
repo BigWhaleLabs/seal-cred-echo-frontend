@@ -6,6 +6,7 @@ import classnames, {
   height,
   justifyContent,
   margin,
+  minHeight,
   position,
   space,
   width,
@@ -17,12 +18,14 @@ const container = classnames(
   space('space-y-4'),
   margin('mt-8')
 )
-const tabContainer = classnames(
-  position('relative'),
-  justifyContent('justify-center'),
-  flexDirection('flex-col'),
-  gap('gap-y-4')
-)
+const tabContainer = (withMinHeight?: boolean) =>
+  classnames(
+    position('relative'),
+    justifyContent('justify-center'),
+    minHeight({ 'min-h-tab-content': withMinHeight }),
+    flexDirection('flex-col'),
+    gap('gap-y-4')
+  )
 export default function ({
   blockchainPosts,
   children,
@@ -30,7 +33,7 @@ export default function ({
   return (
     <div className={container}>
       <Header blockchainPosts={blockchainPosts} />
-      <div className={tabContainer}>{children}</div>
+      <div className={tabContainer(blockchainPosts)}>{children}</div>
     </div>
   )
 }

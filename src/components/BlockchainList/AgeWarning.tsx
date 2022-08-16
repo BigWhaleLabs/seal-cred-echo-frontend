@@ -23,7 +23,7 @@ const container = classnames(
   display('flex'),
   justifyContent('justify-center'),
   inset('inset-0'),
-  padding('py-16'),
+  padding('py-1.5'),
   margin('!mt-0'),
   zIndex('z-30')
 )
