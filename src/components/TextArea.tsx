@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'preact/compat'
+import { ChangeEvent, useState } from 'preact/compat'
 import { ErrorText, TextareaText } from 'components/Text'
 import {
   alignItems,
@@ -66,8 +66,7 @@ const textBox = classnames(
 
 interface TextAreaProps {
   text: string
-  maxLength: number
-  suffix: string
+  currentAddress: string
   onTextChange: (text: string) => void
   disabled?: boolean
   error?: unknown
@@ -77,12 +76,13 @@ interface TextAreaProps {
 export default function ({
   text,
   onTextChange,
-  maxLength,
   disabled,
   error,
-  suffix,
+  currentAddress,
   ...restProps
 }: TextAreaProps & TextareaAutosizeProps) {
+  // Max length is recalculated in SuffixBlock component
+  const [maxLength, setMaxLength] = useState(280)
   const isValid = !error && text.length <= maxLength
 
   return (
@@ -103,7 +103,12 @@ export default function ({
               {...restProps}
             />
           </TextareaText>
-          <SuffixBlock maxCount={maxLength} text={text} suffix={suffix} />
+          <SuffixBlock
+            maxCount={maxLength}
+            text={text}
+            currentAddress={currentAddress}
+            setMaxLength={setMaxLength}
+          />
         </div>
       </div>
       <ErrorText visible={!!error} withExclamation>

@@ -31,9 +31,6 @@ export default function () {
   const [text, setText] = useState('')
   const [selectedAddress, setSelectedAddress] = useState('')
 
-  const suffix = selectedAddress ? '' : ''
-  const maxLength = 280 - suffix.length
-
   return (
     <div className={container}>
       <TextArea
@@ -46,8 +43,7 @@ export default function () {
         onTextChange={(newText) => {
           setText(newText)
         }}
-        maxLength={maxLength}
-        suffix={suffix}
+        currentAddress={selectedAddress}
         disabled={!selectedAddress || loading}
       />
       <div className={container}>
