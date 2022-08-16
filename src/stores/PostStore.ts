@@ -54,6 +54,7 @@ class PostStore {
     'savedPostStorages',
     'postStorages',
     'checkingStatuses',
+    'savePost',
   ]
   replacer = (key: string, value: unknown) => {
     return this.disallowList.includes(key) ? undefined : value
