@@ -12,7 +12,7 @@ import classnames, {
   justifyContent,
   width,
 } from 'classnames/tailwind'
-import handleError from 'helpers/handleError'
+import handleError, { ErrorList } from 'helpers/handleError'
 
 const container = classnames(
   display('flex'),
@@ -32,6 +32,7 @@ export default function () {
   const [loading, setLoading] = useState(false)
   const [text, setText] = useState('')
   const [selectedAddress, setSelectedAddress] = useState('')
+  const [error, setError] = useState<unknown>(null)
 
   const suffix = selectedAddress ? '' : ''
   const maxLength = 280 - suffix.length
@@ -51,6 +52,7 @@ export default function () {
         maxLength={maxLength}
         suffix={suffix}
         disabled={!selectedAddress || loading}
+        error={error}
       />
       <div className={container}>
         <BodyText>Choose a ZK Badge</BodyText>
@@ -69,6 +71,7 @@ export default function () {
             loading={loading}
             onClick={async () => {
               setLoading(true)
+              setError(null)
               try {
                 const result = await WalletStore.createPost({
                   text,
@@ -78,7 +81,8 @@ export default function () {
                 console.log(result)
                 setText('')
               } catch (error) {
-                handleError(error)
+                setError(error)
+                handleError(new Error(ErrorList.failedPost))
               } finally {
                 setLoading(false)
               }
