@@ -8,7 +8,7 @@ import classnames, { display, flexDirection, gap } from 'classnames/tailwind'
 const formContainer = classnames(
   display('flex'),
   flexDirection('flex-col'),
-  gap('gap-y-4')
+  gap('gap-y-1')
 )
 export default function () {
   const { text } = useSnapshot(TextStore, { sync: true })
