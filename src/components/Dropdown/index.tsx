@@ -9,6 +9,7 @@ import classnames, {
   display,
   gap,
   justifyContent,
+  opacity,
   padding,
   position,
   textColor,
@@ -23,7 +24,8 @@ const button = (forZkBadges?: boolean) =>
     alignItems('items-center'),
     width('w-full'),
     gap('gap-x-2'),
-    padding({ 'p-3': forZkBadges })
+    padding({ 'p-3': forZkBadges }),
+    opacity('disabled:opacity-30')
   )
 
 const container = (forZkBadges?: boolean) =>
@@ -55,6 +57,7 @@ export default function <T>({
     <button
       onClick={() => options.length && setOpen(!open)}
       className={button(forZkBadges)}
+      disabled={disabled}
     >
       {selectedOption?.label || placeholder}
       <div className={width('w-5')}>
