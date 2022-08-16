@@ -18,8 +18,9 @@ import data from 'data'
 
 const container = classnames(
   display('flex'),
-  flexDirection('flex-row'),
-  alignItems('items-center'),
+  flexDirection('md:flex-row', 'flex-col'),
+  alignItems('md:items-center'),
+  gap('gap-y-2'),
   justifyContent('justify-between')
 )
 const tweetByWrapper = classnames(
@@ -32,8 +33,10 @@ const link = classnames(
   fontSize('text-sm'),
   lineHeight('leading-5')
 )
+
 export default function ({ blockchainPosts }: { blockchainPosts?: boolean }) {
   const { selectedType } = useSnapshot(SelectedTypeStore)
+
   return (
     <div className={container}>
       {blockchainPosts && <BackToTweetsButton />}

@@ -15,14 +15,15 @@ import classnames, {
 } from 'classnames/tailwind'
 import useClickOutside from 'hooks/useClickOutside'
 
-const button = classnames(
-  display('flex'),
-  justifyContent('justify-between'),
-  alignItems('items-center'),
-  width('w-full'),
-  gap('gap-x-2'),
-  padding('p-3')
-)
+const button = (forZkBadges?: boolean) =>
+  classnames(
+    display('flex'),
+    justifyContent('justify-between'),
+    alignItems('items-center'),
+    width('w-full'),
+    gap('gap-x-2'),
+    padding({ 'p-3': forZkBadges })
+  )
 
 export default function <T>({
   currentValue,
@@ -45,7 +46,10 @@ export default function <T>({
   const selectedOption = options.find((o) => o.value === currentValue)
 
   const selectedElement = (
-    <button onClick={() => options.length && setOpen(!open)} className={button}>
+    <button
+      onClick={() => options.length && setOpen(!open)}
+      className={button(forZkBadges)}
+    >
       {selectedOption?.label || placeholder}
       <div className={width('w-5')}>
         <Arrow pulseDisabled open={open} />
