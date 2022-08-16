@@ -7427,6 +7427,7 @@ export type TMinHeight =
   | 'min-h-max'
   | 'min-h-fit'
   | 'min-h-text-input'
+  | 'min-h-tab-content'
 
 export type TMaxHeight =
   | 'max-h-0'

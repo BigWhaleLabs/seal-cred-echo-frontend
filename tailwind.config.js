@@ -69,6 +69,7 @@ module.exports = {
       },
       minHeight: {
         'text-input': '9rem',
+        'tab-content': '17.5rem',
       },
       dropShadow: {
         secondary: '0rem 0rem 0.625rem var(--secondary)',
