@@ -61,10 +61,10 @@ export default function () {
           </AccentText>
         </div>
         <div className={width('w-fit')}>
-          <div className={classnames(display('sm:flex', 'hidden'))}>
+          <div className={display('sm:flex', 'hidden')}>
             <SealWallet connected={connected} />
           </div>
-          <div className={classnames(display('sm:hidden', 'flex'))}>
+          <div className={display('sm:hidden', 'flex')}>
             <SmallSealWallet connected={connected} />
           </div>
         </div>

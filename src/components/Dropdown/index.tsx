@@ -59,9 +59,7 @@ export default function <T>({
       {forZkBadges ? (
         <ItemContainer forZkBadges>{selectedElement}</ItemContainer>
       ) : (
-        <span className={classnames(textColor('text-primary'))}>
-          {selectedElement}
-        </span>
+        <span className={textColor('text-primary')}>{selectedElement}</span>
       )}
       <Menu
         open={open}
