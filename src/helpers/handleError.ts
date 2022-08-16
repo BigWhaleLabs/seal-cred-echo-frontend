@@ -5,6 +5,7 @@ import parseRevertReason from 'helpers/parseRevertReason'
 export const ProofGenerationErrors = {}
 
 export const ErrorList = {
+  noProvider: 'No provider found',
   wrongNetwork: (userNetwork: string, contractNetwork: string) =>
     `Looks like you're using ${userNetwork} network, try switching to ${contractNetwork} and connect again`,
   unknown: 'An unknown error occurred, please, contact us',
