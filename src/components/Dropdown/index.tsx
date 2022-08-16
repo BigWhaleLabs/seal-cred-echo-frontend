@@ -29,13 +29,13 @@ export default function <T>({
   placeholder,
   options,
   onChange,
-  wrapSelected = false,
+  wrapButtonInBox = false,
 }: {
   currentValue?: T
   placeholder?: string
   options: Option<T>[]
   onChange: (selectedValue: T) => void
-  wrapSelected?: boolean
+  wrapButtonInBox?: boolean
 }) {
   const [open, setOpen] = useState(false)
   const ref = createRef<HTMLDivElement>()
@@ -55,7 +55,7 @@ export default function <T>({
 
   return (
     <div className={position('relative')} ref={ref}>
-      {wrapSelected ? (
+      {wrapButtonInBox ? (
         <ItemContainer>{selectedElement}</ItemContainer>
       ) : (
         selectedElement

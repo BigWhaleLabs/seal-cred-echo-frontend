@@ -11,6 +11,7 @@ import classnames, {
   outlineStyle,
   overflow,
   padding,
+  transitionProperty,
   width,
 } from 'classnames/tailwind'
 
@@ -22,6 +23,7 @@ export const boxStyles = (withPadding?: boolean) =>
     borderColor('border-formal-accent-dimmed', 'focus:border-formal-accent'),
     outlineColor('focus:outline-primary'),
     outlineStyle('focus:outline'),
+    transitionProperty('transition-colors'),
     backgroundColor('bg-primary-dark'),
     alignItems('items-center'),
     fontFamily('font-primary'),
