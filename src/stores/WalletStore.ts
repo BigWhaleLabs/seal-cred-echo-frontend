@@ -51,10 +51,9 @@ class WalletStore extends PersistableStore {
       this.account = (await provider.listAccounts())[0]
       this.subscribeProvider(instance)
     } catch (error) {
-      if (error !== 'Modal closed by user') {
-        handleError(error)
-        this.clearData()
-      }
+      if (error === 'Modal closed by user') return
+      handleError(error)
+      this.clearData()
     } finally {
       this.walletLoading = false
     }
@@ -106,7 +105,7 @@ class WalletStore extends PersistableStore {
     text: string
     derivativeAddress: string
   }) {
-    if (!provider) throw new Error('No provider found')
+    if (!provider) throw new Error(ErrorList.noProvider)
 
     const gsnProvider = await relayProvider(provider)
 
