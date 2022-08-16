@@ -30,7 +30,7 @@ export default function () {
   const [loading, setLoading] = useState(false)
   const [text, setText] = useState('')
   const [selectedAddress, setSelectedAddress] = useState('')
-  const [error, setError] = useState<Error | null>(null)
+  const [error, setError] = useState<unknown>(null)
 
   const suffix = selectedAddress ? '' : ''
   const maxLength = 280 - suffix.length
@@ -79,8 +79,8 @@ export default function () {
                 console.log(result)
                 setText('')
               } catch (error) {
-                setError(new Error(ErrorList.failedPost))
-                handleError(error)
+                setError(error)
+                handleError(new Error(ErrorList.failedPost))
               } finally {
                 setLoading(false)
               }
