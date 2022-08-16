@@ -4,7 +4,7 @@ import BlockchainList from 'components/BlockchainList'
 import DeepDive from 'components/DeepDive'
 import Footer from 'components/Footer'
 import HowItWorks from 'components/HowItWorks'
-import Main from 'pages/Main'
+import Layout from 'components/Layout'
 import Navbar from 'components/Navbar'
 import NotFound from 'pages/NotFound'
 import Privacy from 'pages/Privacy'
@@ -37,17 +37,24 @@ export default function () {
         <div className={pageContainer}>
           <Navbar />
           <div className={bodyContainer}>
-            <Main>
-              <Routes>
-                <Route index element={<HowItWorks />} />
-                <Route path="/tweets" element={<TweetsList />} />
-                <Route path="/tweets/blockchain" element={<BlockchainList />} />
-                <Route path="/deep-dive" element={<DeepDive />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Main>
+            <Routes>
+              <Route index element={<Layout component={<HowItWorks />} />} />
+              <Route
+                path="/tweets"
+                element={<Layout component={<TweetsList />} />}
+              />
+              <Route
+                path="/tweets/blockchain"
+                element={<Layout component={<BlockchainList />} />}
+              />
+              <Route
+                path="/deep-dive"
+                element={<Layout component={<DeepDive />} />}
+              />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
           </div>
           <Footer />
         </div>
