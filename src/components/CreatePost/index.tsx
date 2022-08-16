@@ -1,12 +1,12 @@
 import { HeaderText } from 'components/Text'
 import Form from 'components/CreatePost/Form'
 import NoBadgesMessage from 'components/CreatePost/NoBadgesMessage'
+import PostProcessing from 'components/PostProcessing'
 import classnames, {
   display,
   flexDirection,
   gap,
   margin,
-  space,
 } from 'classnames/tailwind'
 
 const container = classnames(
@@ -21,7 +21,8 @@ const innerContainer = classnames(
 
 export default function () {
   return (
-    <div className={space('space-y-6', 'sm:space-y-12')}>
+    <div className={gap('gap-y-6', 'sm:gap-y-12')}>
+      <PostProcessing tweetUrl="" pending={true} />
       <div className={container}>
         <div className={innerContainer}>
           <HeaderText>Create an anonymous tweet</HeaderText>
