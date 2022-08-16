@@ -18,8 +18,8 @@ import data from 'data'
 
 const container = classnames(
   display('flex'),
-  flexDirection('flex-row'),
-  alignItems('items-center'),
+  flexDirection('sm:flex-row', 'flex-col'),
+  alignItems('sm:items-center'),
   justifyContent('justify-between')
 )
 const tweetByWrapper = classnames(
