@@ -19,7 +19,7 @@ import classnames, {
 const container = (closed: boolean) =>
   classnames(
     position('absolute'),
-    inset('top-16'),
+    inset('top-14'),
     width('sm:w-80', 'w-44'),
     opacity({ 'opacity-0': closed }),
     visibility({ invisible: closed }),
