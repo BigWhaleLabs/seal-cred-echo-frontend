@@ -1,3 +1,4 @@
+import { LargeText } from 'components/Text'
 import Loading from 'components/Loading'
 import ProcessHeader from 'components/PostProcessing/ProcessHeader'
 import ViewTweetButton from 'components/PostProcessing/ViewTweetButton'
@@ -28,10 +29,18 @@ interface PostProcessingProps {
 }
 
 export default function ({ tweetUrl, pending }: PostProcessingProps) {
+  const statusComponent = pending ? (
+    <>
+      <ProcessHeader />
+      <Loading />
+    </>
+  ) : (
+    <LargeText>Tweet successful</LargeText>
+  )
+
   return (
     <div className={container(pending)}>
-      <ProcessHeader pending={pending} />
-      {pending && <Loading />}
+      {statusComponent}
       <ViewTweetButton url={tweetUrl} pending={pending} />
     </div>
   )
