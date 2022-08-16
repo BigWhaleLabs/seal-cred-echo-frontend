@@ -1,9 +1,7 @@
 import { LargeText, LoadingText } from 'components/Text'
 import { maxWidth, space } from 'classnames/tailwind'
 
-export default function ({ pending }: { pending?: boolean }) {
-  if (!pending) return <LargeText>Tweet successful</LargeText>
-
+export default function () {
   return (
     <div className={space('space-y-4')}>
       <LargeText>Your tweet is processing</LargeText>

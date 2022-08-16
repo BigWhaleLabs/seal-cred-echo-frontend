@@ -1,5 +1,4 @@
-import Loading from 'components/Loading'
-import ProcessHeader from 'components/PostProcessing/ProcessHeader'
+import CardTopPart from 'components/PostProcessing/CardTopPart'
 import ViewTweetButton from 'components/PostProcessing/ViewTweetButton'
 import classnames, {
   alignItems,
@@ -30,8 +29,7 @@ interface PostProcessingProps {
 export default function ({ tweetUrl, pending }: PostProcessingProps) {
   return (
     <div className={container(pending)}>
-      <ProcessHeader pending={pending} />
-      {pending && <Loading />}
+      <CardTopPart pending={pending} />
       <ViewTweetButton url={tweetUrl} pending={pending} />
     </div>
   )
