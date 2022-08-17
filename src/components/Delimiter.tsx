@@ -9,7 +9,7 @@ import classnames, {
 
 const bottomSeparator = classnames(
   width('w-fit'),
-  display('flex'),
+  display('hidden', 'sm:flex'),
   alignItems('items-center'),
   justifyContent('justify-center')
 )
