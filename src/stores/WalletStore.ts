@@ -101,10 +101,12 @@ class WalletStore extends PersistableStore {
 
   async createPost({
     text,
-    derivativeAddress,
+    ledgerType,
+    original,
   }: {
     text: string
-    derivativeAddress: string
+    ledgerType: string
+    original: string
   }) {
     if (!provider) throw new Error(ErrorList.noProvider)
 
@@ -112,10 +114,6 @@ class WalletStore extends PersistableStore {
 
     const ethersProvider = new Web3Provider(
       gsnProvider as unknown as ExternalProvider
-    )
-
-    const { ledgerType, original } = await getOriginalFromDerivative(
-      derivativeAddress
     )
 
     const contract = postStorageContracts[ledgerType].connect(
