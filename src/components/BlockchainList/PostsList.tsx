@@ -12,17 +12,20 @@ function BlockchainPostsListSuspended() {
 
   return (
     <>
-      {!selectedPosts.length && <NoPosts />}
-      {selectedPosts.map((post) => (
-        <BlockchainPost
-          key={post.id}
-          id={Number(post.id)}
-          timestamp={Number(post.timestamp)}
-          text={post.post}
-          sender={post.sender}
-          derivativeAddress={post.derivativeAddress}
-        />
-      ))}
+      {!selectedPosts.length ? (
+        <NoPosts />
+      ) : (
+        selectedPosts.map((post) => (
+          <BlockchainPost
+            key={post.id}
+            id={Number(post.id)}
+            timestamp={Number(post.timestamp)}
+            text={post.post}
+            sender={post.sender}
+            derivativeAddress={post.derivativeAddress}
+          />
+        ))
+      )}
     </>
   )
 }
