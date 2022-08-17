@@ -4,6 +4,7 @@ import { useSnapshot } from 'valtio'
 import PostStatus from 'models/PostStatus'
 import PostStatusText from 'models/PostStatusText'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
+import classNamesToString from 'helpers/classNamesToString'
 import classnames, {
   alignItems,
   backgroundColor,
@@ -49,8 +50,10 @@ export default function ({ id }: { id: number }) {
     <Suspense
       fallback={
         <div className={statusContainer(PostStatus.pending)}>
-          <StatusText color={'default'}>
-            <span className="dots-loading">Loading...</span>
+          <StatusText color="default">
+            <span className={classNamesToString('dots-loading')}>
+              Loading...
+            </span>
           </StatusText>
         </div>
       }

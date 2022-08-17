@@ -26,13 +26,13 @@ const container = (loading?: boolean) =>
   )
 
 export default function () {
-  const { pendingPost, lastProccessedStatusId } = useSnapshot(PostIdsStatuses)
+  const { pendingPost, lastProcessedStatusId } = useSnapshot(PostIdsStatuses)
 
-  if (!pendingPost && !lastProccessedStatusId) return null
+  if (!pendingPost && !lastProcessedStatusId) return null
 
   const pending = !!pendingPost
 
-  const statusComponent = lastProccessedStatusId ? (
+  const statusComponent = lastProcessedStatusId ? (
     <LargeText>Tweet successful</LargeText>
   ) : (
     <>
@@ -44,9 +44,9 @@ export default function () {
   return (
     <div className={container(pending)}>
       {statusComponent}
-      {lastProccessedStatusId ? (
+      {lastProcessedStatusId ? (
         <ViewTweetButton
-          url={`https://twitter.com/SealCredEmail/status/${lastProccessedStatusId}`}
+          url={`https://twitter.com/SealCredEmail/status/${lastProcessedStatusId}`}
         />
       ) : pendingPost ? (
         <ViewTweetButton

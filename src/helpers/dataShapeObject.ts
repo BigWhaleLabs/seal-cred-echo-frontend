@@ -4,14 +4,17 @@ type ValueOf<T> = T[keyof T]
 type DataKey = keyof typeof data
 
 export default function <V>(
-  transformer: (key: DataKey, record: ValueOf<typeof data>) => V
+  transformer: (contractName: DataKey, record: ValueOf<typeof data>) => V
 ) {
-  const keys = Object.keys(data) as DataKey[]
+  const contractName = Object.keys(data) as DataKey[]
 
-  return keys.reduce(
-    (res, key) => ({ ...res, [key]: transformer(key, data[key]) }),
+  return contractName.reduce(
+    (res, contractName) => ({
+      ...res,
+      [contractName]: transformer(contractName, data[contractName]),
+    }),
     {} as {
-      [key: string]: V
+      [contractName: string]: V
     }
   )
 }

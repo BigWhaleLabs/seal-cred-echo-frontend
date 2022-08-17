@@ -92,11 +92,13 @@ export default function () {
                 })
 
                 const posts = await PostStore.posts[ledgerType]
-
-                for (const data of result) {
-                  const { id, post, derivativeAddress, sender, timestamp } =
-                    data
-
+                for (const {
+                  id,
+                  post,
+                  derivativeAddress,
+                  sender,
+                  timestamp,
+                } of result) {
                   PostStore.posts[ledgerType] = Promise.resolve([
                     {
                       id,
