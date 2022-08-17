@@ -50,7 +50,7 @@ export default function ({ id }: { id: number }) {
     <Suspense
       fallback={
         <div className={statusContainer(PostStatus.pending)}>
-          <StatusText color={'default'}>
+          <StatusText color="default">
             <span className={classNamesToString('dots-loading')}>
               Loading...
             </span>

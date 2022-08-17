@@ -11,11 +11,10 @@ export default function () {
   for (const key in data) {
     const ledger = ledgers[key]
     if (!ledger) continue
-    for (const { derivative } of Object.values(ledger)) {
-      if (addressToTokenIds?.[derivative]) {
+
+    for (const { derivative } of Object.values(ledger))
+      if (addressToTokenIds?.[derivative])
         derivativesAddressesOwned.push(derivative)
-      }
-    }
   }
 
   return derivativesAddressesOwned
