@@ -20,15 +20,15 @@ const statusContainer = (status: PostStatus) =>
     borderRadius('rounded-lg'),
     backgroundColor({
       'bg-primary-dimmed':
-        status === PostStatus.pending ||
-        status === PostStatus.approved ||
-        status === PostStatus.loading,
+        status === PostStatus.pending || status === PostStatus.approved,
       'bg-primary-background': status === PostStatus.published,
       'bg-error': status === PostStatus.rejected,
     })
   )
 
-function StatusBadge({ id, status }: { id: number; status: PostStatus }) {
+export function StatusSuspended({ id }: { id: number }) {
+  const status = useSnapshot(postIdsStatuses).currentStatuses[id]?.status
+
   return (
     <a href={`#blockchainTweetId=${id}`} className={statusContainer(status)}>
       <StatusText color={status === PostStatus.rejected ? 'dark' : 'default'}>
@@ -38,15 +38,15 @@ function StatusBadge({ id, status }: { id: number; status: PostStatus }) {
   )
 }
 
-export function StatusSuspended({ id }: { id: number }) {
-  const status = useSnapshot(postIdsStatuses).currentStatuses[id]?.status
-
-  return <StatusBadge id={id} status={status || PostStatus.pending} />
-}
-
 export default function ({ id }: { id: number }) {
   return (
-    <Suspense fallback={<StatusBadge id={id} status={PostStatus.loading} />}>
+    <Suspense
+      fallback={
+        <div className={statusContainer(PostStatus.pending)}>
+          <StatusText color={'default'}>{PostStatusText.loading}</StatusText>
+        </div>
+      }
+    >
       <StatusSuspended id={id} />
     </Suspense>
   )
