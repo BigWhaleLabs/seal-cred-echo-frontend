@@ -13,8 +13,8 @@ interface StatusType {
 }
 interface PostStatusStoreType {
   lastProcessedStatusId?: number
-  processing: { [key: string]: Set<number> }
-  statuses: { [key: string]: { [postId: string]: Promise<StatusType> } }
+  processing: { [storageName: string]: Set<number> }
+  statuses: { [storageName: string]: { [postId: string]: Promise<StatusType> } }
 }
 
 interface CheckStatusesStoreProps {
