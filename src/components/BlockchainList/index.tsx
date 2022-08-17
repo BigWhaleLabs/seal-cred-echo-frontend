@@ -1,5 +1,5 @@
 import { BodyText } from 'components/Text'
-import { gap, space } from 'classnames/tailwind'
+import { space } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import AgeWarning from 'components/BlockchainList/AgeWarning'
 import HintCard from 'components/HintCard'
