@@ -118,15 +118,19 @@ class WalletStore extends PersistableStore {
     const contract = postStorageContracts[ledgerType].connect(
       ethersProvider.getSigner(0)
     )
-    const transaction = await contract.savePost(text, original)
-    const result = await transaction.wait()
-
-    return Promise.all(
-      result.logs
-        .filter(({ address }) => address === contract.address)
-        .map(({ data, topics }) => parsePostLogData({ data, topics }))
-        .map(({ args }) => args)
-    )
+    try {
+      const transaction = await contract.savePost(text, original)
+      const result = await transaction.wait()
+      return Promise.all(
+        result.logs
+          .filter(({ address }) => address === contract.address)
+          .map(({ data, topics }) => parsePostLogData({ data, topics }))
+          .map(({ args }) => args)
+      )
+    } catch (error) {
+      console.error('Something happen with transaction', error)
+      throw error
+    }
   }
 
   private subscribeProvider(provider: Web3Provider) {
