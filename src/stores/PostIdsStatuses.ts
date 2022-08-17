@@ -14,7 +14,7 @@ export async function updateStatuses(name: keyof typeof data, ids?: number[]) {
   const updatedStatuses = await getPostStatuses(
     ids ||
       Array.from(postStatusStore.entries())
-        .filter(([_, record]) => record.status !== PostStatus.published)
+        .filter(([, record]) => record.status !== PostStatus.published)
         .map(([id]) => id),
     data[name].postStorage
   )
