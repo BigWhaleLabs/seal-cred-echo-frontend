@@ -47,7 +47,7 @@ subscribeKey(SelectedTypeStore, 'selectedType', (selectedType) => {
 subscribeKey(PostStore, 'posts', async (result) => {
   void updateStatuses(
     SelectedTypeStore.selectedType as keyof typeof data,
-    (await result).map(({ id }) => id.toNumber())
+    (await result).map(({ id }) => id)
   )
 })
 
