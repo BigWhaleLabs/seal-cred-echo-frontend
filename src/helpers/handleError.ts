@@ -1,5 +1,6 @@
 import { serializeError } from 'eth-rpc-errors'
 import { toast } from 'react-toastify'
+import parseGSNError from 'helpers/parseGSNError'
 import parseRevertReason from 'helpers/parseRevertReason'
 
 export const ProofGenerationErrors = {}
@@ -12,14 +13,6 @@ export const ErrorList = {
   failedPost: 'Failed to create post',
 }
 
-function transformRelayErrorMessage(message: string) {
-  // Removes stack trace information
-  return message
-    .split('stack')
-    .filter((_, i) => i % 2 === 0)
-    .join('\n')
-}
-
 export function parseError(error: unknown, defaultMessage = ErrorList.unknown) {
   let displayedError: string | undefined
 
@@ -27,11 +20,10 @@ export function parseError(error: unknown, defaultMessage = ErrorList.unknown) {
   if (error instanceof Error) displayedError = error.message
   const message = serializeError(error).message
   if (message) {
-    displayedError = parseRevertReason(message) ?? message
+    const gSNMessage = parseGSNError(message)
+    const revertMessage = parseRevertReason(message)
+    displayedError = gSNMessage || revertMessage || message
   }
-
-  if (/^Failed to relay call/.test(message))
-    displayedError = transformRelayErrorMessage(message)
 
   return displayedError ?? defaultMessage
 }
