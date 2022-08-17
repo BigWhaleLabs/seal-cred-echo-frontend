@@ -4,8 +4,9 @@ import { useSnapshot } from 'valtio'
 import Delimiter from 'components/Delimiter'
 import postIdsStatuses from 'stores/PostIdsStatuses'
 
-function TwitterLink({ id }: { id: number }) {
-  const statusId = useSnapshot(postIdsStatuses).currentStatuses[id]?.statusId
+function TwitterLinkSuspended({ id }: { id: number }) {
+  const { currentStatuses } = useSnapshot(postIdsStatuses)
+  const statusId = currentStatuses[id]?.statusId
 
   if (!statusId) return null
 
@@ -26,7 +27,7 @@ function TwitterLink({ id }: { id: number }) {
 export default function ({ id }: { id: number }) {
   return (
     <Suspense fallback={<></>}>
-      <TwitterLink id={id} />
+      <TwitterLinkSuspended id={id} />
     </Suspense>
   )
 }
