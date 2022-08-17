@@ -1,5 +1,7 @@
 import { LargeText } from 'components/Text'
+import { useSnapshot } from 'valtio'
 import Loading from 'components/Loading'
+import PostIdsStatuses from 'stores/PostIdsStatuses'
 import ProcessHeader from 'components/PostProcessing/ProcessHeader'
 import ViewTweetButton from 'components/PostProcessing/ViewTweetButton'
 import classnames, {
@@ -23,25 +25,36 @@ const container = (loading?: boolean) =>
     space(loading ? 'space-y-6' : 'space-y-2')
   )
 
-interface PostProcessingProps {
-  tweetUrl: string
-  pending?: boolean
-}
+export default function () {
+  const { pendingPost, lastProccessedStatusId } = useSnapshot(PostIdsStatuses)
 
-export default function ({ tweetUrl, pending }: PostProcessingProps) {
-  const statusComponent = pending ? (
+  if (!pendingPost && !lastProccessedStatusId) return null
+
+  const pending = !!pendingPost
+
+  const statusComponent = lastProccessedStatusId ? (
+    <LargeText>Tweet successful</LargeText>
+  ) : (
     <>
       <ProcessHeader />
       <Loading />
     </>
-  ) : (
-    <LargeText>Tweet successful</LargeText>
   )
 
   return (
     <div className={container(pending)}>
       {statusComponent}
-      <ViewTweetButton url={tweetUrl} pending={pending} />
+      {lastProccessedStatusId ? (
+        <ViewTweetButton
+          url={`https://twitter.com/SealCredEmail/status/${lastProccessedStatusId}`}
+        />
+      ) : pendingPost ? (
+        <ViewTweetButton
+          url={`/tweets/blockchain#store=${pendingPost.store}&id=${pendingPost.id}`}
+          pending
+          internal
+        />
+      ) : null}
     </div>
   )
 }

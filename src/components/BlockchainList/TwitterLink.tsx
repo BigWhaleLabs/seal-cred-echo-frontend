@@ -26,7 +26,7 @@ function TwitterLinkSuspended({ id }: { id: number }) {
 
 export default function ({ id }: { id: number }) {
   return (
-    <Suspense fallback={<></>}>
+    <Suspense fallback={null}>
       <TwitterLinkSuspended id={id} />
     </Suspense>
   )

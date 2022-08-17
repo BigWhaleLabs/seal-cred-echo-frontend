@@ -1,5 +1,5 @@
 import { BodyText } from 'components/Text'
-import { space } from 'classnames/tailwind'
+import { display, flexDirection, gap } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import AgeWarning from 'components/BlockchainList/AgeWarning'
 import HintCard from 'components/HintCard'
@@ -21,7 +21,12 @@ export default function () {
         />
       )}
       <div
-        className={classNamesToString('blockchainPosts', space('space-y-4'))}
+        className={classNamesToString(
+          'blockchainPosts',
+          display('flex'),
+          flexDirection('flex-col'),
+          gap('gap-y-4')
+        )}
       >
         <HintCard>
           <BodyText primary>

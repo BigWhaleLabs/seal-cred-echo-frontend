@@ -3,6 +3,7 @@ import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import PostStatus from 'models/PostStatus'
 import PostStatusText from 'models/PostStatusText'
+import SelectedTypeStore from 'stores/SelectedTypeStore'
 import classnames, {
   alignItems,
   backgroundColor,
@@ -20,17 +21,22 @@ const statusContainer = (status: PostStatus) =>
     borderRadius('rounded-lg'),
     backgroundColor({
       'bg-primary-dimmed':
-        status === PostStatus.pending ||
-        status === PostStatus.approved ||
-        status === PostStatus.loading,
+        status === PostStatus.pending || status === PostStatus.approved,
       'bg-primary-background': status === PostStatus.published,
       'bg-error': status === PostStatus.rejected,
     })
   )
 
-function StatusBadge({ id, status }: { id: number; status: PostStatus }) {
+export function StatusSuspended({ id }: { id: number }) {
+  const { selectedType } = useSnapshot(SelectedTypeStore)
+  const { currentStatuses } = useSnapshot(postIdsStatuses)
+  const status = currentStatuses[id]?.status || PostStatus.pending
+
   return (
-    <a href={`#blockchainTweetId=${id}`} className={statusContainer(status)}>
+    <a
+      href={`#store=${selectedType}&id=${id}`}
+      className={statusContainer(status)}
+    >
       <StatusText color={status === PostStatus.rejected ? 'dark' : 'default'}>
         {PostStatusText[status]}
       </StatusText>
@@ -38,15 +44,17 @@ function StatusBadge({ id, status }: { id: number; status: PostStatus }) {
   )
 }
 
-export function StatusSuspended({ id }: { id: number }) {
-  const status = useSnapshot(postIdsStatuses).currentStatuses[id]?.status
-
-  return <StatusBadge id={id} status={status || PostStatus.pending} />
-}
-
 export default function ({ id }: { id: number }) {
   return (
-    <Suspense fallback={<StatusBadge id={id} status={PostStatus.loading} />}>
+    <Suspense
+      fallback={
+        <div className={statusContainer(PostStatus.pending)}>
+          <StatusText color={'default'}>
+            <span className="dots-loading">Loading...</span>
+          </StatusText>
+        </div>
+      }
+    >
       <StatusSuspended id={id} />
     </Suspense>
   )

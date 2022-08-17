@@ -15,6 +15,7 @@ export default async function (contract: SCPostStorage) {
           } as PostStructOutput)
       )
       .reverse()
+    // Reverse is needed to get the latest posts first
   } catch {
     return []
   }

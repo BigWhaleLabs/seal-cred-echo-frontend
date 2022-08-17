@@ -2,6 +2,7 @@ import { BodyText } from 'components/Text'
 import { PostStructOutput } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
 import { useState } from 'preact/hooks'
 import Button from 'components/Button'
+import PostIdsStatuses from 'stores/PostIdsStatuses'
 import PostStore from 'stores/PostStore'
 import SelectAsset from 'components/CreatePost/SelectAsset'
 import TextArea from 'components/TextArea'
@@ -106,6 +107,8 @@ export default function () {
                     } as PostStructOutput,
                     ...posts,
                   ])
+
+                  PostIdsStatuses.processing[ledgerType].add(id.toNumber())
                 }
                 setText('')
               } catch (error) {
