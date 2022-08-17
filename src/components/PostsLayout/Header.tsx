@@ -20,7 +20,8 @@ const container = classnames(
   display('flex'),
   flexDirection('sm:flex-row', 'flex-col'),
   alignItems('sm:items-center'),
-  justifyContent('justify-between')
+  justifyContent('justify-between'),
+  gap('gap-y-2')
 )
 const tweetByWrapper = classnames(
   display('flex'),
