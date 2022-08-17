@@ -8,7 +8,7 @@ import dataShapeObject from 'helpers/dataShapeObject'
 import getPostStatuses from 'helpers/getPostStatuses'
 
 const postStatusStore = proxy({
-  lastProccessedStatusId: undefined as number | undefined,
+  lastProcessedStatusId: undefined as number | undefined,
   processing: dataShapeObject(() => proxySet<number>([])),
   statuses: dataShapeObject(
     () =>
@@ -37,7 +37,7 @@ export async function updateStatuses(
       status === PostStatus.published
     ) {
       postStatusStore.processing[name].delete(tweetId)
-      postStatusStore.lastProccessedStatusId = statusId
+      postStatusStore.lastProcessedStatusId = statusId
     }
   }
 }
@@ -72,7 +72,6 @@ setInterval(() => updateStatusesForSelectedPosts(), 5000)
 
 setInterval(async () => {
   for (const name in postStatusStore.processing) {
-    console.log('update processing')
     await checkStatuses(
       name as keyof typeof data,
       Array.from(postStatusStore.processing[name]),
