@@ -36,7 +36,7 @@ function StatusBadge({ id, status }: { id: number; status: PostStatus }) {
 }
 
 export default function ({ id }: { id: number }) {
-  const status = useSnapshot(postIdsStatuses).get(id)?.status
+  const status = useSnapshot(postIdsStatuses).currentStatuses[id]?.status
 
   return <StatusBadge id={id} status={status || PostStatus.pending} />
 }

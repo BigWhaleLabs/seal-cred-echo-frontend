@@ -1,35 +1,37 @@
-import { proxyMap, subscribeKey } from 'valtio/utils'
+import { derive, subscribeKey } from 'valtio/utils'
+import { proxy } from 'valtio'
 import PostStatus from 'models/PostStatus'
 import PostStore from 'stores/PostStore'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
 import data from 'data'
+import dataShapeObject from 'helpers/dataShapeObject'
 import getPostStatuses from 'helpers/getPostStatuses'
 
-const postStatusStore = proxyMap<
-  number,
-  { status: PostStatus; statusId?: number }
->()
+const postStatusStore = proxy({
+  proccessing: dataShapeObject<number[]>(() => []),
+  statuses: dataShapeObject(
+    () =>
+      ({} as { [postId: string]: { status: PostStatus; statusId?: number } })
+  ),
+})
 
 export async function updateStatuses(name: keyof typeof data, ids?: number[]) {
   const updatedStatuses = await getPostStatuses(
-    ids ||
-      Array.from(postStatusStore.entries())
-        .filter(([, record]) => record.status !== PostStatus.published)
-        .map(([id]) => id),
+    ids || postStatusStore.proccessing[name],
     data[name].postStorage
   )
 
   for (const { tweetId, status, statusId } of updatedStatuses) {
-    postStatusStore.set(tweetId, {
+    postStatusStore.statuses[name][tweetId] = {
       status,
       statusId,
-    })
+    }
   }
 }
 
 let checkingStatuses = false
-async function checkStatuses(name: keyof typeof data, force?: boolean) {
-  if (checkingStatuses && !force) return
+async function checkStatuses(name: keyof typeof data, ids?: number[]) {
+  if (checkingStatuses && !ids) return
   checkingStatuses = true
   try {
     await updateStatuses(name)
@@ -40,12 +42,8 @@ async function checkStatuses(name: keyof typeof data, force?: boolean) {
   }
 }
 
-subscribeKey(SelectedTypeStore, 'selectedType', (selectedType) => {
-  void checkStatuses(selectedType as keyof typeof data, true)
-})
-
-subscribeKey(PostStore, 'posts', async (result) => {
-  void updateStatuses(
+subscribeKey(PostStore, 'selectedPosts', async (result) => {
+  void checkStatuses(
     SelectedTypeStore.selectedType as keyof typeof data,
     (await result).map(({ id }) => id.toNumber())
   )
@@ -53,4 +51,12 @@ subscribeKey(PostStore, 'posts', async (result) => {
 
 setInterval(() => checkStatuses(SelectedTypeStore.selectedType), 15 * 1000)
 
-export default postStatusStore
+export default derive(
+  {
+    currentStatuses: (get) =>
+      get(postStatusStore).statuses[SelectedTypeStore.selectedType],
+  },
+  {
+    proxy: postStatusStore,
+  }
+)
