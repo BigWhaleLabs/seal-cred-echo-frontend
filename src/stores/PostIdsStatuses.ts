@@ -7,15 +7,27 @@ import data from 'data'
 import dataShapeObject from 'helpers/dataShapeObject'
 import getPostStatuses from 'helpers/getPostStatuses'
 
-const postStatusStore = proxy({
-  lastProcessedStatusId: undefined as number | undefined,
+interface StatusType {
+  status: PostStatus
+  statusId?: number | undefined
+}
+interface PostStatusStoreType {
+  lastProcessedStatusId?: number
+  processing: { [key: string]: Set<number> }
+  statuses: { [key: string]: { [postId: string]: Promise<StatusType> } }
+}
+
+interface CheckStatusesStoreProps {
+  name: keyof typeof data
+  ids: number[]
+  force?: boolean
+  withProcessing?: boolean
+}
+
+const postStatusStore = proxy<PostStatusStoreType>({
+  lastProcessedStatusId: undefined,
   processing: dataShapeObject(() => proxySet<number>([])),
-  statuses: dataShapeObject(
-    () =>
-      ({} as {
-        [postId: string]: Promise<{ status: PostStatus; statusId?: number }>
-      })
-  ),
+  statuses: dataShapeObject(() => ({})),
 })
 
 export async function updateStatuses(
@@ -43,12 +55,12 @@ export async function updateStatuses(
 }
 
 let checkingStatuses = false
-async function checkStatuses(
-  name: keyof typeof data,
-  ids: number[],
-  force?: boolean,
-  withProcessing?: boolean
-) {
+async function checkStatuses({
+  name,
+  ids,
+  force,
+  withProcessing,
+}: CheckStatusesStoreProps) {
   if (checkingStatuses && !force) return
   checkingStatuses = true
   try {
@@ -64,7 +76,7 @@ async function updateStatusesForSelectedPosts(
   result = PostStore.selectedPosts
 ) {
   const ids = (await result).map(({ id }) => id.toNumber())
-  void checkStatuses(SelectedTypeStore.selectedType, ids, true)
+  void checkStatuses({ name: SelectedTypeStore.selectedType, ids, force: true })
 }
 
 subscribeKey(PostStore, 'selectedPosts', updateStatusesForSelectedPosts)
@@ -72,12 +84,12 @@ setInterval(() => updateStatusesForSelectedPosts(), 5000)
 
 setInterval(async () => {
   for (const name in postStatusStore.processing) {
-    await checkStatuses(
-      name as keyof typeof data,
-      Array.from(postStatusStore.processing[name]),
-      false,
-      true
-    )
+    await checkStatuses({
+      name: name as keyof typeof data,
+      ids: Array.from(postStatusStore.processing[name]),
+      force: false,
+      withProcessing: true,
+    })
   }
 }, 5000)
 
