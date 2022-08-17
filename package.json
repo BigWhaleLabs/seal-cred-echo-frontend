@@ -28,6 +28,8 @@
     "@big-whale-labs/seal-cred-posts-contract": "^0.0.11",
     "@big-whale-labs/stores": "^0.1.16",
     "@coinbase/wallet-sdk": "^3.4.0",
+    "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
+    "@material-tailwind/react": "^1.2.3",
     "@opengsn/provider": "^3.0.0-beta.1",
     "@types/react-textarea-autosize": "^8.0.0",
     "@walletconnect/web3-provider": "^1.8.0",
