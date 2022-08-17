@@ -3,6 +3,7 @@ import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import PostStatus from 'models/PostStatus'
 import PostStatusText from 'models/PostStatusText'
+import SelectedTypeStore from 'stores/SelectedTypeStore'
 import classnames, {
   alignItems,
   backgroundColor,
@@ -27,10 +28,15 @@ const statusContainer = (status: PostStatus) =>
   )
 
 export function StatusSuspended({ id }: { id: number }) {
-  const status = useSnapshot(postIdsStatuses).currentStatuses[id]?.status
+  const { selectedType } = useSnapshot(SelectedTypeStore)
+  const { currentStatuses } = useSnapshot(postIdsStatuses)
+  const status = currentStatuses[id]?.status || PostStatus.pending
 
   return (
-    <a href={`#blockchainTweetId=${id}`} className={statusContainer(status)}>
+    <a
+      href={`#store=${selectedType}&id=${id}`}
+      className={statusContainer(status)}
+    >
       <StatusText color={status === PostStatus.rejected ? 'dark' : 'default'}>
         {PostStatusText[status]}
       </StatusText>
