@@ -3,6 +3,7 @@ enum PostStatusText {
   published = 'Posted to Twitter',
   rejected = 'Rejected',
   pending = 'Pending review...',
+  loading = 'Loading...',
 }
 
 export default PostStatusText

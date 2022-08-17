@@ -3,6 +3,7 @@ enum PostStatus {
   published = 'published',
   rejected = 'rejected',
   pending = 'pending',
+  loading = 'loading',
 }
 
 export default PostStatus

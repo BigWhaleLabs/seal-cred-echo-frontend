@@ -1,4 +1,4 @@
-import { derive, subscribeKey } from 'valtio/utils'
+import { derive, proxySet, subscribeKey } from 'valtio/utils'
 import { proxy } from 'valtio'
 import PostStatus from 'models/PostStatus'
 import PostStore from 'stores/PostStore'
@@ -8,24 +8,26 @@ import dataShapeObject from 'helpers/dataShapeObject'
 import getPostStatuses from 'helpers/getPostStatuses'
 
 const postStatusStore = proxy({
-  proccessing: dataShapeObject<number[]>(() => []),
+  proccessing: dataShapeObject(() => proxySet<number>([])),
   statuses: dataShapeObject(
     () =>
-      ({} as { [postId: string]: { status: PostStatus; statusId?: number } })
+      ({} as {
+        [postId: string]: Promise<{ status: PostStatus; statusId?: number }>
+      })
   ),
 })
 
-export async function updateStatuses(name: keyof typeof data, ids?: number[]) {
-  const updatedStatuses = await getPostStatuses(
-    ids || postStatusStore.proccessing[name],
-    data[name].postStorage
-  )
+export async function updateStatuses(
+  name: keyof typeof data,
+  ids = Array.from(postStatusStore.proccessing[name])
+) {
+  const updatedStatuses = await getPostStatuses(ids, data[name].postStorage)
 
   for (const { tweetId, status, statusId } of updatedStatuses) {
-    postStatusStore.statuses[name][tweetId] = {
+    postStatusStore.statuses[name][tweetId] = Promise.resolve({
       status,
       statusId,
-    }
+    })
   }
 }
 
@@ -34,7 +36,7 @@ async function checkStatuses(name: keyof typeof data, ids?: number[]) {
   if (checkingStatuses && !ids) return
   checkingStatuses = true
   try {
-    await updateStatuses(name)
+    await updateStatuses(name, ids)
   } catch (error) {
     console.error(error)
   } finally {
@@ -42,14 +44,15 @@ async function checkStatuses(name: keyof typeof data, ids?: number[]) {
   }
 }
 
-subscribeKey(PostStore, 'selectedPosts', async (result) => {
-  void checkStatuses(
-    SelectedTypeStore.selectedType as keyof typeof data,
-    (await result).map(({ id }) => id.toNumber())
-  )
-})
+async function updateStatusesForSelectedPosts(
+  result = PostStore.selectedPosts
+) {
+  const ids = (await result).map(({ id }) => id.toNumber())
+  void checkStatuses(SelectedTypeStore.selectedType, ids)
+}
 
-setInterval(() => checkStatuses(SelectedTypeStore.selectedType), 15 * 1000)
+subscribeKey(PostStore, 'selectedPosts', updateStatusesForSelectedPosts)
+setInterval(() => updateStatusesForSelectedPosts(), 5000)
 
 export default derive(
   {
