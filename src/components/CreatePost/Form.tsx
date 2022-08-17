@@ -1,6 +1,9 @@
 import { BodyText } from 'components/Text'
+import { PostStructOutput } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
 import { useState } from 'preact/hooks'
 import Button from 'components/Button'
+import PostIdsStatuses from 'stores/PostIdsStatuses'
+import PostStore from 'stores/PostStore'
 import SelectAsset from 'components/CreatePost/SelectAsset'
 import TextArea from 'components/TextArea'
 import WalletStore from 'stores/WalletStore'
@@ -12,6 +15,7 @@ import classnames, {
   justifyContent,
   width,
 } from 'classnames/tailwind'
+import getOriginalFromDerivative from 'helpers/getOriginalFromDerivative'
 import handleError, { ErrorList } from 'helpers/handleError'
 
 const container = classnames(
@@ -77,12 +81,37 @@ export default function () {
               setError(null)
               try {
                 const submitText = text + suffix
+
+                const { ledgerType, original } =
+                  await getOriginalFromDerivative(selectedAddress)
+
                 const result = await WalletStore.createPost({
                   text: submitText,
-                  derivativeAddress: selectedAddress,
+                  ledgerType,
+                  original,
                 })
-                // TODO: handle result to posts list
-                console.log(result)
+
+                const posts = await PostStore.posts[ledgerType]
+                for (const {
+                  id,
+                  post,
+                  derivativeAddress,
+                  sender,
+                  timestamp,
+                } of result) {
+                  PostStore.posts[ledgerType] = Promise.resolve([
+                    {
+                      id,
+                      post,
+                      derivativeAddress,
+                      sender,
+                      timestamp,
+                    } as PostStructOutput,
+                    ...posts,
+                  ])
+
+                  PostIdsStatuses.processing[ledgerType].add(id.toNumber())
+                }
                 setText('')
               } catch (error) {
                 setError(error)

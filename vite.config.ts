@@ -8,12 +8,8 @@ import removeConsole from 'vite-plugin-remove-console'
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 
 export default defineConfig({
-  resolve: {
-    alias: {
-      assert: 'assert-browserify',
-    },
-  },
   plugins: [preact(), tsconfigPaths()],
+  resolve: { alias: { assert: 'assert-browserify' } },
   build: {
     rollupOptions: {
       plugins: [
@@ -35,9 +31,12 @@ export default defineConfig({
         global: 'globalThis',
       },
       plugins: [
-        GlobalsPolyfills({ buffer: true }),
+        GlobalsPolyfills({
+          buffer: true,
+        }),
         NodeModulesPolyfillPlugin(),
-      ],
+      ] as any[],
     },
   },
+  server: { port: 3000 },
 })

@@ -8,9 +8,7 @@
     "preview": "yarn build && yarn vite preview",
     "pretty": "prettier --check src",
     "lint": "yarn pretty && eslint --max-warnings 0 --ext ts,tsx,json src",
-    "postinstall": "yarn generate-css-types",
-    "generate-css-types": "tailwindcss-classnames -o src/classnames/tailwind.ts && prettier --write src/classnames/tailwind.ts",
-    "update": "yarn build && git add . && git commit -m 'update' && git push"
+    "generate-css-types": "tailwindcss-classnames -o src/classnames/tailwind.ts && prettier --write src/classnames/tailwind.ts"
   },
   "browserslist": {
     "production": [
@@ -31,14 +29,12 @@
     "@big-whale-labs/stores": "^0.1.16",
     "@coinbase/wallet-sdk": "^3.4.2",
     "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
-    "@ethersproject/experimental": "^5.6.3",
     "@opengsn/provider": "^3.0.0-beta.1",
     "@types/react-textarea-autosize": "^8.0.0",
     "@walletconnect/web3-provider": "^1.8.0",
     "assert-browserify": "^2.0.0",
     "axios": "^0.27.2",
     "dayjs": "^1.11.5",
-    "entropy-string": "^4.2.0",
     "envalid": "^7.3.1",
     "eth-rpc-errors": "^4.0.3",
     "ethers": "^5.6.9",
@@ -47,18 +43,16 @@
     "react-textarea-autosize": "^8.3.4",
     "react-toastify": "^9.0.8",
     "react-twitter-widgets": "^1.11.0",
-    "rollup-plugin-polyfill-node": "^0.10.2",
     "secure-ls": "^1.2.6",
-    "unfetch": "^4.2.0",
     "valtio": "^1.6.3",
     "web3modal": "^1.9.8"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
     "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
+    "@originjs/vite-plugin-commonjs": "^1.0.3",
     "@preact/preset-vite": "^2.3.0",
-    "@rollup/plugin-inject": "^4.0.4",
-    "@types/entropy-string": "^4.2.0",
+    "@typechain/ethers-v5": "^10.1.0",
     "@types/node": "^18.7.6",
     "@typescript-eslint/eslint-plugin": "^5.33.1",
     "@typescript-eslint/parser": "^5.33.1",

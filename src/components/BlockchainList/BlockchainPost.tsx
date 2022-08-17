@@ -8,14 +8,12 @@ import {
 import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
-// import ContractTitle from 'components/ContractTitle'
+import ContractTitle from 'components/BlockchainList/ContractTitle'
 import Delimiter from 'components/Delimiter'
-import ENSAddress from 'components/ENSAddress'
-// import PostChips from 'components/PostChips'
-// import PostModel from 'models/PostModel'
-// import PostStatusStore from 'stores/PostStatusStore'
 import PostTime from 'components/BlockchainList/PostTime'
-// import PostedStatus from 'components/PostedStatus'
+import Status from 'components/BlockchainList/Status'
+import TwitterLink from 'components/BlockchainList/TwitterLink'
+import WalletStore from 'stores/WalletStore'
 import classnames, {
   alignItems,
   display,
@@ -25,7 +23,6 @@ import classnames, {
 } from 'classnames/tailwind'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
-import walletStore from 'stores/WalletStore'
 
 const container = classnames(
   display('flex'),
@@ -45,24 +42,22 @@ const postBottom = classnames(
 )
 
 function Sender({ sender }: { sender: string }) {
-  const { account } = useSnapshot(walletStore)
+  const { account } = useSnapshot(WalletStore)
   return (
     <LinkText extraSmall title={sender} url={getEtherscanAddressUrl(sender)}>
-      {sender === account ? (
-        'you'
-      ) : (
-        <ENSAddress address={sender} truncateSize={13} />
-      )}
+      {sender === account ? 'you' : truncateMiddleIfNeeded(sender, 13)}
     </LinkText>
   )
 }
 
 export default function ({
+  id,
   timestamp,
   text,
   sender,
   derivativeAddress,
 }: {
+  id: number
   timestamp: number
   text: string
   sender: string
@@ -72,7 +67,7 @@ export default function ({
     <Card>
       <div className={container}>
         <div className={postHeader}>
-          {/* <PostChips id={id} statusStore={statusStore} /> */}
+          <Status id={id} />
           <PostTime timestamp={timestamp} />
         </div>
         <PostText>{text}</PostText>
@@ -81,7 +76,6 @@ export default function ({
             <StatusText>Posted by: </StatusText>
             <Sender sender={sender} />
             <Delimiter />
-
             <Suspense
               fallback={
                 <UnderlineTextButton>
@@ -89,12 +83,8 @@ export default function ({
                 </UnderlineTextButton>
               }
             >
-              {/* <ContractTitle
-                address={derivativeAddress}
-                onClick={() => onSelectAddress(derivativeAddress)}
-              /> */}
+              <ContractTitle address={derivativeAddress} />
             </Suspense>
-
             <Delimiter />
             <LinkText
               extraSmall
@@ -103,9 +93,7 @@ export default function ({
             >
               Etherscan
             </LinkText>
-            {/* <Suspense fallback={<></>}>
-              <PostedStatus id={id} statusStore={statusStore} />
-            </Suspense> */}
+            <TwitterLink id={id} />
           </span>
         </BodyText>
       </div>

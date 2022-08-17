@@ -10,11 +10,11 @@ export default function () {
   const derivativesAddressesOwned = [] as string[]
   for (const key in data) {
     const ledger = ledgers[key]
-    for (const derivative of Object.values(ledger)) {
-      if (addressToTokenIds?.[derivative.address]) {
-        derivativesAddressesOwned.push(derivative.address)
-      }
-    }
+    if (!ledger) continue
+
+    for (const { derivative } of Object.values(ledger))
+      if (addressToTokenIds?.[derivative])
+        derivativesAddressesOwned.push(derivative)
   }
 
   return derivativesAddressesOwned

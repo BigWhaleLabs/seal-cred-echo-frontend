@@ -4,9 +4,9 @@ import { proxy } from 'valtio'
 import { serializeError } from 'eth-rpc-errors'
 import chainForWallet from 'helpers/chainForWallet'
 import env from 'helpers/env'
-import getOriginalFromDerivative from 'helpers/getOriginalFromDerivative'
 import handleError, { ErrorList } from 'helpers/handleError'
 import networkChainIdToName from 'models/networkChainIdToName'
+import parsePostLogData from 'helpers/parsePostLogData'
 import postStorageContracts from 'helpers/postStorageContracts'
 import relayProvider from 'helpers/providers/relayProvider'
 import web3Modal from 'helpers/web3Modal'
@@ -100,10 +100,12 @@ class WalletStore extends PersistableStore {
 
   async createPost({
     text,
-    derivativeAddress,
+    ledgerType,
+    original,
   }: {
     text: string
-    derivativeAddress: string
+    ledgerType: string
+    original: string
   }) {
     if (!provider) throw new Error(ErrorList.noProvider)
 
@@ -113,15 +115,18 @@ class WalletStore extends PersistableStore {
       gsnProvider as unknown as ExternalProvider
     )
 
-    const { ledgerType, original } = await getOriginalFromDerivative(
-      derivativeAddress
-    )
-
     const contract = postStorageContracts[ledgerType].connect(
       ethersProvider.getSigner(0)
     )
     const transaction = await contract.savePost(text, original)
-    return transaction.wait()
+    const result = await transaction.wait()
+
+    return Promise.all(
+      result.logs
+        .filter(({ address }) => address === contract.address)
+        .map(({ data, topics }) => parsePostLogData({ data, topics }))
+        .map(({ args }) => args)
+    )
   }
 
   private subscribeProvider(provider: Web3Provider) {

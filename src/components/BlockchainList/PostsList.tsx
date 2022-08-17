@@ -4,26 +4,28 @@ import BlockchainPost from 'components/BlockchainList/BlockchainPost'
 import ListLoading from 'components/ListLoading'
 import NoPosts from 'components/BlockchainList/NoPosts'
 import PostStore from 'stores/PostStore'
-import SelectedTypeStore from 'stores/SelectedTypeStore'
+import useScrollToAnchor from 'hooks/useScrollToAnchor'
 
 function BlockchainPostsListSuspended() {
-  const { selectedType } = useSnapshot(SelectedTypeStore)
-  const { postStorages } = useSnapshot(PostStore)
-  const posts = postStorages[selectedType]
-  console.log('Rendering PostsList for', selectedType)
+  const { selectedPosts } = useSnapshot(PostStore)
+  useScrollToAnchor()
 
   return (
     <>
-      {!posts.length && <NoPosts />}
-      {posts.map((post) => (
-        <BlockchainPost
-          key={`${post.id}`}
-          timestamp={Number(post.timestamp)}
-          text={post.post}
-          sender={post.sender}
-          derivativeAddress={post.derivativeAddress}
-        />
-      ))}
+      {!selectedPosts.length ? (
+        <NoPosts />
+      ) : (
+        selectedPosts.map((post) => (
+          <BlockchainPost
+            key={post.id}
+            id={Number(post.id)}
+            timestamp={Number(post.timestamp)}
+            text={post.post}
+            sender={post.sender}
+            derivativeAddress={post.derivativeAddress}
+          />
+        ))
+      )}
     </>
   )
 }

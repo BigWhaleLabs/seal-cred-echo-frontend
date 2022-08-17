@@ -1,5 +1,5 @@
 import { BodyText } from 'components/Text'
-import { gap } from 'classnames/tailwind'
+import { display, flexDirection, gap } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import AgeWarning from 'components/BlockchainList/AgeWarning'
 import HintCard from 'components/HintCard'
@@ -10,6 +10,7 @@ import classNamesToString from 'helpers/classNamesToString'
 
 export default function () {
   const { adultAccepted } = useSnapshot(NotificationStore)
+
   return (
     <PreviousTweetsLayout blockchainPosts>
       {!adultAccepted && (
@@ -19,7 +20,14 @@ export default function () {
           }}
         />
       )}
-      <div className={classNamesToString('blockchainPosts', gap('gap-y-4'))}>
+      <div
+        className={classNamesToString(
+          'blockchainPosts',
+          display('flex'),
+          flexDirection('flex-col'),
+          gap('gap-y-4')
+        )}
+      >
         <HintCard>
           <BodyText primary>
             This is unfiltered user-generated content. We did not play a part in
