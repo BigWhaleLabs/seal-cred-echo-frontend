@@ -27,7 +27,8 @@ const statusContainer = (status: PostStatus) =>
   )
 
 export function StatusSuspended({ id }: { id: number }) {
-  const status = useSnapshot(postIdsStatuses).currentStatuses[id]?.status
+  const { currentStatuses } = useSnapshot(postIdsStatuses)
+  const status = currentStatuses[id]?.status || PostStatus.pending
 
   return (
     <a href={`#blockchainTweetId=${id}`} className={statusContainer(status)}>
