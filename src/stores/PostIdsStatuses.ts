@@ -8,7 +8,7 @@ import dataShapeObject from 'helpers/dataShapeObject'
 import getPostStatuses from 'helpers/getPostStatuses'
 
 const postStatusStore = proxy({
-  proccessing: dataShapeObject(() => proxySet<number>([])),
+  processing: dataShapeObject(() => proxySet<number>([])),
   statuses: dataShapeObject(
     () =>
       ({} as {
@@ -19,7 +19,7 @@ const postStatusStore = proxy({
 
 export async function updateStatuses(
   name: keyof typeof data,
-  ids = Array.from(postStatusStore.proccessing[name])
+  ids = Array.from(postStatusStore.processing[name])
 ) {
   const updatedStatuses = await getPostStatuses(ids, data[name].postStorage)
 

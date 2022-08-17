@@ -13,7 +13,7 @@ function BlockchainPostsListSuspended() {
       {!selectedPosts.length && <NoPosts />}
       {selectedPosts.map((post) => (
         <BlockchainPost
-          key={`${post.id}`}
+          key={post.id}
           id={Number(post.id)}
           timestamp={Number(post.timestamp)}
           text={post.post}
