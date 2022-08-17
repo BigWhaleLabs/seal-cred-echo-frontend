@@ -6,12 +6,12 @@ import NoPosts from 'components/BlockchainList/NoPosts'
 import PostStore from 'stores/PostStore'
 
 function BlockchainPostsListSuspended() {
-  const { posts } = useSnapshot(PostStore)
+  const { selectedPosts } = useSnapshot(PostStore)
 
   return (
     <>
-      {!posts.length && <NoPosts />}
-      {posts.map((post) => (
+      {!selectedPosts.length && <NoPosts />}
+      {selectedPosts.map((post) => (
         <BlockchainPost
           key={`${post.id}`}
           id={Number(post.id)}

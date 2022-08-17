@@ -2,10 +2,10 @@ import { LinkText } from 'components/Text'
 import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Delimiter from 'components/Delimiter'
-import postStore from 'stores/PostIdsStatuses'
+import postIdsStatuses from 'stores/PostIdsStatuses'
 
 function TwitterLink({ id }: { id: number }) {
-  const statusId = useSnapshot(postStore).get(id)?.statusId
+  const statusId = useSnapshot(postIdsStatuses).currentStatuses[id]?.statusId
 
   if (!statusId) return null
 
