@@ -1,9 +1,8 @@
-import { LargeText } from 'components/Text'
 import { useSnapshot } from 'valtio'
-import Loading from 'components/Loading'
 import PostIdsStatuses from 'stores/PostIdsStatuses'
-import ProcessHeader from 'components/PostProcessing/ProcessHeader'
-import ViewTweetButton from 'components/PostProcessing/ViewTweetButton'
+import PostPending from 'components/PostProcessing/PostPending'
+import PostRejected from 'components/PostProcessing/PostRejected'
+import TweetSuccessful from 'components/PostProcessing/TweetSuccessful'
 import classnames, {
   alignItems,
   backgroundColor,
@@ -30,31 +29,17 @@ export default function () {
 
   if (!pendingPost && !lastProcessedStatusId) return null
 
-  const pending = !!pendingPost
-
-  const statusComponent = lastProcessedStatusId ? (
-    <LargeText>Tweet successful</LargeText>
-  ) : (
-    <>
-      <ProcessHeader />
-      <Loading />
-    </>
-  )
-
   return (
-    <div className={container(pending)}>
-      {statusComponent}
+    <div className={container(!!pendingPost)}>
       {lastProcessedStatusId ? (
-        <ViewTweetButton
-          url={`https://twitter.com/SealCredEmail/status/${lastProcessedStatusId}`}
-        />
+        <TweetSuccessful statusId={lastProcessedStatusId} />
       ) : pendingPost ? (
-        <ViewTweetButton
-          url={`/tweets/blockchain#store=${pendingPost.store}&id=${pendingPost.id}`}
-          pending
-          internal
+        <PostPending
+          blockchainLink={`/tweets/blockchain#store=${pendingPost.store}&id=${pendingPost.id}`}
         />
-      ) : null}
+      ) : (
+        <PostRejected blockchainLink="" />
+      )}
     </div>
   )
 }
