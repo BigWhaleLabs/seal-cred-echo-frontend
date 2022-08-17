@@ -21,11 +21,7 @@ export default function () {
         />
       )}
       <div
-        className={classNamesToString(
-          'blockchainPosts',
-          gap('gap-y-4'),
-          space('space-y-4')
-        )}
+        className={classNamesToString('blockchainPosts', space('space-y-4'))}
       >
         <HintCard>
           <BodyText primary>
