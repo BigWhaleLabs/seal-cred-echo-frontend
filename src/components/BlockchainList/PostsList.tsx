@@ -4,7 +4,7 @@ import BlockchainPost from 'components/BlockchainList/BlockchainPost'
 import ListLoading from 'components/ListLoading'
 import NoPosts from 'components/BlockchainList/NoPosts'
 import PostStore from 'stores/PostStore'
-import useScrollToAnchor from 'helpers/useScrollToAnchor'
+import useScrollToAnchor from 'hooks/useScrollToAnchor'
 
 function BlockchainPostsListSuspended() {
   const { selectedPosts } = useSnapshot(PostStore)
