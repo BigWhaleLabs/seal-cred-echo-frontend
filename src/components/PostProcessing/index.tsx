@@ -40,7 +40,7 @@ export default function () {
         />
       ) : rejectedPost ? (
         <PostRejected
-          blockchainLink={`/tweets/blockchain#store=${pendingPost.store}&id=${pendingPost.id}`}
+          blockchainLink={`/tweets/blockchain#store=${rejectedPost.store}&id=${rejectedPost.id}`}
         />
       ) : null}
     </div>
