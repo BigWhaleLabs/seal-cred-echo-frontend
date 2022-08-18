@@ -95,22 +95,15 @@ setInterval(async () => {
 
 export default derive(
   {
-    pendingPost: (get) => {
-      const processing = get(postStatusStore).processing
-      for (const store of Object.keys(processing)) {
-        const [id] = processing[store]
-        if (typeof id !== 'undefined') return { store, id }
-      }
-      return null
-    },
-    rejectedPost: (get) => {
-      const storesWithStatuses = get(postStatusStore).statuses
-      for (const store of Object.keys(storesWithStatuses))
-        return Object.keys(store).map(async (id) => {
-          const status = await storesWithStatuses[store][id]
-          if (status && status.status === PostStatus.rejected)
-            return { store, id }
-        })[0]
+    lastPostWithStatus: (get) => {
+      const id = get(postStatusStore).lastProcessedStatusId
+      if (!id) return
+      for (const storeName of Object.keys(get(postStatusStore).statuses))
+        return {
+          storeName,
+          id,
+          statusWithId: get(postStatusStore).statuses[storeName][id],
+        }
     },
     currentStatuses: (get) =>
       get(postStatusStore).statuses[SelectedTypeStore.selectedType],

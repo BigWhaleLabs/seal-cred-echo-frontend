@@ -2,6 +2,7 @@ import { useSnapshot } from 'valtio'
 import PostIdsStatuses from 'stores/PostIdsStatuses'
 import PostPending from 'components/PostProcessing/PostPending'
 import PostRejected from 'components/PostProcessing/PostRejected'
+import PostStatus from 'models/PostStatus'
 import TweetSuccessful from 'components/PostProcessing/TweetSuccessful'
 import classnames, {
   alignItems,
@@ -25,24 +26,21 @@ const container = (loading?: boolean) =>
   )
 
 export default function () {
-  const { pendingPost, rejectedPost, lastProcessedStatusId } =
-    useSnapshot(PostIdsStatuses)
+  const { lastPostWithStatus } = useSnapshot(PostIdsStatuses)
+  if (!lastPostWithStatus) return null
 
-  if (!pendingPost && !lastProcessedStatusId && !rejectedPost) return null
+  const { status, statusId } = lastPostWithStatus.statusWithId
+  const blockchainLink = `/tweets/blockchain#store=${lastPostWithStatus.storeName}&id=${lastPostWithStatus.id}`
 
   return (
-    <div className={container(!!pendingPost)}>
-      {lastProcessedStatusId ? (
-        <TweetSuccessful statusId={lastProcessedStatusId} />
-      ) : rejectedPost ? (
-        <PostRejected
-          blockchainLink={`/tweets/blockchain#store=${rejectedPost.store}&id=${rejectedPost.id}`}
-        />
-      ) : pendingPost ? (
-        <PostPending
-          blockchainLink={`/tweets/blockchain#store=${pendingPost.store}&id=${pendingPost.id}`}
-        />
-      ) : null}
+    <div className={container(!!lastPostWithStatus)}>
+      {status === PostStatus.published && statusId ? (
+        <TweetSuccessful statusId={statusId} />
+      ) : status === PostStatus.rejected ? (
+        <PostRejected blockchainLink={blockchainLink} />
+      ) : (
+        <PostPending blockchainLink={blockchainLink} />
+      )}
     </div>
   )
 }
