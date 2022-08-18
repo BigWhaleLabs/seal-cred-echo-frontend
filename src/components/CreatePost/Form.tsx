@@ -80,7 +80,7 @@ export default function () {
               setLoading(true)
               setError(null)
               try {
-                const submitText = text + suffix
+                const submitText = text
 
                 const { ledgerType, original } =
                   await getOriginalFromDerivative(selectedAddress)

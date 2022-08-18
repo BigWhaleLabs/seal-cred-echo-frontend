@@ -6,12 +6,18 @@ import dataShapeObject from 'helpers/dataShapeObject'
 import postStorageContracts from 'helpers/postStorageContracts'
 import safeGetPostsFromContract from 'helpers/safeGetPostsFromContract'
 
-const postStore = proxy({
+interface PostStoreType {
+  posts: { [storageName: string]: Promise<PostStructOutput[]> }
+  selectedToken?: string
+}
+
+const postStore = proxy<PostStoreType>({
   posts: dataShapeObject((key) =>
     SelectedTypeStore.selectedType === key
       ? safeGetPostsFromContract(postStorageContracts[key])
       : Promise.resolve([] as PostStructOutput[])
   ),
+  selectedToken: undefined,
 })
 
 subscribeKey(SelectedTypeStore, 'selectedType', (selectedType) => {

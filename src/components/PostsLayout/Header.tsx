@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { useSnapshot } from 'valtio'
 import BackToTweetsButton from 'components/PostsLayout/BackToTweetsButton'
 import Dropdown from 'components/Dropdown'
+import PostStore from 'stores/PostStore'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
 import classnames, {
   alignItems,
@@ -20,7 +21,8 @@ const container = classnames(
   display('flex'),
   flexDirection('sm:flex-row', 'flex-col'),
   alignItems('sm:items-center'),
-  justifyContent('justify-between')
+  justifyContent('justify-between'),
+  gap('gap-y-2')
 )
 const tweetByWrapper = classnames(
   display('flex'),
@@ -49,6 +51,7 @@ export default function ({ blockchainPosts }: { blockchainPosts?: boolean }) {
           }))}
           onChange={(value) => {
             SelectedTypeStore.selectedType = value
+            PostStore.selectedToken = undefined
           }}
         />
       </div>

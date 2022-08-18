@@ -2,6 +2,7 @@ import { BodyText } from 'components/Text'
 import { display, flexDirection, gap } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import AgeWarning from 'components/BlockchainList/AgeWarning'
+import FilterBySelectedToken from 'components/BlockchainList/FilterBySelectedToken'
 import HintCard from 'components/HintCard'
 import NotificationStore from 'stores/NotificationStore'
 import PostsList from 'components/BlockchainList/PostsList'
@@ -34,6 +35,7 @@ export default function () {
             its creation beyond providing a space to display it.
           </BodyText>
         </HintCard>
+        <FilterBySelectedToken />
         <PostsList />
       </div>
     </PreviousTweetsLayout>
