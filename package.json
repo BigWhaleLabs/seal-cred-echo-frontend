@@ -23,11 +23,11 @@
     ]
   },
   "dependencies": {
-    "@big-whale-labs/constants": "^0.1.21",
+    "@big-whale-labs/constants": "^0.1.22",
     "@big-whale-labs/seal-cred-ledger-contract": "^0.2.6",
     "@big-whale-labs/seal-cred-posts-contract": "^0.0.11",
     "@big-whale-labs/stores": "^0.1.16",
-    "@coinbase/wallet-sdk": "^3.4.2",
+    "@coinbase/wallet-sdk": "^3.5.0",
     "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
     "@opengsn/provider": "^3.0.0-beta.1",
     "@types/react-textarea-autosize": "^8.0.0",
