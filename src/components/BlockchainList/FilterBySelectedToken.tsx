@@ -1,3 +1,4 @@
+import { LinkText } from 'components/Text'
 import { useSnapshot } from 'valtio'
 import ContractTitle from 'components/BlockchainList/ContractTitle'
 import Cross from 'icons/Cross'
@@ -14,6 +15,7 @@ import classnames, {
   padding,
   width,
 } from 'classnames/tailwind'
+import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
 
 const container = classnames(
   display('flex'),
@@ -22,7 +24,6 @@ const container = classnames(
   gap('gap-x-2.5'),
   width('w-fit'),
   padding('px-4', 'py-2'),
-  cursor('cursor-default'),
   borderRadius('rounded-lg'),
   backgroundColor('bg-primary-background')
 )
@@ -39,7 +40,10 @@ export default function () {
 
   return (
     <div className={container}>
-      <ContractTitle address={selectedToken} />
+      <LinkText extraSmall url={getEtherscanAddressUrl(selectedToken)}>
+        <ContractTitle address={selectedToken} />
+      </LinkText>
+
       <div
         className={closeButton}
         onClick={() => (PostStore.selectedToken = undefined)}
