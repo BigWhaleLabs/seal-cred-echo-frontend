@@ -1,9 +1,6 @@
 function transformRelayErrorMessage(message: string) {
   // Removes stack trace information
-  return message
-    .split('stack')
-    ?.filter((_, i) => i % 2 === 0)
-    ?.join('\n')
+  return message.split('stack')[0]
 }
 
 function extractMetamaskReason(gSNError: string) {
