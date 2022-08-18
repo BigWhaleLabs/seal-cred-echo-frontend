@@ -34,13 +34,13 @@ export default function () {
     <div className={container(!!pendingPost)}>
       {lastProcessedStatusId ? (
         <TweetSuccessful statusId={lastProcessedStatusId} />
-      ) : pendingPost ? (
-        <PostPending
-          blockchainLink={`/tweets/blockchain#store=${pendingPost.store}&id=${pendingPost.id}`}
-        />
       ) : rejectedPost ? (
         <PostRejected
           blockchainLink={`/tweets/blockchain#store=${rejectedPost.store}&id=${rejectedPost.id}`}
+        />
+      ) : pendingPost ? (
+        <PostPending
+          blockchainLink={`/tweets/blockchain#store=${pendingPost.store}&id=${pendingPost.id}`}
         />
       ) : null}
     </div>
