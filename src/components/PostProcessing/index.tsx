@@ -25,9 +25,10 @@ const container = (loading?: boolean) =>
   )
 
 export default function () {
-  const { pendingPost, lastProcessedStatusId } = useSnapshot(PostIdsStatuses)
+  const { pendingPost, rejectedPost, lastProcessedStatusId } =
+    useSnapshot(PostIdsStatuses)
 
-  if (!pendingPost && !lastProcessedStatusId) return null
+  if (!pendingPost && !lastProcessedStatusId && !rejectedPost) return null
 
   return (
     <div className={container(!!pendingPost)}>
@@ -37,9 +38,11 @@ export default function () {
         <PostPending
           blockchainLink={`/tweets/blockchain#store=${pendingPost.store}&id=${pendingPost.id}`}
         />
-      ) : (
-        <PostRejected blockchainLink="" />
-      )}
+      ) : rejectedPost ? (
+        <PostRejected
+          blockchainLink={`/tweets/blockchain#store=${pendingPost.store}&id=${pendingPost.id}`}
+        />
+      ) : null}
     </div>
   )
 }

@@ -103,6 +103,15 @@ export default derive(
       }
       return null
     },
+    rejectedPost: (get) => {
+      const storesWithStatuses = get(postStatusStore).statuses
+      for (const store of Object.keys(storesWithStatuses))
+        return Object.keys(store).map(async (id) => {
+          const status = await storesWithStatuses[store][id]
+          if (status && status.status === PostStatus.rejected)
+            return { store, id }
+        })[0]
+    },
     currentStatuses: (get) =>
       get(postStatusStore).statuses[SelectedTypeStore.selectedType],
   },
