@@ -5,7 +5,6 @@ import Network from '@big-whale-labs/stores/dist/models/Network'
 import WalletStore from 'stores/WalletStore'
 import defaultProvider from 'helpers/providers/defaultProvider'
 import env from 'helpers/env'
-// import heavyProvider from 'helpers/providers/heavyProvider'
 
 export const ContractsStore = proxy(
   new BaseContractsStore(defaultProvider, defaultProvider, Network.Goerli)
