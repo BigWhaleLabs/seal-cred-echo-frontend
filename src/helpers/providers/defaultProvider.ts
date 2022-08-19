@@ -1,3 +1,7 @@
-import heavyProvider from 'helpers/providers/heavyProvider'
+import { providers } from 'ethers'
+import env from 'helpers/env'
 
-export default heavyProvider
+export default new providers.JsonRpcProvider(
+  env.VITE_ETH_RPC,
+  env.VITE_ETH_NETWORK
+)
