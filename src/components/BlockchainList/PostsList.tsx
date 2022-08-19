@@ -1,5 +1,5 @@
-import { FixedSizeList } from 'react-window'
 import { Suspense } from 'preact/compat'
+import { VariableSizeList } from 'react-window'
 import { useSnapshot } from 'valtio'
 import BlockchainPost from 'components/BlockchainList/BlockchainPost'
 import ListLoading from 'components/ListLoading'
@@ -17,32 +17,42 @@ function BlockchainPostsListSuspended() {
       : post
   )
 
-  const Row = ({ index }: { index: number }) => {
+  const Row = ({ index, style }: { index: number; style: string }) => {
     const post = data[index]
 
     return (
-      <BlockchainPost
-        key={post.id}
-        id={Number(post.id)}
-        timestamp={Number(post.timestamp)}
-        text={post.post}
-        sender={post.sender}
-        derivativeAddress={post.derivativeAddress}
-      />
+      <div style={style}>
+        <BlockchainPost
+          key={post.id}
+          id={Number(post.id)}
+          timestamp={Number(post.timestamp)}
+          text={post.post}
+          sender={post.sender}
+          derivativeAddress={post.derivativeAddress}
+        />
+      </div>
     )
   }
 
   return (
     <>
       {data.length ? (
-        <FixedSizeList
+        <VariableSizeList
+          itemSize={(index) => {
+            const blockHeight = 150
+            const rowHeight = 18
+            const oneRowLength = data[index].post.length / 66
+            const moreThanOneRow = oneRowLength > 1
+            return moreThanOneRow
+              ? blockHeight + oneRowLength * rowHeight
+              : blockHeight
+          }}
           width={565}
           height={700}
-          itemSize={300}
           itemCount={data.length}
         >
           {Row}
-        </FixedSizeList>
+        </VariableSizeList>
       ) : (
         <NoPosts />
       )}
