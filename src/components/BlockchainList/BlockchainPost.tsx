@@ -10,6 +10,7 @@ import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
 import ContractTitle from 'components/BlockchainList/ContractTitle'
 import Delimiter from 'components/Delimiter'
+import PostStore from 'stores/PostStore'
 import PostTime from 'components/BlockchainList/PostTime'
 import Status from 'components/BlockchainList/Status'
 import TwitterLink from 'components/BlockchainList/TwitterLink'
@@ -83,7 +84,10 @@ export default function ({
                 </UnderlineTextButton>
               }
             >
-              <ContractTitle address={derivativeAddress} />
+              <ContractTitle
+                address={derivativeAddress}
+                onClick={() => (PostStore.selectedToken = derivativeAddress)}
+              />
             </Suspense>
             <Delimiter />
             <LinkText

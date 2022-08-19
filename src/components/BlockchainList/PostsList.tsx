@@ -7,7 +7,7 @@ import PostStore from 'stores/PostStore'
 import useScrollToAnchor from 'hooks/useScrollToAnchor'
 
 function BlockchainPostsListSuspended() {
-  const { selectedPosts } = useSnapshot(PostStore)
+  const { selectedPosts, selectedToken } = useSnapshot(PostStore)
   useScrollToAnchor()
 
   return (
@@ -15,16 +15,20 @@ function BlockchainPostsListSuspended() {
       {!selectedPosts.length ? (
         <NoPosts />
       ) : (
-        selectedPosts.map((post) => (
-          <BlockchainPost
-            key={post.id}
-            id={Number(post.id)}
-            timestamp={Number(post.timestamp)}
-            text={post.post}
-            sender={post.sender}
-            derivativeAddress={post.derivativeAddress}
-          />
-        ))
+        selectedPosts
+          .filter((post) =>
+            selectedToken ? post.derivativeAddress === selectedToken : post
+          )
+          .map((post) => (
+            <BlockchainPost
+              key={post.id}
+              id={Number(post.id)}
+              timestamp={Number(post.timestamp)}
+              text={post.post}
+              sender={post.sender}
+              derivativeAddress={post.derivativeAddress}
+            />
+          ))
       )}
     </>
   )

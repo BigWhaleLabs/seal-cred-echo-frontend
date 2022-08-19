@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { useSnapshot } from 'valtio'
 import BackToTweetsButton from 'components/PostsLayout/BackToTweetsButton'
 import Dropdown from 'components/Dropdown'
+import PostStore from 'stores/PostStore'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
 import classnames, {
   alignItems,
@@ -50,6 +51,7 @@ export default function ({ blockchainPosts }: { blockchainPosts?: boolean }) {
           }))}
           onChange={(value) => {
             SelectedTypeStore.selectedType = value
+            PostStore.selectedToken = undefined
           }}
         />
       </div>
