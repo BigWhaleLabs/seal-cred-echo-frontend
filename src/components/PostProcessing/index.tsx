@@ -3,6 +3,7 @@ import { useSnapshot } from 'valtio'
 import Loading from 'components/Loading'
 import PostIdsStatuses from 'stores/PostIdsStatuses'
 import ProcessHeader from 'components/PostProcessing/ProcessHeader'
+import SelectedTypeStore from 'stores/SelectedTypeStore'
 import ViewTweetButton from 'components/PostProcessing/ViewTweetButton'
 import classnames, {
   alignItems,
@@ -53,6 +54,9 @@ export default function () {
           url={`/tweets/blockchain#store=${pendingPost.store}&id=${pendingPost.id}`}
           pending
           internal
+          onClick={() => {
+            SelectedTypeStore.selectedType = pendingPost.store
+          }}
         />
       ) : null}
     </div>
