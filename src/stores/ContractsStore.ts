@@ -5,10 +5,10 @@ import Network from '@big-whale-labs/stores/dist/models/Network'
 import WalletStore from 'stores/WalletStore'
 import defaultProvider from 'helpers/providers/defaultProvider'
 import env from 'helpers/env'
-import heavyProvider from 'helpers/providers/heavyProvider'
+// import heavyProvider from 'helpers/providers/heavyProvider'
 
 export const ContractsStore = proxy(
-  new BaseContractsStore(defaultProvider, heavyProvider, Network.Goerli)
+  new BaseContractsStore(defaultProvider, defaultProvider, Network.Goerli)
 ).makePersistent(env.VITE_ENCRYPT_KEY)
 
 subscribeKey(WalletStore, 'account', (account) => {
