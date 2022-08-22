@@ -14,30 +14,31 @@ export default function () {
 
   return (
     <PreviousTweetsLayout blockchainPosts>
-      {!adultAccepted && (
+      {adultAccepted ? (
+        <div
+          className={classNamesToString(
+            'blockchainPosts',
+            display('flex'),
+            flexDirection('flex-col'),
+            gap('gap-y-4')
+          )}
+        >
+          <HintCard>
+            <BodyText primary>
+              This is unfiltered user-generated content. We did not play a part
+              in its creation beyond providing a space to display it.
+            </BodyText>
+          </HintCard>
+          <FilterBySelectedToken />
+          <PostsList />
+        </div>
+      ) : (
         <AgeWarning
           onAccept={() => {
             NotificationStore.adultAccepted = true
           }}
         />
       )}
-      <div
-        className={classNamesToString(
-          'blockchainPosts',
-          display('flex'),
-          flexDirection('flex-col'),
-          gap('gap-y-4')
-        )}
-      >
-        <HintCard>
-          <BodyText primary>
-            This is unfiltered user-generated content. We did not play a part in
-            its creation beyond providing a space to display it.
-          </BodyText>
-        </HintCard>
-        <FilterBySelectedToken />
-        <PostsList />
-      </div>
     </PreviousTweetsLayout>
   )
 }
