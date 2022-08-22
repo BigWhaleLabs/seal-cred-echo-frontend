@@ -49,7 +49,7 @@ export default function ({ onAccept }: { onAccept: () => void }) {
   const navigate = useNavigate()
 
   return (
-    <div className={classNamesToString(container, 'blurEffect')}>
+    <div className={classNamesToString(container)}>
       <div className={overlay} />
       <Card alert>
         <div className={warningCard}>

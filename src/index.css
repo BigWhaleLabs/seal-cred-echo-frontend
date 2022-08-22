@@ -87,14 +87,6 @@ body {
   color: var(--formal-accent);
 }
 
-/* slightly transparent fallback */
-.blurEffect {
-  position: relative !important;
-}
-.blurEffect + .blockchainPosts {
-  display: none;
-}
-
 @media screen and (max-width: 600px) {
   /* Grid for mobiles */
   html {
