@@ -1,6 +1,6 @@
 import env from 'helpers/env'
 
-export default {
+export const data = {
   Email: {
     ledger: env.VITE_SC_EMAIL_LEDGER_CONTRACT_ADDRESS,
     postStorage: env.VITE_SC_EMAIL_POSTS_CONTRACT_ADDRESS,
@@ -17,3 +17,5 @@ export default {
     twitter: 'SealCredNFT',
   },
 }
+
+export type DataContractNames = keyof typeof data

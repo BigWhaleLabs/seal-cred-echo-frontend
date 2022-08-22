@@ -2,15 +2,15 @@ import { BodyText, LinkText } from 'components/Text'
 
 export default function ({
   store,
-  statusId,
+  blockchainId,
 }: {
   store: string
-  statusId?: number
+  blockchainId?: number
 }) {
   return (
     <BodyText>
       Your tweet was rejected. It is still posted{' '}
-      <LinkText url={`/tweets/blockchain#store=${store}&id=${statusId}`}>
+      <LinkText url={`/tweets/blockchain#store=${store}&id=${blockchainId}`}>
         to the blockchain
       </LinkText>{' '}
       and visible on SealCred Echo, but all tweets must abide by Twitter’s rules

@@ -27,22 +27,26 @@ const container = (loading?: boolean, hidden?: boolean) =>
   )
 
 export default function () {
-  const { pendingPost, lastProcessedUserPost } = useSnapshot(PostIdsStatuses)
+  const { lastUserPost } = useSnapshot(PostIdsStatuses)
 
-  console.log('lastUserPost', lastProcessedUserPost)
-  const hideBlock = !pendingPost && !lastProcessedUserPost
+  console.log('lastUserPost', lastUserPost)
 
   return (
-    <div className={container(!!pendingPost, hideBlock)}>
-      {lastProcessedUserPost?.postStatus.status === PostStatus.published ? (
-        <TweetSuccessful statusId={lastProcessedUserPost.postStatus.statusId} />
-      ) : lastProcessedUserPost?.postStatus.status === PostStatus.rejected ? (
+    <div
+      className={container(
+        lastUserPost?.status === PostStatus.pending,
+        !lastUserPost
+      )}
+    >
+      {lastUserPost?.status === PostStatus.published ? (
+        <TweetSuccessful tweetId={lastUserPost.tweetId} />
+      ) : lastUserPost?.status === PostStatus.rejected ? (
         <PostRejected
-          store={lastProcessedUserPost.store}
-          statusId={lastProcessedUserPost.postStatus.statusId}
+          store={lastUserPost.store}
+          blockchainId={lastUserPost.blockchainId}
         />
       ) : (
-        pendingPost && <PendingPost pendingPost={pendingPost} />
+        <PendingPost pendingPost={lastUserPost} />
       )}
     </div>
   )

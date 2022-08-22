@@ -1,16 +1,18 @@
-import { PendingPostType } from 'stores/PostIdsStatuses'
+import { LastUserPost } from 'stores/PostIdsStatuses'
 import Loading from 'components/Loading'
 import ProcessHeader from 'components/PostProcessing/ProcessHeader'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
 import ViewTweetButton from 'components/PostProcessing/ViewTweetButton'
 
-export default function ({ pendingPost }: { pendingPost: PendingPostType }) {
+export default function ({ pendingPost }: { pendingPost?: LastUserPost }) {
+  if (!pendingPost) return null
+
   return (
     <>
       <ProcessHeader />
       <Loading />
       <ViewTweetButton
-        url={`/tweets/blockchain#store=${pendingPost.store}&id=${pendingPost.id}`}
+        url={`/tweets/blockchain#store=${pendingPost.store}&id=${pendingPost.blockchainId}`}
         pending
         internal
         onClick={() => {
