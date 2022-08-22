@@ -5,7 +5,8 @@ import {
   StatusText,
   UnderlineTextButton,
 } from 'components/Text'
-import { Suspense, useRef } from 'preact/compat'
+import { Suspense } from 'preact/compat'
+import { useInView } from 'react-intersection-observer'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
 import ContractTitle from 'components/BlockchainList/ContractTitle'
@@ -24,7 +25,6 @@ import classnames, {
 } from 'classnames/tailwind'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
-import useOnScreen from 'hooks/useOnScreen'
 
 const container = classnames(
   display('flex'),
@@ -51,6 +51,7 @@ function Sender({ sender }: { sender: string }) {
     </LinkText>
   )
 }
+
 export default function ({
   id,
   timestamp,
@@ -64,13 +65,12 @@ export default function ({
   sender: string
   derivativeAddress: string
 }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const onScreen = useOnScreen<HTMLDivElement>(ref, '300px')
+  const { ref, inView } = useInView()
 
   return (
     <div ref={ref}>
-      <Card>
-        {onScreen && (
+      {inView && (
+        <Card>
           <div className={container}>
             <div className={postHeader}>
               <Status id={id} />
@@ -108,8 +108,8 @@ export default function ({
               </span>
             </BodyText>
           </div>
-        )}
-      </Card>
+        </Card>
+      )}
     </div>
   )
 }
