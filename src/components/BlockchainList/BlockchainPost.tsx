@@ -5,7 +5,7 @@ import {
   StatusText,
   UnderlineTextButton,
 } from 'components/Text'
-import { Suspense } from 'preact/compat'
+import { Suspense, useRef } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
 import ContractTitle from 'components/BlockchainList/ContractTitle'
@@ -24,6 +24,7 @@ import classnames, {
 } from 'classnames/tailwind'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
+import useOnScreen from 'hooks/useOnScreen'
 
 const container = classnames(
   display('flex'),
@@ -50,7 +51,6 @@ function Sender({ sender }: { sender: string }) {
     </LinkText>
   )
 }
-
 export default function ({
   id,
   timestamp,
@@ -64,43 +64,52 @@ export default function ({
   sender: string
   derivativeAddress: string
 }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const onScreen = useOnScreen<HTMLDivElement>(ref, '300px')
+
   return (
-    <Card>
-      <div className={container}>
-        <div className={postHeader}>
-          <Status id={id} />
-          <PostTime timestamp={timestamp} />
-        </div>
-        <PostText>{text}</PostText>
-        <BodyText primary>
-          <span className={postBottom}>
-            <StatusText>Posted by: </StatusText>
-            <Sender sender={sender} />
-            <Delimiter />
-            <Suspense
-              fallback={
-                <UnderlineTextButton>
-                  {truncateMiddleIfNeeded(derivativeAddress, 23)}
-                </UnderlineTextButton>
-              }
-            >
-              <ContractTitle
-                address={derivativeAddress}
-                onClick={() => (PostStore.selectedToken = derivativeAddress)}
-              />
-            </Suspense>
-            <Delimiter />
-            <LinkText
-              extraSmall
-              title={derivativeAddress}
-              url={getEtherscanAddressUrl(derivativeAddress)}
-            >
-              Etherscan
-            </LinkText>
-            <TwitterLink id={id} />
-          </span>
-        </BodyText>
-      </div>
-    </Card>
+    <div ref={ref}>
+      <Card>
+        {onScreen && (
+          <div className={container}>
+            <div className={postHeader}>
+              <Status id={id} />
+              <PostTime timestamp={timestamp} />
+            </div>
+            <PostText>{text}</PostText>
+            <BodyText primary>
+              <span className={postBottom}>
+                <StatusText>Posted by: </StatusText>
+                <Sender sender={sender} />
+                <Delimiter />
+                <Suspense
+                  fallback={
+                    <UnderlineTextButton>
+                      {truncateMiddleIfNeeded(derivativeAddress, 23)}
+                    </UnderlineTextButton>
+                  }
+                >
+                  <ContractTitle
+                    address={derivativeAddress}
+                    onClick={() =>
+                      (PostStore.selectedToken = derivativeAddress)
+                    }
+                  />
+                </Suspense>
+                <Delimiter />
+                <LinkText
+                  extraSmall
+                  title={derivativeAddress}
+                  url={getEtherscanAddressUrl(derivativeAddress)}
+                >
+                  Etherscan
+                </LinkText>
+                <TwitterLink id={id} />
+              </span>
+            </BodyText>
+          </div>
+        )}
+      </Card>
+    </div>
   )
 }
