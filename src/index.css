@@ -95,22 +95,6 @@ body {
   display: none;
 }
 
-/* if backdrop support: very transparent and blurred */
-@supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
-  .blurEffect {
-    position: absolute !important;
-  }
-  .blurEffect:first-child {
-    background-color: var(--blur-background);
-    -webkit-backdrop-filter: blur(0.625rem);
-    backdrop-filter: blur(0.625rem);
-    box-shadow: none;
-  }
-  .blurEffect + .blockchainPosts {
-    display: block;
-  }
-}
-
 @media screen and (max-width: 600px) {
   /* Grid for mobiles */
   html {
