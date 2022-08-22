@@ -12,9 +12,7 @@ function BlockchainPostsListSuspended() {
 
   return (
     <>
-      {!selectedPosts.length ? (
-        <NoPosts />
-      ) : (
+      {selectedPosts.length ? (
         selectedPosts
           .filter((post) =>
             selectedToken ? post.derivativeAddress === selectedToken : post
@@ -29,6 +27,8 @@ function BlockchainPostsListSuspended() {
               derivativeAddress={post.derivativeAddress}
             />
           ))
+      ) : (
+        <NoPosts />
       )}
     </>
   )

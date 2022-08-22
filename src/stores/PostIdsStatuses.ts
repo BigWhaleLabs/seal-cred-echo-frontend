@@ -12,7 +12,7 @@ interface StatusType {
   statusId?: number | undefined
 }
 interface PostStatusStoreType {
-  lastProcessedStatusId?: number
+  lastProcessedPost?: { store: string; statusId?: number }
   processing: { [storageName: string]: Set<number> }
   statuses: { [storageName: string]: { [postId: string]: Promise<StatusType> } }
 }
@@ -24,13 +24,13 @@ interface CheckStatusesStoreProps {
   withProcessing?: boolean
 }
 
-type PendingPostType = {
+export type PendingPostType = {
   store: keyof typeof data
   id: number
 }
 
 const postStatusStore = proxy<PostStatusStoreType>({
-  lastProcessedStatusId: undefined,
+  lastProcessedPost: undefined,
   processing: dataShapeObject(() => proxySet<number>([])),
   statuses: dataShapeObject(() => ({})),
 })
@@ -54,7 +54,7 @@ export async function updateStatuses(
       status === PostStatus.published
     ) {
       postStatusStore.processing[name].delete(tweetId)
-      postStatusStore.lastProcessedStatusId = statusId
+      postStatusStore.lastProcessedPost = { store: name, statusId }
     }
   }
 }
@@ -107,6 +107,17 @@ export default derive(
         if (typeof id !== 'undefined') return { store, id } as PendingPostType
       }
       return null
+    },
+    lastProcessedUserPost: (get) => {
+      const currentPostStatues = get(postStatusStore)
+      if (!currentPostStatues.lastProcessedPost?.statusId) return
+      const { statusId } = currentPostStatues.lastProcessedPost
+      const store = SelectedTypeStore.selectedType
+
+      return {
+        store,
+        postStatus: currentPostStatues.statuses[store][statusId],
+      }
     },
     currentStatuses: (get) =>
       get(postStatusStore).statuses[SelectedTypeStore.selectedType],
