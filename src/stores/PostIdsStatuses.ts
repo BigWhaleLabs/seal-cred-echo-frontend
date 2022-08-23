@@ -24,6 +24,11 @@ interface CheckStatusesStoreProps {
   withProcessing?: boolean
 }
 
+type PendingPostType = {
+  store: keyof typeof data
+  id: number
+}
+
 const postStatusStore = proxy<PostStatusStoreType>({
   lastProcessedStatusId: undefined,
   processing: dataShapeObject(() => proxySet<number>([])),
@@ -99,7 +104,7 @@ export default derive(
       const processing = get(postStatusStore).processing
       for (const store of Object.keys(processing)) {
         const [id] = processing[store]
-        if (typeof id !== 'undefined') return { store, id }
+        if (typeof id !== 'undefined') return { store, id } as PendingPostType
       }
       return null
     },

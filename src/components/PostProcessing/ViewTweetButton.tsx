@@ -5,10 +5,12 @@ export default function ({
   url,
   internal,
   pending,
+  onClick,
 }: {
   url: string
   internal?: boolean
   pending?: boolean
+  onClick?: () => void
 }) {
   const linkTitle = pending ? 'View Tweet status' : 'View Twitter page'
 
@@ -21,7 +23,7 @@ export default function ({
       gradientTo="to-accent"
       internal={internal}
     >
-      <LinkContent text={linkTitle} />
+      <LinkContent text={linkTitle} onClick={onClick} />
     </LinkText>
   )
 }
