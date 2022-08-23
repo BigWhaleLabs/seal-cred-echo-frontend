@@ -25,10 +25,21 @@ const container = (loading?: boolean) =>
     space(loading ? 'space-y-6' : 'space-y-2')
   )
 
-const PostState = ({ lastUserPost }: { lastUserPost: LastUserPost }) => {
+const PostState = ({
+  lastUserPost,
+  accountName,
+}: {
+  lastUserPost: LastUserPost
+  accountName: string
+}) => {
   switch (lastUserPost.status) {
     case PostStatus.published:
-      return <TweetSuccessful tweetId={lastUserPost.tweetId} />
+      return (
+        <TweetSuccessful
+          accountName={accountName}
+          tweetId={lastUserPost.tweetId}
+        />
+      )
     case PostStatus.rejected:
       return (
         <PostRejected
@@ -48,7 +59,7 @@ export default function () {
 
   return (
     <div className={container(lastUserPost.status === PostStatus.pending)}>
-      <PostState lastUserPost={lastUserPost} />
+      <PostState accountName={lastUserPost.store} lastUserPost={lastUserPost} />
     </div>
   )
 }
