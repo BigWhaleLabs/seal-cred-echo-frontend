@@ -3603,7 +3603,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-window@npm:^1.8.5":
+"@types/react-virtualized-auto-sizer@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@types/react-virtualized-auto-sizer@npm:1.0.1"
+  dependencies:
+    "@types/react": "*"
+  checksum: 67eff0670a1991c2b16992274ada5f0b3f9d5c2d6209ef38e8f8ae2c0218211a3292882f5b7dd6f09519000dc20847629f049c9acc267e000626b7141e5927a6
+  languageName: node
+  linkType: hard
+
+"@types/react-window-infinite-loader@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "@types/react-window-infinite-loader@npm:1.0.6"
+  dependencies:
+    "@types/react": "*"
+    "@types/react-window": "*"
+  checksum: d4648dfb44614e4f0137d7b77eb1868b0c5252f451a78edfc4520e508157ce7687d4b7d9efd6df8f01e72e0d92224338b8c8d934220f32a3081b528599a25829
+  languageName: node
+  linkType: hard
+
+"@types/react-window@npm:*, @types/react-window@npm:^1.8.5":
   version: 1.8.5
   resolution: "@types/react-window@npm:1.8.5"
   dependencies:
@@ -14737,6 +14756,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-virtualized-auto-sizer@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "react-virtualized-auto-sizer@npm:1.0.6"
+  peerDependencies:
+    react: ^15.3.0 || ^16.0.0-alpha || ^17.0.0
+    react-dom: ^15.3.0 || ^16.0.0-alpha || ^17.0.0
+  checksum: 81270e9d328e9b779515f42b6aa8dea2f21097f69fc776906d6b7d31ada03706d34408a6318baf59531f180402fbf74fdb9928ab65d53442a134b7ee5ba01265
+  languageName: node
+  linkType: hard
+
+"react-window-infinite-loader@npm:^1.0.8":
+  version: 1.0.8
+  resolution: "react-window-infinite-loader@npm:1.0.8"
+  peerDependencies:
+    react: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0
+    react-dom: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0
+  checksum: 8fb690df2bf95bc9686af804367766b7f4fae1f2696ac9a0e28ec061233ae3a8128185587d86a207569be830cbd1b848c7444ee62a1bab8ee1009584713cad86
+  languageName: node
+  linkType: hard
+
 "react-window@npm:^1.8.7":
   version: 1.8.7
   resolution: "react-window@npm:1.8.7"
@@ -15528,7 +15567,9 @@ __metadata:
     "@typechain/ethers-v5": ^10.1.0
     "@types/node": ^18.7.6
     "@types/react-textarea-autosize": ^8.0.0
+    "@types/react-virtualized-auto-sizer": ^1.0.1
     "@types/react-window": ^1.8.5
+    "@types/react-window-infinite-loader": ^1.0.6
     "@typescript-eslint/eslint-plugin": ^5.33.1
     "@typescript-eslint/parser": ^5.33.1
     "@vitejs/plugin-react": ^2.0.1
@@ -15558,7 +15599,9 @@ __metadata:
     react-textarea-autosize: ^8.3.4
     react-toastify: ^9.0.8
     react-twitter-widgets: ^1.11.0
+    react-virtualized-auto-sizer: ^1.0.6
     react-window: ^1.8.7
+    react-window-infinite-loader: ^1.0.8
     rollup-plugin-polyfill-node: ^0.10.2
     rollup-plugin-visualizer: ^5.7.1
     secure-ls: ^1.2.6
