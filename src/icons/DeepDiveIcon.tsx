@@ -9,8 +9,11 @@ export default function () {
     <div
       className={classnames(display('flex'), justifyContent('justify-center'))}
     >
-      <img className={displayOnMdAndLarger} src="img/deepDive.webp" />
-      <img className={displayOnSmAndSmaller} src="img/deepDiveVertical.webp" />
+      <img className={displayOnMdAndLarger} src="img/deep-dive.webp" />
+      <img
+        className={displayOnSmAndSmaller}
+        src="img/deep-dive-vertical.webp"
+      />
     </div>
   )
 }
