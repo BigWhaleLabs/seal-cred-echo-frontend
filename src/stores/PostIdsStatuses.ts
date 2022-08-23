@@ -8,7 +8,8 @@ import data from 'data'
 import dataShapeObject from 'helpers/dataShapeObject'
 import getPostStatuses from 'helpers/getPostStatuses'
 
-// We need to check statuses only for pending posts every 5 seconds + update lastUserPost every 5 seconds
+// Check statuses only for pending posts every 5 seconds
+// Update lastUserPost every 5 seconds or when the user creates a post
 
 interface PostData {
   status: PostStatus
@@ -85,9 +86,9 @@ setInterval(() => updateStatusesForSelectedPosts(), 5000)
 
 setInterval(async () => {
   for (const name in Object.keys(data)) {
+    if (!postStatusStore.statuses[name]) return
     const ids: number[] = []
 
-    // Get all posts ids with `pending` status
     await Promise.all(
       Object.entries(postStatusStore.statuses[name]).map(
         async ([blockchainId, postData]) => {

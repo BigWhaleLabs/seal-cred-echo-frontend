@@ -28,14 +28,14 @@ const statusContainer = (status: PostStatus) =>
     })
   )
 
-export function StatusSuspended({ id }: { id: number }) {
+export function StatusSuspended({ blockchainId }: { blockchainId: number }) {
   const { selectedType } = useSnapshot(SelectedTypeStore)
   const { currentStatuses } = useSnapshot(postIdsStatuses)
-  const status = currentStatuses[id]?.status || PostStatus.pending
+  const status = currentStatuses[blockchainId]?.status || PostStatus.pending
 
   return (
     <a
-      href={`#store=${selectedType}&id=${id}`}
+      href={`#store=${selectedType}&id=${blockchainId}`}
       className={statusContainer(status)}
     >
       <StatusText color={status === PostStatus.rejected ? 'dark' : 'default'}>
@@ -45,7 +45,7 @@ export function StatusSuspended({ id }: { id: number }) {
   )
 }
 
-export default function ({ id }: { id: number }) {
+export default function ({ blockchainId }: { blockchainId: number }) {
   return (
     <Suspense
       fallback={
@@ -58,7 +58,7 @@ export default function ({ id }: { id: number }) {
         </div>
       }
     >
-      <StatusSuspended id={id} />
+      <StatusSuspended blockchainId={blockchainId} />
     </Suspense>
   )
 }
