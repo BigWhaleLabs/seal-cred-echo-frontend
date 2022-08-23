@@ -131,6 +131,13 @@ body {
   content: '';
 }
 
+.infinite-scroll-component {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  overflow: hidden !important;
+}
+
 @keyframes dots {
   0%,
   20% {

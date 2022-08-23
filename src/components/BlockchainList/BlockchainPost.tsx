@@ -68,7 +68,7 @@ export default function ({
   const { ref, inView } = useInView()
 
   return (
-    <div ref={ref}>
+    <div ref={ref} style={inView ? {} : { height: '150px' }}>
       {inView && (
         <Card>
           <div className={container}>
