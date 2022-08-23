@@ -8,6 +8,8 @@ export default function ({
   accountName: string
   tweetId?: number
 }) {
+  accountName === 'ExternalERC721' && (accountName = 'GNft')
+
   return (
     <>
       <LargeText>Tweet successful</LargeText>
