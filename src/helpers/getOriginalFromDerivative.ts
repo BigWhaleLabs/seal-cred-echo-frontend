@@ -1,5 +1,5 @@
+import { data } from 'data'
 import SealCredStore from 'stores/SealCredStore'
-import data from 'data'
 
 export default async function (derivativeAddress: string) {
   const ledgers = SealCredStore.ledgers

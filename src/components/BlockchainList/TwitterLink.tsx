@@ -5,14 +5,14 @@ import Delimiter from 'components/Delimiter'
 import postIdsStatuses from 'stores/PostIdsStatuses'
 
 interface TwitterLinkProps {
-  id: number
+  blockchainId: number
 }
 
-function TwitterLinkSuspended({ id }: TwitterLinkProps) {
+function TwitterLinkSuspended({ blockchainId }: TwitterLinkProps) {
   const { currentStatuses } = useSnapshot(postIdsStatuses)
-  const statusId = currentStatuses[id]?.statusId
+  const { tweetId } = currentStatuses[blockchainId]
 
-  if (!statusId) return null
+  if (!tweetId) return null
 
   return (
     <>
@@ -20,7 +20,7 @@ function TwitterLinkSuspended({ id }: TwitterLinkProps) {
       <LinkText
         extraSmall
         title="status"
-        url={`https://twitter.com/SealCredEmail/status/${statusId}`}
+        url={`https://twitter.com/SealCredEmail/status/${tweetId}`}
       >
         Twitter
       </LinkText>
@@ -28,10 +28,10 @@ function TwitterLinkSuspended({ id }: TwitterLinkProps) {
   )
 }
 
-export default function ({ id }: TwitterLinkProps) {
+export default function ({ blockchainId }: TwitterLinkProps) {
   return (
     <Suspense fallback={null}>
-      <TwitterLinkSuspended id={id} />
+      <TwitterLinkSuspended blockchainId={blockchainId} />
     </Suspense>
   )
 }

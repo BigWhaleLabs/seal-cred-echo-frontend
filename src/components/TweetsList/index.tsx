@@ -1,4 +1,5 @@
 import { Timeline } from 'react-twitter-widgets'
+import { data } from 'data'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import ListLoading from 'components/ListLoading'
@@ -14,7 +15,6 @@ import classnames, {
   padding,
   width,
 } from 'classnames/tailwind'
-import data from 'data'
 
 const tweetCard = classnames(
   display('flex'),

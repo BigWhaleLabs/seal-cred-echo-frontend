@@ -6,6 +6,7 @@ import {
   LinkText,
 } from 'components/Text'
 import { ListItem } from 'components/OrderedList'
+import { data } from 'data'
 import Button from 'components/Button'
 import Card from 'components/Card'
 import HintCard from 'components/HintCard'
@@ -16,7 +17,6 @@ import classnames, {
   justifyContent,
   space,
 } from 'classnames/tailwind'
-import data from 'data'
 
 const blockContainer = classnames(
   display('flex'),

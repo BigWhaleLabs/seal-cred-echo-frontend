@@ -1,7 +1,7 @@
+import { data } from 'data'
 import { useSnapshot } from 'valtio'
 import ContractsStore from 'stores/ContractsStore'
 import SealCredStore from 'stores/SealCredStore'
-import data from 'data'
 
 export default function () {
   const { addressToTokenIds } = useSnapshot(ContractsStore)
