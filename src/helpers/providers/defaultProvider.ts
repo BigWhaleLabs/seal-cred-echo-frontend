@@ -1,3 +1,5 @@
-import heavyProvider from 'helpers/providers/heavyProvider'
+import { ETH_RPC } from '@big-whale-labs/constants'
+import { providers } from 'ethers'
+import env from 'helpers/env'
 
-export default heavyProvider
+export default new providers.JsonRpcProvider(ETH_RPC, env.VITE_ETH_NETWORK)

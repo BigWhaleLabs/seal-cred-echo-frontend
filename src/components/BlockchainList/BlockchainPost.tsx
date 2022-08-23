@@ -6,6 +6,7 @@ import {
   UnderlineTextButton,
 } from 'components/Text'
 import { Suspense } from 'preact/compat'
+import { useInView } from 'react-intersection-observer'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
 import ContractTitle from 'components/BlockchainList/ContractTitle'
@@ -64,43 +65,51 @@ export default function ({
   sender: string
   derivativeAddress: string
 }) {
+  const { ref, inView } = useInView()
+
   return (
-    <Card>
-      <div className={container}>
-        <div className={postHeader}>
-          <Status id={id} />
-          <PostTime timestamp={timestamp} />
-        </div>
-        <PostText>{text}</PostText>
-        <BodyText primary>
-          <span className={postBottom}>
-            <StatusText>Posted by: </StatusText>
-            <Sender sender={sender} />
-            <Delimiter />
-            <Suspense
-              fallback={
-                <UnderlineTextButton>
-                  {truncateMiddleIfNeeded(derivativeAddress, 23)}
-                </UnderlineTextButton>
-              }
-            >
-              <ContractTitle
-                address={derivativeAddress}
-                onClick={() => (PostStore.selectedToken = derivativeAddress)}
-              />
-            </Suspense>
-            <Delimiter />
-            <LinkText
-              extraSmall
-              title={derivativeAddress}
-              url={getEtherscanAddressUrl(derivativeAddress)}
-            >
-              Etherscan
-            </LinkText>
-            <TwitterLink id={id} />
-          </span>
-        </BodyText>
-      </div>
-    </Card>
+    <div ref={ref}>
+      {inView && (
+        <Card>
+          <div className={container}>
+            <div className={postHeader}>
+              <Status id={id} />
+              <PostTime timestamp={timestamp} />
+            </div>
+            <PostText>{text}</PostText>
+            <BodyText primary>
+              <span className={postBottom}>
+                <StatusText>Posted by: </StatusText>
+                <Sender sender={sender} />
+                <Delimiter />
+                <Suspense
+                  fallback={
+                    <UnderlineTextButton>
+                      {truncateMiddleIfNeeded(derivativeAddress, 23)}
+                    </UnderlineTextButton>
+                  }
+                >
+                  <ContractTitle
+                    address={derivativeAddress}
+                    onClick={() =>
+                      (PostStore.selectedToken = derivativeAddress)
+                    }
+                  />
+                </Suspense>
+                <Delimiter />
+                <LinkText
+                  extraSmall
+                  title={derivativeAddress}
+                  url={getEtherscanAddressUrl(derivativeAddress)}
+                >
+                  Etherscan
+                </LinkText>
+                <TwitterLink id={id} />
+              </span>
+            </BodyText>
+          </div>
+        </Card>
+      )}
+    </div>
   )
 }

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import Button from 'components/Button'
 import Card from 'components/Card'
 import SealLogo from 'icons/SealLogo'
-import classNamesToString from 'helpers/classNamesToString'
 import classnames, {
   alignItems,
   borderRadius,
@@ -49,7 +48,7 @@ export default function ({ onAccept }: { onAccept: () => void }) {
   const navigate = useNavigate()
 
   return (
-    <div className={classNamesToString(container, 'blurEffect')}>
+    <div className={container}>
       <div className={overlay} />
       <Card alert>
         <div className={warningCard}>
