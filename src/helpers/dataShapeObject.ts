@@ -1,4 +1,4 @@
-import { data } from 'data'
+import data from 'data'
 
 type ValueOf<T> = T[keyof T]
 type DataKey = keyof typeof data

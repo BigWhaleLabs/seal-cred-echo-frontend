@@ -1,6 +1,5 @@
 import { BodyText } from 'components/Text'
 import { NavLink } from 'react-router-dom'
-import { data } from 'data'
 import { useSnapshot } from 'valtio'
 import BackToTweetsButton from 'components/PostsLayout/BackToTweetsButton'
 import Dropdown from 'components/Dropdown'
@@ -16,6 +15,7 @@ import classnames, {
   lineHeight,
   textColor,
 } from 'classnames/tailwind'
+import data from 'data'
 
 const container = classnames(
   display('flex'),

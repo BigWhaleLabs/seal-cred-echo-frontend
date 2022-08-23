@@ -1,8 +1,8 @@
 import { BodyText } from 'components/Text'
-import { DataContractNames } from 'data'
 import { PostStructOutput } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
 import { useState } from 'preact/hooks'
 import Button from 'components/Button'
+import DataKeys from 'models/DataKeys'
 import PostIdsStatuses from 'stores/PostIdsStatuses'
 import PostStatus from 'models/PostStatus'
 import PostStore from 'stores/PostStore'
@@ -113,7 +113,7 @@ export default function () {
                   ])
 
                   PostIdsStatuses.lastUserPost = {
-                    store: ledgerType as DataContractNames,
+                    store: ledgerType as DataKeys,
                     blockchainId: id.toNumber(),
                     status: PostStatus.pending,
                   }

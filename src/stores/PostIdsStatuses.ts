@@ -1,9 +1,10 @@
-import { DataContractNames, data } from 'data'
 import { derive, subscribeKey } from 'valtio/utils'
 import { proxy } from 'valtio'
+import DataKeys from 'models/DataKeys'
 import PostStatus from 'models/PostStatus'
 import PostStore from 'stores/PostStore'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
+import data from 'data'
 import dataShapeObject from 'helpers/dataShapeObject'
 import getPostStatuses from 'helpers/getPostStatuses'
 
@@ -15,7 +16,7 @@ interface PostData {
 }
 
 export interface LastUserPost {
-  store: DataContractNames
+  store: DataKeys
   blockchainId: number
   status: PostStatus
   tweetId?: number
@@ -29,7 +30,7 @@ interface PostStatusStoreType {
 }
 
 interface CheckStatusesStoreProps {
-  name: DataContractNames
+  name: DataKeys
   ids: number[]
   force?: boolean
 }
@@ -39,7 +40,7 @@ const postStatusStore = proxy<PostStatusStoreType>({
   statuses: dataShapeObject(() => ({})),
 })
 
-export async function updateStatuses(name: DataContractNames, ids: number[]) {
+export async function updateStatuses(name: DataKeys, ids: number[]) {
   const updatedStatuses = await getPostStatuses(ids, data[name].postStorage)
 
   for (const { blockchainId, status, tweetId } of updatedStatuses) {
@@ -104,7 +105,7 @@ setInterval(async () => {
     if (!ids) return
 
     await checkStatuses({
-      name: name as DataContractNames,
+      name: name as DataKeys,
       ids,
       force: false,
     })
