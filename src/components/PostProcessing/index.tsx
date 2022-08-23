@@ -1,6 +1,6 @@
 import { useSnapshot } from 'valtio'
 import PendingPost from 'components/PostProcessing/PendingPost'
-import PostIdsStatuses from 'stores/PostIdsStatuses'
+import PostIdsStatuses, { LastUserPost } from 'stores/PostIdsStatuses'
 import PostRejected from 'components/PostProcessing/PostRejected'
 import PostStatus from 'models/PostStatus'
 import TweetSuccessful from 'components/PostProcessing/TweetSuccessful'
@@ -14,7 +14,7 @@ import classnames, {
   space,
 } from 'classnames/tailwind'
 
-const container = (loading?: boolean, hidden?: boolean) =>
+const container = (loading?: boolean) =>
   classnames(
     display('flex'),
     flexDirection('flex-col'),
@@ -22,32 +22,33 @@ const container = (loading?: boolean, hidden?: boolean) =>
     backgroundColor('bg-primary-background'),
     padding('py-6', 'px-9'),
     borderRadius('rounded-2xl'),
-    space(loading ? 'space-y-6' : 'space-y-2'),
-    display({ hidden })
+    space(loading ? 'space-y-6' : 'space-y-2')
   )
 
-export default function () {
-  const { lastUserPost } = useSnapshot(PostIdsStatuses)
-
-  console.log('lastUserPost', lastUserPost)
-
-  return (
-    <div
-      className={container(
-        lastUserPost?.status === PostStatus.pending,
-        !lastUserPost
-      )}
-    >
-      {lastUserPost?.status === PostStatus.published ? (
-        <TweetSuccessful tweetId={lastUserPost.tweetId} />
-      ) : lastUserPost?.status === PostStatus.rejected ? (
+const PostState = ({ lastUserPost }: { lastUserPost: LastUserPost }) => {
+  switch (lastUserPost.status) {
+    case PostStatus.published:
+      return <TweetSuccessful tweetId={lastUserPost.tweetId} />
+    case PostStatus.rejected:
+      return (
         <PostRejected
           store={lastUserPost.store}
           blockchainId={lastUserPost.blockchainId}
         />
-      ) : (
-        <PendingPost pendingPost={lastUserPost} />
-      )}
+      )
+    default:
+      return <PendingPost pendingPost={lastUserPost} />
+  }
+}
+
+export default function () {
+  const { lastUserPost } = useSnapshot(PostIdsStatuses)
+
+  if (!lastUserPost) return null
+
+  return (
+    <div className={container(lastUserPost.status === PostStatus.pending)}>
+      <PostState lastUserPost={lastUserPost} />
     </div>
   )
 }

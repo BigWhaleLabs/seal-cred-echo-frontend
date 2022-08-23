@@ -104,7 +104,7 @@ export default function ({
                 >
                   Etherscan
                 </LinkText>
-                <TwitterLink id={id} />
+                <TwitterLink blockchainId={id} />
               </span>
             </BodyText>
           </div>

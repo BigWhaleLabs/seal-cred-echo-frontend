@@ -48,7 +48,6 @@ export async function updateStatuses(name: DataKeys, ids: number[]) {
       status,
       tweetId,
     })
-    console.log('status updated higher', blockchainId, status, tweetId)
 
     if (status === PostStatus.pending) continue
 
@@ -58,10 +57,6 @@ export async function updateStatuses(name: DataKeys, ids: number[]) {
       blockchainId,
       tweetId,
     }
-    console.log(
-      'status updated now last processed post is: ',
-      postStatusStore.lastUserPost
-    )
   }
 }
 
