@@ -19,32 +19,30 @@ function BlockchainPostsListSuspended() {
   const { selectedPosts } = useSnapshot(PostStore)
   useScrollToAnchor()
 
-  const data = selectedPosts.filter((post) =>
+  const posts = selectedPosts.filter((post) =>
     PostStore.selectedToken
       ? post.derivativeAddress === PostStore.selectedToken
       : post
   )
-  // Take first 10 posts from the list
-  const [items, setItems] = useState(data.slice(0, 10))
-  const loadedItemsAmount = items.length
-  // If there are more items to be loaded then take data from the list
+  const [loadedPosts, setLoadedPosts] = useState(posts.slice(0, 10))
+  const loadedItemsAmount = loadedPosts.length
   const loadMoreItems = () => {
-    setItems([
-      ...items,
-      ...data.slice(loadedItemsAmount, loadedItemsAmount + 10),
+    setLoadedPosts([
+      ...loadedPosts,
+      ...posts.slice(loadedItemsAmount, loadedItemsAmount + 10),
     ])
   }
 
-  return data.length ? (
+  return posts.length ? (
     <InfiniteScroll
-      endMessage={<></>}
       next={loadMoreItems}
       className={scrollContainer}
+      style={{ overflow: 'hidden' }}
       dataLength={loadedItemsAmount}
-      hasMore={loadedItemsAmount < data.length}
+      hasMore={loadedItemsAmount < posts.length}
       loader={<LoadingText>Fetching more posts...</LoadingText>}
     >
-      {items.map((post) => (
+      {loadedPosts.map((post) => (
         <BlockchainPost
           key={post.id}
           id={Number(post.id)}
