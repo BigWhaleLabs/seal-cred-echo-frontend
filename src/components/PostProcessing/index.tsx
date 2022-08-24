@@ -27,18 +27,15 @@ const container = (loading?: boolean) =>
 
 const PostState = ({
   lastUserPost,
-  accountName,
+  storeName,
 }: {
   lastUserPost: LastUserPost
-  accountName: string
+  storeName: string
 }) => {
   switch (lastUserPost.status) {
     case PostStatus.published:
       return (
-        <TweetSuccessful
-          accountName={accountName}
-          tweetId={lastUserPost.tweetId}
-        />
+        <TweetSuccessful storeName={storeName} tweetId={lastUserPost.tweetId} />
       )
     case PostStatus.rejected:
       return (
@@ -59,7 +56,7 @@ export default function () {
 
   return (
     <div className={container(lastUserPost.status === PostStatus.pending)}>
-      <PostState accountName={lastUserPost.store} lastUserPost={lastUserPost} />
+      <PostState storeName={lastUserPost.store} lastUserPost={lastUserPost} />
     </div>
   )
 }
