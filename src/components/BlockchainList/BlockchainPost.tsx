@@ -20,6 +20,7 @@ import classnames, {
   alignItems,
   display,
   flexDirection,
+  gap,
   justifyContent,
   space,
 } from 'classnames/tailwind'
@@ -33,8 +34,10 @@ const container = classnames(
 )
 const postHeader = classnames(
   display('flex'),
+  flexDirection('flex-col', 'xs:flex-row'),
   justifyContent('justify-between'),
-  alignItems('items-center')
+  alignItems('items-end', 'xs:items-center'),
+  gap('gap-y-2', 'xs:gap-y-0')
 )
 const postBottom = classnames(
   display('flex'),
@@ -68,7 +71,7 @@ export default function ({
   const { ref, inView } = useInView()
 
   return (
-    <div ref={ref}>
+    <div ref={ref} style={{ height: inView ? 'fit-content' : '150px' }}>
       {inView && (
         <Card>
           <div className={container}>
