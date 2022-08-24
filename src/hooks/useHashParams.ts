@@ -6,9 +6,10 @@ export default function () {
   const matchStore = url.match(regExStore)
   const matchId = url.match(regExId)
 
-  const object: { hashStore?: string; hashId?: string } = {}
-  if (matchStore) object.hashStore = matchStore[1]
-  if (matchId) object.hashId = matchId[1]
+  if (!(matchStore || matchId)) return undefined
 
-  return object
+  return {
+    hashStore: matchStore && matchStore[1],
+    hashId: matchId && matchId[1],
+  }
 }
