@@ -19,11 +19,12 @@ function BlockchainPostsListSuspended() {
   const { selectedPosts } = useSnapshot(PostStore)
   useScrollToAnchor()
 
-  const posts = selectedPosts.filter((post) =>
-    PostStore.selectedToken
-      ? post.derivativeAddress === PostStore.selectedToken
-      : post
-  )
+  const posts = PostStore.selectedToken
+    ? selectedPosts.filter(
+        ({ derivativeAddress }) => derivativeAddress === PostStore.selectedToken
+      )
+    : selectedPosts
+
   const [loadedPosts, setLoadedPosts] = useState(posts.slice(0, 10))
   const loadedItemsAmount = loadedPosts.length
   const loadMoreItems = () => {
