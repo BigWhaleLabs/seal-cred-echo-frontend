@@ -61,17 +61,23 @@ export default function ({
   text,
   sender,
   derivativeAddress,
+  postType,
 }: {
   id: number
   timestamp: number
   text: string
   sender: string
   derivativeAddress: string
+  postType: string
 }) {
   const { ref, inView } = useInView()
 
   return (
-    <div ref={ref} style={{ height: inView ? 'fit-content' : '150px' }}>
+    <div
+      ref={ref}
+      data-anchor={`store=${postType}&id=${id}`}
+      style={{ height: inView ? 'fit-content' : '150px' }}
+    >
       {inView && (
         <Card>
           <div className={container}>

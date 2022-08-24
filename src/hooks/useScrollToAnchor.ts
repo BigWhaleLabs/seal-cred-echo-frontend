@@ -1,22 +1,30 @@
 import { useEffect } from 'preact/hooks'
 
+interface ScrollToAnchorProps {
+  offset?: number
+  trigger?: boolean
+  elementData?: string
+  callback?: FlashingCallback
+}
+
 type FlashingCallback = (
   elementToScroll?: HTMLAnchorElement,
   elementPosition?: number
 ) => void
 
-export const getHashElement = () =>
-  window.location.hash
+export const getHashElement = (elementData?: string) =>
+  elementData
     ? document.querySelector<HTMLAnchorElement>(
-        `a[href="${window.location.hash}"]`
+        `div[data-anchor="${elementData}"]`
       ) ?? undefined
     : undefined
 
 export const scrollToHashElement = (
   offset = 0,
+  elementData?: string,
   callback?: FlashingCallback
 ) => {
-  const elementToScroll = getHashElement()
+  const elementToScroll = getHashElement(elementData)
   if (!elementToScroll) return
 
   const bodyRect = document.body.getBoundingClientRect(),
@@ -32,16 +40,17 @@ export const scrollToHashElement = (
   if (callback) callback(elementToScroll, position)
 }
 
-export default function useScrollToAnchor(
+export default function useScrollToAnchor({
   offset = 0,
   trigger = true,
-  callback?: FlashingCallback
-) {
+  elementData,
+  callback,
+}: ScrollToAnchorProps) {
   useEffect(() => {
-    scrollToHashElement(offset, callback)
+    scrollToHashElement(offset, elementData, callback)
     const listener = () =>
-      trigger ? scrollToHashElement(offset, callback) : undefined
+      trigger ? scrollToHashElement(offset, elementData, callback) : undefined
     window.addEventListener('hashchange', listener)
     return () => window.removeEventListener('hashchange', listener)
-  }, [offset, trigger, callback])
+  }, [offset, trigger, elementData, callback])
 }
