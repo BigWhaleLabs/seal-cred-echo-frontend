@@ -3,7 +3,7 @@ import { useEffect } from 'preact/hooks'
 interface ScrollToAnchorProps {
   offset?: number
   trigger?: boolean
-  elementData?: string
+  anchor?: string
   callback?: FlashingCallback
 }
 
@@ -12,19 +12,19 @@ type FlashingCallback = (
   elementPosition?: number
 ) => void
 
-export const getHashElement = (elementData?: string) =>
-  elementData
+export const getHashElement = (anchor?: string) =>
+  anchor
     ? document.querySelector<HTMLAnchorElement>(
-        `div[data-anchor="${elementData}"]`
+        `div[data-anchor="${anchor}"]`
       ) ?? undefined
     : undefined
 
 export const scrollToHashElement = (
   offset = 0,
-  elementData?: string,
+  anchor?: string,
   callback?: FlashingCallback
 ) => {
-  const elementToScroll = getHashElement(elementData)
+  const elementToScroll = getHashElement(anchor)
   if (!elementToScroll) return
 
   const bodyRect = document.body.getBoundingClientRect(),
@@ -43,14 +43,14 @@ export const scrollToHashElement = (
 export default function useScrollToAnchor({
   offset = 0,
   trigger = true,
-  elementData,
+  anchor,
   callback,
 }: ScrollToAnchorProps) {
   useEffect(() => {
-    scrollToHashElement(offset, elementData, callback)
+    scrollToHashElement(offset, anchor, callback)
     const listener = () =>
-      trigger ? scrollToHashElement(offset, elementData, callback) : undefined
+      trigger ? scrollToHashElement(offset, anchor, callback) : undefined
     window.addEventListener('hashchange', listener)
     return () => window.removeEventListener('hashchange', listener)
-  }, [offset, trigger, elementData, callback])
+  }, [offset, trigger, anchor, callback])
 }

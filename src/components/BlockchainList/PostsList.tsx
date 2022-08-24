@@ -8,6 +8,7 @@ import NoPosts from 'components/BlockchainList/NoPosts'
 import PostStore from 'stores/PostStore'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
 import classnames, { display, flexDirection, gap } from 'classnames/tailwind'
+import flashingPost from 'helpers/flashingPost'
 import useHashParams from 'hooks/useHashParams'
 import useScrollToAnchor from 'hooks/useScrollToAnchor'
 
@@ -45,7 +46,10 @@ function BlockchainPostsListSuspended() {
   }
 
   if (matchStore && hashId)
-    useScrollToAnchor({ elementData: `store=${hashStore}&id=${hashId}` })
+    useScrollToAnchor({
+      anchor: `store=${hashStore}&id=${hashId}`,
+      callback: flashingPost,
+    })
 
   return posts.length ? (
     <InfiniteScroll
