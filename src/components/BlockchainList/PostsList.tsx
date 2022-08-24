@@ -21,12 +21,12 @@ const scrollContainer = classnames(
 function BlockchainPostsListSuspended() {
   const { selectedPosts } = useSnapshot(PostStore)
   const { selectedType } = useSnapshot(SelectedTypeStore)
-  const hashParams = useHashParams()
-  const matchStore = hashParams?.hashStore && hashParams.hashId === selectedType
+  const { hashStore, hashId } = useHashParams()
+  const matchStore = hashStore && hashId === selectedType
 
   const sliceToSpecificPost = (totalPosts: number) => {
-    if (!(matchStore || hashParams)) return 10
-    return totalPosts - Number(hashParams.hashId)
+    if (!(matchStore || hashId)) return 10
+    return totalPosts - Number(hashId)
   }
 
   const posts = PostStore.selectedToken
@@ -45,10 +45,7 @@ function BlockchainPostsListSuspended() {
     ])
   }
 
-  if (matchStore && hashParams)
-    useScrollToAnchor({
-      callback: flashingPost,
-    })
+  if (matchStore && hashId) useScrollToAnchor({ callback: flashingPost })
 
   return posts.length ? (
     <InfiniteScroll
