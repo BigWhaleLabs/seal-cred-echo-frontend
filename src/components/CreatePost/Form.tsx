@@ -85,9 +85,6 @@ export default function () {
               setError(null)
               try {
                 if (!account) throw new Error(ErrorList.noProvider)
-                // Save const account, so if during minting it gets changed,
-                // the lastUserPost is saved properly
-                const savedAccount = account
 
                 const submitText = text
 
@@ -120,7 +117,7 @@ export default function () {
                   ])
 
                   PostIdsStatuses.lastUserPost = {
-                    [savedAccount]: {
+                    [account]: {
                       store: ledgerType as DataKeys,
                       blockchainId: id.toNumber(),
                       status: PostStatus.pending,
