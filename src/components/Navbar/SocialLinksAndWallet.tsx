@@ -23,6 +23,11 @@ const container = classnames(
   alignItems('items-center'),
   gap('gap-x-4')
 )
+const socialLinkClass = classnames(
+  displayOnMdAndLarger,
+  alignItems('items-center'),
+  gap('gap-x-4')
+)
 const walletContainer = classnames(container, cursor('cursor-pointer'))
 const walletAccount = classnames(
   textAlign('text-right'),
@@ -35,10 +40,10 @@ export default function () {
 
   return (
     <div className={container}>
-      <div className={displayOnMdAndLarger}>
+      <div className={socialLinkClass}>
         <SocialLinks />
+        <Delimiter primary />
       </div>
-      <Delimiter primary className={displayOnMdAndLarger} />
       <div
         className={walletContainer}
         onClick={async () => {
