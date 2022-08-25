@@ -4,19 +4,20 @@ import DataKeys from 'models/DataKeys'
 import PostStatus from 'models/PostStatus'
 import PostStore from 'stores/PostStore'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
+import WalletStore from 'stores/WalletStore'
 import data from 'data'
 import dataShapeObject from 'helpers/dataShapeObject'
 import getPostStatuses from 'helpers/getPostStatuses'
 
 // Check statuses only for pending posts every 5 seconds
-// Update lastUserPost every 5 seconds or when the user creates a post
+// Update lastUserPost for current account every 5 seconds or when the user creates a post
 
 interface PostData {
   status: PostStatus
   tweetId?: number | undefined
 }
 
-export interface LastUserPost {
+export interface LastUserPostData {
   store: DataKeys
   blockchainId: number
   status: PostStatus
@@ -24,7 +25,7 @@ export interface LastUserPost {
 }
 
 interface PostStatusStoreType {
-  lastUserPost?: LastUserPost
+  lastUserPost?: { [account: string]: LastUserPostData }
   statuses: {
     [storageName: string]: { [blockchainId: number]: Promise<PostData> }
   }
@@ -50,8 +51,12 @@ export async function updateStatuses(name: DataKeys, ids: number[]) {
       tweetId,
     })
 
-    if (blockchainId === postStatusStore.lastUserPost?.blockchainId)
-      postStatusStore.lastUserPost = {
+    if (!postStatusStore.lastUserPost || !WalletStore.account) continue
+
+    const lastCurrentAccountPost =
+      postStatusStore.lastUserPost[WalletStore.account]
+    if (blockchainId === lastCurrentAccountPost.blockchainId)
+      postStatusStore.lastUserPost[WalletStore.account] = {
         store: name,
         status,
         blockchainId,

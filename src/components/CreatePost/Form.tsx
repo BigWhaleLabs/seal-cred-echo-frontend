@@ -82,6 +82,8 @@ export default function () {
               setLoading(true)
               setError(null)
               try {
+                if (!WalletStore.account) throw new Error(ErrorList.noProvider)
+
                 const submitText = text
 
                 const { ledgerType, original } =
@@ -112,13 +114,22 @@ export default function () {
                     ...posts,
                   ])
 
+                  if (PostIdsStatuses.lastUserPost)
+                    PostIdsStatuses.lastUserPost[WalletStore.account] = {
+                      store: ledgerType as DataKeys,
+                      blockchainId: id.toNumber(),
+                      status: PostStatus.pending,
+                    }
                   PostIdsStatuses.lastUserPost = {
-                    store: ledgerType as DataKeys,
-                    blockchainId: id.toNumber(),
-                    status: PostStatus.pending,
+                    [WalletStore.account]: {
+                      store: ledgerType as DataKeys,
+                      blockchainId: id.toNumber(),
+                      status: PostStatus.pending,
+                    },
                   }
+
+                  setText('')
                 }
-                setText('')
               } catch (error) {
                 setError(error)
                 handleError(new Error(ErrorList.failedPost))

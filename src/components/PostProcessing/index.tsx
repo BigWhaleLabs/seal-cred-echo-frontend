@@ -1,9 +1,10 @@
 import { useSnapshot } from 'valtio'
 import PendingPost from 'components/PostProcessing/PendingPost'
-import PostIdsStatuses, { LastUserPost } from 'stores/PostIdsStatuses'
+import PostIdsStatuses, { LastUserPostData } from 'stores/PostIdsStatuses'
 import PostRejected from 'components/PostProcessing/PostRejected'
 import PostStatus from 'models/PostStatus'
 import TweetSuccessful from 'components/PostProcessing/TweetSuccessful'
+import WalletStore from 'stores/WalletStore'
 import classnames, {
   alignItems,
   backgroundColor,
@@ -26,37 +27,43 @@ const container = (loading?: boolean) =>
   )
 
 const PostState = ({
-  lastUserPost,
-  storeName,
+  lastUserPostData,
 }: {
-  lastUserPost: LastUserPost
-  storeName: string
+  lastUserPostData: LastUserPostData
 }) => {
-  switch (lastUserPost.status) {
+  const storeName = lastUserPostData.store
+
+  switch (lastUserPostData.status) {
     case PostStatus.published:
       return (
-        <TweetSuccessful storeName={storeName} tweetId={lastUserPost.tweetId} />
+        <TweetSuccessful
+          storeName={storeName}
+          tweetId={lastUserPostData.tweetId}
+        />
       )
     case PostStatus.rejected:
       return (
         <PostRejected
-          store={lastUserPost.store}
-          blockchainId={lastUserPost.blockchainId}
+          store={lastUserPostData.store}
+          blockchainId={lastUserPostData.blockchainId}
         />
       )
     default:
-      return <PendingPost pendingPost={lastUserPost} />
+      return <PendingPost pendingPost={lastUserPostData} />
   }
 }
 
 export default function () {
   const { lastUserPost } = useSnapshot(PostIdsStatuses)
+  const { account } = useSnapshot(WalletStore)
 
-  if (!lastUserPost) return null
+  if (!account || !lastUserPost || !lastUserPost[account]) return null
+
+  const lastUserPostData = lastUserPost[account]
 
   return (
-    <div className={container(lastUserPost.status === PostStatus.pending)}>
-      <PostState storeName={lastUserPost.store} lastUserPost={lastUserPost} />
+    <div className={container(lastUserPostData.status === PostStatus.pending)}>
+      <PostState lastUserPostData={lastUserPostData} />
     </div>
   )
 }
