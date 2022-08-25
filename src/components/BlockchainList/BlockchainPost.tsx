@@ -56,14 +56,14 @@ function Sender({ sender }: { sender: string }) {
 }
 
 export default function ({
-  id,
+  blockchainId,
   timestamp,
   text,
   sender,
   derivativeAddress,
   postType,
 }: {
-  id: number
+  blockchainId: number
   timestamp: number
   text: string
   sender: string
@@ -75,14 +75,14 @@ export default function ({
   return (
     <div
       ref={ref}
-      data-anchor={`#store=${postType}&id=${id}`}
+      data-anchor={`#store=${postType}&id=${blockchainId}`}
       style={{ height: inView ? 'fit-content' : '150px' }}
     >
       {inView && (
         <Card>
           <div className={container}>
             <div className={postHeader}>
-              <Status id={id} />
+              <Status blockchainId={blockchainId} />
               <PostTime timestamp={timestamp} />
             </div>
             <PostText>{text}</PostText>
@@ -113,7 +113,7 @@ export default function ({
                 >
                   Etherscan
                 </LinkText>
-                <TwitterLink id={id} />
+                <TwitterLink blockchainId={blockchainId} />
               </span>
             </BodyText>
           </div>

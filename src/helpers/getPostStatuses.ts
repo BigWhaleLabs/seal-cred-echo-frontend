@@ -7,9 +7,9 @@ const baseURL = `${env.VITE_TWITTER_POSTER_URL}/tweets`
 export default async function (ids: number[], contractAddress: string) {
   const { data } = await axios.post<
     {
-      tweetId: number
+      blockchainId: number
       status: PostStatus
-      statusId?: number
+      tweetId?: number
     }[]
   >(`${baseURL}/${contractAddress}/list`, {
     ids,

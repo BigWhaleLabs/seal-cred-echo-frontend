@@ -22,7 +22,7 @@ function BlockchainPostsListSuspended() {
   const { selectedPosts } = useSnapshot(PostStore)
   const { selectedType } = useSnapshot(SelectedTypeStore)
   const { hashStore, hashId } = useHashParams()
-  const matchStore = hashStore && hashId === selectedType
+  const matchStore = hashStore && hashStore === selectedType
 
   const sliceToSpecificPost = (totalPosts: number) => {
     if (!(matchStore || hashId)) return 10
@@ -59,7 +59,7 @@ function BlockchainPostsListSuspended() {
       {loadedPosts.map((post) => (
         <BlockchainPost
           key={post.id}
-          id={Number(post.id)}
+          blockchainId={Number(post.id)}
           timestamp={Number(post.timestamp)}
           text={post.post}
           sender={post.sender}

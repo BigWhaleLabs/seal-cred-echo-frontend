@@ -1,10 +1,10 @@
-import { LargeText } from 'components/Text'
 import { useSnapshot } from 'valtio'
-import Loading from 'components/Loading'
-import PostIdsStatuses from 'stores/PostIdsStatuses'
-import ProcessHeader from 'components/PostProcessing/ProcessHeader'
-import SelectedTypeStore from 'stores/SelectedTypeStore'
-import ViewTweetButton from 'components/PostProcessing/ViewTweetButton'
+import PendingPost from 'components/PostProcessing/PendingPost'
+import PostIdsStatuses, { LastUserPostData } from 'stores/PostIdsStatuses'
+import PostRejected from 'components/PostProcessing/PostRejected'
+import PostStatus from 'models/PostStatus'
+import TweetSuccessful from 'components/PostProcessing/TweetSuccessful'
+import WalletStore from 'stores/WalletStore'
 import classnames, {
   alignItems,
   backgroundColor,
@@ -26,39 +26,44 @@ const container = (loading?: boolean) =>
     space(loading ? 'space-y-6' : 'space-y-2')
   )
 
+const PostState = ({
+  lastUserPostData,
+}: {
+  lastUserPostData: LastUserPostData
+}) => {
+  const storeName = lastUserPostData.store
+
+  switch (lastUserPostData.status) {
+    case PostStatus.published:
+      return (
+        <TweetSuccessful
+          storeName={storeName}
+          tweetId={lastUserPostData.tweetId}
+        />
+      )
+    case PostStatus.rejected:
+      return (
+        <PostRejected
+          store={lastUserPostData.store}
+          blockchainId={lastUserPostData.blockchainId}
+        />
+      )
+    default:
+      return <PendingPost pendingPost={lastUserPostData} />
+  }
+}
+
 export default function () {
-  const { pendingPost, lastProcessedStatusId } = useSnapshot(PostIdsStatuses)
+  const { lastUserPost } = useSnapshot(PostIdsStatuses)
+  const { account } = useSnapshot(WalletStore)
 
-  if (!pendingPost && !lastProcessedStatusId) return null
+  if (!account || !lastUserPost || !lastUserPost[account]) return null
 
-  const pending = !!pendingPost
-
-  const statusComponent = lastProcessedStatusId ? (
-    <LargeText>Tweet successful</LargeText>
-  ) : (
-    <>
-      <ProcessHeader />
-      <Loading />
-    </>
-  )
+  const lastUserPostData = lastUserPost[account]
 
   return (
-    <div className={container(pending)}>
-      {statusComponent}
-      {lastProcessedStatusId ? (
-        <ViewTweetButton
-          url={`https://twitter.com/SealCredEmail/status/${lastProcessedStatusId}`}
-        />
-      ) : pendingPost ? (
-        <ViewTweetButton
-          url={`/tweets/blockchain#store=${pendingPost.store}&id=${pendingPost.id}`}
-          pending
-          internal
-          onClick={() => {
-            SelectedTypeStore.selectedType = pendingPost.store
-          }}
-        />
-      ) : null}
+    <div className={container(lastUserPostData.status === PostStatus.pending)}>
+      <PostState lastUserPostData={lastUserPostData} />
     </div>
   )
 }

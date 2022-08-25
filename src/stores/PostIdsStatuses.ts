@@ -1,5 +1,6 @@
-import { derive, proxySet, subscribeKey } from 'valtio/utils'
+import { derive, subscribeKey } from 'valtio/utils'
 import { proxy } from 'valtio'
+import DataKeys from 'models/DataKeys'
 import PostStatus from 'models/PostStatus'
 import PostStore from 'stores/PostStore'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
@@ -7,69 +8,75 @@ import data from 'data'
 import dataShapeObject from 'helpers/dataShapeObject'
 import getPostStatuses from 'helpers/getPostStatuses'
 
-interface StatusType {
+// Check statuses only for pending posts every 5 seconds
+// Update lastUserPost for current account every 5 seconds or when the user creates a post
+
+interface PostData {
   status: PostStatus
-  statusId?: number | undefined
+  tweetId?: number | undefined
 }
+
+export interface LastUserPostData {
+  store: DataKeys
+  blockchainId: number
+  status: PostStatus
+  tweetId?: number
+}
+
 interface PostStatusStoreType {
-  lastProcessedStatusId?: number
-  processing: { [storageName: string]: Set<number> }
-  statuses: { [storageName: string]: { [postId: string]: Promise<StatusType> } }
+  lastUserPost?: { [account: string]: LastUserPostData }
+  statuses: {
+    [storageName: string]: { [blockchainId: number]: Promise<PostData> }
+  }
 }
 
 interface CheckStatusesStoreProps {
-  name: keyof typeof data
+  name: DataKeys
   ids: number[]
   force?: boolean
-  withProcessing?: boolean
-}
-
-type PendingPostType = {
-  store: keyof typeof data
-  id: number
 }
 
 const postStatusStore = proxy<PostStatusStoreType>({
-  lastProcessedStatusId: undefined,
-  processing: dataShapeObject(() => proxySet<number>([])),
+  lastUserPost: undefined,
   statuses: dataShapeObject(() => ({})),
 })
 
-export async function updateStatuses(
-  name: keyof typeof data,
-  ids: number[],
-  withProcessing?: boolean
-) {
+export async function updateStatuses(name: DataKeys, ids: number[]) {
   const updatedStatuses = await getPostStatuses(ids, data[name].postStorage)
 
-  for (const { tweetId, status, statusId } of updatedStatuses) {
-    postStatusStore.statuses[name][tweetId] = Promise.resolve({
+  for (const { blockchainId, status, tweetId } of updatedStatuses) {
+    postStatusStore.statuses[name][blockchainId] = Promise.resolve({
       status,
-      statusId,
+      tweetId,
     })
 
-    if (
-      withProcessing &&
-      postStatusStore.processing[name].has(tweetId) &&
-      status === PostStatus.published
-    ) {
-      postStatusStore.processing[name].delete(tweetId)
-      postStatusStore.lastProcessedStatusId = statusId
-    }
+    const lastUserPost = postStatusStore.lastUserPost
+    if (!lastUserPost) continue
+
+    // Update status of lastUserPost only having blockchainId
+    Object.keys(lastUserPost).filter((account) => {
+      if (
+        !lastUserPost[account] ||
+        !(lastUserPost[account].blockchainId === blockchainId) ||
+        !postStatusStore.lastUserPost
+      )
+        return
+      postStatusStore.lastUserPost[account] = {
+        store: name,
+        blockchainId,
+        status,
+        tweetId,
+      }
+    })
   }
 }
 
 let checkingStatuses = false
-async function checkStatuses({
-  name,
-  ids,
-  force,
-  withProcessing,
-}: CheckStatusesStoreProps) {
+async function checkStatuses({ name, ids, force }: CheckStatusesStoreProps) {
   if (checkingStatuses && !force) return
   checkingStatuses = true
   try {
-    await updateStatuses(name, ids, withProcessing)
+    await updateStatuses(name, ids)
   } catch (error) {
     console.error(error)
   } finally {
@@ -88,26 +95,31 @@ subscribeKey(PostStore, 'selectedPosts', updateStatusesForSelectedPosts)
 setInterval(() => updateStatusesForSelectedPosts(), 5000)
 
 setInterval(async () => {
-  for (const name in postStatusStore.processing) {
+  for (const name in Object.keys(data)) {
+    if (!postStatusStore.statuses[name]) return
+    const ids: number[] = []
+
+    await Promise.all(
+      Object.entries(postStatusStore.statuses[name]).map(
+        async ([blockchainId, postData]) => {
+          const { status } = await postData
+          if (status === PostStatus.pending || status === PostStatus.approved)
+            ids.push(Number(blockchainId))
+        }
+      )
+    )
+    if (!ids) return
+
     await checkStatuses({
-      name: name as keyof typeof data,
-      ids: Array.from(postStatusStore.processing[name]),
+      name: name as DataKeys,
+      ids,
       force: false,
-      withProcessing: true,
     })
   }
 }, 5000)
 
 export default derive(
   {
-    pendingPost: (get) => {
-      const processing = get(postStatusStore).processing
-      for (const store of Object.keys(processing)) {
-        const [id] = processing[store]
-        if (typeof id !== 'undefined') return { store, id } as PendingPostType
-      }
-      return null
-    },
     currentStatuses: (get) =>
       get(postStatusStore).statuses[SelectedTypeStore.selectedType],
   },
