@@ -50,14 +50,13 @@ export async function updateStatuses(name: DataKeys, ids: number[]) {
       tweetId,
     })
 
-    if (status === PostStatus.pending) continue
-
-    postStatusStore.lastUserPost = {
-      store: name,
-      status,
-      blockchainId,
-      tweetId,
-    }
+    if (blockchainId === postStatusStore.lastUserPost?.blockchainId)
+      postStatusStore.lastUserPost = {
+        store: name,
+        status,
+        blockchainId,
+        tweetId,
+      }
   }
 }
 
