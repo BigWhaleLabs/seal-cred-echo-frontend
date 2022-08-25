@@ -51,17 +51,24 @@ export async function updateStatuses(name: DataKeys, ids: number[]) {
       tweetId,
     })
 
-    if (!postStatusStore.lastUserPost || !WalletStore.account) continue
+    const lastUserPost = postStatusStore.lastUserPost
+    if (!lastUserPost) continue
 
-    const lastCurrentAccountPost =
-      postStatusStore.lastUserPost[WalletStore.account]
-    if (blockchainId === lastCurrentAccountPost.blockchainId)
-      postStatusStore.lastUserPost[WalletStore.account] = {
+    // Update status of lastUserPost only having blockchainId
+    Object.keys(lastUserPost).filter((account) => {
+      if (
+        !lastUserPost[account] ||
+        !(lastUserPost[account].blockchainId === blockchainId) ||
+        !postStatusStore.lastUserPost
+      )
+        return
+      postStatusStore.lastUserPost[account] = {
         store: name,
-        status,
         blockchainId,
+        status,
         tweetId,
       }
+    })
   }
 }
 
