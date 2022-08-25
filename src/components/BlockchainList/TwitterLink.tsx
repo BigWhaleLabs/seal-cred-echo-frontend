@@ -9,7 +9,7 @@ interface TwitterLinkProps {
 }
 
 function TwitterLinkSuspended({ blockchainId }: TwitterLinkProps) {
-  const currentStatuses = useSnapshot(postIdsStatuses.currentStatuses)
+  const { currentStatuses } = useSnapshot(postIdsStatuses)
 
   if (!currentStatuses[blockchainId]) return null
   const { tweetId } = currentStatuses[blockchainId]
