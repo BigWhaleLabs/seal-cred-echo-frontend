@@ -20,6 +20,7 @@ import classnames, {
   alignItems,
   display,
   flexDirection,
+  gap,
   justifyContent,
   space,
 } from 'classnames/tailwind'
@@ -33,8 +34,10 @@ const container = classnames(
 )
 const postHeader = classnames(
   display('flex'),
+  flexDirection('flex-col', 'xs:flex-row'),
   justifyContent('justify-between'),
-  alignItems('items-center')
+  alignItems('items-end', 'xs:items-center'),
+  gap('gap-y-2', 'xs:gap-y-0')
 )
 const postBottom = classnames(
   display('flex'),
@@ -58,17 +61,23 @@ export default function ({
   text,
   sender,
   derivativeAddress,
+  postType,
 }: {
   blockchainId: number
   timestamp: number
   text: string
   sender: string
   derivativeAddress: string
+  postType: string
 }) {
   const { ref, inView } = useInView()
 
   return (
-    <div ref={ref}>
+    <div
+      ref={ref}
+      data-anchor={`#store=${postType}&id=${id}`}
+      style={{ height: inView ? 'fit-content' : '150px' }}
+    >
       {inView && (
         <Card>
           <div className={container}>

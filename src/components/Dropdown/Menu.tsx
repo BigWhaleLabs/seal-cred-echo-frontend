@@ -21,7 +21,7 @@ const container = (closed: boolean, forZkBadges?: boolean) =>
     position('absolute'),
     inset(
       forZkBadges ? 'top-16' : { 'top-8': true, '-left-8': true },
-      'xs:left-0'
+      'sm:right-0'
     ),
     opacity({ 'opacity-0': closed }),
     visibility({ invisible: closed }),
