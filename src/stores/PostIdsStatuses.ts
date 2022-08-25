@@ -102,8 +102,8 @@ setInterval(async () => {
     await Promise.all(
       Object.entries(postStatusStore.statuses[name]).map(
         async ([blockchainId, postData]) => {
-          const resolvedPostData = await postData
-          if (resolvedPostData.status === PostStatus.pending)
+          const { status } = await postData
+          if (status === PostStatus.pending || status === PostStatus.approved)
             ids.push(Number(blockchainId))
         }
       )
