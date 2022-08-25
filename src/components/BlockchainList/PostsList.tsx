@@ -22,7 +22,7 @@ function BlockchainPostsListSuspended() {
   const { selectedPosts } = useSnapshot(PostStore)
   const { selectedType } = useSnapshot(SelectedTypeStore)
   const { hashStore, hashId } = useHashParams()
-  const matchStore = hashStore && hashId === selectedType
+  const matchStore = hashStore && hashStore === selectedType
 
   const sliceToSpecificPost = (totalPosts: number) => {
     if (!(matchStore || hashId)) return 10
