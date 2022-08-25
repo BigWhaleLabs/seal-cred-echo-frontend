@@ -83,6 +83,9 @@ export default function () {
               setError(null)
               try {
                 if (!WalletStore.account) throw new Error(ErrorList.noProvider)
+                // Save const account, so if during minting it gets changed,
+                // the lastUserPost is saved properly
+                const account = WalletStore.account
 
                 const submitText = text
 
@@ -114,18 +117,13 @@ export default function () {
                     ...posts,
                   ])
 
-                  if (PostIdsStatuses.lastUserPost)
-                    PostIdsStatuses.lastUserPost[WalletStore.account] = {
-                      store: ledgerType as DataKeys,
-                      blockchainId: id.toNumber(),
-                      status: PostStatus.pending,
-                    }
                   PostIdsStatuses.lastUserPost = {
-                    [WalletStore.account]: {
+                    [account]: {
                       store: ledgerType as DataKeys,
                       blockchainId: id.toNumber(),
                       status: PostStatus.pending,
                     },
+                    ...PostIdsStatuses.lastUserPost,
                   }
 
                   setText('')
