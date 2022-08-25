@@ -19,15 +19,12 @@ import classnames, {
 const container = (closed: boolean, forZkBadges?: boolean) =>
   classnames(
     position('absolute'),
-    inset(
-      forZkBadges ? 'top-16' : { 'top-8': true, '-left-8': true },
-      'sm:right-0'
-    ),
+    inset(forZkBadges ? 'top-16' : 'top-8', 'right-0'),
     opacity({ 'opacity-0': closed }),
     visibility({ invisible: closed }),
     zIndex('z-40'),
     transitionProperty('transition-all'),
-    width('w-full')
+    width(forZkBadges ? 'w-full' : 'w-52')
   )
 const menuItem = (selected?: boolean) =>
   classnames(
