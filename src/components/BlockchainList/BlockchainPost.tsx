@@ -75,7 +75,7 @@ export default function ({
   return (
     <div
       ref={ref}
-      data-anchor={`#store=${postType}&id=${id}`}
+      data-anchor={`#store=${postType}&id=${blockchainId}`}
       style={{ height: inView ? 'fit-content' : '150px' }}
     >
       {inView && (
