@@ -10,7 +10,10 @@ export default function ({
   return (
     <BodyText>
       Your tweet was rejected. It is still posted{' '}
-      <LinkText url={`/tweets/blockchain#store=${store}&id=${blockchainId}`}>
+      <LinkText
+        internal
+        url={`/tweets/blockchain#store=${store}&id=${blockchainId}`}
+      >
         to the blockchain
       </LinkText>{' '}
       and visible on SealCred Echo, but all tweets must abide by Twitter’s rules
