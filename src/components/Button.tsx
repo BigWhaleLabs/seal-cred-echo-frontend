@@ -40,8 +40,10 @@ const commonClasses = (
   available?: boolean,
   small?: boolean,
   fullWidthOnMobile?: boolean
-) =>
-  classnames(
+) => {
+  const notDefaultType = type !== 'default'
+
+  return classnames(
     display('flex'),
     flexDirection('flex-row'),
     justifyContent(center ? 'justify-center' : undefined),
@@ -55,15 +57,15 @@ const commonClasses = (
     outlineStyle('focus:outline-none'),
     opacity({ 'opacity-50': !available }),
     boxShadow({
-      'shadow-2xl': available,
-      'hover:shadow-lg': available,
-      'active:shadow-button-active': available,
+      'shadow-2xl': available && notDefaultType,
+      'hover:shadow-lg': available && notDefaultType,
+      'active:shadow-button-active': available && notDefaultType,
     }),
     width('md:w-fit', { 'w-full': fullWidthOnMobile }),
     textAlign(center ? 'text-center' : undefined),
     fontSize(small ? 'text-sm' : 'text-lg'),
     lineHeight(small ? 'leading-5' : 'leading-7'),
-    type !== 'default'
+    notDefaultType
       ? padding(
           small
             ? { 'py-2': true, 'px-4': true }
@@ -72,6 +74,7 @@ const commonClasses = (
       : undefined,
     space('space-x-2')
   )
+}
 
 const button = ({
   center,
