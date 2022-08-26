@@ -42,11 +42,12 @@ const commonClasses = (
   fullWidthOnMobile?: boolean
 ) => {
   const notDefaultType = type !== 'default'
+  const availableAndNotDefault = available && notDefaultType
 
   return classnames(
     display('flex'),
     flexDirection('flex-row'),
-    justifyContent(center ? 'justify-center' : undefined),
+    justifyContent({ 'justify-center': center }),
     alignItems('items-center'),
     fontWeight('font-bold'),
     fontFamily('font-primary'),
@@ -57,9 +58,9 @@ const commonClasses = (
     outlineStyle('focus:outline-none'),
     opacity({ 'opacity-50': !available }),
     boxShadow({
-      'shadow-2xl': available && notDefaultType,
-      'hover:shadow-lg': available && notDefaultType,
-      'active:shadow-button-active': available && notDefaultType,
+      'shadow-2xl': availableAndNotDefault,
+      'hover:shadow-lg': availableAndNotDefault,
+      'active:shadow-button-active': availableAndNotDefault,
     }),
     width('md:w-fit', { 'w-full': fullWidthOnMobile }),
     textAlign(center ? 'text-center' : undefined),
