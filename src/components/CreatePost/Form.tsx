@@ -1,8 +1,11 @@
 import { BodyText } from 'components/Text'
 import { PostStructOutput } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
+import { useSnapshot } from 'valtio'
 import { useState } from 'preact/hooks'
 import Button from 'components/Button'
+import DataKeys from 'models/DataKeys'
 import PostIdsStatuses from 'stores/PostIdsStatuses'
+import PostStatus from 'models/PostStatus'
 import PostStore from 'stores/PostStore'
 import SelectAsset from 'components/CreatePost/SelectAsset'
 import TextArea from 'components/TextArea'
@@ -34,6 +37,7 @@ const bottomContainer = classnames(
 )
 
 export default function () {
+  const { account } = useSnapshot(WalletStore)
   const [loading, setLoading] = useState(false)
   const [text, setText] = useState('')
   const [selectedAddress, setSelectedAddress] = useState('')
@@ -86,6 +90,8 @@ export default function () {
               setLoading(true)
               setError(null)
               try {
+                if (!account) throw new Error(ErrorList.noProvider)
+
                 const submitText = text
 
                 const { ledgerType, original } =
@@ -116,9 +122,17 @@ export default function () {
                     ...posts,
                   ])
 
-                  PostIdsStatuses.processing[ledgerType].add(id.toNumber())
+                  PostIdsStatuses.lastUserPost = {
+                    [account]: {
+                      store: ledgerType as DataKeys,
+                      blockchainId: id.toNumber(),
+                      status: PostStatus.pending,
+                    },
+                    ...PostIdsStatuses.lastUserPost,
+                  }
+
+                  setText('')
                 }
-                setText('')
               } catch (error) {
                 setError(error)
                 handleError(new Error(ErrorList.failedPost))

@@ -1,5 +1,11 @@
 import { useEffect } from 'preact/hooks'
 
+interface ScrollToAnchorProps {
+  offset?: number
+  trigger?: boolean
+  callback?: FlashingCallback
+}
+
 type FlashingCallback = (
   elementToScroll?: HTMLAnchorElement,
   elementPosition?: number
@@ -8,7 +14,7 @@ type FlashingCallback = (
 export const getHashElement = () =>
   window.location.hash
     ? document.querySelector<HTMLAnchorElement>(
-        `a[href="${window.location.hash}"]`
+        `div[data-anchor="${window.location.hash}"]`
       ) ?? undefined
     : undefined
 
@@ -32,11 +38,11 @@ export const scrollToHashElement = (
   if (callback) callback(elementToScroll, position)
 }
 
-export default function useScrollToAnchor(
+export default function useScrollToAnchor({
   offset = 0,
   trigger = true,
-  callback?: FlashingCallback
-) {
+  callback,
+}: ScrollToAnchorProps) {
   useEffect(() => {
     scrollToHashElement(offset, callback)
     const listener = () =>

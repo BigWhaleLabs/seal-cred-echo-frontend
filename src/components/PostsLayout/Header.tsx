@@ -2,6 +2,7 @@ import { BodyText } from 'components/Text'
 import { NavLink } from 'react-router-dom'
 import { useSnapshot } from 'valtio'
 import BackToTweetsButton from 'components/PostsLayout/BackToTweetsButton'
+import DataKeys from 'models/DataKeys'
 import Dropdown from 'components/Dropdown'
 import PostStore from 'stores/PostStore'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
@@ -47,7 +48,7 @@ export default function ({ blockchainPosts }: { blockchainPosts?: boolean }) {
           currentValue={selectedType}
           options={Object.entries(data).map(([key, { twitter }]) => ({
             label: `@${twitter}`,
-            value: key as keyof typeof data,
+            value: key as DataKeys,
           }))}
           onChange={(value) => {
             SelectedTypeStore.selectedType = value

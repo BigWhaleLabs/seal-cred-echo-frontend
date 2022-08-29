@@ -20,6 +20,7 @@ import classnames, {
   alignItems,
   display,
   flexDirection,
+  gap,
   justifyContent,
   space,
 } from 'classnames/tailwind'
@@ -33,8 +34,10 @@ const container = classnames(
 )
 const postHeader = classnames(
   display('flex'),
+  flexDirection('flex-col', 'xs:flex-row'),
   justifyContent('justify-between'),
-  alignItems('items-center')
+  alignItems('items-end', 'xs:items-center'),
+  gap('gap-y-2', 'xs:gap-y-0')
 )
 const postBottom = classnames(
   display('flex'),
@@ -53,27 +56,33 @@ function Sender({ sender }: { sender: string }) {
 }
 
 export default function ({
-  id,
+  blockchainId,
   timestamp,
   text,
   sender,
   derivativeAddress,
+  postType,
 }: {
-  id: number
+  blockchainId: number
   timestamp: number
   text: string
   sender: string
   derivativeAddress: string
+  postType: string
 }) {
   const { ref, inView } = useInView()
 
   return (
-    <div ref={ref}>
+    <div
+      ref={ref}
+      data-anchor={`#store=${postType}&id=${blockchainId}`}
+      style={{ height: inView ? 'fit-content' : '150px' }}
+    >
       {inView && (
         <Card>
           <div className={container}>
             <div className={postHeader}>
-              <Status id={id} />
+              <Status blockchainId={blockchainId} />
               <PostTime timestamp={timestamp} />
             </div>
             <PostText>{text}</PostText>
@@ -104,7 +113,7 @@ export default function ({
                 >
                   Etherscan
                 </LinkText>
-                <TwitterLink id={id} />
+                <TwitterLink blockchainId={blockchainId} />
               </span>
             </BodyText>
           </div>
