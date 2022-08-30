@@ -1,4 +1,5 @@
 import { BodyText } from 'components/Text'
+import { ErrorList, handleError } from '@big-whale-labs/frontend-utils'
 import { PostStructOutput } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
 import { useSnapshot } from 'valtio'
 import { useState } from 'preact/hooks'
@@ -20,7 +21,6 @@ import classnames, {
   width,
 } from 'classnames/tailwind'
 import getOriginalFromDerivative from 'helpers/getOriginalFromDerivative'
-import handleError, { ErrorList } from 'helpers/handleError'
 
 const container = classnames(
   display('flex'),
