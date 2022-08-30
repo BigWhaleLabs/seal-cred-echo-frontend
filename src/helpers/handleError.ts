@@ -25,9 +25,7 @@ export function parseError(error: unknown, defaultMessage = ErrorList.unknown) {
     displayedError = gSNMessage || revertMessage || message
   }
   if (
-    displayedError?.includes(
-      'can\'t access property "error", res2 is undefined'
-    )
+    displayedError?.includes("can't access property 'error', res2 is undefined")
   )
     displayedError =
       'Relay server is not available due to a large fee cost of transaction (insufficient funds for gas * price + value).\nPlease, try again later.'
