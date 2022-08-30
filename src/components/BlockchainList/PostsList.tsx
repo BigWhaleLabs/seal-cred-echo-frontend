@@ -1,5 +1,5 @@
 import { LoadingText } from 'components/Text'
-import { Suspense, useState } from 'preact/compat'
+import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import BlockchainPost from 'components/BlockchainList/BlockchainPost'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -10,6 +10,7 @@ import SelectedTypeStore from 'stores/SelectedTypeStore'
 import classnames, { display, flexDirection, gap } from 'classnames/tailwind'
 import flashingPost from 'helpers/flashingPost'
 import useHashParams from 'hooks/useHashParams'
+import usePagination from 'hooks/usePagination'
 import useScrollToAnchor from 'hooks/useScrollToAnchor'
 
 const scrollContainer = classnames(
@@ -24,39 +25,34 @@ function BlockchainPostsListSuspended() {
   const { hashStore, hashId } = useHashParams()
   const matchStore = hashStore && hashStore === selectedType
 
-  const sliceToSpecificPost = (totalPosts: number) => {
-    if (!(matchStore || hashId)) return 10
-    return totalPosts - Number(hashId)
-  }
+  // @Todo: check for skipping to the specific post
+  // const sliceToSpecificPost = (totalPosts: number) => {
+  //   if (!(matchStore || hashId)) return 10
+  //   return totalPosts - Number(hashId)
+  // }
 
-  const posts = PostStore.selectedToken
-    ? selectedPosts.filter(
-        ({ derivativeAddress }) => derivativeAddress === PostStore.selectedToken
-      )
-    : selectedPosts
-  const [loadedPosts, setLoadedPosts] = useState(
-    posts.slice(0, sliceToSpecificPost(posts.length))
+  // @Todo: think about filtering posts by selectedToken
+  // const posts = PostStore.selectedToken
+  // ? selectedPosts.filter(
+  //     ({ derivativeAddress }) => derivativeAddress === PostStore.selectedToken
+  // ) : selectedPosts
+  const { items, fetchMoreItemsIfNeeded, moreItemsAvailable } = usePagination(
+    (skip, limit) =>
+      PostStore.loadMorePosts(SelectedTypeStore.selectedType, skip, limit)
   )
-  const loadedItemsAmount = loadedPosts.length
-  const loadMoreItems = () => {
-    setLoadedPosts([
-      ...loadedPosts,
-      ...posts.slice(loadedItemsAmount, loadedItemsAmount + 10),
-    ])
-  }
 
   if (matchStore && hashId) useScrollToAnchor({ callback: flashingPost })
 
-  return posts.length ? (
+  return selectedPosts.length ? (
     <InfiniteScroll
-      next={loadMoreItems}
+      next={fetchMoreItemsIfNeeded}
       className={scrollContainer}
       style={{ overflow: 'hidden' }}
-      dataLength={loadedItemsAmount}
-      hasMore={loadedItemsAmount < posts.length}
+      dataLength={items.length}
+      hasMore={moreItemsAvailable}
       loader={<LoadingText>Fetching more posts...</LoadingText>}
     >
-      {loadedPosts.map((post) => (
+      {items.map((post) => (
         <BlockchainPost
           key={post.id}
           blockchainId={Number(post.id)}
