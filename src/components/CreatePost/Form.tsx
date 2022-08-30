@@ -10,6 +10,7 @@ import PostStore from 'stores/PostStore'
 import SelectAsset from 'components/CreatePost/SelectAsset'
 import TextArea from 'components/TextArea'
 import WalletStore from 'stores/WalletStore'
+import catchUnhandledRejection from 'hooks/catchUnhandledRejection'
 import classnames, {
   alignItems,
   display,
@@ -46,6 +47,11 @@ export default function () {
 
   const maxLength = 280 - suffix.length
   const postInvalid = text.length > maxLength
+  catchUnhandledRejection((error: unknown) => {
+    handleError(new Error(ErrorList.failedPost))
+    setLoading(false)
+    setError(error)
+  })
 
   return (
     <div className={container}>
