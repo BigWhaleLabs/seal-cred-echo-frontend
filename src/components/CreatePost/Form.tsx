@@ -1,4 +1,5 @@
 import { BodyText } from 'components/Text'
+import { ErrorList, handleError } from '@big-whale-labs/frontend-utils'
 import { PostStructOutput } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
 import { useSnapshot } from 'valtio'
 import { useState } from 'preact/hooks'
@@ -10,6 +11,7 @@ import PostStore from 'stores/PostStore'
 import SelectAsset from 'components/CreatePost/SelectAsset'
 import TextArea from 'components/TextArea'
 import WalletStore from 'stores/WalletStore'
+import catchUnhandledRejection from 'hooks/catchUnhandledRejection'
 import classnames, {
   alignItems,
   display,
@@ -19,7 +21,6 @@ import classnames, {
   width,
 } from 'classnames/tailwind'
 import getOriginalFromDerivative from 'helpers/getOriginalFromDerivative'
-import handleError, { ErrorList } from 'helpers/handleError'
 
 const container = classnames(
   display('flex'),
@@ -46,6 +47,11 @@ export default function () {
 
   const maxLength = 280 - suffix.length
   const postInvalid = text.length > maxLength
+  catchUnhandledRejection((error: unknown) => {
+    handleError(new Error(ErrorList.failedPost))
+    setLoading(false)
+    setError(error)
+  })
 
   return (
     <div className={container}>
