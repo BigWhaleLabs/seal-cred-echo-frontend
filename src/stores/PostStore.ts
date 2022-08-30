@@ -6,9 +6,9 @@ import dataShapeObject from 'helpers/dataShapeObject'
 import postStorageContracts from 'helpers/postStorageContracts'
 import safeGetPostsFromContract from 'helpers/safeGetPostsFromContract'
 
-const initValues = {
+export const initPagination = {
   skip: 0,
-  limit: 5,
+  limit: 20,
 }
 interface PostStoreType {
   posts: { [storageName: string]: Promise<PostStructOutput[]> }
@@ -25,8 +25,8 @@ const postStore = proxy<PostStoreType>({
     SelectedTypeStore.selectedType === key
       ? safeGetPostsFromContract(
           postStorageContracts[key],
-          initValues.skip,
-          initValues.limit
+          initPagination.skip,
+          initPagination.limit
         )
       : Promise.resolve([] as PostStructOutput[])
   ),
@@ -43,8 +43,8 @@ const postStore = proxy<PostStoreType>({
 subscribeKey(SelectedTypeStore, 'selectedType', (selectedType) => {
   postStore.posts[selectedType] = postStore.loadMorePosts(
     selectedType,
-    initValues.skip,
-    initValues.limit
+    initPagination.skip,
+    initPagination.limit
   )
 })
 

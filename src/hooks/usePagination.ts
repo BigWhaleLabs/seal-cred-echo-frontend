@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
+import { initPagination } from 'stores/PostStore'
 
-const paginationLimit = 2
+const paginationLimit = initPagination.limit
 
 export default function usePagination<T>(
   fetchMoreItems: (skip: number, limit: number) => Promise<T[]>,
