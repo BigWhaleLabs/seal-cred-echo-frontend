@@ -30,7 +30,7 @@ export function parseError(error: unknown, defaultMessage = ErrorList.unknown) {
     )
   )
     displayedError =
-      'Relay server is not available due to a large fee cost of transaction (insufficient funds for gas * price + value). Try again later.'
+      'Relay server is not available due to a large fee cost of transaction (insufficient funds for gas * price + value).\nPlease, try again later.'
 
   return displayedError ?? defaultMessage
 }
