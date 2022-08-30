@@ -4,14 +4,13 @@ import { proxy } from 'valtio'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
 import dataShapeObject from 'helpers/dataShapeObject'
 import postStorageContracts from 'helpers/postStorageContracts'
+import safeGetPostsAmountFromContract from 'helpers/safeGetPostsAmountFromContract'
 import safeGetPostsFromContract from 'helpers/safeGetPostsFromContract'
 
-export const initPagination = {
-  skip: 0,
-  limit: 20,
-}
 interface PostStoreType {
+  postsLimit: number
   posts: { [storageName: string]: Promise<PostStructOutput[]> }
+  postsAmount: { [storageName: string]: Promise<number> }
   selectedToken?: string
   loadMorePosts: (
     storageName: string,
@@ -20,15 +19,19 @@ interface PostStoreType {
   ) => Promise<PostStructOutput[]>
 }
 
+const initLimit = 100
+
 const postStore = proxy<PostStoreType>({
+  postsLimit: initLimit,
   posts: dataShapeObject((key) =>
     SelectedTypeStore.selectedType === key
-      ? safeGetPostsFromContract(
-          postStorageContracts[key],
-          initPagination.skip,
-          initPagination.limit
-        )
+      ? safeGetPostsFromContract(postStorageContracts[key], 0, initLimit)
       : Promise.resolve([] as PostStructOutput[])
+  ),
+  postsAmount: dataShapeObject((key) =>
+    SelectedTypeStore.selectedType === key
+      ? safeGetPostsAmountFromContract(postStorageContracts[key])
+      : Promise.resolve(0)
   ),
   selectedToken: undefined,
   loadMorePosts: (storageName: string, skip: number, limit: number) => {
@@ -43,8 +46,8 @@ const postStore = proxy<PostStoreType>({
 subscribeKey(SelectedTypeStore, 'selectedType', (selectedType) => {
   postStore.posts[selectedType] = postStore.loadMorePosts(
     selectedType,
-    initPagination.skip,
-    initPagination.limit
+    0,
+    initLimit
   )
 })
 

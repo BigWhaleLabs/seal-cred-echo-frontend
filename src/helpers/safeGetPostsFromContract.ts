@@ -10,16 +10,18 @@ export default async function (
   try {
     return (
       await contract.getPosts(BigNumber.from(skip), BigNumber.from(limit))
-    ).map(
-      ([id, post, derivativeAddress, sender, timestamp]) =>
-        ({
-          id,
-          post,
-          derivativeAddress,
-          sender,
-          timestamp,
-        } as PostStructOutput)
     )
+      .map(
+        ([id, post, derivativeAddress, sender, timestamp]) =>
+          ({
+            id,
+            post,
+            derivativeAddress,
+            sender,
+            timestamp,
+          } as PostStructOutput)
+      )
+      .reverse()
   } catch (error) {
     console.error('Error occurred on getting posts error:', error)
     return []

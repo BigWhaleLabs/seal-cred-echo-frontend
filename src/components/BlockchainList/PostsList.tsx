@@ -20,28 +20,30 @@ const scrollContainer = classnames(
 )
 
 function BlockchainPostsListSuspended() {
-  const { selectedPosts } = useSnapshot(PostStore)
+  const { selectedPosts, postsAmount } = useSnapshot(PostStore)
   const { selectedType } = useSnapshot(SelectedTypeStore)
   const { hashStore, hashId } = useHashParams()
   const matchStore = hashStore && hashStore === selectedType
 
-  // @Todo: check for skipping to the specific post
-  // const sliceToSpecificPost = (totalPosts: number) => {
-  //   if (!(matchStore || hashId)) return 10
-  //   return totalPosts - Number(hashId)
-  // }
+  const slideToSpecificPost = (totalPosts: number) => {
+    if (!(matchStore || hashId)) return PostStore.postsLimit
+    const neededLimit = totalPosts - Number(hashId)
+    return matchStore
+      ? neededLimit > PostStore.postsLimit
+        ? neededLimit
+        : PostStore.postsLimit
+      : PostStore.postsLimit
+  }
 
-  // @Todo: think about filtering posts by selectedToken
-  // const posts = PostStore.selectedToken
-  // ? selectedPosts.filter(
-  //     ({ derivativeAddress }) => derivativeAddress === PostStore.selectedToken
-  // ) : selectedPosts
-  const { items, fetchMoreItemsIfNeeded, moreItemsAvailable } = usePagination(
-    (skip, limit) =>
-      PostStore.loadMorePosts(SelectedTypeStore.selectedType, skip, limit)
-  )
+  const { items, fetchMoreItemsIfNeeded, moreItemsAvailable } = usePagination({
+    totalAmount: postsAmount[selectedType],
+    limit: slideToSpecificPost(postsAmount[selectedType]),
+    fetchMoreItems: (skip, limit) =>
+      PostStore.loadMorePosts(SelectedTypeStore.selectedType, skip, limit),
+  })
 
-  if (matchStore && hashId) useScrollToAnchor({ callback: flashingPost })
+  if (matchStore && hashId && items.length)
+    useScrollToAnchor({ callback: flashingPost })
 
   return selectedPosts.length ? (
     <InfiniteScroll

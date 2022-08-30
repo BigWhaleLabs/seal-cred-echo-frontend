@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
-import { initPagination } from 'stores/PostStore'
 
-const paginationLimit = initPagination.limit
-
-export default function usePagination<T>(
-  fetchMoreItems: (skip: number, limit: number) => Promise<T[]>,
-  paginationLimitOverride?: number
-) {
+export default function usePagination<T>({
+  limit,
+  totalAmount,
+  fetchMoreItems,
+}: {
+  limit: number
+  totalAmount: number
+  fetchMoreItems: (skip: number, limit: number) => Promise<T[]>
+}) {
   const [items, setItems] = useState<T[]>([])
   const [moreItemsAvailable, setMoreItemsAvailable] = useState(true)
 
@@ -15,14 +17,17 @@ export default function usePagination<T>(
       return
     }
     try {
-      const finalLimit = paginationLimitOverride || paginationLimit
-      const newItems = await fetchMoreItems(items.length, finalLimit)
-      console.log('newItems', newItems)
+      const leftRecords = totalAmount - items.length
+      const finalLimit = limit > leftRecords ? leftRecords : limit
+      const shouldSkip = totalAmount - finalLimit - items.length
+      const finalSkip = shouldSkip > 0 ? shouldSkip : 0
+
+      const newItems = await fetchMoreItems(finalSkip, finalLimit)
 
       if (newItems.length) {
-        setItems([...items, ...newItems])
+        setItems([...newItems])
       }
-      if (newItems.length < finalLimit) {
+      if (finalSkip <= 0) {
         setMoreItemsAvailable(false)
       }
     } catch (error) {
