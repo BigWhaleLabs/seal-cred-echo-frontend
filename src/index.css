@@ -74,6 +74,7 @@ html {
       var(--primary-dark) 90deg,
       var(--primary-background) 0
     );
+  caret-color: var(--primary);
 }
 
 body {
