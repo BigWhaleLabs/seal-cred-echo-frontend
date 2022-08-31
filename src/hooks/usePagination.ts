@@ -1,4 +1,8 @@
-import { useEffect, useState } from 'react'
+import { PostStructOutput } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
+import { useEffect } from 'react'
+import { useSnapshot } from 'valtio'
+import PostStore from 'stores/PostStore'
+import SelectedTypeStore from 'stores/SelectedTypeStore'
 
 export default function usePagination<T>({
   limit,
@@ -9,26 +13,25 @@ export default function usePagination<T>({
   totalAmount: number
   fetchMoreItems: (skip: number, limit: number) => Promise<T[]>
 }) {
-  const [items, setItems] = useState<T[]>([])
-  const [moreItemsAvailable, setMoreItemsAvailable] = useState(true)
+  const { selectedType } = useSnapshot(SelectedTypeStore)
+  const { selectedPosts } = useSnapshot(PostStore)
+  const currentPostsAmount = selectedPosts.length
 
   const fetchMoreItemsIfNeeded = async () => {
-    if (!moreItemsAvailable) {
-      return
-    }
     try {
-      const leftRecords = totalAmount - items.length
+      const leftRecords = totalAmount - currentPostsAmount
       const finalLimit = limit > leftRecords ? leftRecords : limit
-      const shouldSkip = totalAmount - finalLimit - items.length
+      const shouldSkip = totalAmount - finalLimit - currentPostsAmount
       const finalSkip = shouldSkip > 0 ? shouldSkip : 0
 
       const newItems = await fetchMoreItems(finalSkip, finalLimit)
 
+      // Add new fetched items to store
       if (newItems.length) {
-        setItems([...items, ...newItems])
-      }
-      if (finalSkip <= 0) {
-        setMoreItemsAvailable(false)
+        PostStore.posts[selectedType] = [
+          ...PostStore.posts[selectedType],
+          ...(newItems as PostStructOutput[]),
+        ]
       }
     } catch (error) {
       console.error(error)
@@ -40,10 +43,5 @@ export default function usePagination<T>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return {
-    items,
-    setItems,
-    fetchMoreItemsIfNeeded,
-    moreItemsAvailable,
-  }
+  return { fetchMoreItemsIfNeeded }
 }

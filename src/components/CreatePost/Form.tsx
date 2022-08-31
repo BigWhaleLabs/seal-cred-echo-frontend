@@ -115,7 +115,7 @@ export default function () {
                   sender,
                   timestamp,
                 } of result) {
-                  PostStore.posts[ledgerType] = Promise.resolve([
+                  PostStore.posts[ledgerType] = [
                     {
                       id,
                       post,
@@ -124,7 +124,7 @@ export default function () {
                       timestamp,
                     } as PostStructOutput,
                     ...posts,
-                  ])
+                  ]
 
                   PostIdsStatuses.lastUserPost = {
                     [account]: {

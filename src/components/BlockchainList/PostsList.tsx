@@ -22,6 +22,7 @@ const scrollContainer = classnames(
 function BlockchainPostsListSuspended() {
   const { selectedPosts, postsAmount } = useSnapshot(PostStore)
   const { selectedType } = useSnapshot(SelectedTypeStore)
+  const totalPosts = postsAmount[selectedType]
   const { hashStore, hashId } = useHashParams()
   const matchStore = hashStore && hashStore === selectedType
 
@@ -35,26 +36,26 @@ function BlockchainPostsListSuspended() {
       : PostStore.postsLimit
   }
 
-  const { items, fetchMoreItemsIfNeeded, moreItemsAvailable } = usePagination({
+  const { fetchMoreItemsIfNeeded } = usePagination({
     totalAmount: postsAmount[selectedType],
     limit: slideToSpecificPost(postsAmount[selectedType]),
     fetchMoreItems: (skip, limit) =>
       PostStore.loadMorePosts(SelectedTypeStore.selectedType, skip, limit),
   })
 
-  if (matchStore && hashId && items.length)
+  if (matchStore && hashId && selectedPosts.length)
     useScrollToAnchor({ callback: flashingPost })
 
-  return selectedPosts.length ? (
+  return totalPosts > 0 ? (
     <InfiniteScroll
       next={fetchMoreItemsIfNeeded}
       className={scrollContainer}
       style={{ overflow: 'hidden' }}
-      dataLength={items.length}
-      hasMore={moreItemsAvailable}
+      dataLength={selectedPosts.length}
+      hasMore={selectedPosts.length < totalPosts}
       loader={<LoadingText>Fetching more posts...</LoadingText>}
     >
-      {items.map((post) => (
+      {selectedPosts.map((post) => (
         <BlockchainPost
           key={post.id}
           blockchainId={Number(post.id)}

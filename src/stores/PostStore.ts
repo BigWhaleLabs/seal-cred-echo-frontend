@@ -9,7 +9,7 @@ import safeGetPostsFromContract from 'helpers/safeGetPostsFromContract'
 
 interface PostStoreType {
   postsLimit: number
-  posts: { [storageName: string]: Promise<PostStructOutput[]> }
+  posts: { [storageName: string]: PostStructOutput[] }
   postsAmount: { [storageName: string]: Promise<number> }
   selectedToken?: string
   loadMorePosts: (
@@ -23,15 +23,9 @@ const initLimit = 3
 
 const postStore = proxy<PostStoreType>({
   postsLimit: initLimit,
-  posts: dataShapeObject((key) =>
-    SelectedTypeStore.selectedType === key
-      ? safeGetPostsFromContract(postStorageContracts[key], 0, initLimit)
-      : Promise.resolve([] as PostStructOutput[])
-  ),
+  posts: dataShapeObject(() => []),
   postsAmount: dataShapeObject((key) =>
-    SelectedTypeStore.selectedType === key
-      ? safeGetPostsAmountFromContract(postStorageContracts[key])
-      : Promise.resolve(0)
+    safeGetPostsAmountFromContract(postStorageContracts[key])
   ),
   selectedToken: undefined,
   loadMorePosts: (storageName: string, skip: number, limit: number) => {
@@ -43,11 +37,15 @@ const postStore = proxy<PostStoreType>({
   },
 })
 
-subscribeKey(SelectedTypeStore, 'selectedType', (selectedType) => {
-  postStore.posts[selectedType] = postStore.loadMorePosts(
+subscribeKey(SelectedTypeStore, 'selectedType', async (selectedType) => {
+  const total = await postStore.postsAmount[selectedType]
+  const skip = total < initLimit ? 0 : total - initLimit
+  const limit = total < initLimit ? total : initLimit
+
+  postStore.posts[selectedType] = await postStore.loadMorePosts(
     selectedType,
-    0,
-    initLimit
+    skip,
+    limit
   )
 })
 

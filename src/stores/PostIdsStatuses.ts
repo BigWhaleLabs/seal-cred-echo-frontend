@@ -84,10 +84,8 @@ async function checkStatuses({ name, ids, force }: CheckStatusesStoreProps) {
   }
 }
 
-async function updateStatusesForSelectedPosts(
-  result = PostStore.selectedPosts
-) {
-  const ids = (await result).map(({ id }) => id.toNumber())
+function updateStatusesForSelectedPosts(result = PostStore.selectedPosts) {
+  const ids = result.map(({ id }) => id.toNumber())
   void checkStatuses({ name: SelectedTypeStore.selectedType, ids, force: true })
 }
 
