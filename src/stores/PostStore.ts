@@ -19,7 +19,7 @@ interface PostStoreType {
   ) => Promise<PostStructOutput[]>
 }
 
-const initLimit = 100
+const initLimit = 3
 
 const postStore = proxy<PostStoreType>({
   postsLimit: initLimit,

@@ -25,7 +25,7 @@ export default function usePagination<T>({
       const newItems = await fetchMoreItems(finalSkip, finalLimit)
 
       if (newItems.length) {
-        setItems([...newItems])
+        setItems([...items, ...newItems])
       }
       if (finalSkip <= 0) {
         setMoreItemsAvailable(false)
