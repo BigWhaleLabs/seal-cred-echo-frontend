@@ -1,5 +1,5 @@
 import { LoadingText } from 'components/Text'
-import { Suspense } from 'preact/compat'
+import { Suspense, useEffect, useState } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import BlockchainPost from 'components/BlockchainList/BlockchainPost'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -9,8 +9,9 @@ import PostStore from 'stores/PostStore'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
 import classnames, { display, flexDirection, gap } from 'classnames/tailwind'
 import flashingPost from 'helpers/flashingPost'
+import getMorePosts from 'helpers/getMorePosts'
+import postStorageContracts from 'helpers/postStorageContracts'
 import useHashParams from 'hooks/useHashParams'
-import usePagination from 'hooks/usePagination'
 import useScrollToAnchor from 'hooks/useScrollToAnchor'
 
 const scrollContainer = classnames(
@@ -20,33 +21,42 @@ const scrollContainer = classnames(
 )
 
 function BlockchainPostsListSuspended() {
-  const { selectedPosts, postsAmount } = useSnapshot(PostStore)
+  const { selectedPosts, postsAmount, limit } = useSnapshot(PostStore)
   const { selectedType } = useSnapshot(SelectedTypeStore)
   const totalPosts = postsAmount[selectedType]
   const { hashStore, hashId } = useHashParams()
   const matchStore = hashStore && hashStore === selectedType
+  const [scrolledLimit, setScrolledLimit] = useState(limit)
 
-  const slideToSpecificPost = (totalPosts: number) => {
-    if (!(matchStore || hashId)) return PostStore.postsLimit
-    const neededLimit = totalPosts - Number(hashId)
-    return matchStore
-      ? Math.max(neededLimit, PostStore.postsLimit)
-      : PostStore.postsLimit
-  }
+  useEffect(() => {
+    function updateLimitIfNeeded() {
+      if (!(matchStore || hashId)) return
+      const neededLimit = totalPosts - Number(hashId)
+      setScrolledLimit(Math.max(neededLimit, PostStore.limit))
+      window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })
+    }
 
-  const { fetchMoreItemsIfNeeded } = usePagination({
-    totalAmount: postsAmount[selectedType],
-    limit: slideToSpecificPost(postsAmount[selectedType]),
-    fetchMoreItems: (skip, limit) =>
-      PostStore.loadMorePosts(SelectedTypeStore.selectedType, skip, limit),
-  })
+    void updateLimitIfNeeded()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   if (matchStore && hashId && selectedPosts.length)
     useScrollToAnchor({ callback: flashingPost })
 
   return totalPosts > 0 ? (
     <InfiniteScroll
-      next={fetchMoreItemsIfNeeded}
+      next={async () => {
+        const newPosts = await getMorePosts({
+          contract: postStorageContracts[selectedType],
+          limitAmount: scrolledLimit,
+          loadedPostAmount: selectedPosts.length,
+        })
+        PostStore.posts[selectedType] = Promise.resolve([
+          ...selectedPosts,
+          ...newPosts,
+        ])
+        setScrolledLimit(PostStore.limit)
+      }}
       className={scrollContainer}
       style={{ overflow: 'hidden' }}
       dataLength={selectedPosts.length}

@@ -3,50 +3,41 @@ import { derive, subscribeKey } from 'valtio/utils'
 import { proxy } from 'valtio'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
 import dataShapeObject from 'helpers/dataShapeObject'
+import getMorePosts from 'helpers/getMorePosts'
 import postStorageContracts from 'helpers/postStorageContracts'
 import safeGetPostsAmountFromContract from 'helpers/safeGetPostsAmountFromContract'
-import safeGetPostsFromContract from 'helpers/safeGetPostsFromContract'
 
 interface PostStoreType {
-  postsLimit: number
-  posts: { [storageName: string]: PostStructOutput[] }
+  limit: number
+  posts: { [storageName: string]: Promise<PostStructOutput[]> }
   postsAmount: { [storageName: string]: Promise<number> }
   selectedToken?: string
-  loadMorePosts: (
-    storageName: string,
-    skip: number,
-    limit: number
-  ) => Promise<PostStructOutput[]>
 }
 
-const initLimit = 3
+const limit = 3
 
 const postStore = proxy<PostStoreType>({
-  postsLimit: initLimit,
-  posts: dataShapeObject(() => []),
+  limit,
   postsAmount: dataShapeObject((key) =>
     safeGetPostsAmountFromContract(postStorageContracts[key])
   ),
+  posts: dataShapeObject(
+    (key): Promise<PostStructOutput[]> =>
+      SelectedTypeStore.selectedType === key
+        ? getMorePosts({
+            contract: postStorageContracts[key],
+            limitAmount: limit,
+          })
+        : Promise.resolve([] as PostStructOutput[])
+  ),
   selectedToken: undefined,
-  loadMorePosts: (storageName: string, skip: number, limit: number) => {
-    return safeGetPostsFromContract(
-      postStorageContracts[storageName],
-      skip,
-      limit
-    )
-  },
 })
 
-subscribeKey(SelectedTypeStore, 'selectedType', async (selectedType) => {
-  const total = await postStore.postsAmount[selectedType]
-  const skip = total < initLimit ? 0 : total - initLimit
-  const limit = total < initLimit ? total : initLimit
-
-  postStore.posts[selectedType] = await postStore.loadMorePosts(
-    selectedType,
-    skip,
-    limit
-  )
+subscribeKey(SelectedTypeStore, 'selectedType', (selectedType) => {
+  postStore.posts[selectedType] = getMorePosts({
+    contract: postStorageContracts[selectedType],
+    limitAmount: postStore.limit,
+  })
 })
 
 export default derive(
