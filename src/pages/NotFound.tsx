@@ -1,30 +1,59 @@
-import { AccentText, CardParagraph, HeaderText } from 'components/Text'
-import { space } from 'classnames/tailwind'
-import { useNavigate } from 'react-router-dom'
 import Button from 'components/Button'
-import Card from 'components/Card'
-import CardSection from 'components/CardSection'
+import classNamesToString from 'helpers/classNamesToString'
+import classnames, {
+  alignItems,
+  display,
+  dropShadow,
+  flexDirection,
+  fontFamily,
+  fontSize,
+  fontWeight,
+  height,
+  justifyContent,
+  textAlign,
+  textColor,
+} from 'classnames/tailwind'
 
-const container = space('space-y-4')
+const container = classnames(
+  display('flex'),
+  flexDirection('flex-col'),
+  alignItems('items-center'),
+  height('h-screen-80'),
+  textAlign('text-center')
+)
+const octoBlock = classnames(
+  display('flex'),
+  alignItems('items-center'),
+  justifyContent('justify-center')
+)
+const bgGradients = classnames()
+const strokeText = classNamesToString(
+  classnames(
+    textColor('text-transparent'),
+    dropShadow('drop-shadow-secondary'),
+    fontSize('text-8xl'),
+    fontFamily('font-primary'),
+    fontWeight('font-bold')
+  ),
+  'stroke-text-secondary'
+)
+
 export default function () {
-  const navigate = useNavigate()
-
   return (
-    <Card>
-      <div className={container}>
-        <HeaderText>
-          <AccentText color="text-accent">404</AccentText>
-        </HeaderText>
-        <CardSection smallPadding>
-          <CardParagraph>
-            We couldn't find the page you are looking for. Try to return to the
-            main page.
-          </CardParagraph>
-        </CardSection>
-        <Button type="primary" small onClick={() => navigate('/')}>
-          Go to the main page
-        </Button>
+    <div className={container}>
+      <div className={octoBlock}>
+        <span className={strokeText}>404</span>
+        <img src="img/octo404.webp" />
+        <span className={strokeText}>404</span>
       </div>
-    </Card>
+      <span>
+        Initiate self-destruct sequence and return home to escape OCTOCORP!
+      </span>
+      <a href="/">
+        <Button type="primary">Self destruct and leave</Button>
+      </a>
+
+      <div className={bgGradients} />
+    </div>
   )
 }

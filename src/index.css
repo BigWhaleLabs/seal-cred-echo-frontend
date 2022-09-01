@@ -88,6 +88,10 @@ body {
   color: var(--formal-accent);
 }
 
+.stroke-text-secondary {
+  -webkit-text-stroke: 2px var(--secondary);
+}
+
 @media screen and (max-width: 600px) {
   /* Grid for mobiles */
   html {
