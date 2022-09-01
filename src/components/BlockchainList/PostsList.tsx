@@ -30,9 +30,7 @@ function BlockchainPostsListSuspended() {
     if (!(matchStore || hashId)) return PostStore.postsLimit
     const neededLimit = totalPosts - Number(hashId)
     return matchStore
-      ? neededLimit > PostStore.postsLimit
-        ? neededLimit
-        : PostStore.postsLimit
+      ? Math.max(neededLimit, PostStore.postsLimit)
       : PostStore.postsLimit
   }
 
