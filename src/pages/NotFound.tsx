@@ -8,24 +8,28 @@ import classnames, {
   fontFamily,
   fontSize,
   fontWeight,
-  height,
+  gap,
   justifyContent,
+  margin,
   textAlign,
   textColor,
+  width,
 } from 'classnames/tailwind'
 
 const container = classnames(
   display('flex'),
   flexDirection('flex-col'),
   alignItems('items-center'),
-  height('h-screen-80'),
-  textAlign('text-center')
+  textAlign('text-center'),
+  gap('gap-y-4')
 )
 const octoBlock = classnames(
   display('flex'),
   alignItems('items-center'),
-  justifyContent('justify-center')
+  justifyContent('justify-center'),
+  gap('gap-x-32')
 )
+const textStyles = classnames(width('w-max'), margin('mt-7'))
 const bgGradients = classnames()
 const strokeText = classNamesToString(
   classnames(
@@ -46,7 +50,7 @@ export default function () {
         <img src="img/octo404.webp" />
         <span className={strokeText}>404</span>
       </div>
-      <span>
+      <span className={textStyles}>
         Initiate self-destruct sequence and return home to escape OCTOCORP!
       </span>
       <a href="/">
