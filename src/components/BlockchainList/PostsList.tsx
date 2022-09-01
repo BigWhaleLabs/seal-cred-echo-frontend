@@ -21,7 +21,8 @@ const scrollContainer = classnames(
 )
 
 function BlockchainPostsListSuspended() {
-  const { selectedPosts, postsAmount, limit } = useSnapshot(PostStore)
+  const { selectedPosts, selectedToken, postsAmount, limit } =
+    useSnapshot(PostStore)
   const { selectedType } = useSnapshot(SelectedTypeStore)
   const totalPosts = postsAmount[selectedType]
   const { hashStore, hashId } = useHashParams()
@@ -39,6 +40,12 @@ function BlockchainPostsListSuspended() {
     void updateLimitIfNeeded()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const posts = selectedToken
+    ? selectedPosts.filter(
+        ({ derivativeAddress }) => derivativeAddress === PostStore.selectedToken
+      )
+    : selectedPosts
 
   if (matchStore && hashId && selectedPosts.length)
     useScrollToAnchor({ callback: flashingPost })
@@ -63,7 +70,7 @@ function BlockchainPostsListSuspended() {
       hasMore={selectedPosts.length < totalPosts}
       loader={<LoadingText>Fetching more posts...</LoadingText>}
     >
-      {selectedPosts.map((post) => (
+      {posts.map((post) => (
         <BlockchainPost
           key={post.id}
           blockchainId={Number(post.id)}
