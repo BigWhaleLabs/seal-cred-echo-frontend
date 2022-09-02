@@ -1,5 +1,5 @@
 import { LoadingText } from 'components/Text'
-import { Suspense, useEffect, useState } from 'preact/compat'
+import { Suspense, useState } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import BlockchainPost from 'components/BlockchainList/BlockchainPost'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -29,18 +29,6 @@ function BlockchainPostsListSuspended() {
   const matchStore = hashStore && hashStore === selectedType
   const [scrolledLimit, setScrolledLimit] = useState(limit)
   const amountOfLoadedPosts = selectedPosts.length
-
-  useEffect(() => {
-    function updateLimitIfNeeded() {
-      if (!(matchStore || hashId)) return
-      const neededLimit = totalPosts - Number(hashId)
-      setScrolledLimit(Math.max(neededLimit, PostStore.limit))
-      window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })
-    }
-
-    void updateLimitIfNeeded()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const posts = selectedToken
     ? selectedPosts.filter(
