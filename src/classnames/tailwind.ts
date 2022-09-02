@@ -7426,7 +7426,6 @@ export type THeight =
   | 'h-max'
   | 'h-fit'
   | 'h-noisy-rectangle'
-  | 'h-screen-80'
 
 export type TMinHeight =
   | 'min-h-0'

@@ -70,7 +70,6 @@ module.exports = {
       },
       height: {
         'noisy-rectangle': '0.688rem',
-        'screen-80': '80vh',
       },
       minHeight: {
         'text-input': '9rem',
