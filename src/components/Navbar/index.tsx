@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom'
 import Logo from 'components/Navbar/Logo'
 import OctoLogo from 'components/Navbar/OctoLogo'
 import SocialLinksAndWallet from 'components/Navbar/SocialLinksAndWallet'
@@ -31,11 +32,12 @@ const navbar = (backgroundVisible?: boolean) =>
 
 export default function () {
   const backgroundVisible = useScrolledFromTop()
+  const { pathname } = useLocation()
+  const is404 = pathname === '/404'
 
   return (
     <nav className={navbar(backgroundVisible)}>
-      <Logo />
-      <OctoLogo />
+      {is404 ? <OctoLogo /> : <Logo />}
       <SocialLinksAndWallet />
     </nav>
   )

@@ -1,4 +1,9 @@
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import BlockchainList from 'components/BlockchainList'
 import DeepDive from 'components/DeepDive'
@@ -31,7 +36,6 @@ const bodyContainer = classnames(
   margin('md:mx-auto', 'mx-4', 'mb-auto')
 )
 
-// TODO: Display octocorp only on 404 page
 // TODO: change background on 404 page
 
 export default function () {
@@ -57,7 +61,8 @@ export default function () {
               />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
-              <Route path="*" element={<NotFound />} />
+              <Route path="/404" element={<NotFound />} />
+              <Route path="*" element={<Navigate replace to="/404" />} />
             </Routes>
           </div>
           <Footer />
