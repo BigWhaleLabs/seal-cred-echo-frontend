@@ -1,6 +1,7 @@
 import { BigNumber } from 'ethers'
 import { PostStructOutput } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
 import { SCPostStorage } from '@big-whale-labs/seal-cred-posts-contract'
+import { handleError } from '@big-whale-labs/frontend-utils'
 
 export default async function (
   contract: SCPostStorage,
@@ -23,7 +24,7 @@ export default async function (
       )
       .reverse()
   } catch (error) {
-    console.error('Error occurred on getting posts error:', error)
+    handleError(error)
     return []
   }
 }

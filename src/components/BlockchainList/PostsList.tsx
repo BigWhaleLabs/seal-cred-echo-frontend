@@ -28,6 +28,7 @@ function BlockchainPostsListSuspended() {
   const { hashStore, hashId } = useHashParams()
   const matchStore = hashStore && hashStore === selectedType
   const [scrolledLimit, setScrolledLimit] = useState(limit)
+  const amountOfLoadedPosts = selectedPosts.length
 
   useEffect(() => {
     function updateLimitIfNeeded() {
@@ -47,7 +48,7 @@ function BlockchainPostsListSuspended() {
       )
     : selectedPosts
 
-  if (matchStore && hashId && selectedPosts.length)
+  if (matchStore && hashId && !!amountOfLoadedPosts)
     useScrollToAnchor({ callback: flashingPost })
 
   return totalPosts > 0 ? (
@@ -56,7 +57,7 @@ function BlockchainPostsListSuspended() {
         const newPosts = await getMorePosts({
           contract: postStorageContracts[selectedType],
           limitAmount: scrolledLimit,
-          loadedPostAmount: selectedPosts.length,
+          loadedPostAmount: amountOfLoadedPosts,
         })
         PostStore.posts[selectedType] = Promise.resolve([
           ...selectedPosts,
@@ -66,8 +67,8 @@ function BlockchainPostsListSuspended() {
       }}
       className={scrollContainer}
       style={{ overflow: 'hidden' }}
-      dataLength={selectedPosts.length}
-      hasMore={selectedPosts.length < totalPosts}
+      dataLength={amountOfLoadedPosts}
+      hasMore={amountOfLoadedPosts < totalPosts}
       loader={<LoadingText>Fetching more posts...</LoadingText>}
     >
       {posts.map((post) => (

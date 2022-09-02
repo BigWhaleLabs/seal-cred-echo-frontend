@@ -1,5 +1,6 @@
 import { PostStructOutput } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
 import { SCPostStorage } from '@big-whale-labs/seal-cred-posts-contract'
+import { handleError } from '@big-whale-labs/frontend-utils'
 import safeGetPostsAmountFromContract from 'helpers/safeGetPostsAmountFromContract'
 import safeGetPostsFromContract from 'helpers/safeGetPostsFromContract'
 
@@ -23,7 +24,7 @@ export default async function ({
 
     return safeGetPostsFromContract(contract, finalSkip, finalLimit)
   } catch (error) {
-    console.error(error)
+    handleError(error)
     return Promise.resolve([] as PostStructOutput[])
   }
 }
