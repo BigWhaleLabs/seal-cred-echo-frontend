@@ -14,7 +14,7 @@ interface PostStoreType {
   selectedToken?: string
 }
 
-const limit = 3
+const limit = 100
 
 const postStore = proxy<PostStoreType>({
   limit,
