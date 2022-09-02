@@ -30,6 +30,10 @@ const bodyContainer = classnames(
   gap('gap-y-4'),
   margin('md:mx-auto', 'mx-4', 'mb-auto')
 )
+
+// TODO: Display octocorp only on 404 page
+// TODO: change background on 404 page
+
 export default function () {
   return (
     <Router>

@@ -13,8 +13,15 @@ const wrapper = classnames(
   alignItems('items-center'),
   gap('gap-x-2')
 )
-const logoText = textColor('text-secondary')
-const deadLogo = classnames(textDecoration('line-through'), margin('ml-2'))
+const logoText = classnames(
+  textColor('text-secondary'),
+  display('hidden', 'sm:block')
+)
+const deadLogo = classnames(
+  textDecoration('line-through'),
+  margin('ml-2'),
+  display('hidden', 'md:block')
+)
 
 export default function () {
   return (
