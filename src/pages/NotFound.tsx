@@ -9,6 +9,7 @@ import classnames, {
   fontSize,
   fontWeight,
   gap,
+  height,
   justifyContent,
   margin,
   textAlign,
@@ -25,11 +26,12 @@ const container = classnames(
 )
 const octoBlock = classnames(
   display('flex'),
+  flexDirection('flex-col', 'xl:flex-row'),
   alignItems('items-center'),
   justifyContent('justify-center'),
-  gap('gap-x-32')
+  gap('gap-x-32', 'gap-y-14')
 )
-const textStyles = classnames(width('w-max'), margin('mt-7'))
+const textStyles = classnames(width('w-fit', 'xl:w-max'), margin('mt-7'))
 const bgGradients = classnames()
 const strokeText = classNamesToString(
   classnames(
@@ -41,13 +43,17 @@ const strokeText = classNamesToString(
   ),
   'stroke-text-secondary'
 )
+const imageStyles = width('w-80', 'xl:w-full')
+const displayFromMd = display('hidden', 'xl:block')
 
 export default function () {
   return (
     <div className={container}>
       <div className={octoBlock}>
-        <span className={strokeText}>404</span>
-        <img src="img/octo404.webp" />
+        <div className={displayFromMd}>
+          <span className={strokeText}>404</span>
+        </div>
+        <img className={imageStyles} src="img/octo404.webp" />
         <span className={strokeText}>404</span>
       </div>
       <span className={textStyles}>
