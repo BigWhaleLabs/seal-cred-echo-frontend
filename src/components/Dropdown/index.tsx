@@ -14,6 +14,7 @@ import classnames, {
   position,
   textColor,
   width,
+  wordBreak,
 } from 'classnames/tailwind'
 import useClickOutside from 'hooks/useClickOutside'
 
@@ -29,7 +30,11 @@ const button = (forZkBadges?: boolean) =>
   )
 
 const container = (forZkBadges?: boolean) =>
-  classnames(position('relative'), width('md:w-fit', { 'w-full': forZkBadges }))
+  classnames(
+    position('relative'),
+    width('md:w-fit', { 'w-full': forZkBadges }),
+    wordBreak('break-all')
+  )
 
 export default function <T>({
   disabled,

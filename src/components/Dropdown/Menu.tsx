@@ -5,6 +5,7 @@ import classnames, {
   borderRadius,
   cursor,
   inset,
+  margin,
   opacity,
   padding,
   position,
@@ -19,7 +20,8 @@ import classnames, {
 const container = (closed: boolean, forZkBadges?: boolean) =>
   classnames(
     position('absolute'),
-    inset(forZkBadges ? 'top-16' : 'top-8', 'right-0'),
+    inset('right-0'),
+    margin(forZkBadges ? 'mt-4' : 'mt-2'),
     opacity({ 'opacity-0': closed }),
     visibility({ invisible: closed }),
     zIndex('z-40'),

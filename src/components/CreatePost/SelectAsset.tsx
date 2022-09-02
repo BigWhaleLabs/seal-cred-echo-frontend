@@ -2,7 +2,7 @@ import { Suspense } from 'preact/compat'
 import Dropdown from 'components/Dropdown'
 import SelectAssetLoading from 'components/CreatePost/SelectAssetLoading'
 import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
-import useContractSymbols from 'hooks/useContractSymbols'
+import useContractNames from 'hooks/useContractNames'
 import useDerivativeAddressesOwned from 'hooks/useDerivativeAddressesOwned'
 
 interface SelectAssetProps {
@@ -17,7 +17,7 @@ export function SelectAssetSuspended({
   onSelect,
 }: SelectAssetProps) {
   const derivativeAddressesOwned = useDerivativeAddressesOwned()
-  const symbolMap = useContractSymbols(derivativeAddressesOwned)
+  const namesMap = useContractNames(derivativeAddressesOwned)
 
   return (
     <Dropdown
@@ -30,7 +30,7 @@ export function SelectAssetSuspended({
       }
       options={derivativeAddressesOwned.map((address) => ({
         value: address,
-        label: symbolMap[address] || truncateMiddleIfNeeded(address, 8),
+        label: namesMap[address] || truncateMiddleIfNeeded(address, 8),
       }))}
       onChange={(selectedValue) => {
         onSelect(selectedValue)
