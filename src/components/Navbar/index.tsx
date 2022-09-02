@@ -1,4 +1,5 @@
 import Logo from 'components/Navbar/Logo'
+import OctoLogo from 'components/Navbar/OctoLogo'
 import SocialLinksAndWallet from 'components/Navbar/SocialLinksAndWallet'
 import classnames, {
   alignItems,
@@ -30,9 +31,11 @@ const navbar = (backgroundVisible?: boolean) =>
 
 export default function () {
   const backgroundVisible = useScrolledFromTop()
+
   return (
     <nav className={navbar(backgroundVisible)}>
       <Logo />
+      <OctoLogo />
       <SocialLinksAndWallet />
     </nav>
   )

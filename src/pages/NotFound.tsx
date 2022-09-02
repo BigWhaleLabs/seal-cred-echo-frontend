@@ -9,7 +9,6 @@ import classnames, {
   fontSize,
   fontWeight,
   gap,
-  height,
   justifyContent,
   margin,
   textAlign,
