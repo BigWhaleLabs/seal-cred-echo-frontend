@@ -64,6 +64,7 @@ module.exports = {
           'var(--formal-accent-semi-transparent)',
         'error-semi-transparent': 'var(--error-semi-transparent)',
       },
+      strokeWidth: { 1.5: '1.5' },
       borderRadius: {
         avatar: '6rem',
       },

@@ -1,30 +1,70 @@
-import { AccentText, CardParagraph, HeaderText } from 'components/Text'
-import { space } from 'classnames/tailwind'
-import { useNavigate } from 'react-router-dom'
 import Button from 'components/Button'
-import Card from 'components/Card'
-import CardSection from 'components/CardSection'
+import classNamesToString from 'helpers/classNamesToString'
+import classnames, {
+  alignItems,
+  display,
+  dropShadow,
+  flexDirection,
+  fontFamily,
+  fontSize,
+  fontWeight,
+  gap,
+  justifyContent,
+  margin,
+  textAlign,
+  textColor,
+  width,
+} from 'classnames/tailwind'
+import useSetAttribute from 'hooks/useSetAttribute'
 
-const container = space('space-y-4')
+const container = classnames(
+  display('flex'),
+  flexDirection('flex-col'),
+  alignItems('items-center'),
+  textAlign('text-center'),
+  gap('gap-y-4')
+)
+const octoBlock = classnames(
+  display('flex'),
+  flexDirection('flex-col', 'xl:flex-row'),
+  alignItems('items-center'),
+  justifyContent('justify-center'),
+  gap('gap-x-40', 'gap-y-14')
+)
+const textStyles = classnames(width('w-fit', 'xl:w-max'), margin('mt-7'))
+const strokeText = classNamesToString(
+  classnames(
+    textColor('text-transparent'),
+    dropShadow('drop-shadow-secondary'),
+    fontSize('text-8xl'),
+    fontFamily('font-primary'),
+    fontWeight('font-bold')
+  ),
+  'stroke-text-secondary'
+)
+const imageStyles = width('w-80', 'xl:w-full')
+const displayFromMd = display('hidden', 'xl:block')
+
 export default function () {
-  const navigate = useNavigate()
+  document.title = '🐙 OCTOCORP'
+
+  useSetAttribute('bg-theme', '404')
 
   return (
-    <Card>
-      <div className={container}>
-        <HeaderText>
-          <AccentText color="text-accent">404</AccentText>
-        </HeaderText>
-        <CardSection smallPadding>
-          <CardParagraph>
-            We couldn't find the page you are looking for. Try to return to the
-            main page.
-          </CardParagraph>
-        </CardSection>
-        <Button type="primary" small onClick={() => navigate('/')}>
-          Go to the main page
-        </Button>
+    <div className={container}>
+      <div className={octoBlock}>
+        <div className={displayFromMd}>
+          <span className={strokeText}>404</span>
+        </div>
+        <img className={imageStyles} src="img/octo404.webp" />
+        <div className={strokeText}>404</div>
       </div>
-    </Card>
+      <span className={textStyles}>
+        Initiate self-destruct sequence and return home to escape OCTOCORP!
+      </span>
+      <a href="/">
+        <Button type="primary">Self destruct and leave</Button>
+      </a>
+    </div>
   )
 }
