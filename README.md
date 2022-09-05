@@ -1,4 +1,4 @@
-# SealCred | echo Frontend
+# SealCred | Echo Frontend
 
 ## Local Launch
 
