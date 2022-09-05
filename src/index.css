@@ -37,6 +37,7 @@
 
   --error: #ff7b83;
   --error-dark: #3e1b1e;
+  --red-background: #ff416140;
 
   --primary-dark: #0d0030;
   --primary-light: #bff5fa;
@@ -58,6 +59,13 @@
   --error-semi-transparent: rgba(255, 123, 131, 0.2);
   --selection: #ff7bed35;
   --blur-background: rgba(13, 0, 48, 0.1);
+  --transparent: #00000000;
+
+  --bg-grid: conic-gradient(
+    from 90deg at 0.06rem 0.06rem,
+    var(--primary-dark) 90deg,
+    var(--primary-background) 0
+  );
 }
 
 html {
@@ -68,13 +76,14 @@ html {
   background-repeat: no-repeat, no-repeat, repeat;
   background-position: top, top, 0;
   background-image: url('/img/bg-shadows-top.webp'),
-    url('/img/bg-shadows-bottom.webp'),
-    conic-gradient(
-      from 90deg at 0.06rem 0.06rem,
-      var(--primary-dark) 90deg,
-      var(--primary-background) 0
-    );
+    url('/img/bg-shadows-bottom.webp'), var(--bg-grid);
   caret-color: var(--primary);
+}
+html[bg-theme='404'] {
+  background-position: top, center, 0;
+  background-size: auto auto, 100% 100%, 3rem 3rem;
+  background-image: url(), url('/img/bg-shadows-404-desktop.webp'),
+    var(--bg-grid);
 }
 
 body {
@@ -95,11 +104,15 @@ body {
     background-size: 2rem 2rem;
     background-repeat: repeat;
     background-position: 0;
-    background-image: conic-gradient(
-      from 90deg at 0.06rem 0.06rem,
-      var(--primary-dark) 90deg,
-      var(--primary-background) 0
-    );
+    background-image: var(--bg-grid);
+  }
+}
+@media screen and (max-width: 1280px) {
+  html[bg-theme='404'] {
+    background-position: top, center, 0;
+    background-size: auto auto, 100% 100%, 3rem 3rem;
+    background-image: url(),
+      radial-gradient(var(--red-background), var(--transparent)), var(--bg-grid);
   }
 }
 
@@ -152,4 +165,8 @@ body {
 /* Wallet select menu for dark and light theme */
 .web3modal-modal-lightbox {
   z-index: 100 !important;
+}
+
+.stroke-text-secondary {
+  -webkit-text-stroke: 2px var(--secondary);
 }

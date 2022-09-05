@@ -5,6 +5,7 @@ type AllowedExtraClassnames =
   | 'loading-pause'
   | 'blockchainPosts'
   | 'dots-loading'
+  | 'stroke-text-secondary'
 
 export default function (
   ...classNames: (AllowedExtraClassnames | TTailwindString | undefined | null)[]

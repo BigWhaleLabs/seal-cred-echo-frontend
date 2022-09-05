@@ -7599,7 +7599,7 @@ export type TStroke =
   | 'stroke-formal-accent-semi-transparent'
   | 'stroke-error-semi-transparent'
 
-export type TStrokeWidth = 'stroke-0' | 'stroke-1' | 'stroke-2'
+export type TStrokeWidth = 'stroke-0' | 'stroke-1' | 'stroke-2' | 'stroke-1.5'
 
 export type TSVG = TFill | TStroke | TStrokeWidth
 
