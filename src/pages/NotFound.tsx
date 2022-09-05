@@ -1,3 +1,4 @@
+import { useEffect } from 'preact/hooks'
 import Button from 'components/Button'
 import classNamesToString from 'helpers/classNamesToString'
 import classnames, {
@@ -28,10 +29,9 @@ const octoBlock = classnames(
   flexDirection('flex-col', 'xl:flex-row'),
   alignItems('items-center'),
   justifyContent('justify-center'),
-  gap('gap-x-32', 'gap-y-14')
+  gap('gap-x-40', 'gap-y-14')
 )
 const textStyles = classnames(width('w-fit', 'xl:w-max'), margin('mt-7'))
-const bgGradients = classnames()
 const strokeText = classNamesToString(
   classnames(
     textColor('text-transparent'),
@@ -46,6 +46,16 @@ const imageStyles = width('w-80', 'xl:w-full')
 const displayFromMd = display('hidden', 'xl:block')
 
 export default function () {
+  document.title = '🐙 OCTOCORP'
+
+  useEffect(() => {
+    document.getElementsByTagName('html')[0].setAttribute('bg-theme', '404')
+
+    return () => {
+      document.getElementsByTagName('html')[0].setAttribute('bg-theme', '')
+    }
+  })
+
   return (
     <div className={container}>
       <div className={octoBlock}>
@@ -53,7 +63,7 @@ export default function () {
           <span className={strokeText}>404</span>
         </div>
         <img className={imageStyles} src="img/octo404.webp" />
-        <span className={strokeText}>404</span>
+        <div className={strokeText}>404</div>
       </div>
       <span className={textStyles}>
         Initiate self-destruct sequence and return home to escape OCTOCORP!
@@ -61,8 +71,6 @@ export default function () {
       <a href="/">
         <Button type="primary">Self destruct and leave</Button>
       </a>
-
-      <div className={bgGradients} />
     </div>
   )
 }
