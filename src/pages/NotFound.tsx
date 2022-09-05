@@ -1,4 +1,3 @@
-import { useEffect } from 'preact/hooks'
 import Button from 'components/Button'
 import classNamesToString from 'helpers/classNamesToString'
 import classnames, {
@@ -16,6 +15,7 @@ import classnames, {
   textColor,
   width,
 } from 'classnames/tailwind'
+import useSetAttribute from 'hooks/useSetAttribute'
 
 const container = classnames(
   display('flex'),
@@ -48,13 +48,7 @@ const displayFromMd = display('hidden', 'xl:block')
 export default function () {
   document.title = '🐙 OCTOCORP'
 
-  useEffect(() => {
-    document.getElementsByTagName('html')[0].setAttribute('bg-theme', '404')
-
-    return () => {
-      document.getElementsByTagName('html')[0].setAttribute('bg-theme', '')
-    }
-  })
+  useSetAttribute('bg-theme', '404')
 
   return (
     <div className={container}>

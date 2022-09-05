@@ -17,7 +17,7 @@ const logoText = classnames(
   textColor('text-secondary'),
   display('hidden', 'sm:block')
 )
-const deadLogo = classnames(
+const strikethroughLogo = classnames(
   textDecoration('line-through'),
   margin('ml-2'),
   display('hidden', 'md:block')
@@ -28,7 +28,7 @@ export default function () {
     <div className={wrapper}>
       <OctoCorp />
       <span className={logoText}>OCTOCORP</span>
-      <span className={deadLogo}>SealCred | Echo</span>
+      <span className={strikethroughLogo}>SealCred | Echo</span>
     </div>
   )
 }
