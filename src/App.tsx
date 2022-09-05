@@ -36,8 +36,6 @@ const bodyContainer = classnames(
   margin('md:mx-auto', 'mx-4', 'mb-auto')
 )
 
-// TODO: change background on 404 page
-
 export default function () {
   return (
     <Router>
