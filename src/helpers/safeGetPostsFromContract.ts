@@ -1,9 +1,17 @@
+import { BigNumber } from 'ethers'
 import { PostStructOutput } from '@big-whale-labs/seal-cred-posts-contract/dist/typechain/contracts/SCPostStorage'
 import { SCPostStorage } from '@big-whale-labs/seal-cred-posts-contract'
+import { handleError } from '@big-whale-labs/frontend-utils'
 
-export default async function (contract: SCPostStorage) {
+export default async function (
+  contract: SCPostStorage,
+  skip: number,
+  limit: number
+) {
   try {
-    return (await contract.getAllPosts())
+    return (
+      await contract.getPosts(BigNumber.from(skip), BigNumber.from(limit))
+    )
       .map(
         ([id, post, derivativeAddress, sender, timestamp]) =>
           ({
@@ -15,8 +23,8 @@ export default async function (contract: SCPostStorage) {
           } as PostStructOutput)
       )
       .reverse()
-    // Reverse is needed to get the latest posts first
-  } catch {
+  } catch (error) {
+    handleError(error)
     return []
   }
 }

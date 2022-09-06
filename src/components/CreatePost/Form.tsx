@@ -104,6 +104,10 @@ export default function () {
                 })
 
                 const posts = await PostStore.posts[ledgerType]
+                const numberOfPosts = await PostStore.postsAmount[ledgerType]
+                PostStore.postsAmount[ledgerType] = Promise.resolve(
+                  numberOfPosts + result.length
+                )
                 for (const {
                   id,
                   post,

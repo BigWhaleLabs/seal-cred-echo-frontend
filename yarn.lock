@@ -1537,10 +1537,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@big-whale-labs/constants@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@big-whale-labs/constants@npm:0.1.22"
-  checksum: e22643d888336ae0e4a2eded767b21bd482a096345899dbceefc6895cd3d1338f88338819acbc505e52eb29a7ab49fc16444362a5ea58da8d87d0079c814883b
+"@big-whale-labs/constants@npm:^0.1.23":
+  version: 0.1.23
+  resolution: "@big-whale-labs/constants@npm:0.1.23"
+  checksum: 9ea4b91bad6761aa0703d7043fd62326534b2a4ee0cb647c4a08123ba2456e9f36f951e1e4e3abf26076ab700318e2cec31734709b459fec2fffa5d772423b61
   languageName: node
   linkType: hard
 
@@ -1562,10 +1562,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@big-whale-labs/seal-cred-posts-contract@npm:^0.0.11":
-  version: 0.0.11
-  resolution: "@big-whale-labs/seal-cred-posts-contract@npm:0.0.11"
-  checksum: 2f6095f629d9c2366eb324bc1f0b902d6621473a6ccaa021929176b74d3a105c07b2bdf192e15b55e1f96c39984626b30935c68911a9cb974ee5da491764b24a
+"@big-whale-labs/seal-cred-posts-contract@npm:^0.0.12":
+  version: 0.0.12
+  resolution: "@big-whale-labs/seal-cred-posts-contract@npm:0.0.12"
+  checksum: c54339c85003bcac56f24da3144febcd48d74d5e1014075d656ec3e71aab9cdb8ffec313d23b2e987e1d4bcbe828f3471fe2553d1684a5f94304d934cee804ad
   languageName: node
   linkType: hard
 
@@ -15485,10 +15485,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "seal-cred-echo-frontend@workspace:."
   dependencies:
-    "@big-whale-labs/constants": ^0.1.22
+    "@big-whale-labs/constants": ^0.1.23
     "@big-whale-labs/frontend-utils": ^0.0.8
     "@big-whale-labs/seal-cred-ledger-contract": ^0.2.6
-    "@big-whale-labs/seal-cred-posts-contract": ^0.0.11
+    "@big-whale-labs/seal-cred-posts-contract": ^0.0.12
     "@big-whale-labs/stores": ^0.1.16
     "@coinbase/wallet-sdk": ^3.4.2
     "@esbuild-plugins/node-globals-polyfill": ^0.1.1

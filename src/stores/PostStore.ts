@@ -3,27 +3,41 @@ import { derive, subscribeKey } from 'valtio/utils'
 import { proxy } from 'valtio'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
 import dataShapeObject from 'helpers/dataShapeObject'
+import getMorePosts from 'helpers/getMorePosts'
 import postStorageContracts from 'helpers/postStorageContracts'
-import safeGetPostsFromContract from 'helpers/safeGetPostsFromContract'
+import safeGetPostsAmountFromContract from 'helpers/safeGetPostsAmountFromContract'
 
 interface PostStoreType {
+  limit: number
   posts: { [storageName: string]: Promise<PostStructOutput[]> }
+  postsAmount: { [storageName: string]: Promise<number> }
   selectedToken?: string
 }
 
+const limit = 100
+
 const postStore = proxy<PostStoreType>({
-  posts: dataShapeObject((key) =>
-    SelectedTypeStore.selectedType === key
-      ? safeGetPostsFromContract(postStorageContracts[key])
-      : Promise.resolve([] as PostStructOutput[])
+  limit,
+  postsAmount: dataShapeObject((key) =>
+    safeGetPostsAmountFromContract(postStorageContracts[key])
+  ),
+  posts: dataShapeObject(
+    (key): Promise<PostStructOutput[]> =>
+      SelectedTypeStore.selectedType === key
+        ? getMorePosts({
+            contract: postStorageContracts[key],
+            limitAmount: limit,
+          })
+        : Promise.resolve([] as PostStructOutput[])
   ),
   selectedToken: undefined,
 })
 
 subscribeKey(SelectedTypeStore, 'selectedType', (selectedType) => {
-  postStore.posts[selectedType] = safeGetPostsFromContract(
-    postStorageContracts[selectedType]
-  )
+  postStore.posts[selectedType] = getMorePosts({
+    contract: postStorageContracts[selectedType],
+    limitAmount: postStore.limit,
+  })
 })
 
 export default derive(

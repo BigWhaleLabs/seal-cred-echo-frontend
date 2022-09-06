@@ -9,6 +9,8 @@ import PostStore from 'stores/PostStore'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
 import classnames, { display, flexDirection, gap } from 'classnames/tailwind'
 import flashingPost from 'helpers/flashingPost'
+import getMorePosts from 'helpers/getMorePosts'
+import postStorageContracts from 'helpers/postStorageContracts'
 import useHashParams from 'hooks/useHashParams'
 import useScrollToAnchor from 'hooks/useScrollToAnchor'
 
@@ -19,44 +21,45 @@ const scrollContainer = classnames(
 )
 
 function BlockchainPostsListSuspended() {
-  const { selectedPosts } = useSnapshot(PostStore)
+  const { selectedPosts, selectedToken, postsAmount, limit } =
+    useSnapshot(PostStore)
   const { selectedType } = useSnapshot(SelectedTypeStore)
+  const totalPosts = postsAmount[selectedType]
   const { hashStore, hashId } = useHashParams()
   const matchStore = hashStore && hashStore === selectedType
+  const [scrolledLimit, setScrolledLimit] = useState(limit)
+  const amountOfLoadedPosts = selectedPosts.length
 
-  const sliceToSpecificPost = (totalPosts: number) => {
-    if (!(matchStore || hashId)) return 10
-    return totalPosts - Number(hashId)
-  }
-
-  const posts = PostStore.selectedToken
+  const posts = selectedToken
     ? selectedPosts.filter(
         ({ derivativeAddress }) => derivativeAddress === PostStore.selectedToken
       )
     : selectedPosts
-  const [loadedPosts, setLoadedPosts] = useState(
-    posts.slice(0, sliceToSpecificPost(posts.length))
-  )
-  const loadedItemsAmount = loadedPosts.length
-  const loadMoreItems = () => {
-    setLoadedPosts([
-      ...loadedPosts,
-      ...posts.slice(loadedItemsAmount, loadedItemsAmount + 10),
-    ])
-  }
 
-  if (matchStore && hashId) useScrollToAnchor({ callback: flashingPost })
+  if (matchStore && hashId && !!amountOfLoadedPosts)
+    useScrollToAnchor({ callback: flashingPost })
 
-  return posts.length ? (
+  return totalPosts > 0 ? (
     <InfiniteScroll
-      next={loadMoreItems}
+      next={async () => {
+        const newPosts = await getMorePosts({
+          contract: postStorageContracts[selectedType],
+          limitAmount: scrolledLimit,
+          loadedPostAmount: amountOfLoadedPosts,
+        })
+        PostStore.posts[selectedType] = Promise.resolve([
+          ...selectedPosts,
+          ...newPosts,
+        ])
+        setScrolledLimit(PostStore.limit)
+      }}
       className={scrollContainer}
       style={{ overflow: 'hidden' }}
-      dataLength={loadedItemsAmount}
-      hasMore={loadedItemsAmount < posts.length}
+      dataLength={amountOfLoadedPosts}
+      hasMore={amountOfLoadedPosts < totalPosts}
       loader={<LoadingText>Fetching more posts...</LoadingText>}
     >
-      {loadedPosts.map((post) => (
+      {posts.map((post) => (
         <BlockchainPost
           key={post.id}
           blockchainId={Number(post.id)}
