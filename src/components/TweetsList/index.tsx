@@ -91,7 +91,6 @@ export default function () {
                 'transparent',
               ].join(' '),
               width: '100%',
-              height: '100%',
               hide_media: true,
               hide_thread: true,
             }}
