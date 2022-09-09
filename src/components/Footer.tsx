@@ -1,8 +1,5 @@
 import { FooterLink } from 'components/Text'
-import {
-  displayOnMdAndLarger,
-  displayOnSmAndSmaller,
-} from 'helpers/visibilityClassnames'
+import { displayTo } from 'helpers/visibilityClassnames'
 import Delimiter from 'components/Delimiter'
 import FooterLogo from 'icons/FooterLogo'
 import SocialLinks from 'components/SocialLinks'
@@ -36,15 +33,15 @@ export default function () {
           <span>Blog</span>
         </div>
       </FooterLink>
-      <Delimiter primary className={displayOnMdAndLarger} />
+      <Delimiter primary showFrom="md" />
       <FooterLink internal url="/terms">
         Terms of service
       </FooterLink>
-      <Delimiter primary className={displayOnMdAndLarger} />
+      <Delimiter primary showFrom="md" />
       <FooterLink internal url="/privacy">
         Privacy policy
       </FooterLink>
-      <span className={displayOnSmAndSmaller}>
+      <span className={displayTo('md')}>
         <SocialLinks />
       </span>
     </div>
