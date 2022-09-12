@@ -23,10 +23,10 @@
     ]
   },
   "dependencies": {
-    "@big-whale-labs/constants": "^0.1.23",
+    "@big-whale-labs/constants": "^0.1.28",
     "@big-whale-labs/frontend-utils": "^0.0.8",
-    "@big-whale-labs/seal-cred-ledger-contract": "^0.2.6",
-    "@big-whale-labs/seal-cred-posts-contract": "^0.0.12",
+    "@big-whale-labs/seal-cred-ledger-contract": "^0.2.8",
+    "@big-whale-labs/seal-cred-posts-contract": "^0.0.13",
     "@big-whale-labs/stores": "^0.1.16",
     "@coinbase/wallet-sdk": "^3.4.2",
     "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
