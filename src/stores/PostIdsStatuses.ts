@@ -26,7 +26,7 @@ export interface LastUserPostData {
 interface PostStatusStoreType {
   lastUserPost?: { [account: string]: LastUserPostData }
   statuses: {
-    [storageName: string]: { [blockchainId: number]: Promise<PostData> }
+    [storageName: string]: { [blockchainId: number]: PostData }
   }
 }
 
@@ -45,10 +45,10 @@ export async function updateStatuses(name: DataKeys, ids: number[]) {
   const updatedStatuses = await getPostStatuses(ids, data[name].postStorage)
 
   for (const { blockchainId, status, tweetId } of updatedStatuses) {
-    postStatusStore.statuses[name][blockchainId] = Promise.resolve({
+    postStatusStore.statuses[name][blockchainId] = {
       status,
       tweetId,
-    })
+    }
 
     const lastUserPost = postStatusStore.lastUserPost
     if (!lastUserPost) continue

@@ -1,10 +1,8 @@
 import { StatusText } from 'components/Text'
-import { Suspense } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import PostStatus from 'models/PostStatus'
 import PostStatusText from 'models/PostStatusText'
 import SelectedTypeStore from 'stores/SelectedTypeStore'
-import classNamesToString from 'helpers/classNamesToString'
 import classnames, {
   alignItems,
   backgroundColor,
@@ -28,7 +26,7 @@ const statusContainer = (status: PostStatus) =>
     })
   )
 
-export function StatusSuspended({ blockchainId }: { blockchainId: number }) {
+export default function ({ blockchainId }: { blockchainId: number }) {
   const { selectedType } = useSnapshot(SelectedTypeStore)
   const { currentStatuses } = useSnapshot(postIdsStatuses)
   const status = currentStatuses[blockchainId]?.status
@@ -42,23 +40,5 @@ export function StatusSuspended({ blockchainId }: { blockchainId: number }) {
         {PostStatusText[status] || 'Loading...'}
       </StatusText>
     </a>
-  )
-}
-
-export default function ({ blockchainId }: { blockchainId: number }) {
-  return (
-    <Suspense
-      fallback={
-        <div className={statusContainer(PostStatus.pending)}>
-          <StatusText color="default">
-            <span className={classNamesToString('dots-loading')}>
-              Loading...
-            </span>
-          </StatusText>
-        </div>
-      }
-    >
-      <StatusSuspended blockchainId={blockchainId} />
-    </Suspense>
   )
 }
