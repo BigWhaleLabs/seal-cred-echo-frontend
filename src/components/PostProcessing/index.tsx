@@ -38,7 +38,7 @@ const PostState = ({
       return (
         <TweetSuccessful
           storeName={storeName}
-          tweetId={lastUserPostData.tweetId}
+          serviceId={lastUserPostData.serviceId}
         />
       )
     case PostStatus.rejected:
