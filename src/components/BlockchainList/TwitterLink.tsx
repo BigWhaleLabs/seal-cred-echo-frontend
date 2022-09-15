@@ -12,7 +12,7 @@ function TwitterLinkSuspended({ blockchainId }: TwitterLinkProps) {
   const { currentStatuses } = useSnapshot(postIdsStatuses)
 
   if (!currentStatuses[blockchainId]) return null
-  const { tweetId } = currentStatuses[blockchainId]
+  const { serviceId } = currentStatuses[blockchainId]
 
   return (
     <>
@@ -20,7 +20,7 @@ function TwitterLinkSuspended({ blockchainId }: TwitterLinkProps) {
       <LinkText
         extraSmall
         title="status"
-        url={`https://twitter.com/SealCredEmail/status/${tweetId}`}
+        url={`https://twitter.com/SealCredEmail/status/${serviceId}`}
       >
         Twitter
       </LinkText>
