@@ -2,16 +2,16 @@ import PostStatus from 'models/PostStatus'
 import axios from 'axios'
 import env from 'helpers/env'
 
-const baseURL = `${env.VITE_TWITTER_POSTER_URL}/tweets`
+const baseURL = `${env.VITE_TWITTER_POSTER_URL}/posts`
 
 export default async function (ids: number[], contractAddress: string) {
   const { data } = await axios.post<
     {
       blockchainId: number
       status: PostStatus
-      tweetId?: number
+      serviceId?: number
     }[]
-  >(`${baseURL}/${contractAddress}/list`, {
+  >(`${baseURL}/${contractAddress}/twitter/list`, {
     ids,
   })
   return data

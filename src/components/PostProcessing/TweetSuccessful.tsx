@@ -5,10 +5,10 @@ import data from 'data'
 
 export default function ({
   storeName,
-  tweetId,
+  serviceId,
 }: {
   storeName: string
-  tweetId?: number
+  serviceId?: number
 }) {
   storeName = data[storeName as DataKeys].twitter
 
@@ -16,7 +16,7 @@ export default function ({
     <>
       <LargeText>Tweet successful</LargeText>
       <ViewTweetButton
-        url={`https://twitter.com/${storeName}/status/${tweetId}`}
+        url={`https://twitter.com/${storeName}/status/${serviceId}`}
       />
     </>
   )
