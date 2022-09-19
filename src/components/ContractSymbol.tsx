@@ -1,5 +1,5 @@
 import { Suspense, memo } from 'react'
-import { truncateMiddleIfNeeded } from '@big-whale-labs/frontend-utils/dist/src/helpers/truncateMiddleIfNeeded'
+import { truncateMiddleIfNeeded } from '@big-whale-labs/frontend-utils'
 import { useSnapshot } from 'valtio'
 import { utils } from 'ethers'
 import ContractSymbolsStore from 'stores/ContractMetadataStore'
