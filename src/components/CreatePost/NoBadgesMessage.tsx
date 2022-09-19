@@ -1,10 +1,10 @@
 import { LinkText } from 'components/Text'
 import { Suspense } from 'preact/compat'
+import { width } from 'classnames/tailwind'
 import Button from 'components/Button'
-import classnames, { borderRadius, width } from 'classnames/tailwind'
 import useDerivativeAddressesOwned from 'hooks/useDerivativeAddressesOwned'
 
-const buttonWrapper = classnames(borderRadius('rounded-full'), width('w-fit'))
+const buttonWrapper = width('w-fit')
 
 function NoBadgesMessageSuspended() {
   const derivativeAddressesOwned = useDerivativeAddressesOwned()
