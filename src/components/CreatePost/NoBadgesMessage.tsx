@@ -1,22 +1,23 @@
 import { LinkText } from 'components/Text'
 import { Suspense } from 'preact/compat'
 import Button from 'components/Button'
+import classnames, { borderRadius, width } from 'classnames/tailwind'
 import useDerivativeAddressesOwned from 'hooks/useDerivativeAddressesOwned'
+
+const buttonWrapper = classnames(borderRadius('rounded-full'), width('w-fit'))
 
 function NoBadgesMessageSuspended() {
   const derivativeAddressesOwned = useDerivativeAddressesOwned()
   if (derivativeAddressesOwned.length) return null
 
   return (
-    <Button type="primary" title="Create a ZK Badge to Tweet">
-      <LinkText
-        gradientFrom="from-primary-dark"
-        gradientTo="to-primary-dark"
-        url="https://sealcred.xyz/app"
-      >
-        Create a ZK Badge to Tweet
+    <div className={buttonWrapper}>
+      <LinkText url="https://sealcred.xyz/app">
+        <Button type="primary" title="Create a ZK Badge to Tweet">
+          Create a ZK Badge to Tweet
+        </Button>
       </LinkText>
-    </Button>
+    </div>
   )
 }
 
