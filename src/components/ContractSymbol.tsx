@@ -1,4 +1,5 @@
 import { Suspense, memo } from 'react'
+import { truncateMiddleIfNeeded } from '@big-whale-labs/frontend-utils'
 import { useSnapshot } from 'valtio'
 import { utils } from 'ethers'
 import ContractSymbolsStore from 'stores/ContractMetadataStore'
@@ -11,7 +12,6 @@ import classnames, {
   wordBreak,
 } from 'classnames/tailwind'
 import defaultProvider from 'helpers/providers/defaultProvider'
-import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 
 const addressText = wordBreak('break-all')
 const badgeNameWrapper = classnames(
