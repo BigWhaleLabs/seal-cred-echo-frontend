@@ -24,7 +24,8 @@ const statusContainer = (status: PostStatus) =>
       'bg-primary-dimmed':
         status === PostStatus.pending || status === PostStatus.approved,
       'bg-primary-background': status === PostStatus.published,
-      'bg-error': status === PostStatus.rejected,
+      'bg-error':
+        status === PostStatus.rejected || status === PostStatus.failedToPost,
     })
   )
 
