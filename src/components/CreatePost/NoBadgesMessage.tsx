@@ -1,5 +1,6 @@
 import { LinkText } from 'components/Text'
 import { Suspense } from 'preact/compat'
+import { width } from 'classnames/tailwind'
 import Button from 'components/Button'
 import useDerivativeAddressesOwned from 'hooks/useDerivativeAddressesOwned'
 
@@ -8,15 +9,13 @@ function NoBadgesMessageSuspended() {
   if (derivativeAddressesOwned.length) return null
 
   return (
-    <Button type="primary" title="Create a ZK Badge to Tweet">
-      <LinkText
-        gradientFrom="from-primary-dark"
-        gradientTo="to-primary-dark"
-        url="https://sealcred.xyz/app"
-      >
-        Create a ZK Badge to Tweet
+    <div className={width('w-fit')}>
+      <LinkText url="https://sealcred.xyz/app">
+        <Button type="primary" title="Create a ZK Badge to Tweet">
+          Create a ZK Badge to Tweet
+        </Button>
       </LinkText>
-    </Button>
+    </div>
   )
 }
 
