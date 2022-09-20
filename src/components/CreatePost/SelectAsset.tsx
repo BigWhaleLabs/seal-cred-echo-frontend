@@ -19,14 +19,14 @@ export function SelectAssetSuspended({
   const derivativeAddressesOwned = useDerivativeAddressesOwned()
   const namesMap = useContractNames(derivativeAddressesOwned)
 
+  const hasDerivatives = derivativeAddressesOwned.length
+
   return (
     <Dropdown
       disabled={disabled}
       currentValue={selectedAddress}
       placeholder={
-        derivativeAddressesOwned.length
-          ? 'Select an asset...'
-          : 'No ZK badges in this wallet'
+        hasDerivatives ? 'Select an asset...' : 'No ZK badges in this wallet'
       }
       options={derivativeAddressesOwned.map((address) => ({
         value: address,
@@ -35,6 +35,7 @@ export function SelectAssetSuspended({
       onChange={(selectedValue) => {
         onSelect(selectedValue)
       }}
+      removeArrow={!hasDerivatives}
       forZkBadges
     />
   )
