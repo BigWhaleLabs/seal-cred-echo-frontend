@@ -1,3 +1,4 @@
+import { displayFrom, displayTo } from 'helpers/visibilityClassnames'
 import AccountAndLogo from 'components/Navbar/AccountAndLogo'
 import LastDelimiter from 'components/LastDelimiter'
 import SealVerse from 'components/SealVerse'
@@ -15,16 +16,26 @@ const walletContainer = classnames(
   flexDirection('flex-col-reverse', 'xs:flex-row'),
   alignItems('items-center'),
   gap('gap-x-2', 'md:gap-x-3', 'body:gap-x-4'),
-  cursor('cursor-pointer')
+  cursor('cursor-pointer'),
+  displayFrom('xs')
 )
 
 export default function () {
   return (
-    <div className={walletContainer}>
-      <SocialLinks />
-      <SealVerse />
-      <LastDelimiter />
-      <AccountAndLogo />
-    </div>
+    <>
+      <div className={walletContainer}>
+        <SocialLinks />
+        <SealVerse />
+        <LastDelimiter />
+        <AccountAndLogo />
+      </div>
+
+      <div className={displayTo('xs')}>
+        <AccountAndLogo />
+      </div>
+      <div className={displayTo('xs')}>
+        <SealVerse />
+      </div>
+    </>
   )
 }
