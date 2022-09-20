@@ -39,33 +39,31 @@ const bodyContainer = classnames(
 export default function () {
   return (
     <Router>
-      <ScrollToTop>
-        <div className={pageContainer}>
-          <Navbar />
-          <div className={bodyContainer}>
-            <Routes>
-              <Route index element={<Layout component={<HowItWorks />} />} />
-              <Route
-                path="/tweets"
-                element={<Layout component={<TweetsList />} />}
-              />
-              <Route
-                path="/tweets/blockchain"
-                element={<Layout component={<BlockchainList />} />}
-              />
-              <Route
-                path="/deep-dive"
-                element={<Layout component={<DeepDive />} />}
-              />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/404" element={<NotFound />} />
-              <Route path="*" element={<Navigate replace to="/404" />} />
-            </Routes>
-          </div>
-          <Footer />
+      <div className={pageContainer}>
+        <Navbar />
+        <div className={bodyContainer}>
+          <Routes>
+            <Route index element={<Layout component={<HowItWorks />} />} />
+            <Route
+              path="/tweets"
+              element={<Layout component={<TweetsList />} />}
+            />
+            <Route
+              path="/tweets/blockchain"
+              element={<Layout component={<BlockchainList />} />}
+            />
+            <Route
+              path="/deep-dive"
+              element={<Layout component={<DeepDive />} />}
+            />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/404" element={<NotFound />} />
+            <Route path="*" element={<Navigate replace to="/404" />} />
+          </Routes>
         </div>
-      </ScrollToTop>
+        <Footer />
+      </div>
       <ToastContainer position="bottom-right" theme="dark" />
     </Router>
   )
