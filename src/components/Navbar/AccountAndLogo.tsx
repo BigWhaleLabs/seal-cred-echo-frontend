@@ -24,10 +24,10 @@ const accountLinkContainer = classnames(
 function AccountLogo({ connected }: { connected?: boolean }) {
   return (
     <div className={width('w-fit')}>
-      <div className={displayTo('sm')}>
+      <div className={displayFrom('sm')}>
         <SealWallet connected={connected} />
       </div>
-      <div className={displayFrom('sm')}>
+      <div className={displayTo('sm')}>
         <SmallSealWallet connected={connected} />
       </div>
     </div>
