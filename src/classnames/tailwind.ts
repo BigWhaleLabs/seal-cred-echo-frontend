@@ -7190,6 +7190,13 @@ export type TInset =
   | 'right-full'
   | 'bottom-full'
   | 'left-full'
+  | '-inset-2.5'
+  | '-inset-x-2.5'
+  | '-inset-y-2.5'
+  | '-top-2.5'
+  | '-right-2.5'
+  | '-bottom-2.5'
+  | '-left-2.5'
   | '-inset-8'
   | '-inset-x-8'
   | '-inset-y-8'
@@ -7329,6 +7336,7 @@ export type TWidth =
   | 'w-max'
   | 'w-fit'
   | 'w-body'
+  | 'w-full-105'
 
 export type TMinWidth =
   | 'min-w-0'
@@ -7366,6 +7374,7 @@ export type TMaxWidth =
   | 'max-w-screen-xxs'
   | 'max-w-screen-xs'
   | 'max-w-screen-body'
+  | 'max-w-screen-xlg'
 
 export type THeight =
   | 'h-0'
@@ -8827,6 +8836,7 @@ export type TPseudoClassVariants =
   | 'xxs:'
   | 'xs:'
   | 'body:'
+  | 'xlg:'
 
 //////////// Utility Function generic type
 

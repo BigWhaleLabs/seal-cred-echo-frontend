@@ -1,79 +1,30 @@
-import { AccentText } from 'components/Text'
-import { displayOnMdAndLarger } from 'helpers/visibilityClassnames'
-import { useSnapshot } from 'valtio'
-import Delimiter from 'components/Delimiter'
-import ENSAddress from 'components/ENSAddress'
-import SealWallet from 'icons/SealWallet'
-import SmallSealWallet from 'icons/SmallSealWallet'
-import SocialLinks from 'components/SocialLinks'
-import WalletStore from 'stores/WalletStore'
+import AccountAndLogo from 'components/Navbar/AccountAndLogo'
+import LastDelimiter from 'components/LastDelimiter'
+import SealVerse from 'components/SealVerse'
+import SocialLinks from 'components/Navbar/SocialLinks'
 import classnames, {
   alignItems,
   cursor,
   display,
+  flexDirection,
   gap,
-  lineHeight,
-  textAlign,
-  width,
 } from 'classnames/tailwind'
-import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
 
-const container = classnames(
+const walletContainer = classnames(
   display('flex'),
+  flexDirection('flex-col-reverse', 'xs:flex-row'),
   alignItems('items-center'),
-  gap('gap-x-4')
-)
-const socialLinkClass = classnames(
-  displayOnMdAndLarger,
-  alignItems('items-center'),
-  gap('gap-x-4')
-)
-const walletContainer = classnames(container, cursor('cursor-pointer'))
-const walletAccount = classnames(
-  textAlign('text-right'),
-  lineHeight('leading-5')
+  gap('gap-x-2', 'md:gap-x-3', 'body:gap-x-4'),
+  cursor('cursor-pointer')
 )
 
 export default function () {
-  const { account } = useSnapshot(WalletStore)
-  const connected = !!account
-
   return (
-    <div className={container}>
-      <div className={socialLinkClass}>
-        <SocialLinks />
-        <Delimiter primary />
-      </div>
-      <div
-        className={walletContainer}
-        onClick={async () => {
-          if (connected) {
-            window.open(getEtherscanAddressUrl(account), '_blank')
-          } else {
-            await WalletStore.connect(true)
-          }
-        }}
-      >
-        <div className={walletAccount}>
-          <AccentText
-            color={connected ? 'text-accent' : 'text-primary-semi-dimmed'}
-          >
-            {connected ? (
-              <ENSAddress address={account} />
-            ) : (
-              'No wallet connected'
-            )}
-          </AccentText>
-        </div>
-        <div className={width('w-fit')}>
-          <div className={display('sm:flex', 'hidden')}>
-            <SealWallet connected={connected} />
-          </div>
-          <div className={display('sm:hidden', 'flex')}>
-            <SmallSealWallet connected={connected} />
-          </div>
-        </div>
-      </div>
+    <div className={walletContainer}>
+      <SocialLinks />
+      <SealVerse />
+      <LastDelimiter />
+      <AccountAndLogo />
     </div>
   )
 }

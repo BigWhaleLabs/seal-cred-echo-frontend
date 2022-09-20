@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { LogoSubText, LogoText } from 'components/Text'
 import {
+  displayFrom,
   displayOnMdAndLarger,
   displayOnSmAndSmaller,
 } from 'helpers/visibilityClassnames'
@@ -19,7 +20,7 @@ const container = classnames(
   space('space-x-4')
 )
 const logoTextContainer = classnames(
-  display('sm:flex', 'hidden'),
+  displayFrom('md'),
   flexDirection('flex-col'),
   space('space-y-1')
 )
@@ -28,7 +29,7 @@ const logoTextRow = classnames(
   flexDirection('flex-row'),
   alignItems('items-center')
 )
-const logoTextUpperRow = classnames(logoTextRow, gap('gap-x-4'))
+const logoTextUpperRow = classnames(logoTextRow, gap('gap-x-1', 'body:gap-x-4'))
 const logoTextBottomRow = classnames(logoTextRow, gap('gap-x-2'))
 
 export default function () {
