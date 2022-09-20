@@ -1,8 +1,8 @@
 import { Suspense, memo } from 'react'
 import { display } from 'classnames/tailwind'
+import { truncateMiddleIfNeeded } from '@big-whale-labs/frontend-utils'
 import { useSnapshot } from 'valtio'
 import ENSStore from 'stores/ENSStore'
-import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 
 interface ENSAddressProps {
   address: string

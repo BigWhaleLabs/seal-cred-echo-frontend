@@ -9,8 +9,8 @@ import {
   margin,
   space,
 } from 'classnames/tailwind'
+import { truncateMiddleIfNeeded } from '@big-whale-labs/frontend-utils'
 import Counter from 'components/Counter'
-import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import useContractSymbols from 'hooks/useContractSymbols'
 import useDerivativeAddressesOwned from 'hooks/useDerivativeAddressesOwned'
 

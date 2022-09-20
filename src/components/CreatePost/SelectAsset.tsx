@@ -1,7 +1,7 @@
 import { Suspense } from 'preact/compat'
+import { truncateMiddleIfNeeded } from '@big-whale-labs/frontend-utils'
 import Dropdown from 'components/Dropdown'
 import SelectAssetLoading from 'components/CreatePost/SelectAssetLoading'
-import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 import useContractNames from 'hooks/useContractNames'
 import useDerivativeAddressesOwned from 'hooks/useDerivativeAddressesOwned'
 

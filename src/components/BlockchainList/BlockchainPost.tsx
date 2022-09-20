@@ -6,6 +6,7 @@ import {
   UnderlineTextButton,
 } from 'components/Text'
 import { Suspense } from 'preact/compat'
+import { truncateMiddleIfNeeded } from '@big-whale-labs/frontend-utils'
 import { useInView } from 'react-intersection-observer'
 import { useSnapshot } from 'valtio'
 import Card from 'components/Card'
@@ -25,7 +26,6 @@ import classnames, {
   space,
 } from 'classnames/tailwind'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
-import truncateMiddleIfNeeded from 'helpers/truncateMiddleIfNeeded'
 
 const container = classnames(
   display('flex'),
