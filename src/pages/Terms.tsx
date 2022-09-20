@@ -7,9 +7,12 @@ import {
 import { space } from 'classnames/tailwind'
 import Card from 'components/Card'
 import CardSection from 'components/CardSection'
+import useScrollToTop from 'hooks/useScrollToTop'
 
 const verticalSpace = space('space-y-4')
 export default function () {
+  useScrollToTop()
+
   return (
     <Card>
       <div className={verticalSpace}>
