@@ -43,6 +43,7 @@ export default function <T>({
   options,
   onChange,
   forZkBadges,
+  removeArrow,
 }: {
   disabled?: boolean
   currentValue?: T
@@ -50,6 +51,7 @@ export default function <T>({
   options: Option<T>[]
   onChange: (selectedValue: T) => void
   forZkBadges?: boolean
+  removeArrow?: boolean
 }) {
   const [open, setOpen] = useState(false)
   const ref = createRef<HTMLDivElement>()
@@ -65,9 +67,11 @@ export default function <T>({
       disabled={disabled}
     >
       {selectedOption?.label || placeholder}
-      <div className={width('w-5')}>
-        <Arrow pulseDisabled open={open} />
-      </div>
+      {!removeArrow && (
+        <div className={width('w-5')}>
+          <Arrow pulseDisabled open={open} />
+        </div>
+      )}
     </button>
   )
 
