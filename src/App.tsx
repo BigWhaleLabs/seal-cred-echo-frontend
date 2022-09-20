@@ -13,7 +13,6 @@ import Layout from 'components/Layout'
 import Navbar from 'components/Navbar'
 import NotFound from 'pages/NotFound'
 import Privacy from 'pages/Privacy'
-import ScrollToTop from 'components/ScrollToTop'
 import Terms from 'pages/Terms'
 import TweetsList from 'components/TweetsList'
 import classnames, {
