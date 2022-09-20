@@ -21,6 +21,7 @@ module.exports = {
         rotate: 'rotate linear 3.5s infinite',
       },
       inset: {
+        '-2.5': '-0.65rem',
         '-8': '-2rem',
       },
       colors: {
@@ -80,6 +81,7 @@ module.exports = {
       },
       width: {
         body: '35rem',
+        'full-105': '105%',
       },
       maxWidth: {
         'processing-content': '28rem',
@@ -102,6 +104,7 @@ module.exports = {
         sm: '28.125rem',
         md: '37.5rem',
         body: '41rem',
+        tablet: '44rem',
       },
       padding: {
         25: '6.25rem',
