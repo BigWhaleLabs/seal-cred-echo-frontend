@@ -104,7 +104,7 @@ module.exports = {
         sm: '28.125rem',
         md: '37.5rem',
         body: '41rem',
-        xlg: '44rem',
+        tablet: '44rem',
       },
       padding: {
         25: '6.25rem',

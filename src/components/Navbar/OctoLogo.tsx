@@ -21,8 +21,8 @@ const strikethroughLogo = classnames(
 )
 const logoName = classnames(
   display('flex'),
-  flexDirection('flex-col', 'xlg:flex-row'),
-  alignItems('items-start', 'xlg:items-center'),
+  flexDirection('flex-col', 'tablet:flex-row'),
+  alignItems('items-start', 'tablet:items-center'),
   gap('gap-x-2')
 )
 

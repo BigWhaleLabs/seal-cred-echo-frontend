@@ -21,6 +21,19 @@ const accountLinkContainer = classnames(
   cursor('cursor-pointer')
 )
 
+function AccountLogo({ connected }: { connected?: boolean }) {
+  return (
+    <div className={width('w-fit')}>
+      <div className={displayTo('sm')}>
+        <SealWallet connected={connected} />
+      </div>
+      <div className={displayFrom('sm')}>
+        <SmallSealWallet connected={connected} />
+      </div>
+    </div>
+  )
+}
+
 export default function () {
   const { account } = useSnapshot(WalletStore)
   const connected = !!account
@@ -33,14 +46,7 @@ export default function () {
             <ENSAddress address={account} />
           </AccentText>
 
-          <div className={width('w-fit')}>
-            <div className={displayTo('sm')}>
-              <SealWallet connected={connected} />
-            </div>
-            <div className={displayFrom('sm')}>
-              <SmallSealWallet connected={connected} />
-            </div>
-          </div>
+          <AccountLogo connected />
         </div>
       </LinkText>
     )
@@ -55,14 +61,7 @@ export default function () {
         No wallet connected
       </AccentText>
 
-      <div className={width('w-fit')}>
-        <div className={displayTo('sm')}>
-          <SealWallet connected={connected} />
-        </div>
-        <div className={displayFrom('sm')}>
-          <SmallSealWallet connected={connected} />
-        </div>
-      </div>
+      <AccountLogo />
     </div>
   )
 }

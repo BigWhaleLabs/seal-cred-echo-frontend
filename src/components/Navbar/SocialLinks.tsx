@@ -3,14 +3,13 @@ import { displayFrom } from 'helpers/visibilityClassnames'
 import Discord from 'icons/Discord'
 import LastDelimiter from 'components/LastDelimiter'
 import Twitter from 'icons/Twitter'
-import classnames, { alignItems, display, gap } from 'classnames/tailwind'
+import classnames, { alignItems, gap } from 'classnames/tailwind'
 
-const socialContainer = classnames(
-  display('inline-flex'),
+const socialLinksContainer = classnames(
+  displayFrom('lg'),
   alignItems('items-center'),
   gap('gap-x-4')
 )
-const socialLinksContainer = classnames(socialContainer, displayFrom('lg'))
 
 export default function () {
   return (
