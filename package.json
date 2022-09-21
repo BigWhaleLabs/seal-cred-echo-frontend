@@ -30,6 +30,7 @@
     "@big-whale-labs/stores": "^0.1.17",
     "@coinbase/wallet-sdk": "^3.5.2",
     "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
+    "@lottiefiles/react-lottie-player": "^3.4.7",
     "@opengsn/common": "3.0.0-beta.1",
     "@opengsn/contracts": "3.0.0-beta.1",
     "@opengsn/provider": "3.0.0-beta.1",
