@@ -92,7 +92,6 @@ async function updateStatusesForSelectedPosts(
 }
 
 subscribeKey(PostStore, 'selectedPosts', updateStatusesForSelectedPosts)
-setInterval(() => updateStatusesForSelectedPosts(), 5000)
 
 setInterval(async () => {
   for (const name in Object.keys(data)) {
