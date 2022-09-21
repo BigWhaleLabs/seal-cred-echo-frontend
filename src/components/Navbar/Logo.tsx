@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom'
 import { LogoSubText, LogoText } from 'components/Text'
+import { Player } from '@lottiefiles/react-lottie-player'
 import {
   displayFrom,
   displayOnMdAndLarger,
   displayOnSmAndSmaller,
 } from 'helpers/visibilityClassnames'
-import Logo from 'icons/Logo'
+import { useRef } from 'preact/hooks'
+import AnimatedLogo from 'icons/AnimatedLogo'
 import classnames, {
   alignItems,
   display,
@@ -33,10 +35,12 @@ const logoTextUpperRow = classnames(logoTextRow, gap('gap-x-1', 'body:gap-x-4'))
 const logoTextBottomRow = classnames(logoTextRow, gap('gap-x-2'))
 
 export default function () {
+  const lottieRef = useRef<Player>()
+
   return (
     <Link to="/">
       <div className={container}>
-        <Logo />
+        <Player ref={lottieRef} hover src={AnimatedLogo} />
         <div className={logoTextContainer}>
           <div className={logoTextUpperRow}>
             <LogoText>SealCred</LogoText>
