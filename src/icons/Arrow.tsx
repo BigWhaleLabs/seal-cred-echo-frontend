@@ -36,6 +36,8 @@ export default function ({
   openDisabled,
   open,
 }: ArrowProps) {
+  const randomStrokeId = `stroke_${Math.random()}`
+
   return (
     <div className={svgInnerWrapper}>
       <svg
@@ -46,7 +48,7 @@ export default function ({
       >
         <path
           d="M10.75 1.25L6.25 5.75L1.75 1.25"
-          stroke="url(#paint0_linear_90_6626)"
+          stroke={`url(#${randomStrokeId})`}
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -54,7 +56,7 @@ export default function ({
         />
         <defs>
           <linearGradient
-            id="paint0_linear_90_6626"
+            id={randomStrokeId}
             x1="3.89285"
             y1="1.35547"
             x2="3.89285"

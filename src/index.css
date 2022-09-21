@@ -68,6 +68,10 @@
   );
 }
 
+* {
+  -webkit-tap-highlight-color: var(--transparent);
+}
+
 html {
   background-color: var(--primary-dark);
   scrollbar-color: var(--accent) transparent;

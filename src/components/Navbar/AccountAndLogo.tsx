@@ -10,6 +10,7 @@ import classnames, {
   cursor,
   display,
   space,
+  whitespace,
   width,
 } from 'classnames/tailwind'
 import getEtherscanAddressUrl from 'helpers/getEtherscanAddressUrl'
@@ -18,7 +19,8 @@ const accountLinkContainer = classnames(
   display('inline-flex'),
   alignItems('items-center'),
   space('xs:space-x-4', 'space-x-2'),
-  cursor('cursor-pointer')
+  cursor('cursor-pointer'),
+  whitespace('whitespace-nowrap')
 )
 
 function AccountLogo({ connected }: { connected?: boolean }) {
@@ -58,7 +60,8 @@ export default function () {
       onClick={async () => await WalletStore.connect(true)}
     >
       <AccentText color="text-primary-semi-dimmed">
-        No wallet connected
+        <span className={displayFrom('body')}>No wallet connected</span>
+        <span className={displayTo('body')}>No wallet</span>
       </AccentText>
 
       <AccountLogo />

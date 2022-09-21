@@ -1,6 +1,5 @@
+import { JSX, createRef, useState } from 'react'
 import { Option } from 'components/SealVerse/Option'
-import { createRef } from 'react'
-import { useState } from 'react'
 import Arrow from 'icons/Arrow'
 import Menu from 'components/SealVerse/Menu'
 import classnames, {
@@ -37,7 +36,7 @@ export default function ({
   options: Option[]
   onChange: (selectedValue: string) => void
   disabled?: boolean
-  staticPlaceholder?: string
+  staticPlaceholder?: string | JSX.Element
   fitToItemSize?: boolean
 }) {
   const [open, setOpen] = useState(false)
