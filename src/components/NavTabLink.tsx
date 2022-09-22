@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { TabBarText } from 'components/Text'
 import classnames, {
   display,
@@ -18,8 +18,13 @@ const navLinkStyle = ({ isActive }: { isActive: boolean }) =>
   )
 
 export default function ({ to, label }: { to: string; label: string }) {
+  const location = useLocation().pathname
   return (
-    <NavLink to={to} className={navLinkStyle}>
+    <NavLink
+      exact
+      to={to}
+      className={navLinkStyle({ isActive: to === location })}
+    >
       <TabBarText>{label}</TabBarText>
     </NavLink>
   )
