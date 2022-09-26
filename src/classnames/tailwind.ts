@@ -4152,7 +4152,6 @@ export type TBoxShadow =
   | 'shadow-2xl'
   | 'shadow-inner'
   | 'shadow-none'
-  | 'shadow-inner-card'
   | 'shadow-button'
   | 'shadow-button-active'
 

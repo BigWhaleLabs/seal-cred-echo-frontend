@@ -29,7 +29,7 @@ const cardContainer = (small?: boolean, alert?: boolean) => {
     borderWidth('border'),
     borderColor('border-half-grey'),
     borderRadius('rounded-2xl'),
-    boxShadow('shadow-inner-card'),
+    boxShadow('shadow-inner'),
     boxShadowColor('shadow-light-formal-accent'),
     backgroundColor('bg-primary-dark'),
     padding(small ? 'p-4' : 'p-6'),

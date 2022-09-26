@@ -111,7 +111,6 @@ module.exports = {
         25: '6.25rem',
       },
       boxShadow: {
-        'inner-card': 'inset 0 0 0.5rem rgb(0 0 0 / 0.25)',
         lg: '0rem 0rem 1rem 0rem rgb(0 0 0 / 0.25)',
         button: '0rem 0rem 1.625rem rgb(0 0 0 / 1)',
         'button-active': '0rem 0rem 0.375rem rgb(0 0 0 / 1)',
