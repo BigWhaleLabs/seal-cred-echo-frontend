@@ -63,6 +63,7 @@ module.exports = {
         'tertiary-semi-transparent': 'var(--tertiary-semi-transparent)',
         'formal-accent-semi-transparent':
           'var(--formal-accent-semi-transparent)',
+        'light-formal-accent': 'var(--light-formal-accent)',
         'error-semi-transparent': 'var(--error-semi-transparent)',
       },
       strokeWidth: { 1.5: '1.5' },
