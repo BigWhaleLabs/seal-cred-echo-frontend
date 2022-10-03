@@ -13,7 +13,9 @@ import classnames, {
   display,
   flexDirection,
   gap,
+  maxWidth,
   space,
+  width,
 } from 'classnames/tailwind'
 
 const container = classnames(
@@ -33,6 +35,11 @@ const logoTextRow = classnames(
 )
 const logoTextUpperRow = classnames(logoTextRow, gap('gap-x-1', 'body:gap-x-4'))
 const logoTextBottomRow = classnames(logoTextRow, gap('gap-x-2'))
+const logoWrapper = classnames(
+  display('flex'),
+  width('w-full'),
+  maxWidth('max-w-14')
+)
 
 export default function () {
   const lottieRef = useRef<Player>()
@@ -40,7 +47,9 @@ export default function () {
   return (
     <Link to="/">
       <div className={container}>
-        <Player ref={lottieRef} hover src={AnimatedLogo} />
+        <div className={logoWrapper}>
+          <Player ref={lottieRef} hover src={AnimatedLogo} />
+        </div>
         <div className={logoTextContainer}>
           <div className={logoTextUpperRow}>
             <LogoText>SealCred</LogoText>

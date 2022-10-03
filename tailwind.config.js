@@ -85,6 +85,7 @@ module.exports = {
         'full-105': '105%',
       },
       maxWidth: {
+        14: '3.5rem',
         'processing-content': '28rem',
         alert: '33rem',
       },
