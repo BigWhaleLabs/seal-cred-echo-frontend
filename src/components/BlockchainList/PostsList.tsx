@@ -48,7 +48,7 @@ function BlockchainPostsListSuspended() {
           loadedPostAmount: amountOfLoadedPosts,
         })
         PostStore.posts[selectedType] = Promise.resolve([
-          ...selectedPosts,
+          ...(await PostStore.selectedPosts),
           ...newPosts,
         ])
         setScrolledLimit(PostStore.limit)
@@ -67,7 +67,7 @@ function BlockchainPostsListSuspended() {
           text={post.post}
           sender={post.sender}
           derivativeAddress={post.derivativeAddress}
-          postType={selectedType}
+          postType={SelectedTypeStore.selectedType}
         />
       ))}
     </InfiniteScroll>
