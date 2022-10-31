@@ -118,7 +118,12 @@ class WalletStore extends PersistableStore {
     const contract = postStorageContracts[ledgerType].connect(
       ethersProvider.getSigner(0)
     )
-    const transaction = await contract.savePost(text, original)
+    const transaction = await contract.savePost(
+      text,
+      original,
+      0,
+      `0x0000000000000000000000000000000000000000000000000000000000000000`
+    )
     const result = await transaction.wait()
 
     return Promise.all(

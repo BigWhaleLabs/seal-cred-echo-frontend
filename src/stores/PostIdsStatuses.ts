@@ -94,7 +94,7 @@ async function updateStatusesForSelectedPosts(
 subscribeKey(PostStore, 'selectedPosts', updateStatusesForSelectedPosts)
 
 setInterval(async () => {
-  for (const name in Object.keys(data)) {
+  for (const name of Object.keys(data)) {
     if (!postStatusStore.statuses[name]) return
     const ids: number[] = []
 
@@ -107,7 +107,7 @@ setInterval(async () => {
         }
       )
     )
-    if (!ids) return
+    if (!ids.length) return
 
     await checkStatuses({
       name: name as DataKeys,
