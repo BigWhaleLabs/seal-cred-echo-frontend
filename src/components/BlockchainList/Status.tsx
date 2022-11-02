@@ -32,7 +32,7 @@ const statusContainer = (status: PostStatus) =>
 export function StatusSuspended({ blockchainId }: { blockchainId: number }) {
   const { selectedType } = useSnapshot(SelectedTypeStore)
   const { currentStatuses } = useSnapshot(postIdsStatuses)
-  const status = currentStatuses[blockchainId]?.status
+  const status = currentStatuses[blockchainId - 1]?.status
 
   return (
     <a
