@@ -48,7 +48,7 @@ export default function () {
   const maxLength = 280 - suffix.length
   const postInvalid = text.length > maxLength
   catchUnhandledRejection((error: unknown) => {
-    handleError(new Error(ErrorList.failedPost))
+    handleError(error)
     setLoading(false)
     setError(error)
   })
