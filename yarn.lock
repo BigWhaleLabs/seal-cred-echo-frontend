@@ -1667,6 +1667,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@big-whale-labs/constants@npm:^0.1.73":
+  version: 0.1.73
+  resolution: "@big-whale-labs/constants@npm:0.1.73"
+  checksum: 4ef845aa29b362748c6de31077d788c45fd2b38e2144d95e221ddc449776bbc4df085ea500d172ffc4048d7a42f8c8839017797a6d286411c025f7d467be9ea8
+  languageName: node
+  linkType: hard
+
 "@big-whale-labs/frontend-utils@npm:^0.0.10":
   version: 0.0.10
   resolution: "@big-whale-labs/frontend-utils@npm:0.0.10"
@@ -16544,7 +16551,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "seal-cred-echo-frontend@workspace:."
   dependencies:
-    "@big-whale-labs/constants": ^0.1.29
+    "@big-whale-labs/constants": ^0.1.73
     "@big-whale-labs/frontend-utils": ^0.0.10
     "@big-whale-labs/seal-cred-ledger-contract": ^0.2.8
     "@big-whale-labs/seal-cred-posts-contract": ^0.0.13
