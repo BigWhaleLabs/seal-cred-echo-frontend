@@ -304,6 +304,7 @@ export type TBackgroundColor =
   | 'bg-secondary-semi-transparent'
   | 'bg-tertiary-semi-transparent'
   | 'bg-formal-accent-semi-transparent'
+  | 'bg-light-formal-accent'
   | 'bg-error-semi-transparent'
 
 export type TBackgroundPosition =
@@ -1090,6 +1091,9 @@ export type TGradientColorStops =
   | 'from-formal-accent-semi-transparent'
   | 'via-formal-accent-semi-transparent'
   | 'to-formal-accent-semi-transparent'
+  | 'from-light-formal-accent'
+  | 'via-light-formal-accent'
+  | 'to-light-formal-accent'
   | 'from-error-semi-transparent'
   | 'via-error-semi-transparent'
   | 'to-error-semi-transparent'
@@ -2843,6 +2847,11 @@ export type TBorderColor =
   | 'border-r-formal-accent-semi-transparent'
   | 'border-b-formal-accent-semi-transparent'
   | 'border-l-formal-accent-semi-transparent'
+  | 'border-light-formal-accent'
+  | 'border-t-light-formal-accent'
+  | 'border-r-light-formal-accent'
+  | 'border-b-light-formal-accent'
+  | 'border-l-light-formal-accent'
   | 'border-error-semi-transparent'
   | 'border-t-error-semi-transparent'
   | 'border-r-error-semi-transparent'
@@ -3507,6 +3516,7 @@ export type TRingColor =
   | 'ring-secondary-semi-transparent'
   | 'ring-tertiary-semi-transparent'
   | 'ring-formal-accent-semi-transparent'
+  | 'ring-light-formal-accent'
   | 'ring-error-semi-transparent'
 
 export type TRingWidth =
@@ -3790,6 +3800,7 @@ export type TRingOffsetColor =
   | 'ring-offset-secondary-semi-transparent'
   | 'ring-offset-tertiary-semi-transparent'
   | 'ring-offset-formal-accent-semi-transparent'
+  | 'ring-offset-light-formal-accent'
   | 'ring-offset-error-semi-transparent'
 
 export type TRingOffsetWidth =
@@ -4067,6 +4078,7 @@ export type TOutlineColor =
   | 'outline-secondary-semi-transparent'
   | 'outline-tertiary-semi-transparent'
   | 'outline-formal-accent-semi-transparent'
+  | 'outline-light-formal-accent'
   | 'outline-error-semi-transparent'
 
 export type TBorders =
@@ -4142,6 +4154,7 @@ export type TBoxShadow =
   | 'shadow-none'
   | 'shadow-button'
   | 'shadow-button-active'
+  | 'shadow-card'
 
 export type TBoxShadowColor =
   | 'shadow-inherit'
@@ -4397,6 +4410,7 @@ export type TBoxShadowColor =
   | 'shadow-secondary-semi-transparent'
   | 'shadow-tertiary-semi-transparent'
   | 'shadow-formal-accent-semi-transparent'
+  | 'shadow-light-formal-accent'
   | 'shadow-error-semi-transparent'
 
 export type TOpacity =
@@ -5987,6 +6001,7 @@ export type TCaretColor =
   | 'caret-secondary-semi-transparent'
   | 'caret-tertiary-semi-transparent'
   | 'caret-formal-accent-semi-transparent'
+  | 'caret-light-formal-accent'
   | 'caret-error-semi-transparent'
 
 export type TWillChange =
@@ -6250,6 +6265,7 @@ export type TAccentColor =
   | 'accent-secondary-semi-transparent'
   | 'accent-tertiary-semi-transparent'
   | 'accent-formal-accent-semi-transparent'
+  | 'accent-light-formal-accent'
   | 'accent-error-semi-transparent'
 
 export type TScrollPadding =
@@ -7190,6 +7206,13 @@ export type TInset =
   | 'right-full'
   | 'bottom-full'
   | 'left-full'
+  | '-inset-2.5'
+  | '-inset-x-2.5'
+  | '-inset-y-2.5'
+  | '-top-2.5'
+  | '-right-2.5'
+  | '-bottom-2.5'
+  | '-left-2.5'
   | '-inset-8'
   | '-inset-x-8'
   | '-inset-y-8'
@@ -7329,6 +7352,7 @@ export type TWidth =
   | 'w-max'
   | 'w-fit'
   | 'w-body'
+  | 'w-full-105'
 
 export type TMinWidth =
   | 'min-w-0'
@@ -7339,6 +7363,7 @@ export type TMinWidth =
 
 export type TMaxWidth =
   | 'max-w-0'
+  | 'max-w-14'
   | 'max-w-none'
   | 'max-w-xs'
   | 'max-w-sm'
@@ -7366,6 +7391,7 @@ export type TMaxWidth =
   | 'max-w-screen-xxs'
   | 'max-w-screen-xs'
   | 'max-w-screen-body'
+  | 'max-w-screen-tablet'
 
 export type THeight =
   | 'h-0'
@@ -7542,6 +7568,7 @@ export type TFill =
   | 'fill-secondary-semi-transparent'
   | 'fill-tertiary-semi-transparent'
   | 'fill-formal-accent-semi-transparent'
+  | 'fill-light-formal-accent'
   | 'fill-error-semi-transparent'
 
 export type TStroke =
@@ -7597,6 +7624,7 @@ export type TStroke =
   | 'stroke-secondary-semi-transparent'
   | 'stroke-tertiary-semi-transparent'
   | 'stroke-formal-accent-semi-transparent'
+  | 'stroke-light-formal-accent'
   | 'stroke-error-semi-transparent'
 
 export type TStrokeWidth = 'stroke-0' | 'stroke-1' | 'stroke-2' | 'stroke-1.5'
@@ -8137,6 +8165,7 @@ export type TPlaceholderColor =
   | 'placeholder-secondary-semi-transparent'
   | 'placeholder-tertiary-semi-transparent'
   | 'placeholder-formal-accent-semi-transparent'
+  | 'placeholder-light-formal-accent'
   | 'placeholder-error-semi-transparent'
 
 export type TPlaceholderOpacity =
@@ -8410,6 +8439,7 @@ export type TTextColor =
   | 'text-secondary-semi-transparent'
   | 'text-tertiary-semi-transparent'
   | 'text-formal-accent-semi-transparent'
+  | 'text-light-formal-accent'
   | 'text-error-semi-transparent'
 
 export type TTextOpacity =
@@ -8723,6 +8753,7 @@ export type TTextDecorationColor =
   | 'decoration-secondary-semi-transparent'
   | 'decoration-tertiary-semi-transparent'
   | 'decoration-formal-accent-semi-transparent'
+  | 'decoration-light-formal-accent'
   | 'decoration-error-semi-transparent'
 
 export type TTextDecorationThickness =
@@ -8827,6 +8858,7 @@ export type TPseudoClassVariants =
   | 'xxs:'
   | 'xs:'
   | 'body:'
+  | 'tablet:'
 
 //////////// Utility Function generic type
 

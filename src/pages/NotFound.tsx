@@ -1,3 +1,4 @@
+import { displayFrom, displayTo } from 'helpers/visibilityClassnames'
 import Button from 'components/Button'
 import classNamesToString from 'helpers/classNamesToString'
 import classnames, {
@@ -45,6 +46,21 @@ const strokeText = classNamesToString(
 const imageStyles = width('w-80', 'xl:w-full')
 const displayFromMd = display('hidden', 'xl:block')
 
+function ReturnHomeButton() {
+  return (
+    <>
+      <a href="/" className={displayTo('sm')}>
+        <Button small type="primary">
+          Self destruct and leave
+        </Button>
+      </a>
+      <a href="/" className={displayFrom('sm')}>
+        <Button type="primary">Self destruct and leave</Button>
+      </a>
+    </>
+  )
+}
+
 export default function () {
   document.title = '🐙 OCTOCORP'
 
@@ -62,9 +78,7 @@ export default function () {
       <span className={textStyles}>
         Initiate self-destruct sequence and return home to escape OCTOCORP!
       </span>
-      <a href="/">
-        <Button type="primary">Self destruct and leave</Button>
-      </a>
+      <ReturnHomeButton />
     </div>
   )
 }

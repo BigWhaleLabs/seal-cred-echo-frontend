@@ -1,5 +1,5 @@
 import { Suspense, memo } from 'react'
-import { display } from 'classnames/tailwind'
+import { display, fontSize } from 'classnames/tailwind'
 import { truncateMiddleIfNeeded } from '@big-whale-labs/frontend-utils'
 import { useSnapshot } from 'valtio'
 import ENSStore from 'stores/ENSStore'
@@ -19,7 +19,7 @@ function ENSAddressSuspended({
   if (!eNSName) ENSStore.fetchENSName(address)
 
   return (
-    <span>
+    <span className={fontSize('text-sm', 'xs:text-base')}>
       {truncate
         ? truncateMiddleIfNeeded(eNSName || address, truncateSize)
         : eNSName && eNSName !== null
@@ -47,7 +47,7 @@ function ENSAddress({ address, truncateSize }: ENSAddressProps) {
 
 export default memo<ENSAddressProps>(({ address, truncateSize }) => {
   return (
-    <span>
+    <>
       <span className={display('block', 'md:hidden')}>
         <ENSAddress address={address} truncateSize={truncateSize || 11} />
       </span>
@@ -57,6 +57,6 @@ export default memo<ENSAddressProps>(({ address, truncateSize }) => {
       <span className={display('hidden', 'lg:block')}>
         <ENSAddress address={address} truncateSize={truncateSize || 25} />
       </span>
-    </span>
+    </>
   )
 })

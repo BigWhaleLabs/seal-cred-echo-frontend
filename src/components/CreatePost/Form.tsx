@@ -48,7 +48,7 @@ export default function () {
   const maxLength = 280 - suffix.length
   const postInvalid = text.length > maxLength
   catchUnhandledRejection((error: unknown) => {
-    handleError(new Error(ErrorList.failedPost))
+    handleError(error)
     setLoading(false)
     setError(error)
   })
@@ -126,14 +126,21 @@ export default function () {
                     ...posts,
                   ])
 
+                  const blockchainId = id.toNumber()
+                  const store = ledgerType as DataKeys
                   PostIdsStatuses.lastUserPost = {
                     [account]: {
-                      store: ledgerType as DataKeys,
-                      blockchainId: id.toNumber(),
+                      store,
+                      blockchainId,
                       status: PostStatus.pending,
                     },
                     ...PostIdsStatuses.lastUserPost,
                   }
+
+                  PostIdsStatuses.statuses[store][blockchainId] =
+                    Promise.resolve({
+                      status: PostStatus.pending,
+                    })
 
                   setText('')
                 }

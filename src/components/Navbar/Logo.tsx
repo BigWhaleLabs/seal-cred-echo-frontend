@@ -1,16 +1,21 @@
 import { Link } from 'react-router-dom'
 import { LogoSubText, LogoText } from 'components/Text'
+import { Player } from '@lottiefiles/react-lottie-player'
 import {
+  displayFrom,
   displayOnMdAndLarger,
   displayOnSmAndSmaller,
 } from 'helpers/visibilityClassnames'
-import Logo from 'icons/Logo'
+import { useRef } from 'preact/hooks'
+import AnimatedLogo from 'icons/AnimatedLogo'
 import classnames, {
   alignItems,
   display,
   flexDirection,
   gap,
+  maxWidth,
   space,
+  width,
 } from 'classnames/tailwind'
 
 const container = classnames(
@@ -19,7 +24,7 @@ const container = classnames(
   space('space-x-4')
 )
 const logoTextContainer = classnames(
-  display('sm:flex', 'hidden'),
+  displayFrom('md'),
   flexDirection('flex-col'),
   space('space-y-1')
 )
@@ -28,14 +33,23 @@ const logoTextRow = classnames(
   flexDirection('flex-row'),
   alignItems('items-center')
 )
-const logoTextUpperRow = classnames(logoTextRow, gap('gap-x-4'))
+const logoTextUpperRow = classnames(logoTextRow, gap('gap-x-1', 'body:gap-x-4'))
 const logoTextBottomRow = classnames(logoTextRow, gap('gap-x-2'))
+const logoWrapper = classnames(
+  display('flex'),
+  width('w-full'),
+  maxWidth('max-w-14')
+)
 
 export default function () {
+  const lottieRef = useRef<Player>()
+
   return (
     <Link to="/">
       <div className={container}>
-        <Logo />
+        <div className={logoWrapper}>
+          <Player ref={lottieRef} hover src={AnimatedLogo} />
+        </div>
         <div className={logoTextContainer}>
           <div className={logoTextUpperRow}>
             <LogoText>SealCred</LogoText>

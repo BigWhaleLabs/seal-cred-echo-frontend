@@ -24,21 +24,28 @@ const statusContainer = (status: PostStatus) =>
       'bg-primary-dimmed':
         status === PostStatus.pending || status === PostStatus.approved,
       'bg-primary-background': status === PostStatus.published,
-      'bg-error': status === PostStatus.rejected,
+      'bg-error':
+        status === PostStatus.rejected || status === PostStatus.failedToPost,
     })
   )
 
 export function StatusSuspended({ blockchainId }: { blockchainId: number }) {
   const { selectedType } = useSnapshot(SelectedTypeStore)
   const { currentStatuses } = useSnapshot(postIdsStatuses)
-  const status = currentStatuses[blockchainId]?.status
+  const status = currentStatuses[blockchainId - 1]?.status
 
   return (
     <a
       href={`#store=${selectedType}&id=${blockchainId}`}
       className={statusContainer(status || PostStatus.pending)}
     >
-      <StatusText color={status === PostStatus.rejected ? 'dark' : 'default'}>
+      <StatusText
+        color={
+          status === PostStatus.rejected || status === PostStatus.failedToPost
+            ? 'dark'
+            : 'default'
+        }
+      >
         {PostStatusText[status] || 'Loading...'}
       </StatusText>
     </a>

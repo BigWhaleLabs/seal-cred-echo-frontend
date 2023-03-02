@@ -21,6 +21,7 @@ module.exports = {
         rotate: 'rotate linear 3.5s infinite',
       },
       inset: {
+        '-2.5': '-0.65rem',
         '-8': '-2rem',
       },
       colors: {
@@ -62,6 +63,7 @@ module.exports = {
         'tertiary-semi-transparent': 'var(--tertiary-semi-transparent)',
         'formal-accent-semi-transparent':
           'var(--formal-accent-semi-transparent)',
+        'light-formal-accent': 'var(--light-formal-accent)',
         'error-semi-transparent': 'var(--error-semi-transparent)',
       },
       strokeWidth: { 1.5: '1.5' },
@@ -80,8 +82,10 @@ module.exports = {
       },
       width: {
         body: '35rem',
+        'full-105': '105%',
       },
       maxWidth: {
+        14: '3.5rem',
         'processing-content': '28rem',
         alert: '33rem',
       },
@@ -102,6 +106,7 @@ module.exports = {
         sm: '28.125rem',
         md: '37.5rem',
         body: '41rem',
+        tablet: '44rem',
       },
       padding: {
         25: '6.25rem',
@@ -110,6 +115,7 @@ module.exports = {
         lg: '0rem 0rem 1rem 0rem rgb(0 0 0 / 0.25)',
         button: '0rem 0rem 1.625rem rgb(0 0 0 / 1)',
         'button-active': '0rem 0rem 0.375rem rgb(0 0 0 / 1)',
+        card: 'inset 0rem 0rem 0.5rem 0 rgb(0 0 0 / 0.05)',
       },
     },
     container: {
