@@ -1,5 +1,5 @@
 import { LinkText } from 'components/Text'
-import { Suspense } from 'preact/compat'
+import { Suspense, useMemo } from 'preact/compat'
 import { useSnapshot } from 'valtio'
 import Delimiter from 'components/Delimiter'
 import postIdsStatuses from 'stores/PostIdsStatuses'
@@ -29,9 +29,11 @@ function TwitterLinkSuspended({ blockchainId }: TwitterLinkProps) {
 }
 
 export default function ({ blockchainId }: TwitterLinkProps) {
+  const id = useMemo(() => blockchainId - 1, [blockchainId])
+
   return (
     <Suspense fallback={null}>
-      <TwitterLinkSuspended blockchainId={blockchainId} />
+      <TwitterLinkSuspended blockchainId={id} />
     </Suspense>
   )
 }
