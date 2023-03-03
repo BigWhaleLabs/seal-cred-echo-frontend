@@ -1,5 +1,6 @@
 import { LoadingText } from 'components/Text'
 import { Suspense, useState } from 'preact/compat'
+import { useLocation } from 'react-router-dom'
 import { useSnapshot } from 'valtio'
 import BlockchainPost from 'components/BlockchainList/BlockchainPost'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -25,7 +26,8 @@ function BlockchainPostsListSuspended() {
     useSnapshot(PostStore)
   const { selectedType } = useSnapshot(SelectedTypeStore)
   const totalPosts = postsAmount[selectedType]
-  const { hashStore, hashId } = useHashParams()
+  const { hash } = useLocation()
+  const { hashStore, hashId } = useHashParams(hash)
   const matchStore = hashStore && hashStore === selectedType
   const [scrolledLimit, setScrolledLimit] = useState(limit)
   const amountOfLoadedPosts = selectedPosts.length
