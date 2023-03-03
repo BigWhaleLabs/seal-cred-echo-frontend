@@ -4,15 +4,11 @@ import { useSnapshot } from 'valtio'
 import Delimiter from 'components/Delimiter'
 import postIdsStatuses from 'stores/PostIdsStatuses'
 
-interface TwitterLinkProps {
-  blockchainId: number
-}
-
-function TwitterLinkSuspended({ blockchainId }: TwitterLinkProps) {
+function TwitterLinkSuspended({ statusIndex }: { statusIndex: number }) {
   const { currentStatuses } = useSnapshot(postIdsStatuses)
 
-  if (!currentStatuses[blockchainId]) return null
-  const { serviceId } = currentStatuses[blockchainId]
+  if (!currentStatuses[statusIndex]) return null
+  const { serviceId } = currentStatuses[statusIndex]
 
   return (
     <>
@@ -28,10 +24,10 @@ function TwitterLinkSuspended({ blockchainId }: TwitterLinkProps) {
   )
 }
 
-export default function ({ blockchainId }: TwitterLinkProps) {
+export default function ({ blockchainId }: { blockchainId: number }) {
   return (
     <Suspense fallback={null}>
-      <TwitterLinkSuspended blockchainId={blockchainId} />
+      <TwitterLinkSuspended statusIndex={blockchainId - 1} />
     </Suspense>
   )
 }
