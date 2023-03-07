@@ -1,5 +1,5 @@
-export default function () {
-  const url = window.location.href
+export default function (hash?: string) {
+  const url = hash || window.location.href
   const regExStore = /store=(\w+|\w+\d+)/
   const regExId = /id=(\d+)/
 
