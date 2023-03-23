@@ -49,12 +49,12 @@ const displayFromMd = display('hidden', 'xl:block')
 function ReturnHomeButton() {
   return (
     <>
-      <a href="/" className={displayTo('sm')}>
+      <a className={displayTo('sm')} href="/">
         <Button small type="primary">
           Self destruct and leave
         </Button>
       </a>
-      <a href="/" className={displayFrom('sm')}>
+      <a className={displayFrom('sm')} href="/">
         <Button type="primary">Self destruct and leave</Button>
       </a>
     </>

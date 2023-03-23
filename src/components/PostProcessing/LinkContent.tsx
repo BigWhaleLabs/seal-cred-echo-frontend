@@ -1,16 +1,16 @@
 import Button from 'components/Button'
 
 export default function ({
-  text,
   onClick,
+  text,
 }: {
   text: string
   onClick?: () => void
 }) {
   return (
     <Button
-      small
       gradientFont
+      small
       withArrow
       onClick={() => (onClick ? onClick() : undefined)}
     >

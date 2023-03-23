@@ -11,7 +11,7 @@ function NoBadgesMessageSuspended() {
   return (
     <div className={width('w-fit')}>
       <LinkText url="https://sealcred.xyz/app">
-        <Button type="primary" title="Create a ZK Badge to Tweet">
+        <Button title="Create a ZK Badge to Tweet" type="primary">
           Create a ZK Badge to Tweet
         </Button>
       </LinkText>

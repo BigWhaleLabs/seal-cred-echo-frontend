@@ -69,20 +69,17 @@ export default function () {
           status === 'loading' && <ListLoading text="Fetching twitter widget" />
         )}
         <div
+          className={tweetWidget(status !== 'content')}
           id="twitter_timeline"
           ref={ref}
-          className={tweetWidget(status !== 'content')}
         >
           <Timeline
             dataSource={{
-              sourceType: 'profile',
               screenName: data[selectedType].twitter,
+              sourceType: 'profile',
             }}
             options={{
-              theme: 'dark',
-              linkColor: '#15A1FC',
               borderColor: '#2F3336',
-              tweetLimit: 50,
               chrome: [
                 'noheader',
                 'nofooter',
@@ -90,14 +87,17 @@ export default function () {
                 'noscrollbar',
                 'transparent',
               ].join(' '),
-              width: '100%',
               hide_media: true,
               hide_thread: true,
+              linkColor: '#15A1FC',
+              theme: 'dark',
+              tweetLimit: 50,
+              width: '100%',
             }}
-            onLoad={() => setStatus('content')}
             renderError={() => {
               setStatus('error')
             }}
+            onLoad={() => setStatus('content')}
           />
         </div>
       </div>

@@ -29,24 +29,24 @@ const headerTextWrapper = classnames(
 )
 
 export default function () {
-  const { walletLoading, needNetworkChange } = useSnapshot(WalletStore)
+  const { needNetworkChange, walletLoading } = useSnapshot(WalletStore)
 
   return (
     <div className={connectBlockWrapper}>
       <div className={headerTextWrapper}>
         <AnonymousAvatar />
         <StaticHeaderText bold>Create your anonymous tweet</StaticHeaderText>
-        <AccentText color="text-white" small>
+        <AccentText small color="text-white">
           Tweet anonymously using your ZK badges.
         </AccentText>
       </div>
 
-      <StaticHeaderText subheading bold>
+      <StaticHeaderText bold subheading>
         Connect your wallet to start
       </StaticHeaderText>
       <Button
-        type="primary"
         loading={walletLoading}
+        type="primary"
         onClick={async () => {
           await WalletStore.connect(true)
         }}

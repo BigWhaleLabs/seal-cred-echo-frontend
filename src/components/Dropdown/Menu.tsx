@@ -40,11 +40,11 @@ const menuItem = (selected?: boolean) =>
   )
 
 export default function <T>({
+  forZkBadges,
+  onSelect,
   open,
   options,
   selected,
-  onSelect,
-  forZkBadges,
 }: {
   open: boolean
   options: Option<T>[]
@@ -57,8 +57,8 @@ export default function <T>({
       <ItemContainer withPadding forZkBadges={forZkBadges}>
         {options.map((option) => (
           <p
-            key={option.value}
             className={menuItem(option.value === selected?.value)}
+            key={option.value}
             onClick={() => {
               onSelect(option)
             }}

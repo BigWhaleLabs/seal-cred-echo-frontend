@@ -58,9 +58,9 @@ const commonClasses = (
     outlineStyle('focus:outline-none'),
     opacity({ 'opacity-50': !available }),
     boxShadow({
-      'shadow-2xl': availableAndNotDefault,
-      'hover:shadow-lg': availableAndNotDefault,
       'active:shadow-button-active': availableAndNotDefault,
+      'hover:shadow-lg': availableAndNotDefault,
+      'shadow-2xl': availableAndNotDefault,
     }),
     width('md:w-fit', { 'w-full': fullWidthOnMobile }),
     textAlign(center ? 'text-center' : undefined),
@@ -69,8 +69,8 @@ const commonClasses = (
     notDefaultType
       ? padding(
           small
-            ? { 'py-2': true, 'px-4': true }
-            : { 'py-4': true, 'px-6': true }
+            ? { 'px-4': true, 'py-2': true }
+            : { 'px-6': true, 'py-4': true }
         )
       : undefined,
     space('space-x-2')
@@ -78,11 +78,11 @@ const commonClasses = (
 }
 
 const button = ({
-  center,
-  type,
   available,
-  small,
+  center,
   fullWidthOnMobile,
+  small,
+  type,
 }: ButtonProps & { available?: boolean }) =>
   classnames(
     commonClasses(type, center, available, small, fullWidthOnMobile),
@@ -103,8 +103,8 @@ const colorClasses = (available?: boolean, type?: ButtonType) =>
           ),
           boxShadow({ 'shadow-button': available }),
           brightness({
-            'hover:brightness-95': available,
             'active:brightness-90': available,
+            'hover:brightness-95': available,
           })
         )
       : type === 'secondary'
@@ -115,10 +115,10 @@ const colorClasses = (available?: boolean, type?: ButtonType) =>
           backgroundImage('bg-gradient-to-r'),
           textColor('text-secondary'),
           gradientColorStops({
-            'hover:from-accent-light-transparent': available,
-            'hover:to-secondary-light-transparent': available,
             'active:from-accent-light-active-transparent': available,
             'active:to-secondary-light-active-transparent': available,
+            'hover:from-accent-light-transparent': available,
+            'hover:to-secondary-light-transparent': available,
           })
         )
       : backgroundColor('bg-transparent')
@@ -127,8 +127,8 @@ const colorClasses = (available?: boolean, type?: ButtonType) =>
 const textGradient = (available?: boolean) =>
   classnames(
     textColor({
-      'text-transparent': true,
       'active:text-accent': available,
+      'text-transparent': true,
     }),
     backgroundClip('bg-clip-text'),
     backgroundImage('bg-gradient-to-r'),
@@ -149,16 +149,16 @@ interface ButtonProps {
 type ButtonType = 'primary' | 'secondary' | 'default'
 
 export default function ({
-  type = 'default',
   center,
-  small,
-  withArrow,
-  loading,
-  disabled,
   children,
-  gradientFont,
-  loadingOverflow,
+  disabled,
   fullWidthOnMobile,
+  gradientFont,
+  loading,
+  loadingOverflow,
+  small,
+  type = 'default',
+  withArrow,
   ...rest
 }: Omit<React.HTMLAttributes<HTMLButtonElement>, 'loading'> & ButtonProps) {
   const showContent = !loadingOverflow || !loading
@@ -166,14 +166,14 @@ export default function ({
 
   return (
     <button
-      className={button({
-        type,
-        center,
-        available,
-        small,
-        fullWidthOnMobile,
-      })}
       disabled={!available}
+      className={button({
+        available,
+        center,
+        fullWidthOnMobile,
+        small,
+        type,
+      })}
       {...rest}
     >
       {loading && <Spinner small={small} />}

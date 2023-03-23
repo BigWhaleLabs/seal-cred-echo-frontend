@@ -25,12 +25,12 @@ const button = classnames(
 const container = classnames(position('relative'), margin('my-2'))
 
 export default function ({
-  disabled,
   currentValue,
-  options,
-  onChange,
-  staticPlaceholder,
+  disabled,
   fitToItemSize,
+  onChange,
+  options,
+  staticPlaceholder,
 }: {
   currentValue: string
   options: Option[]
@@ -46,9 +46,9 @@ export default function ({
 
   const selectedElement = (
     <button
-      onClick={() => options.length && setOpen(!open)}
       className={button}
       disabled={disabled}
+      onClick={() => options.length && setOpen(!open)}
     >
       <span className={fontSize('text-sm')}>
         {staticPlaceholder || currentValue}
@@ -63,14 +63,14 @@ export default function ({
     <div className={container} ref={ref}>
       {selectedElement}
       <Menu
+        fitToItemSize={fitToItemSize}
         open={open}
         options={options}
         selected={currentValue}
-        onSelect={({ value, label }) => {
+        onSelect={({ label, value }) => {
           onChange(value || label)
           setOpen(false)
         }}
-        fitToItemSize={fitToItemSize}
       />
     </div>
   )

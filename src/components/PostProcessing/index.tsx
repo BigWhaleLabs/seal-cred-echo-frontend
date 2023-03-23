@@ -37,15 +37,15 @@ const PostState = ({
     case PostStatus.published:
       return (
         <TweetSuccessful
-          storeName={storeName}
           serviceId={lastUserPostData.serviceId}
+          storeName={storeName}
         />
       )
     case PostStatus.rejected:
       return (
         <PostRejected
-          store={lastUserPostData.store}
           blockchainId={lastUserPostData.blockchainId}
+          store={lastUserPostData.store}
         />
       )
     default:

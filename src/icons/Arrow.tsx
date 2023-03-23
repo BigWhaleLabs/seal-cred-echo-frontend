@@ -31,37 +31,37 @@ interface ArrowProps {
 }
 
 export default function ({
-  pulseDisabled,
   horizontal,
-  openDisabled,
   open,
+  openDisabled,
+  pulseDisabled,
 }: ArrowProps) {
   const randomStrokeId = `stroke_${Math.random()}`
 
   return (
     <div className={svgInnerWrapper}>
       <svg
-        viewBox={horizontal ? '0 0 14 14' : '0 0 14 7'}
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
         className={arrowAnimation(pulseDisabled, openDisabled, open)}
+        fill="none"
+        viewBox={horizontal ? '0 0 14 14' : '0 0 14 7'}
+        xmlns="http://www.w3.org/2000/svg"
       >
         <path
           d="M10.75 1.25L6.25 5.75L1.75 1.25"
           stroke={`url(#${randomStrokeId})`}
-          stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
+          stroke-width="2"
           transform={horizontal ? 'rotate(-90 7 7)' : undefined}
         />
         <defs>
           <linearGradient
+            gradientUnits="userSpaceOnUse"
             id={randomStrokeId}
             x1="3.89285"
-            y1="1.35547"
             x2="3.89285"
+            y1="1.35547"
             y2="5.75"
-            gradientUnits="userSpaceOnUse"
           >
             <stop stop-color="#FF7BED" />
             <stop offset="1" stop-color="#FED823" />

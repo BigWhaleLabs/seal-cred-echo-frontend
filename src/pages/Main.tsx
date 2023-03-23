@@ -8,9 +8,9 @@ export default function ({ children }: ChildrenProp) {
     <>
       <ConnectWalletOrCreatePost />
       <TabBar>
-        <NavTabLink to="/" label="How this works" />
-        <NavTabLink to="/tweets" label="Previous Tweets" />
-        <NavTabLink to="/deep-dive" label="Deep Dive" />
+        <NavTabLink label="How this works" to="/" />
+        <NavTabLink label="Previous Tweets" to="/tweets" />
+        <NavTabLink label="Deep Dive" to="/deep-dive" />
       </TabBar>
       {children}
     </>

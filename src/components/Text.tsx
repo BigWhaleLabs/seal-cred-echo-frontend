@@ -58,8 +58,8 @@ const logoText = (textSecondary?: boolean) =>
     lineHeight('leading-none')
   )
 export function LogoText({
-  textSecondary,
   children,
+  textSecondary,
 }: ChildrenProp & { textSecondary?: boolean }) {
   return <span className={logoText(textSecondary)}>{children}</span>
 }
@@ -79,12 +79,12 @@ const accentText = (
     dropShadow(shadow)
   )
 export function AccentText({
-  color,
   bold,
-  small,
+  children,
+  color,
   primary,
   shadow,
-  children,
+  small,
 }: ChildrenProp & {
   color: TTextColor
   bold?: boolean
@@ -105,13 +105,13 @@ const socialLink = classnames(
   textDecoration('no-underline', 'hover:underline'),
   textColor('text-formal-accent', 'hover:text-tertiary')
 )
-export function SocialLink({ url, children }: ChildrenProp & { url: string }) {
+export function SocialLink({ children, url }: ChildrenProp & { url: string }) {
   return (
     <a
       className={socialLink}
       href={url}
-      target="_blank"
       rel="noopener noreferrer"
+      target="_blank"
     >
       {children}
     </a>
@@ -122,14 +122,14 @@ const footerLink = (active?: boolean) =>
   classnames(
     fontSize('text-sm'),
     fontWeight('font-semibold'),
-    textDecoration({ underline: active, 'hover:underline': true }),
-    textColor({ 'text-accent': active, 'hover:text-accent': true }),
+    textDecoration({ 'hover:underline': true, underline: active }),
+    textColor({ 'hover:text-accent': true, 'text-accent': active }),
     transitionProperty('transition-colors')
   )
 export function FooterLink({
-  url,
   children,
   internal,
+  url,
 }: ChildrenProp & { url: string; internal?: boolean }) {
   if (internal)
     return (
@@ -147,8 +147,8 @@ export function FooterLink({
     <a
       className={footerLink()}
       href={url}
-      target="_blank"
       rel="noopener noreferrer"
+      target="_blank"
     >
       {children}
     </a>
@@ -161,15 +161,15 @@ const textareaText = (dark?: boolean) =>
     fontFamily('font-primary'),
     alignItems('items-center'),
     textColor({
-      'text-formal-accent-semi-transparent': dark,
       'text-formal-accent': !dark,
+      'text-formal-accent-semi-transparent': dark,
     }),
     placeholderColor('placeholder-formal-accent-dimmed'),
     caretColor('caret-primary')
   )
 export function TextareaText({
-  dark,
   children,
+  dark,
 }: ChildrenProp & { dark?: boolean }) {
   return <div className={textareaText(dark)}>{children}</div>
 }
@@ -188,10 +188,10 @@ const errorText = (centered?: boolean) =>
     textAlign({ 'text-center': centered })
   )
 export function ErrorText({
-  children,
-  withExclamation,
-  visible,
   centered,
+  children,
+  visible,
+  withExclamation,
 }: ChildrenProp & {
   centered?: boolean
   withExclamation?: boolean
@@ -216,8 +216,8 @@ const badgeText = (small?: boolean) =>
     fontSize(small ? 'text-sm' : undefined)
   )
 export function BadgeText({
-  small,
   children,
+  small,
 }: ChildrenProp & { small?: boolean }) {
   return <span className={badgeText(small)}>{children}</span>
 }
@@ -242,15 +242,15 @@ const linkText = (
     lineHeight(small ? 'leading-4' : 'leading-5')
   )
 export function LinkText({
-  url,
   bold,
-  small,
-  extraSmall,
-  internal,
-  title,
   children,
+  extraSmall,
   gradientFrom,
   gradientTo,
+  internal,
+  small,
+  title,
+  url,
 }: ChildrenProp & {
   url: string
   small?: boolean
@@ -264,8 +264,8 @@ export function LinkText({
   if (internal)
     return (
       <NavLink
-        to={url}
         className={linkText(small, extraSmall, bold, gradientFrom, gradientTo)}
+        to={url}
       >
         {children}
       </NavLink>
@@ -274,9 +274,9 @@ export function LinkText({
     <a
       className={linkText(small, extraSmall, bold, gradientFrom, gradientTo)}
       href={url}
-      title={title}
-      target="_blank"
       rel="noopener noreferrer"
+      target="_blank"
+      title={title}
     >
       {children}
     </a>
@@ -313,12 +313,12 @@ const bodyText = (
     fontSize(small ? 'text-xs' : 'text-sm')
   )
 export function BodyText({
-  primary,
   bold,
-  small,
   center,
   children,
   inheritColor,
+  primary,
+  small,
 }: ChildrenProp & {
   primary?: boolean
   bold?: boolean
@@ -345,8 +345,8 @@ const headerText = (accent = false, extraLeading = false) =>
   )
 export function HeaderText({
   accent,
-  extraLeading,
   children,
+  extraLeading,
 }: ChildrenProp & {
   accent?: boolean
   extraLeading?: boolean
@@ -399,8 +399,8 @@ const staticHeaderText = (bold = false, subheading = false) =>
   )
 
 export function StaticHeaderText({
-  children,
   bold,
+  children,
   subheading,
 }: ChildrenProp & {
   bold?: boolean
@@ -417,16 +417,16 @@ const statusText = (
     fontSize('text-xs'),
     lineHeight('leading-4'),
     textColor({
+      'text-formal-accent': color === 'default',
       'text-primary-dark': color === 'dark',
       'text-primary-dimmed': color === 'primary',
-      'text-formal-accent': color === 'default',
     }),
     textAlign({ 'text-right': textRight })
   )
 export function StatusText({
+  children,
   color = 'default',
   textRight,
-  children,
 }: ChildrenProp & {
   color?: 'primary' | 'dark' | 'default'
   textRight?: boolean

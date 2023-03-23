@@ -21,11 +21,11 @@ const statusContainer = (status: PostStatus) =>
     padding('py-1', 'px-2'),
     borderRadius('rounded-lg'),
     backgroundColor({
-      'bg-primary-dimmed':
-        status === PostStatus.pending || status === PostStatus.approved,
-      'bg-primary-background': status === PostStatus.published,
       'bg-error':
         status === PostStatus.rejected || status === PostStatus.failedToPost,
+      'bg-primary-background': status === PostStatus.published,
+      'bg-primary-dimmed':
+        status === PostStatus.pending || status === PostStatus.approved,
     })
   )
 
@@ -36,8 +36,8 @@ export function StatusSuspended({ blockchainId }: { blockchainId: number }) {
 
   return (
     <a
-      href={`#store=${selectedType}&id=${blockchainId}`}
       className={statusContainer(status || PostStatus.pending)}
+      href={`#store=${selectedType}&id=${blockchainId}`}
     >
       <StatusText
         color={

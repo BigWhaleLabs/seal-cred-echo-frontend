@@ -13,8 +13,8 @@ interface SelectAssetProps {
 
 export function SelectAssetSuspended({
   disabled,
-  selectedAddress,
   onSelect,
+  selectedAddress,
 }: SelectAssetProps) {
   const derivativeAddressesOwned = useDerivativeAddressesOwned()
   const namesMap = useContractNames(derivativeAddressesOwned)
@@ -23,28 +23,28 @@ export function SelectAssetSuspended({
 
   return (
     <Dropdown
-      disabled={disabled}
+      forZkBadges
       currentValue={selectedAddress}
+      disabled={disabled}
+      removeArrow={!hasDerivatives}
+      options={derivativeAddressesOwned.map((address) => ({
+        label: namesMap[address] || truncateMiddleIfNeeded(address, 8),
+        value: address,
+      }))}
       placeholder={
         hasDerivatives ? 'Select an asset...' : 'No ZK badges in this wallet'
       }
-      options={derivativeAddressesOwned.map((address) => ({
-        value: address,
-        label: namesMap[address] || truncateMiddleIfNeeded(address, 8),
-      }))}
       onChange={(selectedValue) => {
         onSelect(selectedValue)
       }}
-      removeArrow={!hasDerivatives}
-      forZkBadges
     />
   )
 }
 
 export default function ({
   disabled,
-  selectedAddress,
   onSelect,
+  selectedAddress,
 }: SelectAssetProps) {
   return (
     <Suspense fallback={<SelectAssetLoading />}>

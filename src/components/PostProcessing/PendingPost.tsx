@@ -12,9 +12,9 @@ export default function ({ pendingPost }: { pendingPost?: LastUserPostData }) {
       <ProcessHeader />
       <Loading />
       <ViewTweetButton
-        url={`/tweets/blockchain#store=${pendingPost.store}&id=${pendingPost.blockchainId}`}
-        pending
         internal
+        pending
+        url={`/tweets/blockchain#store=${pendingPost.store}&id=${pendingPost.blockchainId}`}
         onClick={() => {
           SelectedTypeStore.selectedType = pendingPost.store
         }}

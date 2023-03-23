@@ -57,7 +57,7 @@ export default function ({ blockchainPosts }: { blockchainPosts?: boolean }) {
         />
       </div>
       {!blockchainPosts && (
-        <NavLink to="blockchain" className={link}>
+        <NavLink className={link} to="blockchain">
           View all on blockchain
         </NavLink>
       )}

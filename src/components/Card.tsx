@@ -43,6 +43,6 @@ const cardContainer = (small?: boolean, alert?: boolean) => {
   )
 }
 
-export default function ({ children, alert, small }: ChildrenProp & CardProps) {
+export default function ({ alert, children, small }: ChildrenProp & CardProps) {
   return <div className={cardContainer(small, alert)}>{children}</div>
 }

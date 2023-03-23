@@ -24,8 +24,8 @@ for (const [name, ledgerContract] of Object.entries(ledgerContracts)) {
     async (original, derivative) => {
       const ledger = await SealCredStore.ledgers[name]
       ledger[original] = {
-        original,
         derivative,
+        original,
       }
     }
   )

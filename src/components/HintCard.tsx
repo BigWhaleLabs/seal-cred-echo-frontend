@@ -23,8 +23,8 @@ const container = (small?: boolean) =>
   )
 export default function ({
   children,
-  text,
   small,
+  text,
 }: ChildrenProp & {
   small?: boolean
   text?: ComponentChildren

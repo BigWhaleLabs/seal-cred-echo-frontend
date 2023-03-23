@@ -10,7 +10,7 @@ export default async function (derivativeAddress: string) {
   }
   for (const ledgerType in data) {
     const ledger = await ledgers[ledgerType]
-    for await (const { original, derivative } of Object.values(ledger)) {
+    for await (const { derivative, original } of Object.values(ledger)) {
       if (derivative !== derivativeAddress) continue
 
       typeWithOriginal.original = original

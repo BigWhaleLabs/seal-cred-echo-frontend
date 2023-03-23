@@ -37,9 +37,9 @@ function ENSAddress({ address, truncateSize }: ENSAddressProps) {
       }
     >
       <ENSAddressSuspended
+        truncate
         address={address}
         truncateSize={truncateSize || 11}
-        truncate
       />
     </Suspense>
   )

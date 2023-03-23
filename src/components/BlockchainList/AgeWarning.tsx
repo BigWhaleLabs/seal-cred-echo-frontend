@@ -59,8 +59,8 @@ export default function ({ onAccept }: { onAccept: () => void }) {
           </LargeText>
           <div className={warningCardBottom}>
             <Button
-              small
               gradientFont
+              small
               type="secondary"
               onClick={() => navigate('/tweets')}
             >

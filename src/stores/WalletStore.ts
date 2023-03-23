@@ -99,9 +99,9 @@ class WalletStore extends PersistableStore {
   }
 
   async createPost({
-    text,
     ledgerType,
     original,
+    text,
   }: {
     text: string
     ledgerType: string

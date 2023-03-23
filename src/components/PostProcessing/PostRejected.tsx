@@ -1,8 +1,8 @@
 import { BodyText, LinkText } from 'components/Text'
 
 export default function ({
-  store,
   blockchainId,
+  store,
 }: {
   store: string
   blockchainId?: number

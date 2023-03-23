@@ -9,7 +9,7 @@ export default function (hash?: string) {
   if (!matchStore || !matchId) return {}
 
   return {
-    hashStore: matchStore[1],
     hashId: matchId[1],
+    hashStore: matchStore[1],
   }
 }

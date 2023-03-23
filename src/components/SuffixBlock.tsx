@@ -31,10 +31,10 @@ interface SuffixProps {
 }
 
 function SuspendedSuffix({
-  maxCount,
   currentAddress,
-  text,
+  maxCount,
   setSuffix,
+  text,
 }: SuffixProps) {
   const derivativeAddressesOwned = useDerivativeAddressesOwned()
   const symbolMap = useContractSymbols(derivativeAddressesOwned)
@@ -58,16 +58,16 @@ function SuspendedSuffix({
 export default function ({
   currentAddress,
   maxCount,
-  text,
   setSuffix,
+  text,
 }: SuffixProps) {
   return (
     <Suspense fallback={<SuffixText>{currentAddress}</SuffixText>}>
       <SuspendedSuffix
         currentAddress={currentAddress}
         maxCount={maxCount}
-        text={text}
         setSuffix={setSuffix}
+        text={text}
       />
     </Suspense>
   )
