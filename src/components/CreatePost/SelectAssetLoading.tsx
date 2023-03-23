@@ -4,7 +4,7 @@ import classNamesToString from 'helpers/classNamesToString'
 
 export default function () {
   return (
-    <ItemContainer withPadding forZkBadges>
+    <ItemContainer forZkBadges withPadding>
       <p
         className={classNamesToString(
           fontFamily('font-primary'),

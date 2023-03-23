@@ -8,7 +8,7 @@ export default async function getLedger(ledgerContract: LedgerContract) {
 
   for (const event of events) {
     const [original, derivative] = event.args
-    ledger[original] = { original, derivative }
+    ledger[original] = { derivative, original }
   }
 
   return ledger

@@ -8,9 +8,9 @@ export default function () {
   return (
     <Dropdown
       fitToItemSize
-      staticPlaceholder={placeholder}
       currentValue={window.location.origin}
       options={sealVerseData}
+      staticPlaceholder={placeholder}
       onChange={(value) => {
         if (value && value !== window.location.origin)
           window.open(value, '_blank')

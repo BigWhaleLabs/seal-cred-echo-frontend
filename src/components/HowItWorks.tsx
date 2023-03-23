@@ -52,7 +52,7 @@ export default function () {
         </CardParagraph>
         <CardParagraph>
           <LinkText url="https://sealcred.xyz/app">
-            <Button small gradientFont withArrow>
+            <Button gradientFont small withArrow>
               Create a zkBadge
             </Button>
           </LinkText>

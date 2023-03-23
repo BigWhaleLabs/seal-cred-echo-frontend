@@ -22,7 +22,7 @@ const backButtonContainer = classnames(
 const backArrowContainer = padding('p-1.5')
 export default function () {
   return (
-    <NavLink to="/tweets" className={backButtonContainer}>
+    <NavLink className={backButtonContainer} to="/tweets">
       <div className={backArrowContainer}>
         <BackArrow />
       </div>

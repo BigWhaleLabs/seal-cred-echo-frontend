@@ -57,11 +57,11 @@ function Sender({ sender }: { sender: string }) {
 
 export default function ({
   blockchainId,
-  timestamp,
-  text,
-  sender,
   derivativeAddress,
   postType,
+  sender,
+  text,
+  timestamp,
 }: {
   blockchainId: number
   timestamp: number
@@ -70,12 +70,12 @@ export default function ({
   derivativeAddress: string
   postType: string
 }) {
-  const { ref, inView } = useInView()
+  const { inView, ref } = useInView()
 
   return (
     <div
-      ref={ref}
       data-anchor={`#store=${postType}&id=${blockchainId}`}
+      ref={ref}
       style={{ height: inView ? 'fit-content' : '150px' }}
     >
       {inView && (

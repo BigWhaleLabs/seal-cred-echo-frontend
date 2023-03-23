@@ -76,13 +76,13 @@ interface TextAreaProps {
 }
 
 export default function ({
-  text,
-  onTextChange,
+  currentAddress,
   disabled,
   error,
-  currentAddress,
   maxLength,
+  onTextChange,
   setSuffix,
+  text,
   ...restProps
 }: TextAreaProps & TextareaAutosizeProps) {
   const isValid = !error && text.length <= maxLength
@@ -94,27 +94,27 @@ export default function ({
           <TextareaText dark={disabled}>
             <TextareaAutosize
               className={classNamesToString('no-scrollbar', textBox)}
-              value={text}
-              onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
-                onTextChange(event.currentTarget.value)
-              }}
               disabled={disabled}
               maxLength={maxLength}
               minRows={5}
               spellcheck={true}
+              value={text}
+              onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
+                onTextChange(event.currentTarget.value)
+              }}
               {...restProps}
             />
           </TextareaText>
           <SuffixBlock
-            maxCount={maxLength}
-            text={text}
             currentAddress={currentAddress}
+            maxCount={maxLength}
             setSuffix={setSuffix}
+            text={text}
           />
         </div>
       </div>
       {!!error && (
-        <ErrorText visible={!!error} withExclamation>
+        <ErrorText withExclamation visible={!!error}>
           {parseError(error)}
         </ErrorText>
       )}

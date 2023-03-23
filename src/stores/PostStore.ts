@@ -18,9 +18,6 @@ const limit = 100
 
 const postStore = proxy<PostStoreType>({
   limit,
-  postsAmount: dataShapeObject((key) =>
-    safeGetPostsAmountFromContract(postStorageContracts[key])
-  ),
   posts: dataShapeObject(
     (key): Promise<PostStructOutput[]> =>
       SelectedTypeStore.selectedType === key
@@ -29,6 +26,9 @@ const postStore = proxy<PostStoreType>({
             limitAmount: limit,
           })
         : Promise.resolve([] as PostStructOutput[])
+  ),
+  postsAmount: dataShapeObject((key) =>
+    safeGetPostsAmountFromContract(postStorageContracts[key])
   ),
   selectedToken: undefined,
 })

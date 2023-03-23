@@ -4,8 +4,8 @@ import ViewTweetButton from 'components/PostProcessing/ViewTweetButton'
 import data from 'data'
 
 export default function ({
-  storeName,
   serviceId,
+  storeName,
 }: {
   storeName: string
   serviceId?: number

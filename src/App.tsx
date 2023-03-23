@@ -44,21 +44,21 @@ export default function () {
           <Routes>
             <Route index element={<Layout component={<HowItWorks />} />} />
             <Route
-              path="/tweets"
               element={<Layout component={<TweetsList />} />}
+              path="/tweets"
             />
             <Route
-              path="/tweets/blockchain"
               element={<Layout component={<BlockchainList />} />}
+              path="/tweets/blockchain"
             />
             <Route
-              path="/deep-dive"
               element={<Layout component={<DeepDive />} />}
+              path="/deep-dive"
             />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/404" element={<NotFound />} />
-            <Route path="*" element={<Navigate replace to="/404" />} />
+            <Route element={<Terms />} path="/terms" />
+            <Route element={<Privacy />} path="/privacy" />
+            <Route element={<NotFound />} path="/404" />
+            <Route element={<Navigate replace to="/404" />} path="*" />
           </Routes>
         </div>
         <Footer />

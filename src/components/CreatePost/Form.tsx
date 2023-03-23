@@ -56,6 +56,11 @@ export default function () {
   return (
     <div className={container}>
       <TextArea
+        currentAddress={selectedAddress}
+        disabled={!selectedAddress || loading}
+        error={error}
+        maxLength={maxLength}
+        setSuffix={setSuffix}
         text={text}
         placeholder={
           selectedAddress
@@ -65,11 +70,6 @@ export default function () {
         onTextChange={(newText) => {
           setText(newText)
         }}
-        setSuffix={setSuffix}
-        maxLength={maxLength}
-        currentAddress={selectedAddress}
-        disabled={!selectedAddress || loading}
-        error={error}
       />
       <div className={container}>
         <BodyText>Choose a ZK Badge</BodyText>
@@ -82,10 +82,12 @@ export default function () {
             }}
           />
           <Button
-            type="primary"
-            title="Tweet"
+            center
+            fullWidthOnMobile
             disabled={!selectedAddress || !text || postInvalid}
             loading={loading}
+            title="Tweet"
+            type="primary"
             onClick={async () => {
               setLoading(true)
               setError(null)
@@ -98,9 +100,9 @@ export default function () {
                   await getOriginalFromDerivative(selectedAddress)
 
                 const result = await WalletStore.createPost({
-                  text: submitText,
                   ledgerType,
                   original,
+                  text: submitText,
                 })
 
                 const posts = await PostStore.posts[ledgerType]
@@ -109,17 +111,17 @@ export default function () {
                   numberOfPosts + result.length
                 )
                 for (const {
+                  derivativeAddress,
                   id,
                   post,
-                  derivativeAddress,
                   sender,
                   timestamp,
                 } of result) {
                   PostStore.posts[ledgerType] = Promise.resolve([
                     {
+                      derivativeAddress,
                       id,
                       post,
-                      derivativeAddress,
                       sender,
                       timestamp,
                     } as PostStructOutput,
@@ -130,9 +132,9 @@ export default function () {
                   const store = ledgerType as DataKeys
                   PostIdsStatuses.lastUserPost = {
                     [account]: {
-                      store,
                       blockchainId,
                       status: PostStatus.pending,
+                      store,
                     },
                     ...PostIdsStatuses.lastUserPost,
                   }
@@ -151,8 +153,6 @@ export default function () {
                 setLoading(false)
               }
             }}
-            fullWidthOnMobile
-            center
           >
             Tweet!
           </Button>

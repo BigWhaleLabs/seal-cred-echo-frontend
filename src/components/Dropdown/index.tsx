@@ -37,12 +37,12 @@ const container = (forZkBadges?: boolean) =>
   )
 
 export default function <T>({
-  disabled,
   currentValue,
-  placeholder,
-  options,
-  onChange,
+  disabled,
   forZkBadges,
+  onChange,
+  options,
+  placeholder,
   removeArrow,
 }: {
   disabled?: boolean
@@ -62,9 +62,9 @@ export default function <T>({
 
   const selectedElement = (
     <button
-      onClick={() => options.length && setOpen(!open)}
       className={button(forZkBadges)}
       disabled={disabled}
+      onClick={() => options.length && setOpen(!open)}
     >
       {selectedOption?.label || placeholder}
       {!removeArrow && (
@@ -83,6 +83,7 @@ export default function <T>({
         <span className={textColor('text-primary')}>{selectedElement}</span>
       )}
       <Menu
+        forZkBadges={forZkBadges}
         open={open}
         options={options}
         selected={selectedOption}
@@ -90,7 +91,6 @@ export default function <T>({
           onChange(option.value)
           setOpen(false)
         }}
-        forZkBadges={forZkBadges}
       />
     </div>
   )

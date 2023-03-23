@@ -44,10 +44,10 @@ const postStatusStore = proxy<PostStatusStoreType>({
 export async function updateStatuses(name: DataKeys, ids: number[]) {
   const updatedStatuses = await getPostStatuses(ids, data[name].postStorage)
 
-  for (const { blockchainId, status, serviceId } of updatedStatuses) {
+  for (const { blockchainId, serviceId, status } of updatedStatuses) {
     postStatusStore.statuses[name][blockchainId] = Promise.resolve({
-      status,
       serviceId,
+      status,
     })
 
     const lastUserPost = postStatusStore.lastUserPost
@@ -62,17 +62,17 @@ export async function updateStatuses(name: DataKeys, ids: number[]) {
       )
         return
       postStatusStore.lastUserPost[account] = {
-        store: name,
         blockchainId,
-        status,
         serviceId,
+        status,
+        store: name,
       }
     })
   }
 }
 
 let checkingStatuses = false
-async function checkStatuses({ name, ids, force }: CheckStatusesStoreProps) {
+async function checkStatuses({ force, ids, name }: CheckStatusesStoreProps) {
   if (checkingStatuses && !force) return
   checkingStatuses = true
   try {
@@ -88,7 +88,7 @@ async function updateStatusesForSelectedPosts(
   result = PostStore.selectedPosts
 ) {
   const ids = (await result).map(({ id }) => id.toNumber())
-  void checkStatuses({ name: SelectedTypeStore.selectedType, ids, force: true })
+  void checkStatuses({ force: true, ids, name: SelectedTypeStore.selectedType })
 }
 
 subscribeKey(PostStore, 'selectedPosts', updateStatusesForSelectedPosts)
@@ -110,9 +110,9 @@ setInterval(async () => {
     if (!ids.length) return
 
     await checkStatuses({
-      name: name as DataKeys,
-      ids,
       force: false,
+      ids,
+      name: name as DataKeys,
     })
   }
 }, 5000)

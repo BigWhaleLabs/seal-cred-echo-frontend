@@ -19,8 +19,8 @@ export const boxStyles = (withPadding?: boolean, forZkBadges?: boolean) =>
   classnames(
     width({
       'md:w-96': forZkBadges,
-      'w-full': forZkBadges,
       'w-52': !forZkBadges,
+      'w-full': forZkBadges,
     }),
     borderRadius('rounded-lg'),
     borderWidth('border'),
@@ -38,8 +38,8 @@ export const boxStyles = (withPadding?: boolean, forZkBadges?: boolean) =>
 
 export default function ({
   children,
-  withPadding,
   forZkBadges,
+  withPadding,
 }: ChildrenProp & { withPadding?: boolean; forZkBadges?: boolean }) {
   return <div className={boxStyles(withPadding, forZkBadges)}>{children}</div>
 }

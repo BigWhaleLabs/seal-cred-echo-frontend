@@ -48,7 +48,7 @@ export default function () {
     <Link to="/">
       <div className={container}>
         <div className={logoWrapper}>
-          <Player ref={lottieRef} hover src={AnimatedLogo} />
+          <Player hover ref={lottieRef} src={AnimatedLogo} />
         </div>
         <div className={logoTextContainer}>
           <div className={logoTextUpperRow}>

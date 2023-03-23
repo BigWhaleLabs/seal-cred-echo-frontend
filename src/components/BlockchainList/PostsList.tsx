@@ -22,12 +22,12 @@ const scrollContainer = classnames(
 )
 
 function BlockchainPostsListSuspended() {
-  const { selectedPosts, selectedToken, postsAmount, limit } =
+  const { limit, postsAmount, selectedPosts, selectedToken } =
     useSnapshot(PostStore)
   const { selectedType } = useSnapshot(SelectedTypeStore)
   const totalPosts = postsAmount[selectedType]
   const { hash } = useLocation()
-  const { hashStore, hashId } = useHashParams(hash)
+  const { hashId, hashStore } = useHashParams(hash)
   const matchStore = hashStore && hashStore === selectedType
   const [scrolledLimit, setScrolledLimit] = useState(limit)
   const amountOfLoadedPosts = selectedPosts.length
@@ -43,6 +43,11 @@ function BlockchainPostsListSuspended() {
 
   return totalPosts > 0 ? (
     <InfiniteScroll
+      className={scrollContainer}
+      dataLength={amountOfLoadedPosts}
+      hasMore={amountOfLoadedPosts < totalPosts}
+      loader={<LoadingText>Fetching more posts...</LoadingText>}
+      style={{ overflow: 'hidden' }}
       next={async () => {
         const newPosts = await getMorePosts({
           contract: postStorageContracts[selectedType],
@@ -55,21 +60,16 @@ function BlockchainPostsListSuspended() {
         ])
         setScrolledLimit(PostStore.limit)
       }}
-      className={scrollContainer}
-      style={{ overflow: 'hidden' }}
-      dataLength={amountOfLoadedPosts}
-      hasMore={amountOfLoadedPosts < totalPosts}
-      loader={<LoadingText>Fetching more posts...</LoadingText>}
     >
       {posts.map((post) => (
         <BlockchainPost
-          key={post.id}
           blockchainId={Number(post.id)}
-          timestamp={Number(post.timestamp)}
-          text={post.post}
-          sender={post.sender}
           derivativeAddress={post.derivativeAddress}
+          key={post.id}
           postType={selectedType}
+          sender={post.sender}
+          text={post.post}
+          timestamp={Number(post.timestamp)}
         />
       ))}
     </InfiniteScroll>

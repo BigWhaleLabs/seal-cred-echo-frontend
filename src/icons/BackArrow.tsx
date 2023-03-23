@@ -8,15 +8,15 @@ const pathClasses = classnames(
 export default function () {
   return (
     <svg
-      width="16"
+      fill="none"
       height="16"
       viewBox="0 0 16 16"
-      fill="none"
+      width="16"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M15 8L1.5 8M1.5 8L8 14.5M1.5 8L8 1.5"
         className={pathClasses}
+        d="M15 8L1.5 8M1.5 8L8 14.5M1.5 8L8 1.5"
         stroke-linecap="round"
         stroke-linejoin="round"
       />

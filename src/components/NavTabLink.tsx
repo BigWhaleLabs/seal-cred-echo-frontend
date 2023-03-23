@@ -17,13 +17,13 @@ const navLinkStyle = ({ isActive }: { isActive: boolean }) =>
     textUnderlineOffset('underline-offset-8')
   )
 
-export default function ({ to, label }: { to: string; label: string }) {
+export default function ({ label, to }: { to: string; label: string }) {
   const location = useLocation().pathname
   return (
     <NavLink
       exact
-      to={to}
       className={navLinkStyle({ isActive: to === location })}
+      to={to}
     >
       <TabBarText>{label}</TabBarText>
     </NavLink>

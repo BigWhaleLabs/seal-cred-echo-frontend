@@ -2,10 +2,10 @@ import { LinkText } from 'components/Text'
 import LinkContent from 'components/PostProcessing/LinkContent'
 
 export default function ({
-  url,
   internal,
-  pending,
   onClick,
+  pending,
+  url,
 }: {
   url: string
   internal?: boolean
@@ -17,11 +17,11 @@ export default function ({
   return (
     <LinkText
       small
-      url={url}
-      title={linkTitle}
       gradientFrom="from-secondary"
       gradientTo="to-accent"
       internal={internal}
+      title={linkTitle}
+      url={url}
     >
       <LinkContent text={linkTitle} onClick={onClick} />
     </LinkText>

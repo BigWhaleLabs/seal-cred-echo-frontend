@@ -5,7 +5,7 @@ import classnames, { display, space } from 'classnames/tailwind'
 
 const recordContainer = classnames(display('flex'), space('space-x-4'))
 
-function Record({ index, children }: { index: number } & ChildrenProp) {
+function Record({ children, index }: { index: number } & ChildrenProp) {
   return (
     <p className={recordContainer}>
       <AccentText color="text-secondary">{index}</AccentText>

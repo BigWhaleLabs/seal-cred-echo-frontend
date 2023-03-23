@@ -14,9 +14,9 @@ const bottomSeparator = classnames(
 )
 
 export default function ({
+  className,
   primary,
   showFrom = 'sm',
-  className,
 }: {
   primary?: boolean
   showFrom?: Size

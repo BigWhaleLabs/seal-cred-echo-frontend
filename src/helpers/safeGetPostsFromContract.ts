@@ -15,9 +15,9 @@ export default async function (
       .map(
         ([id, post, derivativeAddress, sender, timestamp]) =>
           ({
+            derivativeAddress,
             id,
             post,
-            derivativeAddress,
             sender,
             timestamp,
           } as PostStructOutput)
