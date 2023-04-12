@@ -29,6 +29,7 @@ import {
 } from 'classnames/tailwind'
 import ChildrenProp from 'models/ChildrenProp'
 import ExclamationInCircle from 'icons/ExclamationInCircle'
+import classNamesToString from 'helpers/classNamesToString'
 
 const tabBarText = classnames(
   fontFamily('font-primary'),
@@ -197,7 +198,11 @@ export function ErrorText({
   withExclamation?: boolean
   visible?: boolean
 }) {
-  const error = <p className={errorText(centered)}>{children}</p>
+  const error = (
+    <p className={classNamesToString(errorText(centered), 'textBreakWords')}>
+      {children}
+    </p>
+  )
 
   if (withExclamation)
     return (

@@ -150,6 +150,10 @@ body {
   content: '';
 }
 
+.textBreakWords {
+  word-break: break-word;
+}
+
 @keyframes dots {
   0%,
   20% {
