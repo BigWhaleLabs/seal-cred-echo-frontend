@@ -6,6 +6,7 @@ type AllowedExtraClassnames =
   | 'blockchainPosts'
   | 'dots-loading'
   | 'stroke-text-secondary'
+  | 'textBreakWords'
 
 export default function (
   ...classNames: (AllowedExtraClassnames | TTailwindString | undefined | null)[]
