@@ -3,6 +3,7 @@ import { proxy } from 'valtio'
 import env from 'helpers/env'
 
 class NotificationStore extends PersistableStore {
+  showCookie = true
   adultAccepted = false
 }
 

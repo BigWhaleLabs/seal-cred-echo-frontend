@@ -86,6 +86,7 @@ module.exports = {
       },
       maxWidth: {
         14: '3.5rem',
+        cookie: '25.625rem',
         'processing-content': '28rem',
         alert: '33rem',
       },
@@ -116,6 +117,8 @@ module.exports = {
         button: '0rem 0rem 1.625rem rgb(0 0 0 / 1)',
         'button-active': '0rem 0rem 0.375rem rgb(0 0 0 / 1)',
         card: 'inset 0rem 0rem 0.5rem 0 rgb(0 0 0 / 0.05)',
+        'card-glow':
+          '0rem 0.25rem 2.75rem 0rem rgb(0 0 0 / 0.25), inset 0px 0px 1rem rgb(0 0 0 / 0.25)',
       },
     },
     container: {

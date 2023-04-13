@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import BlockchainList from 'components/BlockchainList'
+import Cookie from 'components/Cookie'
 import DeepDive from 'components/DeepDive'
 import Footer from 'components/Footer'
 import HowItWorks from 'components/HowItWorks'
@@ -61,6 +62,7 @@ export default function () {
             <Route element={<Navigate replace to="/404" />} path="*" />
           </Routes>
         </div>
+        <Cookie />
         <Footer />
       </div>
       <ToastContainer position="bottom-right" theme="dark" />

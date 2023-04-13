@@ -4155,6 +4155,7 @@ export type TBoxShadow =
   | 'shadow-button'
   | 'shadow-button-active'
   | 'shadow-card'
+  | 'shadow-card-glow'
 
 export type TBoxShadowColor =
   | 'shadow-inherit'
@@ -7386,6 +7387,7 @@ export type TMaxWidth =
   | 'max-w-screen-lg'
   | 'max-w-screen-xl'
   | 'max-w-screen-2xl'
+  | 'max-w-cookie'
   | 'max-w-processing-content'
   | 'max-w-alert'
   | 'max-w-screen-xxs'
